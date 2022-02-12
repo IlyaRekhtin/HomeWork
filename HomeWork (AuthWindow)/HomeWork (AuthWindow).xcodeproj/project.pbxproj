@@ -56,15 +56,55 @@
 		262A843427B83DBC00B2DD65 /* HomeWork (AuthWindow) */ = {
 			isa = PBXGroup;
 			children = (
-				262A843527B83DBC00B2DD65 /* AppDelegate.swift */,
-				262A843727B83DBC00B2DD65 /* SceneDelegate.swift */,
-				262A843927B83DBC00B2DD65 /* ViewController.swift */,
-				262A843B27B83DBC00B2DD65 /* Main.storyboard */,
+				262A844927B83E1100B2DD65 /* Models */,
+				262A844B27B83E2B00B2DD65 /* Views */,
+				262A844A27B83E1600B2DD65 /* Controllers */,
+				262A844C27B83E3400B2DD65 /* Boards */,
+				262A844D27B83E6D00B2DD65 /* Supports */,
 				262A843E27B83DBE00B2DD65 /* Assets.xcassets */,
-				262A844027B83DBE00B2DD65 /* LaunchScreen.storyboard */,
 				262A844327B83DBE00B2DD65 /* Info.plist */,
 			);
 			path = "HomeWork (AuthWindow)";
+			sourceTree = "<group>";
+		};
+		262A844927B83E1100B2DD65 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		262A844A27B83E1600B2DD65 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				262A843927B83DBC00B2DD65 /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		262A844B27B83E2B00B2DD65 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		262A844C27B83E3400B2DD65 /* Boards */ = {
+			isa = PBXGroup;
+			children = (
+				262A843B27B83DBC00B2DD65 /* Main.storyboard */,
+				262A844027B83DBE00B2DD65 /* LaunchScreen.storyboard */,
+			);
+			path = Boards;
+			sourceTree = "<group>";
+		};
+		262A844D27B83E6D00B2DD65 /* Supports */ = {
+			isa = PBXGroup;
+			children = (
+				262A843527B83DBC00B2DD65 /* AppDelegate.swift */,
+				262A843727B83DBC00B2DD65 /* SceneDelegate.swift */,
+			);
+			path = Supports;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -294,14 +334,14 @@
 				INFOPLIST_FILE = "HomeWork (AuthWindow)/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "elixz57-gmail.com.HomeWork--AuthWindow-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -322,14 +362,14 @@
 				INFOPLIST_FILE = "HomeWork (AuthWindow)/Info.plist";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "elixz57-gmail.com.HomeWork--AuthWindow-";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;

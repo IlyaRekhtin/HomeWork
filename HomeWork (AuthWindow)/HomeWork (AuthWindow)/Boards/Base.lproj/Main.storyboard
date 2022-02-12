@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_0" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="1iN-S9-f7G">
+                                <rect key="frame" x="10" y="338" width="370" height="168"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZKM-Nm-JMf">
+                                        <rect key="frame" x="20" y="0.0" width="330" height="34"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Login" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bbx-GA-pUs">
+                                                <rect key="frame" x="0.0" y="2.9999999999999982" width="100" height="28.333333333333329"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="100" id="4Kk-3R-dAu"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AppleColorEmoji" family="Apple Color Emoji" pointSize="19"/>
+                                                <color key="textColor" systemColor="systemBackgroundColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your login or email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v2x-G8-ghS">
+                                                <rect key="frame" x="110" y="0.0" width="220" height="34"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="ede-mH-06T"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="ZJo-6i-8u2">
+                                        <rect key="frame" x="20" y="64" width="330" height="34"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zaG-vK-uXL">
+                                                <rect key="frame" x="0.0" y="2.9999999999999982" width="100" height="28.333333333333329"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="100" id="T3E-C7-FgY"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AppleColorEmoji" family="Apple Color Emoji" pointSize="19"/>
+                                                <color key="textColor" systemColor="systemBackgroundColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XAj-mO-lkt">
+                                                <rect key="frame" x="110" y="0.0" width="220" height="34"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="200" id="I1l-2P-eTI"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="HvT-DS-Yba">
+                                        <rect key="frame" x="20" y="128" width="330" height="40"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v4t-bp-gbu">
+                                                <rect key="frame" x="0.0" y="0.0" width="150" height="40"/>
+                                                <color key="backgroundColor" red="0.2115445165" green="0.2741146861" blue="0.23432295049999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="BR3-Za-ML7"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AppleColorEmoji" family="Apple Color Emoji" pointSize="19"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Enter">
+                                                    <color key="titleColor" systemColor="systemBackgroundColor"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="0.31431305409999999" green="0.40792262550000002" blue="0.35018742079999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="enterButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="j5y-OS-jB6"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XHW-oS-u2k">
+                                                <rect key="frame" x="180" y="0.0" width="150" height="40"/>
+                                                <color key="backgroundColor" red="0.2115445165" green="0.2741146861" blue="0.23432295049999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="40" id="aEL-CL-wHl"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" name="AppleColorEmoji" family="Apple Color Emoji" pointSize="19"/>
+                                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                <state key="normal" title="Register">
+                                                    <color key="titleColor" systemColor="systemBackgroundColor"/>
+                                                </state>
+                                                <state key="highlighted">
+                                                    <color key="titleColor" red="0.31431305409999999" green="0.40792262550000002" blue="0.35018742079999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="registerButtonAction:" destination="BYZ-38-t0r" eventType="touchUpInside" id="rM6-Xy-5wa"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="ZKM-Nm-JMf" secondAttribute="trailing" constant="20" id="0IN-YY-qhW"/>
+                                    <constraint firstItem="HvT-DS-Yba" firstAttribute="leading" secondItem="1iN-S9-f7G" secondAttribute="leading" constant="20" id="3C5-7t-4jg"/>
+                                    <constraint firstAttribute="trailing" secondItem="HvT-DS-Yba" secondAttribute="trailing" constant="20" id="LQy-0G-mdX"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZJo-6i-8u2" secondAttribute="trailing" constant="20" id="RDA-0Z-6Z2"/>
+                                    <constraint firstItem="ZJo-6i-8u2" firstAttribute="leading" secondItem="1iN-S9-f7G" secondAttribute="leading" constant="20" id="UWf-vl-Tve"/>
+                                    <constraint firstItem="ZKM-Nm-JMf" firstAttribute="leading" secondItem="1iN-S9-f7G" secondAttribute="leading" constant="20" id="skh-P3-i7T"/>
+                                </constraints>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Be in touch!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Y0-Gp-mYx">
+                                <rect key="frame" x="90.666666666666671" y="248.66666666666666" width="208.66666666666663" height="34.333333333333343"/>
+                                <fontDescription key="fontDescription" name="AppleColorEmoji" family="Apple Color Emoji" pointSize="26"/>
+                                <color key="textColor" systemColor="systemBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="© All rights reserved (создано в учебных целях 🙆‍♂️)" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="e8d-pW-Ifn">
+                                <rect key="frame" x="95" y="745" width="200" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="9Jq-wA-DKT"/>
+                                    <constraint firstAttribute="width" constant="200" id="hgy-3P-Lkg"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="AppleColorEmoji" family="Apple Color Emoji" pointSize="10"/>
+                                <color key="textColor" systemColor="systemBackgroundColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" red="0.31431305409999999" green="0.40792262550000002" blue="0.35018742079999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="1iN-S9-f7G" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="HTd-KN-aaa"/>
+                            <constraint firstItem="5Y0-Gp-mYx" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="SQV-qk-rCw"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="e8d-pW-Ifn" secondAttribute="bottom" constant="15" id="UZs-xp-Cak"/>
+                            <constraint firstItem="1iN-S9-f7G" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="XLq-k4-rFn"/>
+                            <constraint firstItem="e8d-pW-Ifn" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Zfs-CO-EOa"/>
+                            <constraint firstItem="1iN-S9-f7G" firstAttribute="top" secondItem="5Y0-Gp-mYx" secondAttribute="bottom" constant="55" id="rn5-gl-g4O"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="1iN-S9-f7G" secondAttribute="trailing" constant="10" id="x7I-69-qFu"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="enterButton" destination="v4t-bp-gbu" id="kbZ-YS-ZZQ"/>
+                        <outlet property="loginLable" destination="Bbx-GA-pUs" id="SuS-86-6tV"/>
+                        <outlet property="loginTextField" destination="v2x-G8-ghS" id="jB0-Ff-FUp"/>
+                        <outlet property="passwordLable" destination="zaG-vK-uXL" id="HdC-fl-Txj"/>
+                        <outlet property="passwordTextField" destination="XAj-mO-lkt" id="Ruv-BX-Uka"/>
+                        <outlet property="registerButton" destination="XHW-oS-u2k" id="hzW-Xf-aS8"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="33.846153846153847" y="97.393364928909946"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
