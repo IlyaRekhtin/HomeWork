@@ -14,25 +14,34 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var loginButton: UIButton!
     @IBOutlet weak var registerButton: UIButton!
+    @IBOutlet weak var toggle: UISwitch!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        loginTextField.delegate = self
+        passwordTextField.delegate = self
         startSet()
     }
 
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        isAuth()
+    }
     
     private func startSet () {
        
-        
         // loginTextField custom
-        loginTextField.layer.cornerRadius = 8
-        loginTextField.layer.borderWidth = 1
+        loginTextField.layer.cornerRadius = 5
+        loginTextField.layer.borderWidth = 2
         loginTextField.layer.borderColor = UIColor.systemGreen.cgColor
         
         
         // passwordTextField custom
-        loginTextField.layer.borderWidth = 1
-        loginTextField.layer.borderColor = UIColor.systemGreen.cgColor
+        passwordTextField.layer.cornerRadius = 5
+        passwordTextField.layer.borderWidth = 2
+        passwordTextField.layer.borderColor = UIColor.systemGreen.cgColor
         
         
         // loginButton custom
@@ -49,16 +58,43 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
         registerButton.layer.shadowOpacity = 0.4
         registerButton.layer.shadowPath = CGPath(rect: CGRect(x: -5, y: 10, width: registerButton.layer.bounds.width + 10, height: registerButton.layer.bounds.height), transform: nil)
     }
+    
+    private func isAuth() {
+        guard (UserDefaults.standard.object(forKey: "login") as? String != nil) else {return}
+        guard (UserDefaults.standard.object(forKey: "password") as? String != nil) else {return}
+        performSegue(withIdentifier: "tabBarViewController", sender: nil)
+    }
              
     @IBAction func enterButtonAction(_ sender: Any) {
-        performSegue(withIdentifier: "tabBarController", sender: nil)
+        guard loginTextField.text != "" else { return }
+        guard passwordTextField.text != "" else { return }
+        
+        //  TODO метод проверки пароля и логина API
+        
+        // если на чужом устройстве то не сохраняем данные в настройки пользователя
+        // если на своем то сохраняем и пропускаем контроллер авторизации при след запуске
+        switch toggle.isOn {
+        case true:
+            break
+        case false:
+            UserDefaults.standard.setValue(loginTextField.text, forKey: "login")
+            UserDefaults.standard.setValue(passwordTextField.text, forKey: "password")
+        }
+        loginTextField.text?.removeAll()
+        passwordTextField.text?.removeAll()
+        performSegue(withIdentifier: "tabBarViewController", sender: nil)
+        
     }
     
     @IBAction func registerButtonAction(_ sender: Any) {
         performSegue(withIdentifier: "registerViewController", sender: nil)
     }
     
+    @IBAction func toggleAction(_ sender: Any) {
+    }
+   
 }
+
 
 
 

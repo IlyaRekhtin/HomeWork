@@ -17,15 +17,15 @@ class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configControllers()
-        
-        
-    }
-    
-    
-    private func configControllers(){
+        configTabController()
 
-        self.tabBarItem = UITabBarItem(title: "Friends", image: UIImage(systemName: "house"), selectedImage: UIImage(systemName: "house.fill"))
         
     }
+ 
+    private func configTabController(){
+        
+    }
+    
+   
 }
+    

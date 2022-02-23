@@ -9,38 +9,49 @@ import UIKit
 
 class GroupsTableViewController: UITableViewController {
 
+    private var groups = Array(DataBase.data.myGroups)
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
+        configNavigationController()
+        tableView.register(GroupsTableViewCell.self, forCellReuseIdentifier: GroupsTableViewCell.reuseID)
     }
 
+    
+    private func configNavigationController(){
+        let titleForNavBar: UILabel = {
+            let lable = UILabel()
+            lable.text = "My groups"
+            lable.font = UIFont(name: "Apple Color Emoji", size: 22)
+            lable.textColor = .white
+            return lable
+        }()
+        self.navigationItem.titleView = titleForNavBar
+        self.tabBarItem.tag = 1
+    }
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return DataBase.data.myGroups.count
     }
 
-    /*
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
+        cell.setCellSetup(for: groups[indexPath.row])
+        cell.selectionStyle = .none
+        tableView.rowHeight = cell.getImageSize().height + 10
         return cell
     }
-    */
-
+    
+    @IBAction func searchActionButton(_ sender: Any) {
+        performSegue(withIdentifier: "goToSearch", sender: nil)
+    }
+    
     /*
     // Override to support conditional editing of the table view.
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
@@ -49,17 +60,15 @@ class GroupsTableViewController: UITableViewController {
     }
     */
 
-    /*
+    
     // Override to support editing the table view.
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        DataBase.data.myGroups.remove(groups[indexPath.row])
+        tableView.deleteRows(at: [indexPath], with: .fade)
+        tableView.reloadData()
+         
     }
-    */
+    
 
     /*
     // Override to support rearranging the table view.

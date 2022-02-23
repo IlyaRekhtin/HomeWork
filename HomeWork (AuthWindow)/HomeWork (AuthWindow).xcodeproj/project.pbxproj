@@ -15,10 +15,18 @@
 		262A844227B83DBE00B2DD65 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 262A844027B83DBE00B2DD65 /* LaunchScreen.storyboard */; };
 		263690CA27BD7D4000B2B159 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690C927BD7D3F00B2B159 /* TabBarController.swift */; };
 		263690CC27BD847A00B2B159 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690CB27BD847A00B2B159 /* FriendsTableViewController.swift */; };
-		263690CE27BD84E200B2B159 /* FriendCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690CD27BD84E200B2B159 /* FriendCollectionViewController.swift */; };
+		263690CE27BD84E200B2B159 /* FriendFotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690CD27BD84E200B2B159 /* FriendFotoCollectionViewController.swift */; };
 		263690D027BD865400B2B159 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690CF27BD865400B2B159 /* GroupsTableViewController.swift */; };
 		263690D227BD867100B2B159 /* SearchGroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690D127BD867100B2B159 /* SearchGroupTableViewController.swift */; };
 		263690D427BD86A900B2B159 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690D327BD86A900B2B159 /* RegisterViewController.swift */; };
+		26552C2327C026DA00835BB5 /* FriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26552C2227C026DA00835BB5 /* FriendsTableViewCell.swift */; };
+		26552C2527C02EAA00835BB5 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26552C2427C02EA900835BB5 /* DataBase.swift */; };
+		26552C2727C02F0600835BB5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26552C2627C02F0600835BB5 /* User.swift */; };
+		26552C2927C0321A00835BB5 /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26552C2827C0321A00835BB5 /* Group.swift */; };
+		26552C2C27C5550500835BB5 /* FriendCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26552C2B27C5550500835BB5 /* FriendCollectionViewCell.swift */; };
+		26FD354B27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD354A27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift */; };
+		26FD354D27C652F000EF4403 /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD354C27C652F000EF4403 /* GroupsTableViewCell.swift */; };
+		294B7A99120FC9464282328C /* Pods_HomeWork__AuthWindow_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 663150455C33C1500CB6AA0E /* Pods_HomeWork__AuthWindow_.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,10 +40,20 @@
 		262A844327B83DBE00B2DD65 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		263690C927BD7D3F00B2B159 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		263690CB27BD847A00B2B159 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
-		263690CD27BD84E200B2B159 /* FriendCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCollectionViewController.swift; sourceTree = "<group>"; };
+		263690CD27BD84E200B2B159 /* FriendFotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFotoCollectionViewController.swift; sourceTree = "<group>"; };
 		263690CF27BD865400B2B159 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
 		263690D127BD867100B2B159 /* SearchGroupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupTableViewController.swift; sourceTree = "<group>"; };
 		263690D327BD86A900B2B159 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
+		26552C2227C026DA00835BB5 /* FriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewCell.swift; sourceTree = "<group>"; };
+		26552C2427C02EA900835BB5 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
+		26552C2627C02F0600835BB5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		26552C2827C0321A00835BB5 /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
+		26552C2B27C5550500835BB5 /* FriendCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendCollectionViewCell.swift; sourceTree = "<group>"; };
+		26FD354A27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension FriendFotoCollectionView + LayoutSection.swift"; sourceTree = "<group>"; };
+		26FD354C27C652F000EF4403 /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
+		456487FAEFCA1C5084AEA0E5 /* Pods-HomeWork (AuthWindow).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWork (AuthWindow).release.xcconfig"; path = "Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow).release.xcconfig"; sourceTree = "<group>"; };
+		663150455C33C1500CB6AA0E /* Pods_HomeWork__AuthWindow_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HomeWork__AuthWindow_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A1DE7EA57A092E7656DD7D3E /* Pods-HomeWork (AuthWindow).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWork (AuthWindow).debug.xcconfig"; path = "Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow).debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -43,6 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				294B7A99120FC9464282328C /* Pods_HomeWork__AuthWindow_.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,6 +73,8 @@
 			children = (
 				262A843427B83DBC00B2DD65 /* HomeWork (AuthWindow) */,
 				262A843327B83DBC00B2DD65 /* Products */,
+				97553F6DE18BA29D31A24FFF /* Pods */,
+				DD60BB03E58B89CD49A3B8DF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -71,6 +92,8 @@
 				262A844927B83E1100B2DD65 /* Models */,
 				262A844B27B83E2B00B2DD65 /* Views */,
 				262A844A27B83E1600B2DD65 /* Controllers */,
+				26552C2A27C44AF200835BB5 /* ViewCell */,
+				26FD354927C5869800EF4403 /* extensions */,
 				262A844C27B83E3400B2DD65 /* Boards */,
 				262A844D27B83E6D00B2DD65 /* Supports */,
 				262A843E27B83DBE00B2DD65 /* Assets.xcassets */,
@@ -82,6 +105,8 @@
 		262A844927B83E1100B2DD65 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				26552C2627C02F0600835BB5 /* User.swift */,
+				26552C2827C0321A00835BB5 /* Group.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -92,7 +117,7 @@
 				262A843927B83DBC00B2DD65 /* AuthViewController.swift */,
 				263690C927BD7D3F00B2B159 /* TabBarController.swift */,
 				263690CB27BD847A00B2B159 /* FriendsTableViewController.swift */,
-				263690CD27BD84E200B2B159 /* FriendCollectionViewController.swift */,
+				263690CD27BD84E200B2B159 /* FriendFotoCollectionViewController.swift */,
 				263690CF27BD865400B2B159 /* GroupsTableViewController.swift */,
 				263690D127BD867100B2B159 /* SearchGroupTableViewController.swift */,
 				263690D327BD86A900B2B159 /* RegisterViewController.swift */,
@@ -121,8 +146,44 @@
 			children = (
 				262A843527B83DBC00B2DD65 /* AppDelegate.swift */,
 				262A843727B83DBC00B2DD65 /* SceneDelegate.swift */,
+				26552C2427C02EA900835BB5 /* DataBase.swift */,
 			);
 			path = Supports;
+			sourceTree = "<group>";
+		};
+		26552C2A27C44AF200835BB5 /* ViewCell */ = {
+			isa = PBXGroup;
+			children = (
+				26552C2227C026DA00835BB5 /* FriendsTableViewCell.swift */,
+				26552C2B27C5550500835BB5 /* FriendCollectionViewCell.swift */,
+				26FD354C27C652F000EF4403 /* GroupsTableViewCell.swift */,
+			);
+			path = ViewCell;
+			sourceTree = "<group>";
+		};
+		26FD354927C5869800EF4403 /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				26FD354A27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift */,
+			);
+			path = extensions;
+			sourceTree = "<group>";
+		};
+		97553F6DE18BA29D31A24FFF /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A1DE7EA57A092E7656DD7D3E /* Pods-HomeWork (AuthWindow).debug.xcconfig */,
+				456487FAEFCA1C5084AEA0E5 /* Pods-HomeWork (AuthWindow).release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		DD60BB03E58B89CD49A3B8DF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				663150455C33C1500CB6AA0E /* Pods_HomeWork__AuthWindow_.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -132,9 +193,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 262A844627B83DBE00B2DD65 /* Build configuration list for PBXNativeTarget "HomeWork (AuthWindow)" */;
 			buildPhases = (
+				A17AF57EA37745EECF30D589 /* [CP] Check Pods Manifest.lock */,
 				262A842E27B83DBC00B2DD65 /* Sources */,
 				262A842F27B83DBC00B2DD65 /* Frameworks */,
 				262A843027B83DBC00B2DD65 /* Resources */,
+				744618C47470EB33441D580A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -191,6 +254,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		744618C47470EB33441D580A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow)-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow)-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow)-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A17AF57EA37745EECF30D589 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-HomeWork (AuthWindow)-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		262A842E27B83DBC00B2DD65 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -202,8 +307,15 @@
 				263690CC27BD847A00B2B159 /* FriendsTableViewController.swift in Sources */,
 				262A843A27B83DBC00B2DD65 /* AuthViewController.swift in Sources */,
 				262A843627B83DBC00B2DD65 /* AppDelegate.swift in Sources */,
+				26552C2927C0321A00835BB5 /* Group.swift in Sources */,
+				26FD354D27C652F000EF4403 /* GroupsTableViewCell.swift in Sources */,
+				26552C2527C02EAA00835BB5 /* DataBase.swift in Sources */,
+				26FD354B27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift in Sources */,
 				263690D027BD865400B2B159 /* GroupsTableViewController.swift in Sources */,
-				263690CE27BD84E200B2B159 /* FriendCollectionViewController.swift in Sources */,
+				26552C2727C02F0600835BB5 /* User.swift in Sources */,
+				26552C2C27C5550500835BB5 /* FriendCollectionViewCell.swift in Sources */,
+				26552C2327C026DA00835BB5 /* FriendsTableViewCell.swift in Sources */,
+				263690CE27BD84E200B2B159 /* FriendFotoCollectionViewController.swift in Sources */,
 				262A843827B83DBC00B2DD65 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -348,6 +460,7 @@
 		};
 		262A844727B83DBE00B2DD65 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A1DE7EA57A092E7656DD7D3E /* Pods-HomeWork (AuthWindow).debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -376,6 +489,7 @@
 		};
 		262A844827B83DBE00B2DD65 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 456487FAEFCA1C5084AEA0E5 /* Pods-HomeWork (AuthWindow).release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
