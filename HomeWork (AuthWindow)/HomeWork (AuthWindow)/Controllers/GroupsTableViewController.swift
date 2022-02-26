@@ -9,14 +9,18 @@ import UIKit
 
 class GroupsTableViewController: UITableViewController {
 
-    private var groups = Array(DataBase.data.myGroups)
+    private var groups = [Group]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigationController()
         tableView.register(GroupsTableViewCell.self, forCellReuseIdentifier: GroupsTableViewCell.reuseID)
     }
-
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        groups = Array(DataBase.data.myGroups)
+        tableView.reloadData()
+    }
     
     private func configNavigationController(){
         let titleForNavBar: UILabel = {
@@ -45,6 +49,7 @@ class GroupsTableViewController: UITableViewController {
         cell.setCellSetup(for: groups[indexPath.row])
         cell.selectionStyle = .none
         tableView.rowHeight = cell.getImageSize().height + 10
+        cell.hiddenButtonAdd()
         return cell
     }
     

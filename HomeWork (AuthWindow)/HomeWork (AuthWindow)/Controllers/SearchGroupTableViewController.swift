@@ -35,12 +35,15 @@ class SearchGroupTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
         cell.setCellSetup(for: groups[indexPath.row])
         cell.selectionStyle = .none
-        
+        let action = UIAction { _ in
+            tableView.reloadRows(at: [indexPath], with: .left)
+        }
+        cell.addGroupButton.addAction(action, for: .touchDown)
+       
         tableView.rowHeight = cell.getImageSize().height + 10
 
         return cell
     }
-    
     
     
     
