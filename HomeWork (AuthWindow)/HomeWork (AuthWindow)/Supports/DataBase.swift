@@ -22,7 +22,7 @@ class DataBase {
     var myGroups: Set<Group> = [Group(id: 1, name: "Клуб любителей котиков", avatar: UIImage(named: "gpCat"))]
     
     
-    
+    var myFotoExemple = [Foto(UIImage(named: "exp1")!), Foto(UIImage(named: "exp2")!), Foto(UIImage(named: "exp3")!), Foto(UIImage(named: "exp4")!)]
     
     
     func getCurrentLogin () -> String {

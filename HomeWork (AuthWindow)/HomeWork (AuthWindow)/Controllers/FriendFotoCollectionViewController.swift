@@ -10,20 +10,23 @@ import UIKit
 class FriendFotoCollectionViewController: UIViewController {
     
     private var collectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Int, UIImage>!
+    private var dataSource: UICollectionViewDiffableDataSource<Int, Foto>!
     var user: User!
     
     
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        configNavigationController()
         reloadData()
     }
     override func viewDidLoad() {
         super.viewDidLoad()
+        user.fotoAlbum = DataBase.data.myFotoExemple
         setupCollectionView()
         createDataSource()
-        configNavigationController()
+        
+        collectionView.delegate = self
     }
     
     private func setupCollectionView() {
@@ -39,7 +42,7 @@ class FriendFotoCollectionViewController: UIViewController {
     
     private func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
-            return  self.createSectionLayout()
+            return self.createSectionLayoutOneOnLine()
         }
         return layout
     }
@@ -47,16 +50,18 @@ class FriendFotoCollectionViewController: UIViewController {
     private func createDataSource() {
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.reuseID, for: indexPath) as? FriendCollectionViewCell else {fatalError()}
-            cell.setCollectionViewSetting(for: self.user)
+            
+            cell.setCollectionViewSetting(for: self.user.fotoAlbum![indexPath.row].image)
             cell.backgroundColor = .brown
             return cell
         })
     }
     
     private  func reloadData(){
-        var snapShot = NSDiffableDataSourceSnapshot<Int, UIImage>()
+        var snapShot = NSDiffableDataSourceSnapshot<Int, Foto>()
         snapShot.appendSections([1])
-        snapShot.appendItems([user.avatar!])
+        guard let fotoAlbum = self.user.fotoAlbum else {return}
+        snapShot.appendItems(fotoAlbum)
         dataSource.apply(snapShot)
     }
   
@@ -69,6 +74,27 @@ class FriendFotoCollectionViewController: UIViewController {
             return lable
         }()
         self.navigationItem.titleView = titleForNavBar
+        navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .white
+        navigationController?.navigationBar.tintColor = .systemGreen
+        tabBarController?.tabBar.isHidden = false
     }
     
+}
+
+
+extension FriendFotoCollectionViewController: UICollectionViewDelegate {
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        guard let vc = segue.destination as? ImageShowViewController else {return}
+        let index = collectionView.indexPathsForSelectedItems?.first
+        
+        vc.foto = user.fotoAlbum![index!.row]
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
+        performSegue(withIdentifier: "imageShow", sender: nil)
+    }
 }

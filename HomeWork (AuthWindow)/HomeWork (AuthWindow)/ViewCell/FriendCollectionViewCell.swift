@@ -14,9 +14,10 @@ class FriendCollectionViewCell: UICollectionViewCell {
     
     private var imageView = UIImageView()
     
-    func setCollectionViewSetting (for user: User) {
+    func setCollectionViewSetting (for foto: UIImage) {
+        imageView.clipsToBounds = true
         imageView.contentMode = .scaleAspectFill
-        imageView.image = user.avatar
+        imageView.image = foto
         makeConstraints()
     }
     

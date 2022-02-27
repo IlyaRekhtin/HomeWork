@@ -21,5 +21,6 @@ struct User: Nameble, Equatable {
     var id: Int
     var name: String
     var surname: String
-    var avatar: UIImage? 
+    var avatar: UIImage?
+    var fotoAlbum: [Foto]?
 }

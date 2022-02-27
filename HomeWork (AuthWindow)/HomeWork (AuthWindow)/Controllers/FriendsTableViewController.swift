@@ -11,21 +11,28 @@ class FriendsTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        configNavigationController()
+        
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.reuseID)
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configNavigationController()
+        
+    }
     
     private func configNavigationController(){
         let titleForNavBar: UILabel = {
             let lable = UILabel()
             lable.text = "Friends"
             lable.font = UIFont(name: "Apple Color Emoji", size: 22)
-            lable.textColor = .white
+            lable.textColor = .systemGreen
             return lable
         }()
         self.navigationItem.titleView = titleForNavBar
-        self.tabBarItem.tag = 0
+        navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .white
+        navigationController?.navigationBar.tintColor = .systemGreen
+        tabBarController?.tabBar.isHidden = false
     }
 
     // MARK: - Table view data source
@@ -53,7 +60,7 @@ class FriendsTableViewController: UITableViewController {
         performSegue(withIdentifier: "goToFoto", sender: nil)
     }
     
-    // MARK: - Navigation
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         guard let friendFotoVC = segue.destination as? FriendFotoCollectionViewController else {return}
         let user = DataBase.data.friends[tableView.indexPathForSelectedRow!.row]

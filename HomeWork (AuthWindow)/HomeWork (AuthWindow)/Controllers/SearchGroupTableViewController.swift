@@ -36,7 +36,7 @@ class SearchGroupTableViewController: UITableViewController {
         cell.setCellSetup(for: groups[indexPath.row])
         cell.selectionStyle = .none
         let action = UIAction { _ in
-            tableView.reloadRows(at: [indexPath], with: .left)
+            tableView.reloadRows(at: [indexPath], with: .none)
         }
         cell.addGroupButton.addAction(action, for: .touchDown)
        
@@ -45,16 +45,5 @@ class SearchGroupTableViewController: UITableViewController {
         return cell
     }
     
-    
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
