@@ -40,7 +40,7 @@
                                                 <rect key="frame" x="90" y="0.0" width="230" height="34"/>
                                                 <color key="tintColor" red="0.51889914270000004" green="0.80048465729999996" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <constraints>
-                                                    <constraint firstAttribute="width" constant="230" id="4xF-Yj-72Q"/>
+                                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="230" id="4xF-Yj-72Q"/>
                                                 </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -158,7 +158,7 @@
                                                                 <rect key="frame" x="0.0" y="0.0" width="320" height="34"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="Login" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Bbx-GA-pUs">
-                                                                        <rect key="frame" x="0.0" y="0.0" width="93" height="34"/>
+                                                                        <rect key="frame" x="0.0" y="0.0" width="80" height="34"/>
                                                                         <constraints>
                                                                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="LG4-TM-Z0k"/>
                                                                         </constraints>
@@ -168,10 +168,10 @@
                                                                         <size key="shadowOffset" width="0.0" height="0.0"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your login" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="v2x-G8-ghS">
-                                                                        <rect key="frame" x="103" y="0.0" width="217" height="34"/>
+                                                                        <rect key="frame" x="90" y="0.0" width="230" height="34"/>
                                                                         <color key="tintColor" red="0.51889914270000004" green="0.80048465729999996" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <constraints>
-                                                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="230" id="u1T-5H-U3R"/>
+                                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="230" id="u1T-5H-U3R"/>
                                                                         </constraints>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <textInputTraits key="textInputTraits" returnKeyType="done"/>
@@ -185,14 +185,14 @@
                                                                 <rect key="frame" x="0.0" y="64" width="320" height="34"/>
                                                                 <subviews>
                                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="16" translatesAutoresizingMaskIntoConstraints="NO" id="zaG-vK-uXL">
-                                                                        <rect key="frame" x="0.0" y="2.9999999999999982" width="93" height="28.333333333333329"/>
+                                                                        <rect key="frame" x="0.0" y="2.9999999999999982" width="80" height="28.333333333333329"/>
                                                                         <fontDescription key="fontDescription" name="AppleColorEmoji" family="Apple Color Emoji" pointSize="19"/>
                                                                         <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                         <nil key="highlightedColor"/>
                                                                         <size key="shadowOffset" width="0.0" height="0.0"/>
                                                                     </label>
                                                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter your password" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XAj-mO-lkt">
-                                                                        <rect key="frame" x="103" y="0.0" width="217" height="34"/>
+                                                                        <rect key="frame" x="90" y="0.0" width="230" height="34"/>
                                                                         <color key="tintColor" red="0.51889914270000004" green="0.80048465729999996" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                                         <textInputTraits key="textInputTraits" returnKeyType="done" secureTextEntry="YES"/>
@@ -420,7 +420,7 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" tag="2" title="My groups" image="rectangle.3.group" catalog="system" selectedImage="rectangle.3.group.fill" id="uFA-vp-O40"/>
                     <navigationItem key="navigationItem" id="EYN-4e-ldL">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="search" id="OFC-KQ-Lbm">
+                        <barButtonItem key="rightBarButtonItem" systemItem="search" id="OFC-KQ-Lbm">
                             <color key="tintColor" systemColor="systemGreenColor"/>
                             <connections>
                                 <action selector="searchActionButton:" destination="SPm-lT-WiS" id="EZP-58-xgY"/>
