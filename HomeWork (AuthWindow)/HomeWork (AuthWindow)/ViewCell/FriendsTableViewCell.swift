@@ -12,11 +12,8 @@ class FriendsTableViewCell: UITableViewCell {
     
     static let reuseID = "CellFriends"
 
-    private var avatar: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = imageView.frame.width / 2
-        imageView.clipsToBounds = true
+    private var avatar: Avatar = {
+        let imageView = Avatar(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
         return imageView
     }()
     private var firstName: UILabel = {
@@ -33,7 +30,7 @@ class FriendsTableViewCell: UITableViewCell {
     }()
    
     func getRowForFriendsVC(for user: User) {
-        avatar.image = user.avatar
+        avatar.setImage(user.avatar!)
         firstName.text = user.name
         secondName.text = user.surname
         setupConstraints()

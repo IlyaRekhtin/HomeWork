@@ -11,14 +11,15 @@ import SnapKit
 class GroupsTableViewCell: UITableViewCell {
 
     static var reuseID = "groupCell"
+    
     var addGroupButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-    private var groupImage: UIImageView = {
-        let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
-        imageView.contentMode = .scaleAspectFill
-        imageView.layer.cornerRadius = imageView.frame.width / 2
-        imageView.clipsToBounds = true
+    
+    private var groupImage: Avatar = {
+        let imageView = Avatar(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
+       
         return imageView
     }()
+    
     private var groupName: UILabel = {
         let lable = UILabel()
         lable.textColor = .systemGreen
@@ -46,7 +47,7 @@ class GroupsTableViewCell: UITableViewCell {
     }
     
     func setCellSetup(for group: Group) {
-        groupImage.image = group.avatar
+        groupImage.setImage(group.avatar!)
         groupName.text = group.name
         
         let actionForButton = UIAction { [self] _ in
