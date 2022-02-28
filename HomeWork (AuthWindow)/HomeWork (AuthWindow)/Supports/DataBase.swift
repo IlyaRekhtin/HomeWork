@@ -15,14 +15,16 @@ class DataBase {
     var login: String = ""
     
     
-    var friends = [User(id: 1, name: "Илья", surname: "Иванов", avatar: UIImage(named: "ava1")), User(id: 2, name: "Анна", surname: "Пивоварова", avatar: UIImage(named: "ava2")), User(id: 3, name: "Евгений", surname: "Цветков", avatar: UIImage(named: "ava3")), User(id: 4, name: "Александр", surname: "Кроеведов", avatar: UIImage(named: "ava4"))]
+    var friends = [User(id: 1, name: "Илья", surname: "Иванов", avatar: UIImage(named: "ava1")!, album: [Foto(UIImage(named: "exp1")!), Foto(UIImage(named: "exp2")!)]),
+                   User(id: 2, name: "Анна", surname: "Пивоварова", avatar: UIImage(named: "ava2")!),
+                   User(id: 3, name: "Евгений", surname: "Цветков", avatar: UIImage(named: "ava3")!, album: [Foto(UIImage(named: "exp3")!)]),
+                   User(id: 4, name: "Александр", surname: "Кроеведов", avatar: UIImage(named: "ava4")!)]
     
-    var allGroups: [Group] = [Group(id: 1, name: "Клуб любителей котиков", avatar: UIImage(named: "gpCat")), Group(id: 2, name: "Клуб любителй собак", avatar: UIImage(named: "gpDog")), Group(id: 3, name: "Клуб любителей коняшек", avatar: UIImage(named: "gpHourse"))]
+    var allGroups: [Group] = [Group(id: 1, name: "Клуб любителей котиков", avatar: UIImage(named: "gpCat")),
+                              Group(id: 2, name: "Клуб любителй собак", avatar: UIImage(named: "gpDog")),
+                              Group(id: 3, name: "Клуб любителей коняшек", avatar: UIImage(named: "gpHourse"))]
     
     var myGroups: Set<Group> = [Group(id: 1, name: "Клуб любителей котиков", avatar: UIImage(named: "gpCat"))]
-    
-    
-    var myFotoExemple = [Foto(UIImage(named: "exp1")!), Foto(UIImage(named: "exp2")!), Foto(UIImage(named: "exp3")!), Foto(UIImage(named: "exp4")!)]
     
     
     func getCurrentLogin () -> String {
@@ -34,6 +36,12 @@ class DataBase {
         guard let currentPassword = UserDefaults.standard.object(forKey: "password") as? String else { return "" }
         return currentPassword
     }
+    
+    
+    
+    
+    
+    
 }
 
 

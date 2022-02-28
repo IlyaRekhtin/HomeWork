@@ -32,6 +32,7 @@ class FriendsTableViewController: UITableViewController {
         self.navigationItem.titleView = titleForNavBar
         navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .white
         navigationController?.navigationBar.tintColor = .systemGreen
+        navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false
     }
 

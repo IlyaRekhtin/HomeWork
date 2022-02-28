@@ -22,13 +22,13 @@ class FriendFotoCollectionViewController: UIViewController {
     }
     override func viewDidLoad() {
         super.viewDidLoad()
-        user.fotoAlbum = DataBase.data.myFotoExemple
         setupCollectionView()
         createDataSource()
         
         collectionView.delegate = self
     }
     
+
     private func setupCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionLayout())
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -51,7 +51,7 @@ class FriendFotoCollectionViewController: UIViewController {
         dataSource = UICollectionViewDiffableDataSource(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.reuseID, for: indexPath) as? FriendCollectionViewCell else {fatalError()}
             
-            cell.setCollectionViewSetting(for: self.user.fotoAlbum![indexPath.row].image)
+            cell.setCollectionViewSetting(for: self.user.fotoAlbum[indexPath.row].image)
             cell.backgroundColor = .brown
             return cell
         })
@@ -60,7 +60,7 @@ class FriendFotoCollectionViewController: UIViewController {
     private  func reloadData(){
         var snapShot = NSDiffableDataSourceSnapshot<Int, Foto>()
         snapShot.appendSections([1])
-        guard let fotoAlbum = self.user.fotoAlbum else {return}
+        let fotoAlbum = self.user.fotoAlbum
         snapShot.appendItems(fotoAlbum)
         dataSource.apply(snapShot)
     }
@@ -77,6 +77,7 @@ class FriendFotoCollectionViewController: UIViewController {
         navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .white
         navigationController?.navigationBar.tintColor = .systemGreen
         tabBarController?.tabBar.isHidden = false
+        navigationItem.backButtonTitle = ""
     }
     
 }
@@ -88,9 +89,10 @@ extension FriendFotoCollectionViewController: UICollectionViewDelegate {
         super.prepare(for: segue, sender: sender)
         guard let vc = segue.destination as? ImageShowViewController else {return}
         let index = collectionView.indexPathsForSelectedItems?.first
-        
-        vc.foto = user.fotoAlbum![index!.row]
+        vc.user = self.user
+        vc.index = index?.row
     }
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         

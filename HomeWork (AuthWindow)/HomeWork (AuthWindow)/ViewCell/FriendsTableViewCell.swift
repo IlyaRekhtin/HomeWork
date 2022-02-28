@@ -30,7 +30,7 @@ class FriendsTableViewCell: UITableViewCell {
     }()
    
     func getRowForFriendsVC(for user: User) {
-        avatar.setImage(user.avatar!)
+        avatar.setImage(user.avatar)
         firstName.text = user.name
         secondName.text = user.surname
         setupConstraints()

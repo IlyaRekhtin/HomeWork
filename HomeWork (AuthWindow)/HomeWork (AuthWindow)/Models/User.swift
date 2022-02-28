@@ -12,7 +12,7 @@ protocol Nameble {
     var name: String {get set}
 }
 
-struct User: Nameble, Equatable {
+class User: Nameble, Equatable {
     
     static func == (lhs: User, rhs: User) -> Bool {
        return lhs.id == rhs.id
@@ -21,6 +21,29 @@ struct User: Nameble, Equatable {
     var id: Int
     var name: String
     var surname: String
-    var avatar: UIImage?
-    var fotoAlbum: [Foto]?
+    var avatar: UIImage = UIImage(systemName: "person")!
+    var fotoAlbum: [Foto] = []
+    
+    init (id: Int, name: String, surname: String) {
+        self.id = id
+        self.name = name
+        self.surname = surname
+    }
+    
+    init (id: Int, name: String, surname: String, avatar: UIImage){
+        self.id = id
+        self.name = name
+        self.surname = surname
+        self.avatar = avatar
+    }
+    
+    init(id: Int, name: String, surname: String, avatar: UIImage, album: [Foto]){
+        self.id = id
+        self.name = name
+        self.surname = surname
+        self.avatar = avatar
+        self.fotoAlbum = album
+    }
+    
+    
 }

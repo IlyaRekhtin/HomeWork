@@ -31,6 +31,7 @@ class GroupsTableViewController: UITableViewController {
             return lable
         }()
         self.navigationItem.titleView = titleForNavBar
+        navigationItem.backButtonTitle = ""
         self.tabBarItem.tag = 1
     }
     // MARK: - Table view data source
@@ -64,3 +65,4 @@ class GroupsTableViewController: UITableViewController {
          
     }
 
+}

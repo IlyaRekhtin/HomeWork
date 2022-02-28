@@ -462,7 +462,7 @@
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="imageViewForFoto" destination="lZw-wf-oCn" id="887-Fu-Zxx"/>
-                        <outlet property="likeButton" destination="ePx-AE-B0p" id="6OG-Rw-nfH"/>
+                        <outlet property="likeButton" destination="ePx-AE-B0p" id="7ci-Co-ujZ"/>
                         <outlet property="likeCountLable" destination="tmh-Sc-Ugu" id="Hom-K2-RRj"/>
                     </connections>
                 </viewController>
@@ -470,11 +470,11 @@
             </objects>
             <point key="canvasLocation" x="4772.3076923076924" y="-194.07582938388626"/>
         </scene>
-        <!--Friends-->
+        <!--My groups-->
         <scene sceneID="8ph-H6-4Qo">
             <objects>
                 <navigationController id="4jo-qV-e1P" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Friends" image="rectangle.3.group" catalog="system" selectedImage="rectangle.3.group.fill" id="8i9-SS-NUk"/>
+                    <tabBarItem key="tabBarItem" title="My groups" image="rectangle.3.group" catalog="system" selectedImage="rectangle.3.group.fill" id="8i9-SS-NUk"/>
                     <navigationItem key="navigationItem" id="Y7g-0O-Swg"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4U9-OW-xj7">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
