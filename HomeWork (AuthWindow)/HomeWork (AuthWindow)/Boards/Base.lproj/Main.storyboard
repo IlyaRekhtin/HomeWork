@@ -3,7 +3,6 @@
     <device id="retina6_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
-        <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -399,46 +398,8 @@
                                     </imageView>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KvD-fP-MXj">
                                         <rect key="frame" x="0.0" y="656" width="390" height="100"/>
-                                        <subviews>
-                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="tJP-Px-3rf">
-                                                <rect key="frame" x="10" y="10" width="200" height="50"/>
-                                                <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ePx-AE-B0p">
-                                                        <rect key="frame" x="0.0" y="9.6666666666666305" width="50" height="30.666666666666671"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="50" id="eE9-FM-MvB"/>
-                                                        </constraints>
-                                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                                        <state key="normal" title="Button"/>
-                                                        <buttonConfiguration key="configuration" style="plain">
-                                                            <imageReference key="image" image="heart" catalog="system" symbolScale="large"/>
-                                                            <preferredSymbolConfiguration key="preferredSymbolConfigurationForImage"/>
-                                                            <color key="baseForegroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        </buttonConfiguration>
-                                                        <connections>
-                                                            <action selector="likeButtonAction:" destination="c3p-LC-xcw" eventType="touchUpInside" id="sq1-iI-Sqh"/>
-                                                        </connections>
-                                                    </button>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="tmh-Sc-Ugu">
-                                                        <rect key="frame" x="55" y="12.666666666666631" width="145" height="24.666666666666671"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="width" constant="145" id="Mnh-PR-fyU"/>
-                                                        </constraints>
-                                                        <fontDescription key="fontDescription" name="AppleColorEmoji" family="Apple Color Emoji" pointSize="15"/>
-                                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                        <nil key="highlightedColor"/>
-                                                    </label>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstAttribute="width" constant="200" id="dFc-Q6-bAR"/>
-                                                    <constraint firstAttribute="height" constant="50" id="sMS-9f-2MU"/>
-                                                </constraints>
-                                            </stackView>
-                                        </subviews>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
-                                            <constraint firstItem="tJP-Px-3rf" firstAttribute="leading" secondItem="KvD-fP-MXj" secondAttribute="leading" constant="10" id="MzL-bC-ekm"/>
-                                            <constraint firstItem="tJP-Px-3rf" firstAttribute="top" secondItem="KvD-fP-MXj" secondAttribute="top" constant="10" id="U9B-MQ-2Ge"/>
                                             <constraint firstAttribute="height" constant="100" id="u2e-n5-FLg"/>
                                         </constraints>
                                     </view>
@@ -461,20 +422,19 @@
                     </navigationItem>
                     <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="bottomViewForButton" destination="KvD-fP-MXj" id="XEu-CP-VV3"/>
                         <outlet property="imageViewForFoto" destination="lZw-wf-oCn" id="887-Fu-Zxx"/>
-                        <outlet property="likeButton" destination="ePx-AE-B0p" id="7ci-Co-ujZ"/>
-                        <outlet property="likeCountLable" destination="tmh-Sc-Ugu" id="Hom-K2-RRj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mgT-Eg-BLw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4772.3076923076924" y="-194.07582938388626"/>
         </scene>
-        <!--My groups-->
+        <!--Сообщества-->
         <scene sceneID="8ph-H6-4Qo">
             <objects>
                 <navigationController id="4jo-qV-e1P" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="My groups" image="rectangle.3.group" catalog="system" selectedImage="rectangle.3.group.fill" id="8i9-SS-NUk"/>
+                    <tabBarItem key="tabBarItem" title="Сообщества" image="rectangle.3.group" catalog="system" selectedImage="rectangle.3.group.fill" id="8i9-SS-NUk"/>
                     <navigationItem key="navigationItem" id="Y7g-0O-Swg"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4U9-OW-xj7">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
@@ -571,11 +531,11 @@
             </objects>
             <point key="canvasLocation" x="917" y="356"/>
         </scene>
-        <!--Friends-->
+        <!--Друзья-->
         <scene sceneID="cIh-6Z-hjR">
             <objects>
                 <navigationController id="KMn-cJ-JBf" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Friends" image="person.3" catalog="system" selectedImage="person.3.fill" id="jhl-do-1vg"/>
+                    <tabBarItem key="tabBarItem" title="Друзья" image="person.3" catalog="system" selectedImage="person.3.fill" id="jhl-do-1vg"/>
                     <navigationItem key="navigationItem" id="QEB-V5-Fd4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8jk-JK-m5U">
                         <rect key="frame" x="0.0" y="44" width="390" height="44"/>
@@ -601,7 +561,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="heart" catalog="system" width="128" height="109"/>
         <image name="logo2" width="214" height="137"/>
         <image name="person.3" catalog="system" width="128" height="62"/>
         <image name="person.3.fill" catalog="system" width="128" height="61"/>

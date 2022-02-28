@@ -12,7 +12,7 @@ struct Foto: Hashable, Equatable {
     
     var image: UIImage
     var myLike: Bool = false
-    var likesCount: Int = 0
+    var likesCount: Int = 100000
     
     
     

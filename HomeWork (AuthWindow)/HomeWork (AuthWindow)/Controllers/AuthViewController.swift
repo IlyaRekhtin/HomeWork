@@ -16,10 +16,8 @@ class AuthViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var registerButton: UIButton!
     @IBOutlet weak var toggle: UISwitch!
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         loginTextField.delegate = self
         passwordTextField.delegate = self
         startSet()

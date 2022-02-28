@@ -23,14 +23,14 @@ class GroupsTableViewController: UITableViewController {
     }
     
     private func configNavigationController(){
-        let titleForNavBar: UILabel = {
-            let lable = UILabel()
-            lable.text = "My groups"
-            lable.font = UIFont(name: "Apple Color Emoji", size: 22)
-            lable.textColor = .white
-            return lable
-        }()
-        self.navigationItem.titleView = titleForNavBar
+//        let titleForNavBar: UILabel = {
+//            let lable = UILabel()
+//            lable.text = "Мои сообщества"
+//            lable.font = UIFont(name: "Apple Color Emoji", size: 22)
+//            lable.textColor = .systemGreen
+//            return lable
+//        }()
+//        self.navigationItem.titleView = titleForNavBar
         navigationItem.backButtonTitle = ""
         self.tabBarItem.tag = 1
     }

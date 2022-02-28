@@ -93,10 +93,7 @@ extension FriendFotoCollectionViewController: UICollectionViewDelegate {
         vc.index = index?.row
     }
     
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-        
         performSegue(withIdentifier: "imageShow", sender: nil)
     }
 }

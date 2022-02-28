@@ -6,15 +6,18 @@
 //
 
 import UIKit
-
+import SnapKit
 
 class ImageShowViewController: UIViewController {
     
     
     @IBOutlet weak var imageViewForFoto: UIImageView!
-    @IBOutlet weak var likeCountLable: UILabel!
-    @IBOutlet weak var likeButton: UIButton!
-    
+    @IBOutlet weak var bottomViewForButton: UIView!
+    private let buttonLike: Like = {
+        let button = Like(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        button.configuration = .plain()
+        return button
+    }()
     var user: User!
     var index: Int!
     
@@ -22,14 +25,28 @@ class ImageShowViewController: UIViewController {
         super.viewDidLoad()
         setSetup()
         imageShowVCApperians()
+        makeConstraints()
     }
     
     private func setSetup() {
         let foto = user.fotoAlbum[index]
         
+        buttonLike.setConfig(for: foto)
+        
+        buttonLike.addAction(UIAction(handler: { [self] _ in
+            switch user.fotoAlbum[index].myLike {
+            case true:
+                user.fotoAlbum[index].deleteLikes()
+                buttonLike.configuration?.image = UIImage(systemName: "heart")
+                buttonLike.configuration?.title = String(user.fotoAlbum[index].likesCount)
+            case false:
+                user.fotoAlbum[index].addLikes()
+                buttonLike.configuration?.image = UIImage(systemName: "heart.fill")
+                buttonLike.configuration?.title = String(user.fotoAlbum[index].likesCount)
+            }
+        }), for: .touchDown)
+        
         imageViewForFoto.image = foto.image
-        likeCountLable.text = String(foto.likesCount)
-        likeButton.configuration?.image = user.fotoAlbum[index].myLike ? UIImage(systemName: "heart.fill") : UIImage(systemName: "heart")
     }
     
     private func imageShowVCApperians() {
@@ -47,16 +64,12 @@ class ImageShowViewController: UIViewController {
         navigationItem.backButtonTitle = ""
     }
     
-    @IBAction func likeButtonAction(_ sender: Any) {
-        switch user.fotoAlbum[index].myLike {
-        case true:
-            user.fotoAlbum[index].deleteLikes()
-            likeButton.configuration?.image = UIImage(systemName: "heart")
-            likeCountLable.text = String(user.fotoAlbum[index].likesCount)
-        case false:
-            user.fotoAlbum[index].addLikes()
-            likeButton.configuration?.image = UIImage(systemName: "heart.fill")
-            likeCountLable.text = String(user.fotoAlbum[index].likesCount)
+    private func makeConstraints() {
+        bottomViewForButton.addSubview(buttonLike)
+        
+        buttonLike.snp.makeConstraints { make in
+            make.top.left.equalToSuperview().inset(10)
+            make.height.equalTo(50)
         }
     }
     
