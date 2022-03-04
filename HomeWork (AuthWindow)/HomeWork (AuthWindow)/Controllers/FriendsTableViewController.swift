@@ -43,6 +43,7 @@ class FriendsTableViewController: UITableViewController {
     @IBAction func exitForAccount(_ sender: Any) {
         UserDefaults.standard.removeObject(forKey: "login")
         UserDefaults.standard.removeObject(forKey: "password")
+        UserDefaults.standard.removeObject(forKey: "stateSectionLayout")
         dismiss(animated: true)
     }
 

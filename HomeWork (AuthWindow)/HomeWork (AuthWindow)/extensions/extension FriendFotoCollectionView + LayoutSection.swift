@@ -23,7 +23,7 @@ extension FriendFotoCollectionViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-
+        
         return section
     }
     
@@ -39,9 +39,18 @@ extension FriendFotoCollectionViewController {
         
         let section = NSCollectionLayoutSection(group: group)
         section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
-
+        
         return section
     }
+    
+//    func createSectionHeader() -> NSCollectionLayoutBoundarySupplementaryItem {
+//        let layoutSectionHeaderSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+//                                                             heightDimension: .estimated(20))
+//        let layoutSectionHeader = NSCollectionLayoutBoundarySupplementaryItem(layoutSize: layoutSectionHeaderSize ,
+//                                                                              elementKind: UICollectionView.elementKindSectionHeader,
+//                                                                              alignment: .top)
+//        return layoutSectionHeader
+//    }
     
 }
 

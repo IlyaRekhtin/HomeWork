@@ -12,7 +12,7 @@ class FriendFotoCollectionViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, Foto>!
     var user: User!
-    
+    var buttonForChangeLayout: ButtonForChangeLayout!
     
     
     override func viewWillAppear(_ animated: Bool) {
@@ -24,10 +24,12 @@ class FriendFotoCollectionViewController: UIViewController {
         super.viewDidLoad()
         setupCollectionView()
         createDataSource()
-        
         collectionView.delegate = self
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        UserDefaults.standard.set(buttonForChangeLayout.state, forKey: "stateSectionLayout")
+    }
 
     private func setupCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionLayout())
@@ -37,12 +39,21 @@ class FriendFotoCollectionViewController: UIViewController {
         collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
         
+        
         collectionView.register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: FriendCollectionViewCell.reuseID)
     }
     
     private func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
-            return self.createSectionLayoutOneOnLine()
+            
+            switch self.buttonForChangeLayout.state {
+            case 0:
+                return self.createSectionLayoutOneOnLine()
+            case 1:
+                return self.createSectionLayoutThreeOnLine()
+            default:
+                return self.createSectionLayoutOneOnLine()
+            }
         }
         return layout
     }
@@ -73,12 +84,19 @@ class FriendFotoCollectionViewController: UIViewController {
             lable.textColor = .systemGreen
             return lable
         }()
+        
+        let state = UserDefaults.standard.integer(forKey: "stateSectionLayout")
+        self.buttonForChangeLayout = ButtonForChangeLayout(forState: state)
+       
+        self.navigationItem.setRightBarButton(buttonForChangeLayout, animated: false)
         self.navigationItem.titleView = titleForNavBar
         navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .white
         navigationController?.navigationBar.tintColor = .systemGreen
         tabBarController?.tabBar.isHidden = false
         navigationItem.backButtonTitle = ""
     }
+    
+   
     
 }
 
