@@ -37,6 +37,18 @@ class DataBase {
         return currentPassword
     }
     
+    func getFirstLettersOfTheName() -> [String] {
+        var array = Set<String>()
+        for user in friends {
+            array.insert(String(user.getFirstNameLetter()))
+        }
+        return array.sorted()
+    }
+
+    func getFirstLettersOfTheSecondName() {
+        
+    }
+    
     
     
     

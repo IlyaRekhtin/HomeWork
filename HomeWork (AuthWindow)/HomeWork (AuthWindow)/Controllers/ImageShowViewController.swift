@@ -50,9 +50,11 @@ class ImageShowViewController: UIViewController {
     }
     
     private func imageShowVCApperians() {
+        
         navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .black
         tabBarController?.tabBar.isHidden = true
+        
         let titleForNavBar: UILabel = {
             let lable = UILabel()
             lable.text = "Фотография"

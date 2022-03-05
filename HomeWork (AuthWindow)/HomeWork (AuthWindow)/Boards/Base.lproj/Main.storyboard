@@ -330,38 +330,6 @@
             </objects>
             <point key="canvasLocation" x="-169.23076923076923" y="62.559241706161131"/>
         </scene>
-        <!--Friends-->
-        <scene sceneID="zd0-Qd-fAu">
-            <objects>
-                <tableViewController id="szI-d7-Gbr" customClass="FriendsTableViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Qw2-aN-MIy">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <connections>
-                            <outlet property="dataSource" destination="szI-d7-Gbr" id="QZg-O9-ddX"/>
-                            <outlet property="delegate" destination="szI-d7-Gbr" id="S1T-A8-F4A"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" tag="1" title="Friends" image="person.3" catalog="system" selectedImage="person.3.fill" id="cpk-Qc-Ajg"/>
-                    <toolbarItems/>
-                    <navigationItem key="navigationItem" id="bGZ-FG-a72">
-                        <barButtonItem key="rightBarButtonItem" title="Выйти" id="bl1-tr-ZH3">
-                            <color key="tintColor" systemColor="systemGreenColor"/>
-                            <connections>
-                                <action selector="exitForAccount:" destination="szI-d7-Gbr" id="Sd9-V4-4oM"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <segue destination="PWV-GB-aFZ" kind="show" identifier="goToFoto" id="bkv-9o-eUG"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="x1f-8t-aQr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2829" y="-211"/>
-        </scene>
         <!--Friend Foto Collection View Controller-->
         <scene sceneID="0US-nH-GFD">
             <objects>
@@ -429,6 +397,62 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mgT-Eg-BLw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4772.3076923076924" y="-194.07582938388626"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="iNS-Q6-aCs">
+            <objects>
+                <viewController id="sot-hv-GZn" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="NlO-0v-E4k">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="XWz-dG-tcv">
+                                <rect key="frame" x="350" y="43.999999999999993" width="40" height="81.333333333333314"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euH-fk-7hL">
+                                        <rect key="frame" x="18" y="0.0" width="4.3333333333333321" height="20.333333333333332"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="K" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ays-Bm-0eJ">
+                                        <rect key="frame" x="14.666666666666686" y="20.333333333333329" width="11" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="J" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DiV-y2-2RD">
+                                        <rect key="frame" x="15.666666666666686" y="40.666666666666671" width="9" height="20.333333333333329"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2R1-Zf-8ob">
+                                        <rect key="frame" x="14.333333333333314" y="61.000000000000007" width="11.333333333333336" height="20.333333333333336"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.8208972739" blue="0.0" alpha="0.8980392157" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="40" id="Wtq-q3-3qQ"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="rrv-Ic-Li4"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="rrv-Ic-Li4" firstAttribute="trailing" secondItem="XWz-dG-tcv" secondAttribute="trailing" id="PJ6-uA-gXl"/>
+                            <constraint firstItem="XWz-dG-tcv" firstAttribute="top" secondItem="rrv-Ic-Li4" secondAttribute="top" id="wjl-z5-gTC"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hKx-1A-BrS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6833" y="-157"/>
         </scene>
         <!--Сообщества-->
         <scene sceneID="8ph-H6-4Qo">
@@ -552,12 +576,38 @@
                         <navigationBarAppearance key="scrollEdgeAppearance"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="szI-d7-Gbr" kind="relationship" relationship="rootViewController" id="1zb-J1-ZXp"/>
+                        <segue destination="Dhj-LJ-ile" kind="relationship" relationship="rootViewController" id="SMY-u2-hk8"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oY2-jM-ftz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1991" y="-211"/>
+        </scene>
+        <!--Friends View Controller-->
+        <scene sceneID="vXU-rK-6gJ">
+            <objects>
+                <viewController id="Dhj-LJ-ile" customClass="FriendsViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="C07-Ji-gwO">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="MS7-4v-Utc"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="xrx-Jn-jms">
+                        <barButtonItem key="rightBarButtonItem" title="Выйти" id="CQM-a0-xTd">
+                            <color key="tintColor" systemColor="systemGreenColor"/>
+                            <connections>
+                                <action selector="exitForAccount:" destination="Dhj-LJ-ile" id="fh5-zi-xzt"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <segue destination="PWV-GB-aFZ" kind="show" identifier="goToFoto" id="mwe-JR-p7W"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CMv-6f-eDX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2925" y="-203"/>
         </scene>
     </scenes>
     <resources>

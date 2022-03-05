@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		261C864027D3DA3800EEAC50 /* NameSearchControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261C863F27D3DA3800EEAC50 /* NameSearchControl.swift */; };
 		262A843627B83DBC00B2DD65 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262A843527B83DBC00B2DD65 /* AppDelegate.swift */; };
 		262A843827B83DBC00B2DD65 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262A843727B83DBC00B2DD65 /* SceneDelegate.swift */; };
 		262A843A27B83DBC00B2DD65 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 262A843927B83DBC00B2DD65 /* AuthViewController.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		261C863F27D3DA3800EEAC50 /* NameSearchControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NameSearchControl.swift; sourceTree = "<group>"; };
 		262A843227B83DBC00B2DD65 /* HomeWork (AuthWindow).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "HomeWork (AuthWindow).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		262A843527B83DBC00B2DD65 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		262A843727B83DBC00B2DD65 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				26ED6C4027CAE01100AEF452 /* Avatar.swift */,
 				26ED6C4627CD642300AEF452 /* Like.swift */,
 				26ED6C4827CE9D1200AEF452 /* ButtonForChangeLayout.swift */,
+				261C863F27D3DA3800EEAC50 /* NameSearchControl.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -336,6 +339,7 @@
 				26552C2327C026DA00835BB5 /* FriendsTableViewCell.swift in Sources */,
 				263690CE27BD84E200B2B159 /* FriendFotoCollectionViewController.swift in Sources */,
 				26ED6C4527CC0AB800AEF452 /* Foto.swift in Sources */,
+				261C864027D3DA3800EEAC50 /* NameSearchControl.swift in Sources */,
 				262A843827B83DBC00B2DD65 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

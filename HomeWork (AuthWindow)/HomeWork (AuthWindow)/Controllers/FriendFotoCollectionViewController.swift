@@ -11,24 +11,25 @@ class FriendFotoCollectionViewController: UIViewController {
     
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, Foto>!
+    private var buttonForChangeLayout = ButtonForChangeLayout()
     var user: User!
-    var buttonForChangeLayout: ButtonForChangeLayout!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setButtonForChangeLayout()
+        setupCollectionView()
+        createDataSource()
+        collectionView.delegate = self
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configNavigationController()
         reloadData()
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        setupCollectionView()
-        createDataSource()
-        collectionView.delegate = self
-    }
     
     override func viewWillDisappear(_ animated: Bool) {
-        UserDefaults.standard.set(buttonForChangeLayout.state, forKey: "stateSectionLayout")
+        UserDefaults.standard.setValue(buttonForChangeLayout.sizeInCollectionView.rawValue, forKey: "sizeForLayoutForFotoGallary")
     }
 
     private func setupCollectionView() {
@@ -46,13 +47,12 @@ class FriendFotoCollectionViewController: UIViewController {
     private func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
             
-            switch self.buttonForChangeLayout.state {
-            case 0:
+            switch self.buttonForChangeLayout.sizeInCollectionView {
+            case .fullScreen:
                 return self.createSectionLayoutOneOnLine()
-            case 1:
+            case .treeOnLine:
                 return self.createSectionLayoutThreeOnLine()
-            default:
-                return self.createSectionLayoutOneOnLine()
+            
             }
         }
         return layout
@@ -82,13 +82,10 @@ class FriendFotoCollectionViewController: UIViewController {
             lable.text = user.name
             lable.font = UIFont(name: "Apple Color Emoji", size: 22)
             lable.textColor = .systemGreen
+            
             return lable
         }()
-        
-        let state = UserDefaults.standard.integer(forKey: "stateSectionLayout")
-        self.buttonForChangeLayout = ButtonForChangeLayout(forState: state)
-       
-        self.navigationItem.setRightBarButton(buttonForChangeLayout, animated: false)
+        self.navigationItem.setRightBarButton(buttonForChangeLayout, animated: true)
         self.navigationItem.titleView = titleForNavBar
         navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .white
         navigationController?.navigationBar.tintColor = .systemGreen
@@ -96,10 +93,24 @@ class FriendFotoCollectionViewController: UIViewController {
         navigationItem.backButtonTitle = ""
     }
     
-   
-    
+    private func setButtonForChangeLayout(){
+        let sizeInCollectionView = ButtonForChangeLayout.FotoSizeInCollectionView(rawValue: UserDefaults.standard.integer(forKey: "sizeForLayoutForFotoGallary"))
+        
+        let actionForChangeButton = UIAction(handler: { [self] _ in
+            switch buttonForChangeLayout.sizeInCollectionView {
+            case .fullScreen:
+                buttonForChangeLayout.image = UIImage(systemName: "rectangle")
+                buttonForChangeLayout.sizeInCollectionView = .treeOnLine
+            case .treeOnLine:
+                buttonForChangeLayout.image = UIImage(systemName: "rectangle.grid.2x2")
+                buttonForChangeLayout.sizeInCollectionView = .fullScreen
+            }
+            self.collectionView.reloadData()
+        })
+        buttonForChangeLayout = ButtonForChangeLayout(image: ButtonForChangeLayout.getButtonImage(forSize: sizeInCollectionView!), primaryAction: actionForChangeButton)
+        buttonForChangeLayout.sizeInCollectionView = sizeInCollectionView!
+    }
 }
-
 
 extension FriendFotoCollectionViewController: UICollectionViewDelegate {
     

@@ -8,17 +8,11 @@
 import UIKit
 
 class TabBarController: UITabBarController {
-//    private let searchButton: UIBarButtonItem = {
-//        let button = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: <#T##Selector?#>)
-//        
-//        return button
-//    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configTabController()
-
         
     }
  
@@ -27,5 +21,8 @@ class TabBarController: UITabBarController {
     }
     
    
-}
     
+    
+   
+}
+

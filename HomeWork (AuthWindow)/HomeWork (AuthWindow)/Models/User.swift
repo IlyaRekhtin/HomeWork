@@ -45,5 +45,10 @@ class User: Nameble, Equatable {
         self.fotoAlbum = album
     }
     
+    func getFirstNameLetter() -> Character {
+        let letter = self.name.first!
+        return letter
+    }
+    
     
 }
