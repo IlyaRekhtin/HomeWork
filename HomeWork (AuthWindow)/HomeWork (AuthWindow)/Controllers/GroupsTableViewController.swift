@@ -23,6 +23,10 @@ class GroupsTableViewController: UITableViewController {
     }
     
     private func configNavigationController(){
+        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationItem.backButtonTitle = ""
         self.tabBarItem.tag = 1
     }

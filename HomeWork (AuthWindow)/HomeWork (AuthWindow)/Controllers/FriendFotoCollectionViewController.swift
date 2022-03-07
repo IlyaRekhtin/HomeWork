@@ -77,18 +77,14 @@ class FriendFotoCollectionViewController: UIViewController {
     }
   
     private func configNavigationController(){
-        let titleForNavBar: UILabel = {
-            let lable = UILabel()
-            lable.text = user.name
-            lable.font = UIFont(name: "Apple Color Emoji", size: 22)
-            lable.textColor = .systemGreen
-            
-            return lable
-        }()
+       
+        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        
         self.navigationItem.setRightBarButton(buttonForChangeLayout, animated: true)
-        self.navigationItem.titleView = titleForNavBar
-        navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .white
-        navigationController?.navigationBar.tintColor = .systemGreen
+        self.navigationItem.title = "\(user.name)" + " " + "\(user.surname)"
         tabBarController?.tabBar.isHidden = false
         navigationItem.backButtonTitle = ""
     }

@@ -21,7 +21,7 @@ class User: Nameble, Equatable {
     var id: Int
     var name: String
     var surname: String
-    var avatar: UIImage = UIImage(systemName: "person")!
+    var avatar: UIImage = UIImage(named: "fotoIsEmpty")!
     var fotoAlbum: [Foto] = []
     
     init (id: Int, name: String, surname: String) {

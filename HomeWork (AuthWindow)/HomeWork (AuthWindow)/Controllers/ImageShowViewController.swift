@@ -51,19 +51,15 @@ class ImageShowViewController: UIViewController {
     
     private func imageShowVCApperians() {
         
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.scrollEdgeAppearance?.backgroundColor = .black
-        tabBarController?.tabBar.isHidden = true
-        
-        let titleForNavBar: UILabel = {
-            let lable = UILabel()
-            lable.text = "Фотография"
-            lable.font = UIFont(name: "Apple Color Emoji", size: 22)
-            lable.textColor = .white
-            return lable
-        }()
-        navigationItem.titleView = titleForNavBar
+        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarImageShowVC()
+        navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarImageShowVC()
+        navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarImageShowVC()
+        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarImageShowVC()
+       
+        navigationItem.title = "Фотография"
         navigationItem.backButtonTitle = ""
+        
+        tabBarController?.tabBar.isHidden = true
     }
     
     private func makeConstraints() {

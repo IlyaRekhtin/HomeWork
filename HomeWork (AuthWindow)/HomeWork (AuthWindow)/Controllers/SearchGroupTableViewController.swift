@@ -15,9 +15,13 @@ class SearchGroupTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.backButtonTitle = ""
+        configNavigationController()
         tableView.register(GroupsTableViewCell.self, forCellReuseIdentifier: GroupsTableViewCell.reuseID)
         
+    }
+    
+    private func configNavigationController() {
+        navigationItem.backButtonTitle = ""
     }
 
     // MARK: - Table view data source

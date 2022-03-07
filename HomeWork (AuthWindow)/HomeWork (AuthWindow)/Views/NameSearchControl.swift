@@ -11,18 +11,23 @@ import SnapKit
 
 class NameSearchControl: UIControl {
     
-   private var stackView: UIStackView = {
+    private var stackView: UIStackView = {
        let stackView = UIStackView()
        stackView.axis = .vertical
        stackView.alignment = .center
        stackView.distribution = .fillEqually
-       stackView.spacing = 2
+       stackView.spacing = 5
        
        return stackView
-    }()
+     }()
     
-    private var buttons = [UIButton]()
-    private var arrayOfLetter = DataBase.data.getFirstLettersOfTheName()
+    var buttons = [UIButton]()
+    var letters = [UILabel]()
+    var indexPuth: IndexPath? = nil {
+        didSet {
+            sendActions(for: .touchCancel)
+        }
+    }
     
     
     override init(frame: CGRect) {
@@ -35,39 +40,62 @@ class NameSearchControl: UIControl {
         super.init(coder: coder)
         self.config()
     }
+
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let letterLocation = touches.first?.location(in: self)
+        for letter in letters {
+            if letter.frame.contains(letterLocation!) {
+                letter.alpha = 0.5
+               
+            } else {
+                letter.alpha = 1
+                
+            }
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let letterLocation = touches.first?.location(in: self)
+        for letter in letters {
+            if letter.frame.contains(letterLocation!) {
+                letter.alpha = 0.5
+                
+            } else {
+                letter.alpha = 1
+               
+            }
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let letterLocation = touches.first?.location(in: self)
+        for (index, letter) in letters.enumerated() {
+            let indexPath = IndexPath(row: 0, section: index)
+            if letter.frame.contains(letterLocation!) {
+                self.indexPuth = indexPath
+                letter.alpha = 1
+               
+            }
+        }
+    }
+    
+    
+    
     
 
     private func config() {
-        for letter in arrayOfLetter {
-            let button = UIButton(type: .roundedRect)
-            button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            button.layer.cornerRadius = button.frame.width / 2
-            button.setTitle(letter, for: .normal)
-            button.setTitleColor(.systemGreen, for: .normal)
-            button.setTitleColor(.white, for: .selected)
-            button.addTarget(self, action: #selector(selectLetter), for: .touchUpInside)
-            self.buttons.append(button)
-        }
-        for button in buttons {
-            stackView.addArrangedSubview(button)
-        }
         self.addSubview(stackView)
         stackView.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalToSuperview()
         }
     }
+   
     
-    
-    
-    
-    
-    @objc private func selectLetter(_ sender: UIButton) {
-       
-    }
-    
-    
-    private func setConstraints() {
-        
+    func addButtonsForControl(for arrayButtons: [UILabel]) {
+        for button in letters {
+            stackView.addArrangedSubview(button)
+        }
     }
     
 }
