@@ -57,6 +57,7 @@ class FriendsViewController: UIViewController {
         }
     }
     
+    
     private func configurationForNameSearchControl() {
         nameSearchControl = NameSearchControl(frame: CGRect(x: 0, y: 0, width: 40, height: 200))
         self.view.addSubview(nameSearchControl)
