@@ -9,32 +9,35 @@ import Foundation
 import UIKit
 
 class DataBase {
+    
     static let data = DataBase()
     
     var password: String = ""
     var login: String = ""
     
     
-    var friends = [User(id: 1, name: "Илья", surname: "Иванов", avatar: UIImage(named: "ava1")!, album: [Foto(UIImage(named: "exp1")!), Foto(UIImage(named: "exp2")!)]),
-                   User(id: 2, name: "Анна", surname: "Пивоварова", avatar: UIImage(named: "ava2")!),
-                   User(id: 3, name: "Евгений", surname: "Цветков", avatar: UIImage(named: "ava3")!, album: [Foto(UIImage(named: "exp3")!)]),
-                   User(id: 4, name: "Александр", surname: "Кроеведов", avatar: UIImage(named: "ava4")!),
-                   User(id: 5, name: "Женя", surname: "Смолин", avatar: UIImage(named: "ava5")!),
-                   User(id: 6, name: "Егор", surname: "Минеев"),
-                   User(id: 7, name: "Geprgiy", surname: "PimenoFF"),
-                   User(id: 8, name: "Serg", surname: "Korel"),
-                   User(id: 9, name: "Максим", surname: "Усенко"),
-                   User(id: 10, name: "Станислав", surname: "Ушаков"),
-                   User(id: 11, name: "Михаил", surname: "Глотов"),
-                   User(id: 12, name: "Иван", surname: "Стародубцев"),
-                   User(id: 13, name: "Кирилл", surname: "Жиглов")
+    var friends = [Person(id: 1, name: "Илья Иванов", description: "", avatar: UIImage(named: "ava1")!, album: [Foto(image: UIImage(named: "exp1")!), Foto(image: UIImage(named: "exp2")!)]),
+                   Person(id: 2, name: "Анна Пивоварова", description: "", avatar: UIImage(named: "ava2")!),
+                   Person(id: 3, name: "Евгений Цветков", description: "", avatar: UIImage(named: "ava3")!, album: [Foto(image: UIImage(named: "exp3")!)]),
+                   Person(id: 4, name: "Александр Кроеведов", description: "", avatar: UIImage(named: "ava4")!),
+                   Person(id: 5, name: "Женя Смолин", description: "", avatar: UIImage(named: "ava5")!),
+                   Person(id: 6, name: "Егор Минеев", description: ""),
+                   Person(id: 7, name: "Geprgiy PimenoFF", description: ""),
+                   Person(id: 8, name: "Serg Korel", description: ""),
+                   Person(id: 9, name: "Максим Усенко", description: ""),
+                   Person(id: 10, name: "Станислав Ушаков", description: ""),
+                   Person(id: 11, name: "Михаил Глотов", description: ""),
+                   Person(id: 12, name: "Иван Стародубцев", description: ""),
+                   Person(id: 13, name: "Кирилл Жиглов", description: "")
     ]
     
-    var allGroups: [Group] = [Group(id: 1, name: "Клуб любителей котиков", avatar: UIImage(named: "gpCat")),
-                              Group(id: 2, name: "Клуб любителй собак", avatar: UIImage(named: "gpDog")),
-                              Group(id: 3, name: "Клуб любителей коняшек", avatar: UIImage(named: "gpHourse"))]
+    let allGroups = [
+        Person(id: 1, name: "Клуб любителей котиков", description: "", avatar: UIImage(named: "gpCat")!),
+        Person(id: 2, name: "Клуб любителй собак", description: "", avatar: UIImage(named:"gpDog")!),
+        Person(id: 3, name: "Клуб любителей коняшек", description: "", avatar: UIImage(named: "gpHourse")!)
+    ]
     
-    var myGroups: Set<Group> = [Group(id: 1, name: "Клуб любителей котиков", avatar: UIImage(named: "gpCat"))]
+    var myGroups: Set<Person> = [Person(id: 1, name: "Клуб любителей котиков", description: "", avatar: UIImage(named: "gpCat")!)]
     
     
     func getCurrentLogin () -> String {

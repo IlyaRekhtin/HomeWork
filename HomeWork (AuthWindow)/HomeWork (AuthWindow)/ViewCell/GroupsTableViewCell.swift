@@ -12,7 +12,7 @@ class GroupsTableViewCell: UITableViewCell {
 
     static var reuseID = "groupCell"
     
-    var addGroupButton = UIButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+    var addGroupButton = ButtonForAddGroup(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     
     private var groupImage: Avatar = {
         let imageView = Avatar(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
@@ -28,15 +28,16 @@ class GroupsTableViewCell: UITableViewCell {
         return lable
     }()
     
+    private var testGroup: Person?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setConstraints()
+        addGroupButton.addTarget(self, action: #selector(targetForAddGroupButton), for: .touchDown)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     
     func hiddenButtonAdd() {
         self.addGroupButton.isHidden = true
@@ -46,27 +47,31 @@ class GroupsTableViewCell: UITableViewCell {
         return groupImage.frame.size
     }
     
-    func setCellSetup(for group: Group) {
-        groupImage.setImage(group.avatar!)
+    func setCellSetup(for group: Person) {
+        groupImage.setImage(group.avatar)
         groupName.text = group.name
-        
-        let actionForButton = UIAction { [self] _ in
-            switch addGroupButton.configuration?.image {
-            case UIImage(systemName: "checkmark"):
-                DataBase.data.myGroups.remove(group)
-                
-            case UIImage(systemName: "plus"):
-                DataBase.data.myGroups.insert(group)
-               
-            default:
-                break
-            }
-            print(DataBase.data.myGroups.count)
+        testGroup = group
+        addGroupButton.config()
+        addGroupButton.configuration?.image = DataBase.data.myGroups.contains(group) ?  ButtonForAddGroup.imageForButton.groupIsAddImage.image : ButtonForAddGroup.imageForButton.groupIsNotAddImage.image
+    }
+    
+    @objc private func targetForAddGroupButton() {
+        switch addGroupButton.configuration?.image {
+        case ButtonForAddGroup.imageForButton.groupIsNotAddImage.image:
+            addGroupButton.configuration?.image = ButtonForAddGroup.imageForButton.groupIsAddImage.image
+        case ButtonForAddGroup.imageForButton.groupIsAddImage.image:
+            addGroupButton.configuration?.image = ButtonForAddGroup.imageForButton.groupIsNotAddImage.image
+        default:
+            break
         }
-        addGroupButton.addAction(actionForButton, for: .touchDown)
-        addGroupButton.configuration = .plain()
-        addGroupButton.configuration?.image = DataBase.data.myGroups.contains(group) ? UIImage(systemName: "checkmark") : UIImage(systemName: "plus")
-        addGroupButton.configuration?.baseForegroundColor = .systemGreen
+        
+        guard let group = testGroup else {return}
+        if DataBase.data.myGroups.contains(group) {
+            DataBase.data.myGroups.remove(group)
+        } else {
+            DataBase.data.myGroups.insert(group)
+        }
+  
     }
     
     private func setConstraints() {

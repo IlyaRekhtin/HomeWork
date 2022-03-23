@@ -23,10 +23,22 @@ class FriendsTableViewCell: UITableViewCell {
         return lable
     }()
     
-    func getRowForFriendsVC(for user: User) {
-        avatar.setImage(user.avatar)
-        fullName.text = "\(user.name) \(user.surname)"
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupConstraints()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    
+    
+    
+    func getRowForFriendsVC(for user: Person) {
+        avatar.setImage(user.avatar)
+        fullName.text = "\(user.name) \(user.description)"
     }
     
     func getimageSize() -> CGSize {
@@ -34,7 +46,7 @@ class FriendsTableViewCell: UITableViewCell {
     }
     
     private func setupConstraints(){
-        addSubview(avatar)
+        self.contentView.addSubview(avatar)
         addSubview(fullName)
         
         avatar.snp.makeConstraints { make in

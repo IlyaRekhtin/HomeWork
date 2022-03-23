@@ -9,7 +9,7 @@ import UIKit
 
 class GroupsTableViewController: UITableViewController {
 
-    private var groups = [Group]()
+    private var groups = [Person]()
     
     override func viewDidLoad() {
         super.viewDidLoad()

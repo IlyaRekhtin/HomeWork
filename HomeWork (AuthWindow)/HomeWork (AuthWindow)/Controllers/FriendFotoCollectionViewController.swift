@@ -12,7 +12,7 @@ class FriendFotoCollectionViewController: UIViewController {
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, Foto>!
     private var buttonForChangeLayout = ButtonForChangeLayout()
-    var user: User!
+    var user: Person!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -35,7 +35,7 @@ class FriendFotoCollectionViewController: UIViewController {
     private func setupCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionLayout())
         collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        collectionView.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        collectionView.backgroundColor = .systemBackground
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
@@ -83,8 +83,9 @@ class FriendFotoCollectionViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         
+        navigationController?.navigationBar.tintColor = .systemGreen
         self.navigationItem.setRightBarButton(buttonForChangeLayout, animated: true)
-        self.navigationItem.title = "\(user.name)" + " " + "\(user.surname)"
+        self.navigationItem.title = "\(user.name)" + " " + "\(user.description)"
         tabBarController?.tabBar.isHidden = false
         navigationItem.backButtonTitle = ""
     }

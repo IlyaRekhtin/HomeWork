@@ -50,6 +50,16 @@ class Avatar: UIView {
        self.layer.addSublayer(shadowLayer)
     }
     
+    func offShadow() {
+        shadowLayer.isHidden = true
+    }
     
+    func onShadow() {
+        shadowLayer.isHidden = false
+    }
+    
+    func imageHigth() -> CGFloat {
+        return foto.frame.height
+    }
     
 }

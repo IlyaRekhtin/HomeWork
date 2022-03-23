@@ -14,7 +14,7 @@ class FriendsViewController: UIViewController {
     
     private var nameSearchControl: NameSearchControl!
     
-    private var users = [User]()
+    private var users = [Person]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +43,7 @@ class FriendsViewController: UIViewController {
         navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        
+        navigationController?.navigationBar.tintColor = .systemGreen
         navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false
     }
@@ -66,7 +66,7 @@ class FriendsViewController: UIViewController {
         nameSearchControl.addButtonsForControl(for: nameSearchControl.letters)
         nameSearchControl.snp.makeConstraints { make in
             make.top.equalTo(self.view.frame.height / 4)
-            make.trailing.equalToSuperview().inset(3)
+            make.trailing.equalToSuperview().inset(8)
         }
         
         nameSearchControl.addAction(UIAction(handler: { _ in
@@ -87,39 +87,18 @@ class FriendsViewController: UIViewController {
         }
     }
     
-    
-    
-    private func createButtonForNameSearchControl(_ letters: [String]) {
-        for letter in letters {
-            let button = UIButton(type: .roundedRect)
-            button.frame = CGRect(x: 0, y: 0, width: 30, height: 30)
-            button.layer.cornerRadius = button.frame.width / 2
-            button.setTitle(letter, for: .normal)
-            button.setTitleColor(.systemGreen, for: .normal)
-            button.setTitleColor(.white, for: .selected)
-            button.addTarget(self, action: #selector(selectLetter(_:)), for: .touchUpInside)
-            if button.isFocused {
-                print("test1")
-            }
-            self.nameSearchControl.buttons.append(button)
-        }
-    }
-    
     @IBAction func exitForAccount(_ sender: Any) {
         UserDefaults.standard.removeObject(forKey: "login")
         UserDefaults.standard.removeObject(forKey: "password")
         UserDefaults.standard.removeObject(forKey: "sizeForLayoutForFotoGallary")
         dismiss(animated: true)
     }
-    
-    @objc private func selectLetter(_ sender: UITouch) {
-        
-        
-    }
+
 }
 
     extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - настройка секций
+        
         func numberOfSections(in tableView: UITableView) -> Int {
             return DataBase.data.getFirstLettersOfTheName().count
         }
@@ -149,8 +128,8 @@ class FriendsViewController: UIViewController {
             performSegue(withIdentifier: "goToFoto", sender: nil)
         }
        //MARK: - вспомогательные функции
-        private func filterUsersForSection(_ users: [User], _ letterForFilter: Character) -> [User] {
-            var arrayUsersForSection = [User]()
+        private func filterUsersForSection(_ users: [Person], _ letterForFilter: Character) -> [Person] {
+            var arrayUsersForSection = [Person]()
             for user in users {
                 if user.name.first == letterForFilter {
                     arrayUsersForSection.append(user)

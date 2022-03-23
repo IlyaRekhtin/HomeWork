@@ -21,7 +21,6 @@ class NameSearchControl: UIControl {
        return stackView
      }()
     
-    var buttons = [UIButton]()
     var letters = [UILabel]()
     var indexPuth: IndexPath? = nil {
         didSet {
@@ -79,10 +78,6 @@ class NameSearchControl: UIControl {
             }
         }
     }
-    
-    
-    
-    
 
     private func config() {
         self.addSubview(stackView)
@@ -91,10 +86,9 @@ class NameSearchControl: UIControl {
         }
     }
    
-    
     func addButtonsForControl(for arrayButtons: [UILabel]) {
-        for button in letters {
-            stackView.addArrangedSubview(button)
+        for letter in letters {
+            stackView.addArrangedSubview(letter)
         }
     }
     

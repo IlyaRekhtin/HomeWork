@@ -18,8 +18,8 @@ class ImageShowViewController: UIViewController {
         button.configuration = .plain()
         return button
     }()
-    var user: User!
-    var index: Int!
+    var user: Person!
+    var index: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,6 +29,7 @@ class ImageShowViewController: UIViewController {
     }
     
     private func setSetup() {
+        guard let index = index else {return}
         let foto = user.fotoAlbum[index]
         
         buttonLike.setConfig(for: foto)
@@ -56,6 +57,7 @@ class ImageShowViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarImageShowVC()
         navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarImageShowVC()
        
+        navigationController?.navigationBar.tintColor = .white
         navigationItem.title = "Фотография"
         navigationItem.backButtonTitle = ""
         

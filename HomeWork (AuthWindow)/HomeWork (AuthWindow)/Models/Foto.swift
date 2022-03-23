@@ -8,25 +8,10 @@
 import Foundation
 import UIKit
 
-struct Foto: Hashable, Equatable {
-    
+struct Foto: Likeble{
+
     var image: UIImage
     var myLike: Bool = false
-    var likesCount: Int = 100000
-    
-    
-    
-    init(_ foto: UIImage) {
-        self.image = foto
-    }
-    
-    mutating func addLikes() {
-        likesCount += 1
-        myLike = true
-    }
-    
-    mutating func deleteLikes() {
-        likesCount -= 1
-        myLike = false
-    }
+    var likesCount: Int = 0
+
 }

@@ -52,7 +52,6 @@ struct Appearance {
         
         // all button
         let barButtonItemAppearance = UIBarButtonItemAppearance(style: .plain)
-        
         barButtonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.white]
         barButtonItemAppearance.disabled.titleTextAttributes = [.foregroundColor: UIColor.lightText]
         barButtonItemAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.label]
