@@ -22,14 +22,14 @@ class Like: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setConfig(for foto: Foto) {
+    func setConfig<T:Likeble>(for foto: T) {
         self.configuration?.image = foto.myLike ? imageLikeFill : imageLike
         self.configuration?.title = String(foto.likesCount)
-        self.configuration?.baseForegroundColor = .white
+//        self.configuration?.baseForegroundColor = .white
         self.configuration?.imagePadding = 5
     }
     
-    func changeValue(for foto: Foto) {
+    func changeValue<T:Likeble>(for foto: T) {
         switch foto.myLike {
         case true:
             self.configuration?.image = UIImage(systemName: "heart")

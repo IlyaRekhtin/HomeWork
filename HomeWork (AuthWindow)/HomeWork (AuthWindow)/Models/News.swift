@@ -11,7 +11,7 @@ struct News: Likeble {
     
     var person: Person
     var newsText: String?
-    var newsImages: [UIImage]?
+    var newsImages: [Foto]?
     var myLike: Bool
     var likesCount: Int
       

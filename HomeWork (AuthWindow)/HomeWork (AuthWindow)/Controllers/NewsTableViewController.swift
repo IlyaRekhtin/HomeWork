@@ -10,17 +10,31 @@ import UIKit
 class NewsTableViewController: UITableViewController {
 
     
-    private let news = News(person: DataBase.data.friends[1], newsText: "Касотища!!!😍😍😍", newsImages: [UIImage(named: "exp1")!], myLike: false, likesCount: 0)
+    private var news = [News(person: DataBase.data.friends[1],
+                             newsText: "When you tap a button, or select a button that has focus, the button performs ",
+                             newsImages: nil,
+                             myLike: false,
+                             likesCount: 0),
+                        News(person: DataBase.data.friends[3],
+                             newsText: "HI!!!👏🖐\n 💪",
+                             newsImages: [Foto(image: UIImage(named: "exp2")!),
+                                          Foto(image: UIImage(named: "exp3")!),
+                                          Foto(image: UIImage(named: "exp4")!),
+                                          Foto(image: UIImage(named: "ava2")!)],
+                             myLike: true,
+                             likesCount: 10),
+                        News(person: DataBase.data.friends[1], newsText: "Hello world!!", newsImages: [Foto(image: UIImage(named: "exp2")!), Foto(image: UIImage(named: "exp3")!), Foto(image: UIImage(named: "exp4")!), Foto(image: UIImage(named: "ava2")!), Foto(image: UIImage(named: "ava1")!), Foto(image: UIImage(named: "ava4")!)],
+                             myLike: false,
+                             likesCount: 0)]
     
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         configNavigationController()
-        tableView.sectionHeaderHeight = UITableView.automaticDimension
-        tableView.sectionHeaderHeight = 60
+        
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.reuseID)
-        tableView.register(NewsTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: NewsTableViewHeaderView.reuseID)
     }
 
     private func configNavigationController(){
@@ -38,28 +52,18 @@ class NewsTableViewController: UITableViewController {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
-    
-   
-    
-//    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let header = tableView.dequeueReusableHeaderFooterView(withIdentifier: NewsTableViewHeaderView.reuseID) as! NewsTableViewHeaderView
-//        header.config(news.person)
-//
-//
-//        return header
-//    }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-       
-        return 1
+        return news.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.reuseID, for: indexPath) as! NewsTableViewCell
         
-        cell.configurationCell(news)
-        self.tableView.rowHeight = cell.getCellSize()
+        cell.configurationCell(news[indexPath.row])
+        cell.selectionStyle = .none
+        
         return cell
     }
     

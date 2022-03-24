@@ -14,7 +14,6 @@ class ImagesCollectionViewCell: UICollectionViewCell {
     
     private var imageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        imageView.backgroundColor = .gray
         return imageView
     }()
     
@@ -27,8 +26,8 @@ class ImagesCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func config (_ image: UIImage) {
-        imageView.image = image
+    func config (_ image: Foto) {
+        imageView.image = image.image
     }
     
     private func setConstraints() {

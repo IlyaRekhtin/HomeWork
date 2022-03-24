@@ -16,6 +16,13 @@ class DataBase {
     var login: String = ""
     
     
+   
+    
+    
+    
+    
+    
+    
     var friends = [Person(id: 1, name: "Илья Иванов", description: "", avatar: UIImage(named: "ava1")!, album: [Foto(image: UIImage(named: "exp1")!), Foto(image: UIImage(named: "exp2")!)]),
                    Person(id: 2, name: "Анна Пивоварова", description: "", avatar: UIImage(named: "ava2")!),
                    Person(id: 3, name: "Евгений Цветков", description: "", avatar: UIImage(named: "ava3")!, album: [Foto(image: UIImage(named: "exp3")!)]),

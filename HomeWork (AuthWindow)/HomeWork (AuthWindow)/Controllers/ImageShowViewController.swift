@@ -33,7 +33,7 @@ class ImageShowViewController: UIViewController {
         let foto = user.fotoAlbum[index]
         
         buttonLike.setConfig(for: foto)
-        
+        buttonLike.configuration?.baseForegroundColor = .white
         buttonLike.addAction(UIAction(handler: { [self] _ in
             switch user.fotoAlbum[index].myLike {
             case true:
