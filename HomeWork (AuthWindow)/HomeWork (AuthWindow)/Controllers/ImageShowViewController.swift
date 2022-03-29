@@ -13,13 +13,13 @@ class ImageShowViewController: UIViewController {
     
     @IBOutlet weak var imageViewForFoto: UIImageView!
     @IBOutlet weak var bottomViewForButton: UIView!
-    private let buttonLike: Like = {
+    private let likeButton: Like = {
         let button = Like(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         button.configuration = .plain()
         return button
     }()
-    var user: Person!
-    var index: Int?
+    var foto: Foto!
+//    var index: Int?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,25 +28,23 @@ class ImageShowViewController: UIViewController {
         makeConstraints()
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+    }
+    
+    
     private func setSetup() {
-        guard let index = index else {return}
-        let foto = user.fotoAlbum[index]
+//        guard let index = index else {return}
         
-        buttonLike.setConfig(for: foto)
-        buttonLike.configuration?.baseForegroundColor = .white
-        buttonLike.addAction(UIAction(handler: { [self] _ in
-            switch user.fotoAlbum[index].myLike {
-            case true:
-                user.fotoAlbum[index].deleteLikes()
-                buttonLike.configuration?.image = UIImage(systemName: "heart")
-                buttonLike.configuration?.title = String(user.fotoAlbum[index].likesCount)
-            case false:
-                user.fotoAlbum[index].addLikes()
-                buttonLike.configuration?.image = UIImage(systemName: "heart.fill")
-                buttonLike.configuration?.title = String(user.fotoAlbum[index].likesCount)
-            }
-        }), for: .touchDown)
+        likeButton.setConfig(for: foto)
         
+        likeButton.addAction(UIAction(handler: { [self] _ in
+            foto.myLike.toggle()
+            likeButton.animationImageChange()
+            likeButton.setConfig(for: foto)
+            
+        }), for: .touchUpInside)
         imageViewForFoto.image = foto.image
     }
     
@@ -65,9 +63,9 @@ class ImageShowViewController: UIViewController {
     }
     
     private func makeConstraints() {
-        bottomViewForButton.addSubview(buttonLike)
+        bottomViewForButton.addSubview(likeButton)
         
-        buttonLike.snp.makeConstraints { make in
+        likeButton.snp.makeConstraints { make in
             make.top.left.equalToSuperview().inset(10)
             make.height.equalTo(50)
         }

@@ -29,13 +29,13 @@ class FriendsViewController: UIViewController {
         configNavigationController()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let friendFotoVC = segue.destination as? FriendFotoCollectionViewController else {return}
-        let firstNameLetter = Character(DataBase.data.getFirstLettersOfTheName()[tableview.indexPathForSelectedRow!.section])
-        users = filterUsersForSection(DataBase.data.friends, firstNameLetter)
-        let user = users[tableview.indexPathForSelectedRow!.row]
-        friendFotoVC.user = user
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        guard let friendFotoVC = segue.destination as? FriendFotoCollectionViewController else {return}
+//        let firstNameLetter = Character(DataBase.data.getFirstLettersOfTheName()[tableview.indexPathForSelectedRow!.section])
+//        users = filterUsersForSection(DataBase.data.friends, firstNameLetter)
+//        let user = users[tableview.indexPathForSelectedRow!.row]
+//        friendFotoVC.user = user
+//    }
 //MARK: - NavBarSettings
     private func configNavigationController(){
         
@@ -125,7 +125,20 @@ class FriendsViewController: UIViewController {
         }
 
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            performSegue(withIdentifier: "goToFoto", sender: nil)
+            guard let vc = storyboard?.instantiateViewController(identifier: "FriendFotoCollectionViewController") as? FriendFotoCollectionViewController else {return}
+            let firstNameLetter = Character(DataBase.data.getFirstLettersOfTheName()[tableview.indexPathForSelectedRow!.section])
+            users = filterUsersForSection(DataBase.data.friends, firstNameLetter)
+            let user = users[tableview.indexPathForSelectedRow!.row]
+            vc.user = user
+            
+            
+            
+            
+            
+          
+            self.navigationController?.pushViewController(vc, animated: true)
+          
+        
         }
        //MARK: - вспомогательные функции
         private func filterUsersForSection(_ users: [Person], _ letterForFilter: Character) -> [Person] {

@@ -17,6 +17,8 @@ class Avatar: UIView {
         super.init(frame: frame)
         setConfig()
         setConstraints()
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(animateFoto))
+        self.addGestureRecognizer(tapRecognizer)
     }
     
     required init?(coder: NSCoder) {
@@ -26,6 +28,19 @@ class Avatar: UIView {
     func setImage(_ image: UIImage) {
         self.foto.contentMode = .scaleAspectFill
         self.foto.image = image
+    }
+    
+    @objc private func animateFoto() {
+        UIView.animate(withDuration: 0.5,
+                       delay: 0,
+                       usingSpringWithDamping: 0.5,
+                       initialSpringVelocity: 1,
+                       options: .curveEaseInOut) {
+            self.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
+            
+        }
+        self.transform = .identity
+        
     }
     
     private func setConfig() {
@@ -39,6 +54,7 @@ class Avatar: UIView {
         addSubview(foto)
         foto.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
+            
         }
     }
     

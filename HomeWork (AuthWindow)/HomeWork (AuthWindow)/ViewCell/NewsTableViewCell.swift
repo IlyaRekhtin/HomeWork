@@ -35,15 +35,16 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate {
         return view
     }()
     
+    var news: News!
+    
     private var images = [Foto]()
     
-    private var collectionView: UICollectionView!
+    var collectionView: UICollectionView!
     
     private var dataSource: UICollectionViewDiffableDataSource<Int, Foto>!
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
         setupCollectionView()
         createDataSourse()
         self.collectionView.delegate = self
@@ -55,32 +56,39 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate {
     }
     
     func configurationCell(_ news: News) {
+        self.news = news
         headerNewsView.setValue(news.person.avatar, news.person.name)
-        
         newsView.text = news.newsText
         
-        images = news.newsImages ?? []
+        images = self.news.newsImages ?? []
         
-        like.setConfig(for: news)
-        like.configuration?.baseForegroundColor = .gray
-        
+        like.setConfig(for: self.news)
+       
+        like.addAction(UIAction(handler: { _ in
+            self.news.myLike.toggle()
+            self.like.animationImageChange()
+            self.like.setConfig(for: self.news)
+            
+            // TODO go to server change
+            
+        }), for: .touchUpInside)
         
         
         reloadData()
-        
-        setConstreints(news)
+    
+        setConstreints(self.news)
     }
     
     private func setConstreints(_ news: News) {
         
-        self.addSubview(headerNewsView)
+        self.contentView.addSubview(headerNewsView)
         headerNewsView.snp.makeConstraints { make in
             make.leading.top.trailing.equalToSuperview()
             make.height.equalTo(self.headerNewsView.frame.height)
         }
         
         if news.newsText != nil {
-            self.addSubview(newsView)
+            self.contentView.addSubview(newsView)
             newsView.snp.makeConstraints { make in
                 make.top.equalTo(headerNewsView.snp.bottom).offset(10)
                 make.left.right.equalToSuperview().inset(10)
@@ -88,7 +96,7 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate {
         } 
         
         if !images.isEmpty {
-            self.addSubview(collectionView)
+            self.contentView.addSubview(collectionView)
             collectionView.snp.makeConstraints { make in
                 if news.newsText != nil {
                     make.top.equalTo(self.newsView.snp.bottom).offset(3)
@@ -100,7 +108,7 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate {
             }
         }
         
-        self.addSubview(like)
+        self.contentView.addSubview(like)
         like.snp.makeConstraints { make in
             if !images.isEmpty {
                 make.top.equalTo(self.collectionView.snp.bottom).offset(5)
@@ -112,7 +120,7 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate {
             
         }
         
-        self.addSubview(separateView)
+        self.contentView.addSubview(separateView)
         separateView.snp.makeConstraints { make in
             make.top.equalTo(self.like.snp.bottom).offset(5)
             make.left.right.bottom.equalToSuperview()

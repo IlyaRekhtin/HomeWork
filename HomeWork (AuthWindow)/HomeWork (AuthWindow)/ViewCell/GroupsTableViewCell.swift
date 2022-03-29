@@ -75,9 +75,9 @@ class GroupsTableViewCell: UITableViewCell {
     }
     
     private func setConstraints() {
-        addSubview(groupImage)
+        contentView.addSubview(groupImage)
         addSubview(groupName)
-        self.contentView.addSubview(addGroupButton)
+        contentView.addSubview(addGroupButton)
        
         
         addGroupButton.snp.makeConstraints { make in

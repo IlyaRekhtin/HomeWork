@@ -67,7 +67,7 @@ class NewsTableViewController: UITableViewController {
         return cell
     }
     
-
+    
     
     
     /*

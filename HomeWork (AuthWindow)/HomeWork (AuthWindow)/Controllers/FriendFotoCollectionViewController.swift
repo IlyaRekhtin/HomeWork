@@ -111,15 +111,12 @@ class FriendFotoCollectionViewController: UIViewController {
 
 extension FriendFotoCollectionViewController: UICollectionViewDelegate {
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        guard let vc = segue.destination as? ImageShowViewController else {return}
-        let index = collectionView.indexPathsForSelectedItems?.first
-        vc.user = self.user
-        vc.index = index?.row
-    }
-    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "imageShow", sender: nil)
+        guard let vc = storyboard?.instantiateViewController(identifier: "imageShowController") as? ImageShowViewController else {return}
+        guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
+        vc.foto = self.user.fotoAlbum[index.row]
+        
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

@@ -10,7 +10,7 @@ import UIKit
 
 struct Foto: Likeble{
 
-    var image: UIImage
+    var image: UIImage = UIImage(named: "fotoIsEmpty")!
     var myLike: Bool = false
     var likesCount: Int = 0
 

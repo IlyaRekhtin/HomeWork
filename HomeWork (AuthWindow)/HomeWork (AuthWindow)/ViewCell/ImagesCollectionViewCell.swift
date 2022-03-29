@@ -12,6 +12,8 @@ class ImagesCollectionViewCell: UICollectionViewCell {
     
     static let reuseID = "images"
     
+    var foto: Foto?
+    
     private var imageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         return imageView
@@ -28,7 +30,9 @@ class ImagesCollectionViewCell: UICollectionViewCell {
     
     func config (_ image: Foto) {
         imageView.image = image.image
+        foto = image
     }
+    
     
     private func setConstraints() {
         addSubview(imageView)
