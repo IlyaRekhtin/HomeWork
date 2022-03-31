@@ -10,7 +10,7 @@ import SnapKit
 
 class FriendsViewController: UIViewController {
     
-    private var tableview: UITableView!
+    private var tableView: UITableView!
     
     private var nameSearchControl: NameSearchControl!
     
@@ -20,8 +20,8 @@ class FriendsViewController: UIViewController {
         super.viewDidLoad()
         configurationsForTableView()
         configurationForNameSearchControl()
-        tableview.delegate = self
-        tableview.dataSource = self
+        tableView.delegate = self
+        tableView.dataSource = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -49,10 +49,10 @@ class FriendsViewController: UIViewController {
     }
     
     private func configurationsForTableView() {
-        tableview = UITableView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        tableview.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.reuseID)
-        self.view.addSubview(tableview)
-        tableview.snp.makeConstraints { make in
+        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.reuseID)
+        self.view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalToSuperview()
         }
     }
@@ -70,7 +70,7 @@ class FriendsViewController: UIViewController {
         }
         
         nameSearchControl.addAction(UIAction(handler: { _ in
-            self.tableview.scrollToRow(at: self.nameSearchControl.indexPuth!, at: .top, animated: true)
+            self.tableView.scrollToRow(at: self.nameSearchControl.indexPuth!, at: .top, animated: true)
         }), for: .touchCancel)
         
         
@@ -126,9 +126,9 @@ class FriendsViewController: UIViewController {
 
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             guard let vc = storyboard?.instantiateViewController(identifier: "FriendFotoCollectionViewController") as? FriendFotoCollectionViewController else {return}
-            let firstNameLetter = Character(DataBase.data.getFirstLettersOfTheName()[tableview.indexPathForSelectedRow!.section])
+            let firstNameLetter = Character(DataBase.data.getFirstLettersOfTheName()[tableView.indexPathForSelectedRow!.section])
             users = filterUsersForSection(DataBase.data.friends, firstNameLetter)
-            let user = users[tableview.indexPathForSelectedRow!.row]
+            let user = users[tableView.indexPathForSelectedRow!.row]
             vc.user = user
             
             

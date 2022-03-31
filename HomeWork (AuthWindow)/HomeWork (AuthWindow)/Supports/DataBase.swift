@@ -44,7 +44,7 @@ class DataBase {
         Person(id: 3, name: "Клуб любителей коняшек", description: "", avatar: UIImage(named: "gpHourse")!)
     ]
     
-    var myGroups: Set<Person> = [Person(id: 1, name: "Клуб любителей котиков", description: "", avatar: UIImage(named: "gpCat")!)]
+    var myGroups: [Person] = [Person(id: 1, name: "Клуб любителей котиков", description: "", avatar: UIImage(named: "gpCat")!)]
     
     
     func getCurrentLogin () -> String {

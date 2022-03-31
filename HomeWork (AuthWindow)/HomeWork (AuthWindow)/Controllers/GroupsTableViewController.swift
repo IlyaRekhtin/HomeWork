@@ -8,19 +8,19 @@
 import UIKit
 
 class GroupsTableViewController: UITableViewController {
-
-    private var groups = [Person]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         configNavigationController()
         tableView.register(GroupsTableViewCell.self, forCellReuseIdentifier: GroupsTableViewCell.reuseID)
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        groups = Array(DataBase.data.myGroups)
         tableView.reloadData()
     }
+    
+    
     
     private func configNavigationController(){
         navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
@@ -43,19 +43,26 @@ class GroupsTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
-        cell.setCellSetup(for: groups[indexPath.row])
+        cell.setCellSetup(for: DataBase.data.myGroups[indexPath.row])
         cell.selectionStyle = .none
-        tableView.rowHeight = cell.getImageSize().height + 10
+       
         cell.hiddenButtonAdd()
         return cell
     }
     
     @IBAction func searchActionButton(_ sender: Any) {
-        performSegue(withIdentifier: "goToSearch", sender: nil)
+        guard let vc = storyboard?.instantiateViewController(withIdentifier: "searchViewController") as? SearchGroupViewController else {return}
+        let navVC = UINavigationController(rootViewController: vc)
+        navVC.modalTransitionStyle = .crossDissolve
+        navVC.modalPresentationStyle = .fullScreen
+        present(navVC, animated: true) {
+            //todo
+        }
+      
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        DataBase.data.myGroups.remove(groups[indexPath.row])
+        DataBase.data.myGroups.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
         tableView.reloadData()
          

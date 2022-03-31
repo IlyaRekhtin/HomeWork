@@ -21,6 +21,8 @@ class ImagesCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+//        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(detailFotoPresent))
+//        self.addGestureRecognizer(tapRecognizer)
         setConstraints()
     }
     
@@ -33,6 +35,15 @@ class ImagesCollectionViewCell: UICollectionViewCell {
         foto = image
     }
     
+    @objc private func detailFotoPresent(){
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc = storyboard.instantiateViewController(withIdentifier: "imageShowController") as! ImageShowViewController
+//        let navVC = UINavigationController(rootViewController: vc)
+//        vc.foto = foto
+//
+//
+        
+    }
     
     private func setConstraints() {
         addSubview(imageView)

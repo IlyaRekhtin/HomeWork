@@ -13,13 +13,13 @@ class FriendsTableViewCell: UITableViewCell {
     static let reuseID = "CellFriends"
 
     private var avatar: Avatar = {
-        let imageView = Avatar(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
+        let imageView = Avatar(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         return imageView
     }()
     private var fullName: UILabel = {
         let lable = UILabel()
-        lable.textColor = .systemGreen
-        lable.font = UIFont(name: "Timas New Roman", size: 17)
+        lable.textColor = .black
+        lable.font = UIFont(name: "Timas New Roman", size: 18)
         return lable
     }()
     

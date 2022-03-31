@@ -344,12 +344,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5sn-GC-6q5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3876.9230769230767" y="-196.20853080568719"/>
+            <point key="canvasLocation" x="3591" y="-211"/>
         </scene>
-        <!--Image Show View Controller-->
+        <!--imageViewController-->
         <scene sceneID="lHp-ZB-SAo">
             <objects>
-                <viewController storyboardIdentifier="imageShowController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c3p-LC-xcw" customClass="ImageShowViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="imageShowController" title="imageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="c3p-LC-xcw" customClass="ImageShowViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3aR-Fm-pQR">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -393,7 +393,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mgT-Eg-BLw" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4772.3076923076924" y="-194.07582938388626"/>
+            <point key="canvasLocation" x="805" y="2153"/>
         </scene>
         <!--Сообщества-->
         <scene sceneID="8ph-H6-4Qo">
@@ -439,7 +439,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MvK-lj-aJl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2828" y="1336"/>
+            <point key="canvasLocation" x="2828" y="1514"/>
         </scene>
         <!--Item-->
         <scene sceneID="65z-lq-Ztj">
@@ -456,7 +456,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1vC-Ql-Y75" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1991" y="1336"/>
+            <point key="canvasLocation" x="1991" y="1514"/>
         </scene>
         <!--My groups-->
         <scene sceneID="K4r-CX-i1m">
@@ -480,32 +480,25 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
-                    <connections>
-                        <segue destination="uKF-MI-eWn" kind="show" identifier="goToSearch" id="Tk2-z7-NQC"/>
-                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rBd-SV-SzB" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2829" y="606"/>
         </scene>
-        <!--Search Group Table View Controller-->
-        <scene sceneID="n0u-Gj-7Pe">
+        <!--Search Group View Controller-->
+        <scene sceneID="Yff-Ae-gk8">
             <objects>
-                <tableViewController id="uKF-MI-eWn" customClass="SearchGroupTableViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="eKF-Go-5ru">
+                <viewController storyboardIdentifier="searchViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kpf-0B-Hx2" customClass="SearchGroupViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="O9b-S5-9Lx">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="tIY-C3-mkV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <connections>
-                            <outlet property="dataSource" destination="uKF-MI-eWn" id="LyK-EI-zuQ"/>
-                            <outlet property="delegate" destination="uKF-MI-eWn" id="8wY-DZ-1Xy"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="p9s-Zo-Wn5"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Cjc-X0-sIx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Pc7-Zh-spa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3903" y="606"/>
+            <point key="canvasLocation" x="3591" y="606"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="JSr-aj-exO">
@@ -564,12 +557,6 @@
         <scene sceneID="vXU-rK-6gJ">
             <objects>
                 <viewController id="Dhj-LJ-ile" customClass="FriendsViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="C07-Ji-gwO">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="MS7-4v-Utc"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
                     <navigationItem key="navigationItem" id="xrx-Jn-jms">
                         <barButtonItem key="rightBarButtonItem" title="Выйти" id="CQM-a0-xTd">
                             <color key="tintColor" systemColor="systemGreenColor"/>
@@ -581,7 +568,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CMv-6f-eDX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2925" y="-203"/>
+            <point key="canvasLocation" x="2828" y="-211"/>
         </scene>
     </scenes>
     <resources>

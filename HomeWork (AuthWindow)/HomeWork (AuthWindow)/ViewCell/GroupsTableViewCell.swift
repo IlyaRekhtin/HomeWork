@@ -15,15 +15,15 @@ class GroupsTableViewCell: UITableViewCell {
     var addGroupButton = ButtonForAddGroup(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     
     private var groupImage: Avatar = {
-        let imageView = Avatar(frame: CGRect(x: 0, y: 0, width: 70, height: 70))
+        let imageView = Avatar(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
        
         return imageView
     }()
     
     private var groupName: UILabel = {
         let lable = UILabel()
-        lable.textColor = .systemGreen
-        lable.font = UIFont(name: "Apple Color Emoji", size: 20)
+        lable.textColor = .black
+        lable.font = UIFont(name: "Times New Roman Полужирный", size: 18)
         lable.numberOfLines = 2
         return lable
     }()
@@ -67,9 +67,11 @@ class GroupsTableViewCell: UITableViewCell {
         
         guard let group = testGroup else {return}
         if DataBase.data.myGroups.contains(group) {
-            DataBase.data.myGroups.remove(group)
+            for (index, _) in DataBase.data.myGroups.enumerated(){
+                DataBase.data.myGroups.remove(at: index)
+            }
         } else {
-            DataBase.data.myGroups.insert(group)
+            DataBase.data.myGroups.append(group)
         }
   
     }
@@ -88,7 +90,7 @@ class GroupsTableViewCell: UITableViewCell {
         
         groupImage.snp.makeConstraints { make in
             make.size.equalTo(groupImage.frame.width)
-            make.left.top.bottom.equalToSuperview().inset(5)
+            make.left.top.bottom.equalToSuperview().inset(5).priority(999)
         }
         
         groupName.snp.makeConstraints { make in

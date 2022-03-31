@@ -20,7 +20,7 @@ class HeaderNewsView: UIView {
         name = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: avatarSize))
         name.numberOfLines = 1
         name.textAlignment = .left
-        name.font = UIFont(name: "Times New Roman", size: 17)
+        name.font = UIFont(name: "Times New Roman Полужирный", size: 18)
         
         super.init(frame: frame)
         

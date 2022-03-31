@@ -18,7 +18,7 @@
 		263690CC27BD847A00B2B159 /* FriendsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690CB27BD847A00B2B159 /* FriendsTableViewController.swift */; };
 		263690CE27BD84E200B2B159 /* FriendFotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690CD27BD84E200B2B159 /* FriendFotoCollectionViewController.swift */; };
 		263690D027BD865400B2B159 /* GroupsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690CF27BD865400B2B159 /* GroupsTableViewController.swift */; };
-		263690D227BD867100B2B159 /* SearchGroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690D127BD867100B2B159 /* SearchGroupTableViewController.swift */; };
+		263690D227BD867100B2B159 /* SearchGroupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690D127BD867100B2B159 /* SearchGroupViewController.swift */; };
 		263690D427BD86A900B2B159 /* RegisterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 263690D327BD86A900B2B159 /* RegisterViewController.swift */; };
 		26552C2327C026DA00835BB5 /* FriendsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26552C2227C026DA00835BB5 /* FriendsTableViewCell.swift */; };
 		26552C2527C02EAA00835BB5 /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26552C2427C02EA900835BB5 /* DataBase.swift */; };
@@ -58,7 +58,7 @@
 		263690CB27BD847A00B2B159 /* FriendsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewController.swift; sourceTree = "<group>"; };
 		263690CD27BD84E200B2B159 /* FriendFotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendFotoCollectionViewController.swift; sourceTree = "<group>"; };
 		263690CF27BD865400B2B159 /* GroupsTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewController.swift; sourceTree = "<group>"; };
-		263690D127BD867100B2B159 /* SearchGroupTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupTableViewController.swift; sourceTree = "<group>"; };
+		263690D127BD867100B2B159 /* SearchGroupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupViewController.swift; sourceTree = "<group>"; };
 		263690D327BD86A900B2B159 /* RegisterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterViewController.swift; sourceTree = "<group>"; };
 		26552C2227C026DA00835BB5 /* FriendsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsTableViewCell.swift; sourceTree = "<group>"; };
 		26552C2427C02EA900835BB5 /* DataBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBase.swift; sourceTree = "<group>"; };
@@ -147,13 +147,13 @@
 			isa = PBXGroup;
 			children = (
 				262A843927B83DBC00B2DD65 /* AuthViewController.swift */,
+				263690D327BD86A900B2B159 /* RegisterViewController.swift */,
 				263690C927BD7D3F00B2B159 /* TabBarController.swift */,
 				26E633DD27EB4BA90064CFAA /* NewsTableViewController.swift */,
 				263690CB27BD847A00B2B159 /* FriendsTableViewController.swift */,
 				263690CD27BD84E200B2B159 /* FriendFotoCollectionViewController.swift */,
 				263690CF27BD865400B2B159 /* GroupsTableViewController.swift */,
-				263690D127BD867100B2B159 /* SearchGroupTableViewController.swift */,
-				263690D327BD86A900B2B159 /* RegisterViewController.swift */,
+				263690D127BD867100B2B159 /* SearchGroupViewController.swift */,
 				26ED6C4227CBFFA300AEF452 /* ImageShowViewController.swift */,
 			);
 			path = Controllers;
@@ -348,7 +348,7 @@
 			files = (
 				263690D427BD86A900B2B159 /* RegisterViewController.swift in Sources */,
 				263690CA27BD7D4000B2B159 /* TabBarController.swift in Sources */,
-				263690D227BD867100B2B159 /* SearchGroupTableViewController.swift in Sources */,
+				263690D227BD867100B2B159 /* SearchGroupViewController.swift in Sources */,
 				26ED6C4127CAE01100AEF452 /* Avatar.swift in Sources */,
 				26F14F2127D922960025DF57 /* HeaderSearchBar.swift in Sources */,
 				263690CC27BD847A00B2B159 /* FriendsTableViewController.swift in Sources */,
@@ -534,7 +534,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -564,7 +564,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
