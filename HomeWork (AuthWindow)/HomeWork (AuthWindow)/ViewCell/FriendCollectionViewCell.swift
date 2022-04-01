@@ -12,11 +12,11 @@ class FriendCollectionViewCell: UICollectionViewCell {
     
     static var reuseID = "UserCollectionCell"
     
-    private var imageView = UIImageView()
+    var imageView = UIImageView()
     
     func setCollectionViewSetting (for foto: UIImage) {
-        imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
+//        imageView.clipsToBounds = true
+        
         imageView.image = foto
         makeConstraints()
     }

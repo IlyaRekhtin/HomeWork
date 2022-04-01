@@ -29,6 +29,8 @@ class GroupsTableViewController: UITableViewController {
         navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationItem.backButtonTitle = ""
         self.tabBarItem.tag = 1
+        
+      
     }
     // MARK: - Table view data source
 

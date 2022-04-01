@@ -17,7 +17,9 @@ class TabBarController: UITabBarController {
     }
  
     private func configTabController(){
+        tabBarController?.tabBar.scrollEdgeAppearance?.backgroundColor = .systemGreen
         
+        tabBarController?.tabBar.standardAppearance.backgroundColor = .systemGreen
     }
     
    

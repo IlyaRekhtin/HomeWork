@@ -16,11 +16,17 @@ class FriendFotoCollectionViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(tap))
+//        self.view.addGestureRecognizer(tap)
         setButtonForChangeLayout()
         setupCollectionView()
         createDataSource()
         collectionView.delegate = self
     }
+    
+//    @objc func tap(_ sender: UIGestureRecognizer){
+//        print(sender.location(in: self.view))
+//    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -63,7 +69,7 @@ class FriendFotoCollectionViewController: UIViewController {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.reuseID, for: indexPath) as? FriendCollectionViewCell else {fatalError()}
             
             cell.setCollectionViewSetting(for: self.user.fotoAlbum[indexPath.row].image)
-            cell.backgroundColor = .brown
+            
             return cell
         })
     }
@@ -86,8 +92,9 @@ class FriendFotoCollectionViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .systemGreen
         self.navigationItem.setRightBarButton(buttonForChangeLayout, animated: true)
         self.navigationItem.title = "\(user.name)" + " " + "\(user.description)"
-        tabBarController?.tabBar.isHidden = false
         navigationItem.backButtonTitle = ""
+        tabBarController?.tabBar.isHidden = false
+        
     }
     
     private func setButtonForChangeLayout(){
@@ -112,11 +119,38 @@ class FriendFotoCollectionViewController: UIViewController {
 extension FriendFotoCollectionViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let vc = storyboard?.instantiateViewController(identifier: "imageShowController") as? ImageShowViewController else {return}
+//        guard let item = collectionView.cellForItem(at: indexPath) as? FriendCollectionViewCell else {return}
+  
+//        UIView.animateKeyframes(withDuration: 0.7,
+//                                delay: 0,
+//                                options: []) {
+//            UIView.addKeyframe(withRelativeStartTime: 0,
+//                               relativeDuration: 0.7) {
+//
+//                item.layer.zPosition = 1
+//                item.transform = CGAffineTransform(scaleX: 3, y: 3)
+//                item.imageView.contentMode = .scaleAspectFit
+//                item.center.x = self.view.center.x
+//                item.center.y = self.view.frame.height / 2 - 50
+//                print(self.view.center)
+//            }
+//        } completion: { _ in
+//            guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImageShowViewController else {return}
+//            guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
+//            vc.currentIndexPuthFoto = index
+//            vc.fotoAlbum = self.user.fotoAlbum
+//
+//
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
+        guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImageShowViewController else {return}
         guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
-        vc.foto = self.user.fotoAlbum[index.row]
+        
+        vc.currentIndexPuthFoto = index
+        vc.fotoAlbum = self.user.fotoAlbum
         
         
         self.navigationController?.pushViewController(vc, animated: true)
+        
     }
 }

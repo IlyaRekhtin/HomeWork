@@ -31,11 +31,11 @@ extension FriendFotoCollectionViewController {
         let itemSize = NSCollectionLayoutSize(widthDimension: .absolute(self.view.frame.width / 3),
                                               heightDimension:.absolute(self.view.frame.width / 3))
         let rigthItem = NSCollectionLayoutItem(layoutSize: itemSize)
-        rigthItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0)
+        rigthItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 1)
         let centreItem = NSCollectionLayoutItem(layoutSize: itemSize)
-        centreItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 2, bottom: 2, trailing: 2)
+        centreItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 1, bottom: 2, trailing: 1)
         let leftItem = NSCollectionLayoutItem(layoutSize: itemSize)
-        leftItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0)
+        leftItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 1, bottom: 2, trailing: 0)
         
         let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                heightDimension: .absolute(self.view.frame.width / 3))

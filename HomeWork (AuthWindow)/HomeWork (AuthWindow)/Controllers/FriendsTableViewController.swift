@@ -46,6 +46,7 @@ class FriendsViewController: UIViewController {
         navigationController?.navigationBar.tintColor = .systemGreen
         navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false
+       
     }
     
     private func configurationsForTableView() {

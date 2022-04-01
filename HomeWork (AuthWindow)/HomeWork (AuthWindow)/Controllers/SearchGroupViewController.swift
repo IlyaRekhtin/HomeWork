@@ -85,6 +85,7 @@ class SearchGroupViewController: UIViewController {
         let searchBarLeftButton = UIBarButtonItem(customView: self.searchBar)
         let cancelLeftBarButton = UIBarButtonItem(customView: self.cancelButton)
         self.navigationItem.leftBarButtonItems = [searchBarLeftButton, cancelLeftBarButton]
+        
     }
 
     @objc private func cancelButtonAction() {

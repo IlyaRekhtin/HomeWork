@@ -45,6 +45,8 @@ class NewsTableViewController: UITableViewController {
         navigationController?.navigationBar.tintColor = .systemGreen
         navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false
+        
+       
     }
     
     // MARK: - Table view data source

@@ -39,6 +39,8 @@
 		26F14F2D27E4EDF80025DF57 /* ImagesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F14F2C27E4EDF80025DF57 /* ImagesCollectionViewCell.swift */; };
 		26F14F2F27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F14F2E27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift */; };
 		26F14F3127E8B7E50025DF57 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F14F3027E8B7E50025DF57 /* Protocols.swift */; };
+		26F7A96B27F798CC00A190F5 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7A96A27F798CC00A190F5 /* LaunchViewController.swift */; };
+		26F7A96D27F79DA500A190F5 /* CloudLoadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7A96C27F79DA500A190F5 /* CloudLoadImage.swift */; };
 		26FD354B27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD354A27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift */; };
 		26FD354D27C652F000EF4403 /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD354C27C652F000EF4403 /* GroupsTableViewCell.swift */; };
 		294B7A99120FC9464282328C /* Pods_HomeWork__AuthWindow_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 663150455C33C1500CB6AA0E /* Pods_HomeWork__AuthWindow_.framework */; };
@@ -79,6 +81,8 @@
 		26F14F2C27E4EDF80025DF57 /* ImagesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesCollectionViewCell.swift; sourceTree = "<group>"; };
 		26F14F2E27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension NewsCollectionViewCell + layout.swift"; sourceTree = "<group>"; };
 		26F14F3027E8B7E50025DF57 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
+		26F7A96A27F798CC00A190F5 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		26F7A96C27F79DA500A190F5 /* CloudLoadImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudLoadImage.swift; sourceTree = "<group>"; };
 		26FD354A27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension FriendFotoCollectionView + LayoutSection.swift"; sourceTree = "<group>"; };
 		26FD354C27C652F000EF4403 /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
 		456487FAEFCA1C5084AEA0E5 /* Pods-HomeWork (AuthWindow).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWork (AuthWindow).release.xcconfig"; path = "Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow).release.xcconfig"; sourceTree = "<group>"; };
@@ -139,6 +143,7 @@
 				26ED6C4427CC0AB800AEF452 /* Foto.swift */,
 				26F14F2427E26BD10025DF57 /* News.swift */,
 				26F14F3027E8B7E50025DF57 /* Protocols.swift */,
+				26F7A96C27F79DA500A190F5 /* CloudLoadImage.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -146,6 +151,7 @@
 		262A844A27B83E1600B2DD65 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				26F7A96A27F798CC00A190F5 /* LaunchViewController.swift */,
 				262A843927B83DBC00B2DD65 /* AuthViewController.swift */,
 				263690D327BD86A900B2B159 /* RegisterViewController.swift */,
 				263690C927BD7D3F00B2B159 /* TabBarController.swift */,
@@ -357,6 +363,7 @@
 				262A843627B83DBC00B2DD65 /* AppDelegate.swift in Sources */,
 				26E633DE27EB4BA90064CFAA /* NewsTableViewController.swift in Sources */,
 				26FD354D27C652F000EF4403 /* GroupsTableViewCell.swift in Sources */,
+				26F7A96D27F79DA500A190F5 /* CloudLoadImage.swift in Sources */,
 				26ED6C4327CBFFA300AEF452 /* ImageShowViewController.swift in Sources */,
 				26ED6C4927CE9D1200AEF452 /* ButtonForChangeLayout.swift in Sources */,
 				26ED6C4727CD642300AEF452 /* Like.swift in Sources */,
@@ -374,6 +381,7 @@
 				26F14F1F27D52B6A0025DF57 /* Appearance.swift in Sources */,
 				26F14F2F27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift in Sources */,
 				261C864027D3DA3800EEAC50 /* NameSearchControl.swift in Sources */,
+				26F7A96B27F798CC00A190F5 /* LaunchViewController.swift in Sources */,
 				262A843827B83DBC00B2DD65 /* SceneDelegate.swift in Sources */,
 				26F14F2527E26BD10025DF57 /* News.swift in Sources */,
 				26F14F2327DE250B0025DF57 /* ButtonForAddGroup.swift in Sources */,
@@ -532,6 +540,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
@@ -562,6 +571,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
