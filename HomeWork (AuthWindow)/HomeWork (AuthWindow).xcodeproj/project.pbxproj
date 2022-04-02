@@ -537,6 +537,7 @@
 				DEVELOPMENT_TEAM = 24B874XQFK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "HomeWork (AuthWindow)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = CustomVKClient;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
@@ -568,6 +569,7 @@
 				DEVELOPMENT_TEAM = 24B874XQFK;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "HomeWork (AuthWindow)/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = CustomVKClient;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
