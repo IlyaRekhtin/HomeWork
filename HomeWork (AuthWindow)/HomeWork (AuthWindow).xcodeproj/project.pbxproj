@@ -41,6 +41,8 @@
 		26F14F3127E8B7E50025DF57 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F14F3027E8B7E50025DF57 /* Protocols.swift */; };
 		26F7A96B27F798CC00A190F5 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7A96A27F798CC00A190F5 /* LaunchViewController.swift */; };
 		26F7A96D27F79DA500A190F5 /* CloudLoadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7A96C27F79DA500A190F5 /* CloudLoadImage.swift */; };
+		26F7A96F27F8D5BE00A190F5 /* CustomNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7A96E27F8D5BE00A190F5 /* CustomNavController.swift */; };
+		26F7A97227F8D75B00A190F5 /* Custom animations pop + push.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7A97127F8D75B00A190F5 /* Custom animations pop + push.swift */; };
 		26FD354B27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD354A27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift */; };
 		26FD354D27C652F000EF4403 /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD354C27C652F000EF4403 /* GroupsTableViewCell.swift */; };
 		294B7A99120FC9464282328C /* Pods_HomeWork__AuthWindow_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 663150455C33C1500CB6AA0E /* Pods_HomeWork__AuthWindow_.framework */; };
@@ -83,6 +85,8 @@
 		26F14F3027E8B7E50025DF57 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		26F7A96A27F798CC00A190F5 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		26F7A96C27F79DA500A190F5 /* CloudLoadImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudLoadImage.swift; sourceTree = "<group>"; };
+		26F7A96E27F8D5BE00A190F5 /* CustomNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavController.swift; sourceTree = "<group>"; };
+		26F7A97127F8D75B00A190F5 /* Custom animations pop + push.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom animations pop + push.swift"; sourceTree = "<group>"; };
 		26FD354A27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension FriendFotoCollectionView + LayoutSection.swift"; sourceTree = "<group>"; };
 		26FD354C27C652F000EF4403 /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
 		456487FAEFCA1C5084AEA0E5 /* Pods-HomeWork (AuthWindow).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWork (AuthWindow).release.xcconfig"; path = "Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow).release.xcconfig"; sourceTree = "<group>"; };
@@ -123,6 +127,7 @@
 		262A843427B83DBC00B2DD65 /* HomeWork (AuthWindow) */ = {
 			isa = PBXGroup;
 			children = (
+				26F7A97027F8D72D00A190F5 /* Helpers */,
 				262A844927B83E1100B2DD65 /* Models */,
 				262A844B27B83E2B00B2DD65 /* Views */,
 				262A844A27B83E1600B2DD65 /* Controllers */,
@@ -161,6 +166,7 @@
 				263690CF27BD865400B2B159 /* GroupsTableViewController.swift */,
 				263690D127BD867100B2B159 /* SearchGroupViewController.swift */,
 				26ED6C4227CBFFA300AEF452 /* ImageShowViewController.swift */,
+				26F7A96E27F8D5BE00A190F5 /* CustomNavController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -209,6 +215,14 @@
 				26F14F2C27E4EDF80025DF57 /* ImagesCollectionViewCell.swift */,
 			);
 			path = ViewCell;
+			sourceTree = "<group>";
+		};
+		26F7A97027F8D72D00A190F5 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				26F7A97127F8D75B00A190F5 /* Custom animations pop + push.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		26FD354927C5869800EF4403 /* extensions */ = {
@@ -378,10 +392,12 @@
 				26552C2327C026DA00835BB5 /* FriendsTableViewCell.swift in Sources */,
 				263690CE27BD84E200B2B159 /* FriendFotoCollectionViewController.swift in Sources */,
 				26ED6C4527CC0AB800AEF452 /* Foto.swift in Sources */,
+				26F7A97227F8D75B00A190F5 /* Custom animations pop + push.swift in Sources */,
 				26F14F1F27D52B6A0025DF57 /* Appearance.swift in Sources */,
 				26F14F2F27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift in Sources */,
 				261C864027D3DA3800EEAC50 /* NameSearchControl.swift in Sources */,
 				26F7A96B27F798CC00A190F5 /* LaunchViewController.swift in Sources */,
+				26F7A96F27F8D5BE00A190F5 /* CustomNavController.swift in Sources */,
 				262A843827B83DBC00B2DD65 /* SceneDelegate.swift in Sources */,
 				26F14F2527E26BD10025DF57 /* News.swift in Sources */,
 				26F14F2327DE250B0025DF57 /* ButtonForAddGroup.swift in Sources */,
@@ -530,8 +546,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A1DE7EA57A092E7656DD7D3E /* Pods-HomeWork (AuthWindow).debug.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 24B874XQFK;
@@ -539,7 +556,7 @@
 				INFOPLIST_FILE = "HomeWork (AuthWindow)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = CustomVKClient;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = Main;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -562,8 +579,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 456487FAEFCA1C5084AEA0E5 /* Pods-HomeWork (AuthWindow).release.xcconfig */;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = "AppIcon-1";
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 24B874XQFK;
@@ -571,7 +589,7 @@
 				INFOPLIST_FILE = "HomeWork (AuthWindow)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = CustomVKClient;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = Main;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

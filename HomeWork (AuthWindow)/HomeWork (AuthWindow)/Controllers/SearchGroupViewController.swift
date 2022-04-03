@@ -40,7 +40,7 @@ class SearchGroupViewController: UIViewController {
             self.cancelButton.layer.opacity = 1
             
         } completion: { _ in
-            //todo
+            self.searchBar.becomeFirstResponder()
         }
 
     }
@@ -66,7 +66,7 @@ class SearchGroupViewController: UIViewController {
         searchBar.isSearchResultsButtonSelected = true
         searchBar.searchTextField.delegate = self
         searchBar.delegate = self
-        searchBar.becomeFirstResponder()
+        
     }
 
     private func configTableView() {

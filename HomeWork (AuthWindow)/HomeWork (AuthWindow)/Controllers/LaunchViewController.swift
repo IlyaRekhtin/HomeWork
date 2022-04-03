@@ -18,7 +18,7 @@ class LaunchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         animate()
-        self.timer = Timer.scheduledTimer(withTimeInterval: 5, repeats: false, block: { _ in
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { _ in
             guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {return}
             vc.modalTransitionStyle = .crossDissolve
             vc.modalPresentationStyle = .fullScreen
