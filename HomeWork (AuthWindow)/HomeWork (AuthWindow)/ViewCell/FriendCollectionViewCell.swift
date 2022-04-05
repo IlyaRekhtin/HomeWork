@@ -15,8 +15,9 @@ class FriendCollectionViewCell: UICollectionViewCell {
     var imageView = UIImageView()
     
     func setCollectionViewSetting (for foto: UIImage) {
-//        imageView.clipsToBounds = true
-        
+        imageView.image?.resizableImage(withCapInsets: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
+        imageView.clipsToBounds = true
+        imageView.contentMode = .scaleToFill
         imageView.image = foto
         makeConstraints()
     }
