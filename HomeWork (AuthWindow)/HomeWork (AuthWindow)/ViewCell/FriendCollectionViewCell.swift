@@ -15,9 +15,10 @@ class FriendCollectionViewCell: UICollectionViewCell {
     var imageView = UIImageView()
     
     func setCollectionViewSetting (for foto: UIImage) {
+        let image = scaleImage(foto)
+        imageView.contentMode = .center
         imageView.clipsToBounds = true
-
-        imageView.image = foto
+        imageView.image = image
         makeConstraints()
     }
     
@@ -30,7 +31,32 @@ class FriendCollectionViewCell: UICollectionViewCell {
         }
     }
     
-    
+    private func scaleImage(_ image: UIImage) -> UIImage {
+        
+        
+        let orientation = image.size.width / image.size.height
+        
+        let widthScale = self.frame.width / image.size.width
+        let heigthScale = self.frame.height / image.size.height
+        var rect = CGRect.zero
+        switch orientation {
+        case ...1:
+            rect = CGRect(x: 0, y: 0, width: image.size.width * widthScale, height: image.size.height * widthScale)
+        case 1:
+            rect = CGRect(x: 0, y: 0, width: image.size.width * widthScale, height: image.size.width * widthScale)
+        case 1...:
+            rect = CGRect(x: 0, y: 0, width: image.size.width * heigthScale, height: image.size.height * heigthScale)
+        default:
+            break
+        }
+        
+        UIGraphicsBeginImageContext(rect.size)
+        image.draw(in: rect)
+        let scaleImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+ 
+        return scaleImage
+    }
     
     
 }

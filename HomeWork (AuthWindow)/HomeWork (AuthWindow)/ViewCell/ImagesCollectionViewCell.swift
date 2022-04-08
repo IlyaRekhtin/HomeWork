@@ -30,6 +30,8 @@ class ImagesCollectionViewCell: UICollectionViewCell {
     }
     
     func config (_ image: Foto) {
+       
+        
         imageView.image = image.image
         foto = image
     }
@@ -40,6 +42,4 @@ class ImagesCollectionViewCell: UICollectionViewCell {
             make.top.leading.trailing.bottom.equalToSuperview()
         }
     }
-    
-    
 }
