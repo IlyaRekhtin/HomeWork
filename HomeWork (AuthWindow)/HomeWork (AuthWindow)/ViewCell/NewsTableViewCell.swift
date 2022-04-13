@@ -132,13 +132,14 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate {
         private func setupCollectionView() {
             collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: self.layer.frame.width, height: self.layer.frame.width), collectionViewLayout: createCompositionLayout())
             collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-           
             collectionView.isScrollEnabled = false
             collectionView.showsHorizontalScrollIndicator = false
             collectionView.showsVerticalScrollIndicator = false
            
             collectionView.register(ImagesCollectionViewCell.self, forCellWithReuseIdentifier: ImagesCollectionViewCell.reuseID)
         }
+    
+   
     //MARK: - create composition layout
     private func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in

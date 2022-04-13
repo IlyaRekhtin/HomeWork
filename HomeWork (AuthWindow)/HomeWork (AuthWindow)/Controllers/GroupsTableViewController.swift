@@ -39,13 +39,13 @@ class GroupsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DataBase.data.myGroups.count
+        return DataManager.data.myGroups.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
-        cell.setCellSetup(for: DataBase.data.myGroups[indexPath.row])
+        cell.setCellSetup(for: DataManager.data.myGroups[indexPath.row])
         cell.selectionStyle = .none
        
         cell.hiddenButtonAdd()
@@ -64,7 +64,7 @@ class GroupsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        DataBase.data.myGroups.remove(at: indexPath.row)
+        DataManager.data.myGroups.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
         tableView.reloadData()
          

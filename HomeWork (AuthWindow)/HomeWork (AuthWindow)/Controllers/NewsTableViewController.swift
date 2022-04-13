@@ -10,12 +10,12 @@ import UIKit
 class NewsTableViewController: UITableViewController {
 
     
-    private var news = [News(person: DataBase.data.friends[1],
+    private var news = [News(person: DataManager.data.friends[1],
                              newsText: "When you tap a button, or select a button that has focus, the button performs ",
                              newsImages: nil,
                              myLike: false,
                              likesCount: 0),
-                        News(person: DataBase.data.friends[3],
+                        News(person: DataManager.data.friends[3],
                              newsText: "HI!!!👏🖐\n 💪",
                              newsImages: [Foto(image: UIImage(named: "exp2")!),
                                           Foto(image: UIImage(named: "exp3")!),
@@ -23,7 +23,7 @@ class NewsTableViewController: UITableViewController {
                                           Foto(image: UIImage(named: "ava2")!)],
                              myLike: true,
                              likesCount: 10),
-                        News(person: DataBase.data.friends[1], newsText: "Hello world!!", newsImages: [Foto(image: UIImage(named: "exp2")!), Foto(image: UIImage(named: "exp3")!), Foto(image: UIImage(named: "exp4")!), Foto(image: UIImage(named: "ava2")!), Foto(image: UIImage(named: "ava1")!), Foto(image: UIImage(named: "ava4")!)],
+                        News(person: DataManager.data.friends[1], newsText: "Hello world!!", newsImages: [Foto(image: UIImage(named: "exp2")!), Foto(image: UIImage(named: "exp3")!), Foto(image: UIImage(named: "exp4")!), Foto(image: UIImage(named: "ava2")!), Foto(image: UIImage(named: "ava1")!), Foto(image: UIImage(named: "ava4")!)],
                              myLike: false,
                              likesCount: 0)]
     
@@ -31,12 +31,15 @@ class NewsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         configNavigationController()
         
         tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.reuseID)
     }
 
+  
+    
+    
+    
     private func configNavigationController(){
         navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()

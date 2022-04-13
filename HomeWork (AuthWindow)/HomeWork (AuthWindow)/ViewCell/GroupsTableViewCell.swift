@@ -52,7 +52,7 @@ class GroupsTableViewCell: UITableViewCell {
         groupName.text = group.name
         testGroup = group
         addGroupButton.config()
-        addGroupButton.configuration?.image = DataBase.data.myGroups.contains(group) ?  ButtonForAddGroup.imageForButton.groupIsAddImage.image : ButtonForAddGroup.imageForButton.groupIsNotAddImage.image
+        addGroupButton.configuration?.image = DataManager.data.myGroups.contains(group) ?  ButtonForAddGroup.imageForButton.groupIsAddImage.image : ButtonForAddGroup.imageForButton.groupIsNotAddImage.image
     }
     
     @objc private func targetForAddGroupButton() {
@@ -66,12 +66,12 @@ class GroupsTableViewCell: UITableViewCell {
         }
         
         guard let group = testGroup else {return}
-        if DataBase.data.myGroups.contains(group) {
-            for (index, _) in DataBase.data.myGroups.enumerated(){
-                DataBase.data.myGroups.remove(at: index)
+        if DataManager.data.myGroups.contains(group) {
+            for (index, _) in DataManager.data.myGroups.enumerated(){
+                DataManager.data.myGroups.remove(at: index)
             }
         } else {
-            DataBase.data.myGroups.append(group)
+            DataManager.data.myGroups.append(group)
         }
   
     }

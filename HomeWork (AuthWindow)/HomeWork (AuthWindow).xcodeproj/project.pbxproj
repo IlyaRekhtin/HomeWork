@@ -43,10 +43,10 @@
 		26FD354B27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD354A27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift */; };
 		26FD354D27C652F000EF4403 /* GroupsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26FD354C27C652F000EF4403 /* GroupsTableViewCell.swift */; };
 		294B7A99120FC9464282328C /* Pods_HomeWork__AuthWindow_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 663150455C33C1500CB6AA0E /* Pods_HomeWork__AuthWindow_.framework */; };
-		8C0D320B27FCE89D0036422B /* DataBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D320A27FCE89D0036422B /* DataBase.swift */; };
 		8CD2EE5B2807304F001F6AA7 /* ImageViewTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2EE5A2807304F001F6AA7 /* ImageViewTransitionAnimation.swift */; };
 		8CD2EE5D28073076001F6AA7 /* ImageShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2EE5C28073076001F6AA7 /* ImageShowViewController.swift */; };
 		8CD2EE5F28073083001F6AA7 /* FriendFotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2EE5E28073083001F6AA7 /* FriendFotoCollectionViewController.swift */; };
+		8CD2EE63280731E1001F6AA7 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2EE62280731E1001F6AA7 /* DataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -89,10 +89,10 @@
 		26FD354C27C652F000EF4403 /* GroupsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsTableViewCell.swift; sourceTree = "<group>"; };
 		456487FAEFCA1C5084AEA0E5 /* Pods-HomeWork (AuthWindow).release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWork (AuthWindow).release.xcconfig"; path = "Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow).release.xcconfig"; sourceTree = "<group>"; };
 		663150455C33C1500CB6AA0E /* Pods_HomeWork__AuthWindow_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HomeWork__AuthWindow_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C0D320A27FCE89D0036422B /* DataBase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DataBase.swift; path = "../../../../HomeWorkOld/HomeWork (AuthWindow)/HomeWork (AuthWindow)/Supports/DataBase.swift"; sourceTree = "<group>"; };
 		8CD2EE5A2807304F001F6AA7 /* ImageViewTransitionAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageViewTransitionAnimation.swift; path = "HomeWork (AuthWindow)/Animations/ImageViewTransitionAnimation.swift"; sourceTree = SOURCE_ROOT; };
 		8CD2EE5C28073076001F6AA7 /* ImageShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageShowViewController.swift; sourceTree = "<group>"; };
 		8CD2EE5E28073083001F6AA7 /* FriendFotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendFotoCollectionViewController.swift; sourceTree = "<group>"; };
+		8CD2EE62280731E1001F6AA7 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		A1DE7EA57A092E7656DD7D3E /* Pods-HomeWork (AuthWindow).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWork (AuthWindow).debug.xcconfig"; path = "Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow).debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -162,12 +162,12 @@
 				262A843927B83DBC00B2DD65 /* AuthViewController.swift */,
 				263690D327BD86A900B2B159 /* RegisterViewController.swift */,
 				263690C927BD7D3F00B2B159 /* TabBarController.swift */,
-				8CD2EE5E28073083001F6AA7 /* FriendFotoCollectionViewController.swift */,
 				26E633DD27EB4BA90064CFAA /* NewsTableViewController.swift */,
-				8CD2EE5C28073076001F6AA7 /* ImageShowViewController.swift */,
 				263690CB27BD847A00B2B159 /* FriendsTableViewController.swift */,
+				8CD2EE5E28073083001F6AA7 /* FriendFotoCollectionViewController.swift */,
 				263690CF27BD865400B2B159 /* GroupsTableViewController.swift */,
 				263690D127BD867100B2B159 /* SearchGroupViewController.swift */,
+				8CD2EE5C28073076001F6AA7 /* ImageShowViewController.swift */,
 				26F7A96E27F8D5BE00A190F5 /* CustomNavController.swift */,
 			);
 			path = Controllers;
@@ -199,9 +199,9 @@
 			isa = PBXGroup;
 			children = (
 				262A843527B83DBC00B2DD65 /* AppDelegate.swift */,
-				8C0D320A27FCE89D0036422B /* DataBase.swift */,
 				262A843727B83DBC00B2DD65 /* SceneDelegate.swift */,
 				26F14F1E27D52B6A0025DF57 /* Appearance.swift */,
+				8CD2EE62280731E1001F6AA7 /* DataManager.swift */,
 			);
 			path = Supports;
 			sourceTree = "<group>";
@@ -390,10 +390,10 @@
 				26552C2727C02F0600835BB5 /* Person.swift in Sources */,
 				26F14F2D27E4EDF80025DF57 /* ImagesCollectionViewCell.swift in Sources */,
 				26552C2C27C5550500835BB5 /* FriendCollectionViewCell.swift in Sources */,
-				8C0D320B27FCE89D0036422B /* DataBase.swift in Sources */,
 				26F14F3127E8B7E50025DF57 /* Protocols.swift in Sources */,
 				26552C2327C026DA00835BB5 /* FriendsTableViewCell.swift in Sources */,
 				26ED6C4527CC0AB800AEF452 /* Foto.swift in Sources */,
+				8CD2EE63280731E1001F6AA7 /* DataManager.swift in Sources */,
 				26F7A97227F8D75B00A190F5 /* Custom animations pop + push.swift in Sources */,
 				26F14F1F27D52B6A0025DF57 /* Appearance.swift in Sources */,
 				8CD2EE5D28073076001F6AA7 /* ImageShowViewController.swift in Sources */,

@@ -56,7 +56,7 @@ class FriendsViewController: UIViewController {
         nameSearchControl = NameSearchControl(frame: CGRect(x: 0, y: 0, width: 40, height: 200))
         self.view.addSubview(nameSearchControl)
         
-        createLableForNameSearchControl(DataBase.data.getFirstLettersOfTheName())
+        createLableForNameSearchControl(DataManager.data.getFirstLettersOfTheName())
         nameSearchControl.addButtonsForControl(for: nameSearchControl.letters)
         nameSearchControl.snp.makeConstraints { make in
             make.top.equalTo(self.view.frame.height / 4)
@@ -94,23 +94,23 @@ class FriendsViewController: UIViewController {
     // MARK: - настройка секций
         
         func numberOfSections(in tableView: UITableView) -> Int {
-            return DataBase.data.getFirstLettersOfTheName().count
+            return DataManager.data.getFirstLettersOfTheName().count
         }
         
         func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-            return DataBase.data.getFirstLettersOfTheName()[section]
+            return DataManager.data.getFirstLettersOfTheName()[section]
         }
         
         
     //MARK: - настройка ячейки
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return filterUsersForSection(DataBase.data.friends, Character(DataBase.data.getFirstLettersOfTheName()[section])).count
+            return filterUsersForSection(DataManager.data.friends, Character(DataManager.data.getFirstLettersOfTheName()[section])).count
         }
 
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: FriendsTableViewCell.reuseID, for: indexPath) as! FriendsTableViewCell
-            let firstNameLetter = Character(DataBase.data.getFirstLettersOfTheName()[indexPath.section])
-            let usersForSection = filterUsersForSection(DataBase.data.friends, firstNameLetter)
+            let firstNameLetter = Character(DataManager.data.getFirstLettersOfTheName()[indexPath.section])
+            let usersForSection = filterUsersForSection(DataManager.data.friends, firstNameLetter)
             let user = usersForSection[indexPath.row]
             cell.getRowForFriendsVC(for: user)
             cell.selectionStyle = .none
@@ -120,8 +120,8 @@ class FriendsViewController: UIViewController {
 
         func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
             guard let vc = storyboard?.instantiateViewController(identifier: "FriendFotoCollectionViewController") as? FriendFotoCollectionViewController else {return}
-            let firstNameLetter = Character(DataBase.data.getFirstLettersOfTheName()[tableView.indexPathForSelectedRow!.section])
-            users = filterUsersForSection(DataBase.data.friends, firstNameLetter)
+            let firstNameLetter = Character(DataManager.data.getFirstLettersOfTheName()[tableView.indexPathForSelectedRow!.section])
+            users = filterUsersForSection(DataManager.data.friends, firstNameLetter)
             let user = users[tableView.indexPathForSelectedRow!.row]
             vc.user = user
             

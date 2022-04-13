@@ -11,7 +11,7 @@ import SnapKit
 class SearchGroupViewController: UIViewController {
     
     private var tableView: UITableView!
-    private var groups = DataBase.data.allGroups
+    private var groups = DataManager.data.allGroups
     private var searchBar: UISearchBar!
     private var searchResultArray = Set<Person>()
     private var tapRecognizer: UITapGestureRecognizer!
@@ -109,7 +109,7 @@ extension SearchGroupViewController: UITableViewDataSource, UITableViewDelegate 
         if searchBar.searchTextField.text != "" {
             return searchResultArray.count
         } else {
-            return DataBase.data.allGroups.count
+            return DataManager.data.allGroups.count
         }
     }
 
