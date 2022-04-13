@@ -29,13 +29,6 @@ class FriendsViewController: UIViewController {
         configNavigationController()
     }
     
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        guard let friendFotoVC = segue.destination as? FriendFotoCollectionViewController else {return}
-//        let firstNameLetter = Character(DataBase.data.getFirstLettersOfTheName()[tableview.indexPathForSelectedRow!.section])
-//        users = filterUsersForSection(DataBase.data.friends, firstNameLetter)
-//        let user = users[tableview.indexPathForSelectedRow!.row]
-//        friendFotoVC.user = user
-//    }
 //MARK: - NavBarSettings
     private func configNavigationController(){
         
@@ -132,11 +125,6 @@ class FriendsViewController: UIViewController {
             let user = users[tableView.indexPathForSelectedRow!.row]
             vc.user = user
             
-            
-            
-            
-            
-          
             self.navigationController?.pushViewController(vc, animated: true)
           
         

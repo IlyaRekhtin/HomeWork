@@ -8,7 +8,7 @@
 import UIKit
 
 class FriendFotoCollectionViewController: UIViewController {
-    
+    private var transition = PopImageViewTransitionAnimation()
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, Foto>!
     private var buttonForChangeLayout = ButtonForChangeLayout()
@@ -22,6 +22,7 @@ class FriendFotoCollectionViewController: UIViewController {
         setupCollectionView()
         createDataSource()
         collectionView.delegate = self
+        
     }
     
 //    @objc func tap(_ sender: UIGestureRecognizer){
@@ -119,38 +120,41 @@ class FriendFotoCollectionViewController: UIViewController {
 extension FriendFotoCollectionViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        guard let item = collectionView.cellForItem(at: indexPath) as? FriendCollectionViewCell else {return}
-  
-//        UIView.animateKeyframes(withDuration: 0.7,
-//                                delay: 0,
-//                                options: []) {
-//            UIView.addKeyframe(withRelativeStartTime: 0,
-//                               relativeDuration: 0.7) {
-//
-//                item.layer.zPosition = 1
-//                item.transform = CGAffineTransform(scaleX: 3, y: 3)
-//                item.imageView.contentMode = .scaleAspectFit
-//                item.center.x = self.view.center.x
-//                item.center.y = self.view.frame.height / 2 - 50
-//                print(self.view.center)
-//            }
-//        } completion: { _ in
-//            guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImageShowViewController else {return}
-//            guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
-//            vc.currentIndexPuthFoto = index
-//            vc.fotoAlbum = self.user.fotoAlbum
-//
-//
-//            self.navigationController?.pushViewController(vc, animated: true)
-//        }
+
         guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImageShowViewController else {return}
         guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
         
-        vc.currentIndexPuthFoto = index
+        vc.currentIndexPuthFoto = index.row
         vc.fotoAlbum = self.user.fotoAlbum
+        vc.transitioningDelegate = self
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
         
+    }
+}
+
+extension FriendFotoCollectionViewController: UIViewControllerTransitioningDelegate {
+    
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        guard let selectedIndexPathCell = collectionView.indexPathsForSelectedItems,
+              let selectedCell = collectionView.cellForItem(at: selectedIndexPathCell.first!) as? FriendCollectionViewCell, let selectedCellSuperview = selectedCell.superview else {return nil}
+            
+        transition.imageInitFrame = selectedCellSuperview.convert(selectedCell.layer.frame, to: nil)
         
-        self.navigationController?.pushViewController(vc, animated: true)
+        transition.imageInitFrame = selectedCell.layer.frame
         
+        transition.imageInitFrame = CGRect(
+          x: transition.imageInitFrame.origin.x ,
+          y: transition.imageInitFrame.origin.y + 50,
+          width: transition.imageInitFrame.size.width,
+          height: transition.imageInitFrame.size.height + 70
+        )
+        return transition
+    }
+    
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        //TODO возвращение в ячейку коллекции
+       
+        return nil
     }
 }
