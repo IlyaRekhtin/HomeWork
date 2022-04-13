@@ -47,6 +47,7 @@
 		8CD2EE5D28073076001F6AA7 /* ImageShowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2EE5C28073076001F6AA7 /* ImageShowViewController.swift */; };
 		8CD2EE5F28073083001F6AA7 /* FriendFotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2EE5E28073083001F6AA7 /* FriendFotoCollectionViewController.swift */; };
 		8CD2EE63280731E1001F6AA7 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2EE62280731E1001F6AA7 /* DataManager.swift */; };
+		8CD2EE6528077183001F6AA7 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2EE6428077183001F6AA7 /* Session.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -93,6 +94,7 @@
 		8CD2EE5C28073076001F6AA7 /* ImageShowViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ImageShowViewController.swift; sourceTree = "<group>"; };
 		8CD2EE5E28073083001F6AA7 /* FriendFotoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FriendFotoCollectionViewController.swift; sourceTree = "<group>"; };
 		8CD2EE62280731E1001F6AA7 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
+		8CD2EE6428077183001F6AA7 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		A1DE7EA57A092E7656DD7D3E /* Pods-HomeWork (AuthWindow).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWork (AuthWindow).debug.xcconfig"; path = "Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow).debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -146,6 +148,7 @@
 		262A844927B83E1100B2DD65 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				8CD2EE6428077183001F6AA7 /* Session.swift */,
 				26552C2627C02F0600835BB5 /* Person.swift */,
 				26ED6C4427CC0AB800AEF452 /* Foto.swift */,
 				26F14F2427E26BD10025DF57 /* News.swift */,
@@ -396,6 +399,7 @@
 				8CD2EE63280731E1001F6AA7 /* DataManager.swift in Sources */,
 				26F7A97227F8D75B00A190F5 /* Custom animations pop + push.swift in Sources */,
 				26F14F1F27D52B6A0025DF57 /* Appearance.swift in Sources */,
+				8CD2EE6528077183001F6AA7 /* Session.swift in Sources */,
 				8CD2EE5D28073076001F6AA7 /* ImageShowViewController.swift in Sources */,
 				26F14F2F27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift in Sources */,
 				261C864027D3DA3800EEAC50 /* NameSearchControl.swift in Sources */,

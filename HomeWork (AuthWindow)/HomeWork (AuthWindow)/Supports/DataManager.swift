@@ -12,16 +12,9 @@ class DataManager {
     
     static let data = DataManager()
     
+    
     var password: String = ""
     var login: String = ""
-    
-    
-   
-    
-    
-    
-    
-    
     
     var friends = [Person(id: 1, name: "Илья Иванов", description: "", avatar: UIImage(named: "ava1")!, album: [Foto(image: UIImage(named: "exp1")!), Foto(image: UIImage(named: "exp2")!)]),
                    Person(id: 2, name: "Анна Пивоварова", description: "", avatar: UIImage(named: "ava2")!),
@@ -47,6 +40,10 @@ class DataManager {
     var myGroups: [Person] = [Person(id: 1, name: "Клуб любителей котиков", description: "", avatar: UIImage(named: "gpCat")!)]
     
     
+    private init(){}
+    
+    
+    
     func getCurrentLogin () -> String {
         guard let currentLogin = UserDefaults.standard.object(forKey: "login") as? String else { return "" }
         return currentLogin
@@ -66,10 +63,8 @@ class DataManager {
     }
 
     func getFirstLettersOfTheSecondName() {
-        
+        //TODO
     }
-    
-    
     
     
     
