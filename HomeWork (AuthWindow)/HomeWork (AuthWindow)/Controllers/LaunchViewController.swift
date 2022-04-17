@@ -11,32 +11,26 @@ import SnapKit
 class LaunchViewController: UIViewController {
 
     var loadImage = LoadImage(frame: CGRect(x: 0, y: 0, width: 90, height: 65))
-   
-    private var timer = Timer()
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        animate()
-        self.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { _ in
-            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "AuthViewController") as? AuthViewController else {return}
-            vc.modalTransitionStyle = .crossDissolve
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
-        })
-        
-        
-        
         self.view.addSubview(loadImage)
         loadImage.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.size.equalTo(self.loadImage.frame.size)
         }
-        
+        animate()
+       
     }
     
-    func animate() {
-        
+    
+    
+    
+    
+    
+    
+  private  func animate() {
         let layer = CAShapeLayer()
         layer.path = CloudLoadImage.bezierPath.cgPath
         layer.lineWidth = 3
@@ -76,12 +70,6 @@ class LaunchViewController: UIViewController {
         animationFollowPoint.repeatCount = 5
         
         point.add(animationFollowPoint, forKey: nil)
-        
-        
-        
-        
     }
     
-
 }
-

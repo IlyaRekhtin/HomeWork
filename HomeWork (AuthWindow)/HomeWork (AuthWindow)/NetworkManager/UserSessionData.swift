@@ -7,14 +7,13 @@
 
 import Foundation
 
-class Session {
+class UserSessionData {
     
-    static var data = Session()
+    static var data = UserSessionData()
     
     private init(){}
     
-    let token: String = ""
-    let id: Int = 0
-    
-    
+    var token: String = ""
+    var id: Int = 0
 }
+

@@ -6,93 +6,71 @@
 //
 
 import UIKit
+import WebKit
+import SnapKit
 
-class AuthViewController: UIViewController, UITextFieldDelegate {
-    @IBOutlet weak var loginLable: UILabel!
-    @IBOutlet weak var passwordLable: UILabel!
-    @IBOutlet weak var loginTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var loginButton: UIButton!
-    @IBOutlet weak var registerButton: UIButton!
-    @IBOutlet weak var toggle: UISwitch!
+class AuthViewController: UIViewController {
+    private lazy var webView : WKWebView = {
+        let webViewConfig = WKWebViewConfiguration()
+        let webView = WKWebView(frame: .zero, configuration: webViewConfig)
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        return webView
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loginTextField.delegate = self
-        passwordTextField.delegate = self
-        startSet()
+        webViewConfig()
+        loadWebView()
     }
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        isAuth()
-    }
-    
-    private func startSet () {
-       
-        // loginTextField custom
-        loginTextField.layer.cornerRadius = 5
-        loginTextField.layer.borderWidth = 2
-        loginTextField.layer.borderColor = UIColor.systemGreen.cgColor
-        
-        
-        // passwordTextField custom
-        passwordTextField.layer.cornerRadius = 5
-        passwordTextField.layer.borderWidth = 2
-        passwordTextField.layer.borderColor = UIColor.systemGreen.cgColor
-        
-        
-        // loginButton custom
-        loginButton.layer.cornerRadius = 8
-        loginButton.layer.shadowColor = UIColor.systemGreen.cgColor
-        loginButton.layer.shadowRadius = 5
-        loginButton.layer.shadowOpacity = 0.4
-        loginButton.layer.shadowPath = CGPath(rect: CGRect(x: -5, y: 10, width: loginButton.layer.bounds.width + 10, height: loginButton.layer.bounds.height), transform: nil)
-        
-        //registerButton custom
-        registerButton.layer.cornerRadius = 8
-        registerButton.layer.shadowColor = UIColor.systemGreen.cgColor
-        registerButton.layer.shadowRadius = 5
-        registerButton.layer.shadowOpacity = 0.4
-        registerButton.layer.shadowPath = CGPath(rect: CGRect(x: -5, y: 10, width: registerButton.layer.bounds.width + 10, height: registerButton.layer.bounds.height), transform: nil)
-    }
-    
-    private func isAuth() {
-        guard (UserDefaults.standard.object(forKey: "login") as? String != nil) else {return}
-        guard (UserDefaults.standard.object(forKey: "password") as? String != nil) else {return}
-        performSegue(withIdentifier: "tabBarViewController", sender: nil)
-    }
-             
-    @IBAction func enterButtonAction(_ sender: Any) {
-        guard loginTextField.text != "" else { return }
-        guard passwordTextField.text != "" else { return }
-        
-        //  TODO метод проверки пароля и логина API
-        
-        // если на чужом устройстве то не сохраняем данные в настройки пользователя
-        // если на своем то сохраняем и пропускаем контроллер авторизации при след запуске
-        switch toggle.isOn {
-        case true:
-            break
-        case false:
-            UserDefaults.standard.setValue(loginTextField.text, forKey: "login")
-            UserDefaults.standard.setValue(passwordTextField.text, forKey: "password")
+    private func webViewConfig() {
+        self.view.addSubview(webView)
+        webView.snp.makeConstraints { make in
+            make.top.left.right.bottom.equalToSuperview()
         }
-        loginTextField.text?.removeAll()
-        passwordTextField.text?.removeAll()
-        performSegue(withIdentifier: "tabBarViewController", sender: nil)
-        
+        navigationController?.navigationBar.isHidden = true
+        webView.navigationDelegate = self
     }
     
-    @IBAction func registerButtonAction(_ sender: Any) {
-        performSegue(withIdentifier: "registerViewController", sender: nil)
+    private func loadWebView(){
+        guard let url = ApiManager.shared.getURL(for: .auth, and: .auth) else {return}
+       
+        let request = URLRequest(url: url)
+        webView.load(request)
     }
     
-    @IBAction func toggleAction(_ sender: Any) {
-    }
-   
 }
 
+//MARK: - WKNavigationDelegate
+extension AuthViewController: WKNavigationDelegate{
+    func webView(_ webView: WKWebView,
+                 decidePolicyFor navigationResponse: WKNavigationResponse,
+                 decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        guard let url = navigationResponse.response.url, url.path == "/blank.html", let fragment = url.fragment
+        else { decisionHandler(.allow); return }
+
+        let parameters = fragment
+            .components(separatedBy: "&")
+            .map { $0.components(separatedBy: "=")}
+            .reduce([String: String]()) { result, param in
+                var dict = result
+                let key = param[0]
+                let value = param[1]
+                dict[key] = value
+                return dict
+            }
+
+        if let token = parameters["access_token"], let id = parameters["user_id"] {
+            UserSessionData.data.id = Int(id)!
+            UserSessionData.data.token = token
+            decisionHandler(.cancel)
+            
+            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
+        }
+    }
+}
 
 
 

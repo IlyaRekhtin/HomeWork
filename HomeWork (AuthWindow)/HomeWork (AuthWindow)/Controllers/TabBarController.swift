@@ -13,7 +13,7 @@ class TabBarController: UITabBarController {
         super.viewDidLoad()
         
         configTabController()
-        
+        loadDataFromApi()
     }
  
     private func configTabController(){
@@ -23,7 +23,21 @@ class TabBarController: UITabBarController {
     }
     
    
-    
+    func loadDataFromApi(){
+        guard let url = ApiManager.shared.getURL(for: .api, and: .friendsGet) else {return}
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, response, error in
+           guard let data = data  else { return }
+           do{
+               let json = try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)
+               print(json)
+           }catch{
+               print(error.localizedDescription)
+           }
+           
+       }.resume()
+        
+    }
     
    
 }
