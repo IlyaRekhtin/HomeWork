@@ -14,8 +14,8 @@ class GroupsTableViewCell: UITableViewCell {
     
     var addGroupButton = ButtonForAddGroup(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     
-    private var groupImage: Avatar = {
-        let imageView = Avatar(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+    private var groupImage: AvatarView = {
+        let imageView = AvatarView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
        
         return imageView
     }()

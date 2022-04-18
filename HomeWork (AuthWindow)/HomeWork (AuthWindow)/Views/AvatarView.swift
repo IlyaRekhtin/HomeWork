@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class Avatar: UIView {
+class AvatarView: UIView {
 
     private var foto = UIImageView()
     private let shadowLayer = CAShapeLayer()

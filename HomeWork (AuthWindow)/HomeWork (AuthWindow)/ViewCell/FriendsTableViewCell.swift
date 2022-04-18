@@ -12,8 +12,8 @@ class FriendsTableViewCell: UITableViewCell {
     
     static let reuseID = "CellFriends"
 
-    private var avatar: Avatar = {
-        let imageView = Avatar(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+    private var avatar: AvatarView = {
+        let imageView = AvatarView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         return imageView
     }()
     private var fullName: UILabel = {

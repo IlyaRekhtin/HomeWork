@@ -7,9 +7,9 @@
 
 import Foundation
 
-class UserSessionData {
+class Session {
     
-    static var data = UserSessionData()
+    static var data = Session()
     
     private init(){}
     

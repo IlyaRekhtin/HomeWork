@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-class Person: User, Hashable {
+class Person: User1, Hashable {
     
     
     static func == (lhs: Person, rhs: Person) -> Bool {

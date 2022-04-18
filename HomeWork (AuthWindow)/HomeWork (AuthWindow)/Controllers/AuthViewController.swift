@@ -33,9 +33,7 @@ class AuthViewController: UIViewController {
     }
     
     private func loadWebView(){
-        guard let url = ApiManager.shared.getURL(for: .auth, and: .auth) else {return}
-       
-        let request = URLRequest(url: url)
+        guard  let request = ApiManager.shared.getAuthRequest() else {return}
         webView.load(request)
     }
     
@@ -61,8 +59,8 @@ extension AuthViewController: WKNavigationDelegate{
             }
 
         if let token = parameters["access_token"], let id = parameters["user_id"] {
-            UserSessionData.data.id = Int(id)!
-            UserSessionData.data.token = token
+            Session.data.id = Int(id)!
+            Session.data.token = token
             decisionHandler(.cancel)
             
             guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}

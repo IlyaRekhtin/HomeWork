@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol User: Equatable {
+protocol User1: Equatable {
     var id: Int {get}
     var name: String {get set}
     var description: String {get set}

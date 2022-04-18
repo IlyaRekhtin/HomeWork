@@ -10,13 +10,13 @@ import SnapKit
 
 class HeaderNewsView: UIView {
 
-    private var avatar: Avatar
+    private var avatar: AvatarView
     private var name: UILabel
     
     
     override init(frame: CGRect) {
         let avatarSize = CGSize(width: frame.height - 6, height: frame.height - 6)
-        avatar = Avatar(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: avatarSize))
+        avatar = AvatarView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: avatarSize))
         name = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: avatarSize))
         name.numberOfLines = 1
         name.textAlignment = .left
