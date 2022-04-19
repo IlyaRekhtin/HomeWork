@@ -56,26 +56,27 @@ struct ApiManager {
     /// Метод для создания URL с конечной точкой выбранного метода API
     /// - Parameter method: Перечисление содержащее возможные конечные точки API
     /// - Returns: URL
-    private mutating func generateURL(forApiMethod method: ApiMethod) -> URL? {
+    private mutating func generateURL(forUsers usersID: Int?,withApiMethod method: ApiMethod) -> URL? {
            self.urlComponents.scheme = "https"
            self.urlComponents.host = BaseURL.api.rawValue
            self.urlComponents.path = method.rawValue
            switch method {
            case .usersGet:
                self.urlComponents.queryItems = [
-                URLQueryItem(name: "fields", value: "city, counters"),
+                URLQueryItem(name: "user_id", value: String(usersID ?? Session.data.id)),
+                URLQueryItem(name: "fields", value: "city, counters, crop_photo"),
                 URLQueryItem(name: "access_token", value: Session.data.token),
                 URLQueryItem(name: "v", value: apiVersion)
                ]
            case .friendsGet:
                self.urlComponents.queryItems = [
-                URLQueryItem(name: "user_id", value: String(Session.data.id)),
+                URLQueryItem(name: "user_id", value: String(usersID ?? Session.data.id)),
                 URLQueryItem(name: "access_token", value: Session.data.token),
                 URLQueryItem(name: "v", value: apiVersion)
                ]
            case .groupsGet:
                self.urlComponents.queryItems = [
-                URLQueryItem(name: "user_id", value: String(Session.data.id)),
+                URLQueryItem(name: "user_id", value: String(usersID ?? Session.data.id)),
                 URLQueryItem(name: "access_token", value: Session.data.token),
                 URLQueryItem(name: "v", value: apiVersion)
                ]
@@ -88,7 +89,8 @@ struct ApiManager {
            }
            return self.urlComponents.url
        }
-    // MARK: - open methods
+    
+    // MARK: - open methods?
     /// Создает запрос для перехода к окну авторизации ВК
     /// - Returns: URLRequest
     mutating func getAuthRequest() -> URLRequest? {
@@ -97,19 +99,32 @@ struct ApiManager {
         return request
     }
  
-    mutating func fetchDataFromApi(forMethod method: ApiMethod) {
-        guard let url = self.generateURL(forApiMethod: method) else {return}
+    mutating func fetchDataFromApi(forMethod method: ApiMethod) { // TODO подумать над реализацией
+        guard let url = self.generateURL(forUsers: nil, withApiMethod: .usersGet) else {return}
+        
         let request = URLRequest(url: url)
+        
         URLSession.shared.dataTask(with: request) { data, _, error in
+            
             if let error = error {
                 print(error.localizedDescription)
             }
+            
             guard let jsonData = data else {return}
           
             let decoder = JSONDecoder()
             do {
-                let user = try decoder.decode(Users.self, from: jsonData).users.first
-                print(user)
+                switch method {
+                case .usersGet:
+                    let users = try decoder.decode(Users.self, from: jsonData).users
+                    print(users)
+                case .friendsGet:
+                    break
+                case .groupsGet:
+                    break
+                case .newsfeedGet:
+                    break
+                }
             } catch {
                 debugPrint(error)
             }
