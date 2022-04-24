@@ -12,7 +12,7 @@ class GroupsTableViewCell: UITableViewCell {
 
     static var reuseID = "groupCell"
     
-    var addGroupButton = ButtonForAddGroup(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+    var addGroupButton = AddGroupButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     
     private var groupImage: AvatarView = {
         let imageView = AvatarView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
@@ -28,7 +28,7 @@ class GroupsTableViewCell: UITableViewCell {
         return lable
     }()
     
-    private var testGroup: Person?
+    private var testGroup: Group?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -47,32 +47,32 @@ class GroupsTableViewCell: UITableViewCell {
         return groupImage.frame.size
     }
     
-    func setCellSetup(for group: Person) {
-        groupImage.setImage(group.avatar)
-        groupName.text = group.name
+    func setCellSetup(for group: Group) {
+//        groupImage.setImage(group.avatar)
+//        groupName.text = group.name
         testGroup = group
         addGroupButton.config()
-        addGroupButton.configuration?.image = DataManager.data.myGroups.contains(group) ?  ButtonForAddGroup.imageForButton.groupIsAddImage.image : ButtonForAddGroup.imageForButton.groupIsNotAddImage.image
+//        addGroupButton.configuration?.image = DataManager.data.groups.contains(group) ?  AddGroupButton.imageForButton.groupIsAddImage.image : AddGroupButton.imageForButton.groupIsNotAddImage.image
     }
     
     @objc private func targetForAddGroupButton() {
         switch addGroupButton.configuration?.image {
-        case ButtonForAddGroup.imageForButton.groupIsNotAddImage.image:
-            addGroupButton.configuration?.image = ButtonForAddGroup.imageForButton.groupIsAddImage.image
-        case ButtonForAddGroup.imageForButton.groupIsAddImage.image:
-            addGroupButton.configuration?.image = ButtonForAddGroup.imageForButton.groupIsNotAddImage.image
+        case AddGroupButton.imageForButton.groupIsNotAddImage.image:
+            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsAddImage.image
+        case AddGroupButton.imageForButton.groupIsAddImage.image:
+            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsNotAddImage.image
         default:
             break
         }
         
         guard let group = testGroup else {return}
-        if DataManager.data.myGroups.contains(group) {
-            for (index, _) in DataManager.data.myGroups.enumerated(){
-                DataManager.data.myGroups.remove(at: index)
-            }
-        } else {
-            DataManager.data.myGroups.append(group)
-        }
+//        if DataManager.data.groups.contains(group) {
+//            for (index, _) in DataManager.data.groups.enumerated(){
+//                DataManager.data.groups.remove(at: index)
+//            }
+//        } else {
+//            DataManager.data.groups.append(group)
+//        }
   
     }
     

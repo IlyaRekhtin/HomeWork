@@ -18,10 +18,11 @@
                         <viewLayoutGuide key="safeArea" id="inb-2m-Wkw"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
+                    <navigationItem key="navigationItem" id="xJo-6f-Nvn"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Q3p-81-wzh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-169" y="800"/>
+            <point key="canvasLocation" x="-169" y="606"/>
         </scene>
         <!--Auth View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -36,7 +37,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-169.23076923076923" y="62.559241706161131"/>
+            <point key="canvasLocation" x="-169" y="-309"/>
         </scene>
         <!--Friend Foto Collection View Controller-->
         <scene sceneID="0US-nH-GFD">
@@ -246,12 +247,12 @@
         </scene>
     </scenes>
     <resources>
-        <image name="newspaper" catalog="system" width="32" height="32"/>
-        <image name="newspaper.fill" catalog="system" width="32" height="32"/>
-        <image name="person.3" catalog="system" width="32" height="32"/>
-        <image name="person.3.fill" catalog="system" width="32" height="32"/>
-        <image name="rectangle.3.group" catalog="system" width="32" height="32"/>
-        <image name="rectangle.3.group.fill" catalog="system" width="32" height="32"/>
+        <image name="newspaper" catalog="system" width="128" height="111"/>
+        <image name="newspaper.fill" catalog="system" width="128" height="111"/>
+        <image name="person.3" catalog="system" width="128" height="62"/>
+        <image name="person.3.fill" catalog="system" width="128" height="61"/>
+        <image name="rectangle.3.group" catalog="system" width="128" height="81"/>
+        <image name="rectangle.3.group.fill" catalog="system" width="128" height="81"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

@@ -17,11 +17,11 @@ class NameSearchControl: UIControl {
        stackView.alignment = .center
        stackView.distribution = .fillEqually
        stackView.spacing = 5
-       
        return stackView
      }()
     
     var letters = [UILabel]()
+    
     var indexPuth: IndexPath? = nil {
         didSet {
             sendActions(for: .touchCancel)
@@ -32,7 +32,6 @@ class NameSearchControl: UIControl {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.config()
-        
     }
     
     required init?(coder: NSCoder) {

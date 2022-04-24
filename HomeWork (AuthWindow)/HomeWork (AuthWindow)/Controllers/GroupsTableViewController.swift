@@ -9,6 +9,8 @@ import UIKit
 
 class GroupsTableViewController: UITableViewController {
     
+    lazy private var groups = DataManager.data.groups
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -39,13 +41,13 @@ class GroupsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return DataManager.data.myGroups.count
+        return groups.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
-        cell.setCellSetup(for: DataManager.data.myGroups[indexPath.row])
+//       todo  cell.setCellSetup(for: DataManager.data.myGroups[indexPath.row])
         cell.selectionStyle = .none
        
         cell.hiddenButtonAdd()
@@ -64,7 +66,7 @@ class GroupsTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        DataManager.data.myGroups.remove(at: indexPath.row)
+        groups.remove(at: indexPath.row)
         tableView.deleteRows(at: [indexPath], with: .fade)
         tableView.reloadData()
          

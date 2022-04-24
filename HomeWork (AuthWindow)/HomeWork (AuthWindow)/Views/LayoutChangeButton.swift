@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ButtonForChangeLayout: UIBarButtonItem {
+class LayoutChangeButton: UIBarButtonItem {
     
     enum FotoSizeInCollectionView: Int {
         case fullScreen

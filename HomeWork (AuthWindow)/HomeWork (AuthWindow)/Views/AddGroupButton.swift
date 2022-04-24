@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-class ButtonForAddGroup: UIButton {
+class AddGroupButton: UIButton {
     
     enum imageForButton {
         case groupIsAddImage

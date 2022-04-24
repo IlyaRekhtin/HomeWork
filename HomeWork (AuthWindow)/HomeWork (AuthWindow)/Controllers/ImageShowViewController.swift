@@ -10,8 +10,8 @@ import SnapKit
 
 class ImageShowViewController: UIViewController {
     
-    private let likeButton: Like = {
-        let button = Like(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+    private let likeButton: LikeButton = {
+        let button = LikeButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         button.configuration = .plain()
         return button
     }()
@@ -52,7 +52,7 @@ class ImageShowViewController: UIViewController {
     
     var currentIndexPuthFoto: Int!
     
-    var fotoAlbum: [Foto] = []
+    var photoAlbum: [Photo] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -74,7 +74,7 @@ class ImageShowViewController: UIViewController {
     
     private func setupImageViews() {
         firstImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
-        firstImageView.image = fotoAlbum[currentIndexPuthFoto].image
+//        firstImageView.image = photoAlbum[currentIndexPuthFoto].photoCopyesOfDifSize.first?
         firstImageView.contentMode = .scaleAspectFit
         
         secondImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
@@ -98,12 +98,12 @@ class ImageShowViewController: UIViewController {
     
     private func configLikeButton(){
         //TODO переделать через configurations
-        likeButton.setConfig(for: fotoAlbum[currentIndexPuthFoto])
-        likeButton.addAction(UIAction(handler: { [self] _ in
-            fotoAlbum[currentIndexPuthFoto].myLike.toggle()
-            likeButton.animationImageChange()
-            likeButton.setConfig(for: fotoAlbum[currentIndexPuthFoto])
-        }), for: .touchUpInside)
+//        likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
+//        likeButton.addAction(UIAction(handler: { [self] _ in
+//            fotoAlbum[currentIndexPuthFoto].myLike.toggle()
+//            likeButton.animationImageChange()
+//            likeButton.setConfig(for: fotoAlbum[currentIndexPuthFoto])
+//        }), for: .touchUpInside)
     }
     
     
@@ -115,7 +115,7 @@ class ImageShowViewController: UIViewController {
         
         navItems.leftBarButtonItem = leftBarButton
         navItems.rightBarButtonItem = rigthBarButton
-        navItems.title = "\(currentIndexPuthFoto + 1) из \(fotoAlbum.count)"
+        navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
         
         customNavView = UIView(frame: CGRect.zero)
         customNavView.backgroundColor = .black
@@ -159,101 +159,101 @@ extension ImageShowViewController {
         }
     }
     
-     @objc private func panGestureAction(_ sender: UIPanGestureRecognizer) {
-         switch sender.state {
-         case .began:
-             switch sender.translation(in: view).x {
-             case 0:
-                 break
-             case ...0:
-                 //left
-                 guard fotoAlbum.count - 1 >= currentIndexPuthFoto + 1 else {return}
-                 animationDirection = .left
-                 self.secondImageView.transform = CGAffineTransform(translationX: 1.5*self.secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
-                 secondImageView.image = fotoAlbum[currentIndexPuthFoto + 1].image
-                 
-                 propertyAnimator = UIViewPropertyAnimator(duration: 0.5,
-                                                           curve: .linear,
-                                                           animations: {
-                     self.firstImageView.transform = CGAffineTransform(translationX: -1.3*self.firstImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
-                     self.secondImageView.transform = .identity
-                 })
-                 
-                 propertyAnimator.addCompletion { [self] position in
-                     switch position {
-                     case .end:
-                         currentIndexPuthFoto += 1
-                         firstImageView.image = fotoAlbum[currentIndexPuthFoto].image
-                         firstImageView.transform = .identity
-                         secondImageView.image = nil
-                     case .start:
-                         secondImageView.transform = CGAffineTransform(translationX: 1.5*secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
-                     case .current:
-                         break
-                     @unknown default:
-                         break
-                     }
-                     likeButton.setConfig(for: fotoAlbum[currentIndexPuthFoto])
-                     navItems.title = "\(currentIndexPuthFoto + 1) из \(fotoAlbum.count)"
-                 }
-             case 0...:
-                 // right
-                 guard currentIndexPuthFoto >= 1 else {return}
-                 animationDirection = .right
-                 self.secondImageView.transform = CGAffineTransform(translationX: -1.5*self.secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
-                 self.secondImageView.image = fotoAlbum[currentIndexPuthFoto - 1].image
-                 propertyAnimator = UIViewPropertyAnimator(duration: 0.5,
-                                                           curve: .linear,
-                                                           animations: {
-                     self.firstImageView.transform = CGAffineTransform(translationX: 1.3*self.firstImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
-                     self.secondImageView.transform = .identity
-                 })
-                 
-                 propertyAnimator.addCompletion { [self] position in
-                     switch position {
-                     case .end:
-                         currentIndexPuthFoto -= 1
-                         firstImageView.image = fotoAlbum[currentIndexPuthFoto].image
-                         firstImageView.transform = .identity
-                         secondImageView.image = nil
-                     case .start:
-                         secondImageView.transform = CGAffineTransform(translationX: -1.5*secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
-                     case .current:
-                         break
-                     @unknown default:
-                         break
-                     }
-                     likeButton.setConfig(for: fotoAlbum[currentIndexPuthFoto])
-                     navItems.title = "\(currentIndexPuthFoto + 1) из \(fotoAlbum.count)"
-                 }
-             default:
-                 break
-             }
-         case .changed:
-             switch animationDirection {
-             case .right:
-                 let procent = min(max(0, sender.translation(in: view).x/200),1)
-                 propertyAnimator.fractionComplete = procent
-             case .left:
-                 let procent = min(max( -sender.translation(in: view).x/200, 0),1)
-                 propertyAnimator.fractionComplete = procent
-             }
-         case .ended:
-             if propertyAnimator.fractionComplete >= 0.4 {
-                 propertyAnimator.continueAnimation(withTimingParameters: .none, durationFactor: 0.5)
-             } else {
-                 propertyAnimator.isReversed = true
-                 propertyAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0.5)
-                 
-             }
-         case .cancelled:
-             break
-         case .failed:
-             break
+    @objc private func panGestureAction(_ sender: UIPanGestureRecognizer) {
+        switch sender.state {
+        case .began:
+            switch sender.translation(in: view).x {
+            case 0:
+                break
+            case ...0:
+                //left
+                guard photoAlbum.count - 1 >= currentIndexPuthFoto + 1 else {return}
+                animationDirection = .left
+                self.secondImageView.transform = CGAffineTransform(translationX: 1.5*self.secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
+//                secondImageView.image = photoAlbum[currentIndexPuthFoto + 1].image
+                
+                propertyAnimator = UIViewPropertyAnimator(duration: 0.5,
+                                                          curve: .linear,
+                                                          animations: {
+                    self.firstImageView.transform = CGAffineTransform(translationX: -1.3*self.firstImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
+                    self.secondImageView.transform = .identity
+                })
+                
+                propertyAnimator.addCompletion { [self] position in
+                    switch position {
+                    case .end:
+                        currentIndexPuthFoto += 1
+//                        firstImageView.image = fotoAlbum[currentIndexPuthFoto].image
+                        firstImageView.transform = .identity
+                        secondImageView.image = nil
+                    case .start:
+                        secondImageView.transform = CGAffineTransform(translationX: 1.5*secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
+                    case .current:
+                        break
+                    @unknown default:
+                        break
+                    }
+//                    likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
+                    navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
+                }
+            case 0...:
+                // right
+                guard currentIndexPuthFoto >= 1 else {return}
+                animationDirection = .right
+                self.secondImageView.transform = CGAffineTransform(translationX: -1.5*self.secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
+//                self.secondImageView.image = photoAlbum[currentIndexPuthFoto - 1].image
+                propertyAnimator = UIViewPropertyAnimator(duration: 0.5,
+                                                          curve: .linear,
+                                                          animations: {
+                    self.firstImageView.transform = CGAffineTransform(translationX: 1.3*self.firstImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
+                    self.secondImageView.transform = .identity
+                })
+                
+                propertyAnimator.addCompletion { [self] position in
+                    switch position {
+                    case .end:
+                        currentIndexPuthFoto -= 1
+//                        firstImageView.image = photoAlbum[currentIndexPuthFoto].image
+                        firstImageView.transform = .identity
+                        secondImageView.image = nil
+                    case .start:
+                        secondImageView.transform = CGAffineTransform(translationX: -1.5*secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
+                    case .current:
+                        break
+                    @unknown default:
+                        break
+                    }
+//                    likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
+                    navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
+                }
+            default:
+                break
+            }
+        case .changed:
+            switch animationDirection {
+            case .right:
+                let procent = min(max(0, sender.translation(in: view).x/200),1)
+                propertyAnimator.fractionComplete = procent
+            case .left:
+                let procent = min(max( -sender.translation(in: view).x/200, 0),1)
+                propertyAnimator.fractionComplete = procent
+            }
+        case .ended:
+            if propertyAnimator.fractionComplete >= 0.4 {
+                propertyAnimator.continueAnimation(withTimingParameters: .none, durationFactor: 0.5)
+            } else {
+                propertyAnimator.isReversed = true
+                propertyAnimator.continueAnimation(withTimingParameters: nil, durationFactor: 0.5)
+                
+            }
+        case .cancelled:
+            break
+        case .failed:
+            break
         default:
-             break
-         }
-     }
+            break
+        }
+    }
     
     
 }
@@ -277,7 +277,7 @@ extension ImageShowViewController {
             make.top.equalToSuperview()
             make.left.right.equalToSuperview()
             make.height.equalTo(100)
-
+            
         }
         self.customNavView.addSubview(customNavBar)
         customNavBar.snp.makeConstraints { make in

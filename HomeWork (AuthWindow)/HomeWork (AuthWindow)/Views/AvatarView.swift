@@ -7,30 +7,48 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class AvatarView: UIView {
-
-    private var foto = UIImageView()
+    
+    private var userPhoto : UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+        imageView.clipsToBounds = true
+        return imageView
+    }()
     private let shadowLayer = CAShapeLayer()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConfig()
-        setConstraints()
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(animateFoto))
-        self.addGestureRecognizer(tapRecognizer)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    func setImage(_ image: UIImage) {
-        self.foto.contentMode = .scaleAspectFill
-        self.foto.image = image
+    
+    func setImage(_ url: URL) {
+        self.userPhoto.contentMode = .scaleAspectFill
+        self.userPhoto.kf.setImage(with: url)
     }
     
-    @objc private func animateFoto() {
+    func shadowOff() {
+        shadowLayer.isHidden = true
+    }
+    
+    func shadowOn() {
+        shadowLayer.isHidden = false
+    }
+    
+    func imageHigth() -> CGFloat {
+        return userPhoto.frame.height
+    }
+    
+}
+//MARK: - private
+private extension AvatarView {
+    
+    @objc func addDampingAnimationForUserPhoto() {
         UIView.animate(withDuration: 0.5,
                        delay: 0,
                        usingSpringWithDamping: 0.5,
@@ -40,42 +58,30 @@ class AvatarView: UIView {
             
         }
         self.transform = .identity
+    }
+    
+    func setConfig() {
+        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(addDampingAnimationForUserPhoto))
+        self.addGestureRecognizer(tapRecognizer)
+        userPhoto.layer.cornerRadius = self.frame.width / 2
+        setShadow()
+        setConstraints()
         
     }
     
-    private func setConfig() {
-        foto.layer.cornerRadius = self.frame.width / 2
-        foto.clipsToBounds = true
-        setShadow()
-       
-    }
-    
-    private func setConstraints() {
-        addSubview(foto)
-        foto.snp.makeConstraints { make in
+    func setConstraints() {
+        addSubview(userPhoto)
+        userPhoto.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
-            
         }
     }
     
-    private func setShadow() {
+    func setShadow() {
         shadowLayer.shadowColor = UIColor.gray.cgColor
         shadowLayer.shadowRadius = 3
         shadowLayer.shadowOpacity = 1
-        shadowLayer.shadowPath = CGPath(ellipseIn: CGRect(x: foto.layer.position.x , y: foto.layer.position.y + 5, width: self.frame.width + 3, height: self.frame.height + 3), transform: nil)
-       self.layer.addSublayer(shadowLayer)
-    }
-    
-    func offShadow() {
-        shadowLayer.isHidden = true
-    }
-    
-    func onShadow() {
-        shadowLayer.isHidden = false
-    }
-    
-    func imageHigth() -> CGFloat {
-        return foto.frame.height
+        shadowLayer.shadowPath = CGPath(ellipseIn: CGRect(x: userPhoto.layer.position.x , y: userPhoto.layer.position.y + 5, width: self.frame.width + 3, height: self.frame.height + 3), transform: nil)
+        self.layer.addSublayer(shadowLayer)
     }
     
 }

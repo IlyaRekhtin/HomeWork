@@ -9,28 +9,55 @@ import UIKit
 import SnapKit
 
 class LaunchViewController: UIViewController {
-
+    
     var loadImage = LoadImage(frame: CGRect(x: 0, y: 0, width: 90, height: 65))
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setConstraints()
+        animate()
+        Api.shared.getFriends { [self] friends in
+            
+            DispatchQueue.main.async {
+                DataManager.data.friends = friends.response.items
+                guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true)
+            }
+            
+        }
+    }
+}
+
+
+//MARK: - private methods
+private extension LaunchViewController {
+    
+    private func setConstraints(){
         self.view.addSubview(loadImage)
         loadImage.snp.makeConstraints { make in
             make.center.equalToSuperview()
             make.size.equalTo(self.loadImage.frame.size)
         }
-        animate()
-       
     }
     
     
     
+    private func animate() {
+        
+        UIView.animate(withDuration: 1, delay: 0, options: [.repeat, .autoreverse]) {
+            self.animateCALayer()
+            self.loadImage.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
+        } completion: { _ in
+            self.loadImage.transform = .identity
+        }
+
+    }
     
     
     
-    
-  private  func animate() {
+    private  func animateCALayer() {
         let layer = CAShapeLayer()
         layer.path = CloudLoadImage.bezierPath.cgPath
         layer.lineWidth = 3
@@ -48,14 +75,15 @@ class LaunchViewController: UIViewController {
         strokeStartAnimation.fromValue = -1
         strokeStartAnimation.toValue = 1
         strokeStartAnimation.timingFunction = CAMediaTimingFunction(name: .easeIn)
+        loadImage.layer.addSublayer(layer)
         
         let animationGroup = CAAnimationGroup()
         animationGroup.animations = [strokeStartAnimation, strokeEndAnimation]
         animationGroup.duration = 2
-        animationGroup.repeatCount = 5
+        animationGroup.repeatCount = .infinity
         layer.add(animationGroup, forKey: nil)
         
-        loadImage.layer.addSublayer(layer)
+        
         
         let point = CAShapeLayer()
         point.backgroundColor = UIColor.systemGreen.cgColor
@@ -67,9 +95,8 @@ class LaunchViewController: UIViewController {
         animationFollowPoint.path = CloudLoadImage.bezierPath.cgPath
         animationFollowPoint.calculationMode = .paced
         animationFollowPoint.duration = 2
-        animationFollowPoint.repeatCount = 5
+        animationFollowPoint.repeatCount = .infinity
         
         point.add(animationFollowPoint, forKey: nil)
     }
-    
 }

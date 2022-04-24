@@ -7,15 +7,11 @@
 
 import UIKit
 
-class Like: UIButton {
+class LikeButton: UIButton {
 
     private var imageLike = UIImage(systemName: "heart")
     private var imageLikeFill = UIImage(systemName: "heart.fill")
-    
     private var likeCount: Int = 0
-    
-   
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,7 +27,6 @@ class Like: UIButton {
         self.likeCount = foto.myLike ? 1 : 0
         self.likeCount += foto.likesCount
         self.configuration?.title = String(likeCount)
-//        self.configuration?.baseForegroundColor = .white
         self.configuration?.imagePadding = 5
     }
     
@@ -42,27 +37,9 @@ class Like: UIButton {
          animation.duration = 0.5
          animation.stiffness = 1000
          animation.mass = 0.5
-         
-         
          self.layer.add(animation, forKey: nil)
         
     }
-    
-    
-    
-//    @objc func actionForButton() {
-//        switch self.stateValue {
-//        case true:
-//            self.configuration?.image = UIImage(systemName: "heart")
-//            self.stateValue.toggle()
-//            self.likeCount += 1
-//        case false:
-//            self.configuration?.image = UIImage(systemName: "heart.fill")
-//            self.stateValue.toggle()
-//            self.likeCount -= 1
-//        }
-//
-//    }
     
     func changeValue<T:Likeble>(for foto: T) {
         switch foto.myLike {

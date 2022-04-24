@@ -33,7 +33,7 @@ class AuthViewController: UIViewController {
     }
     
     private func loadWebView(){
-        guard  let request = ApiManager.shared.getAuthRequest() else {return}
+        guard  let request = Api.shared.getAuthRequest() else {return}
         webView.load(request)
     }
     
@@ -63,12 +63,16 @@ extension AuthViewController: WKNavigationDelegate{
             Session.data.token = token
             decisionHandler(.cancel)
             
-            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
+            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "LaunchViewController") as? LaunchViewController else {return}
             vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
+            self.present(vc, animated: false)
         }
     }
+    
+   
 }
+
+
 
 
 

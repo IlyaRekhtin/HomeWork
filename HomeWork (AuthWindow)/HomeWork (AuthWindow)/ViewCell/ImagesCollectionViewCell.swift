@@ -12,7 +12,7 @@ class ImagesCollectionViewCell: UICollectionViewCell {
     
     static let reuseID = "images"
     
-    var foto: Foto?
+    var photo: Photo?
     
     var imageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
@@ -29,11 +29,11 @@ class ImagesCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func config (_ image: Foto) {
+    func config (_ image: Photo) {
        
         
-        imageView.image = image.image
-        foto = image
+//        imageView.image = image.image
+//        photo = image
     }
     
     private func setConstraints() {

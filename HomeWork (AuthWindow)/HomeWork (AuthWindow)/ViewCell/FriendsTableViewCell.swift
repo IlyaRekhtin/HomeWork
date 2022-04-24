@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 
+
 class FriendsTableViewCell: UITableViewCell {
     
     static let reuseID = "CellFriends"
@@ -20,6 +21,14 @@ class FriendsTableViewCell: UITableViewCell {
         let lable = UILabel()
         lable.textColor = .black
         lable.font = UIFont(name: "Timas New Roman", size: 18)
+        return lable
+    }()
+    
+    private var city: UILabel = {
+        let lable = UILabel()
+        lable.textColor = .lightGray
+        lable.font = UIFont(name: "Timas New Roman", size: 14)
+        lable.alpha = 0.9
         return lable
     }()
     
@@ -36,9 +45,13 @@ class FriendsTableViewCell: UITableViewCell {
     
     
     
-    func getRowForFriendsVC(for user: Person) {
-        avatar.setImage(user.avatar)
-        fullName.text = "\(user.name) \(user.description)"
+    func configCell(for friend: Friend) {
+        let url = URL(string: friend.photo50)!
+        
+        
+        avatar.setImage(url)
+        city.text = friend.city?.title
+        fullName.text = "\(friend.firstName) \(friend.lastName)"
     }
     
     func getimageSize() -> CGSize {
@@ -48,6 +61,7 @@ class FriendsTableViewCell: UITableViewCell {
     private func setupConstraints(){
         self.contentView.addSubview(avatar)
         addSubview(fullName)
+        addSubview(city)
         
         avatar.snp.makeConstraints { make in
             make.width.equalTo(avatar.frame.width)
@@ -58,5 +72,12 @@ class FriendsTableViewCell: UITableViewCell {
             make.left.equalTo(avatar.snp.right).offset(20)
             make.top.trailing.equalToSuperview().inset(8)
         }
+        
+        city.snp.makeConstraints { make in
+            make.left.equalTo(avatar.snp.right).offset(20)
+            make.bottom.equalToSuperview().inset(8)
+            make.trailing.equalToSuperview()
+        }
+        
     }
 }

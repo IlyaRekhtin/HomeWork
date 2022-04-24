@@ -50,8 +50,8 @@ class HeaderNewsView: UIView {
     }
     
     func setValue(_ avatar: UIImage, _ name: String) {
-        self.avatar.offShadow()
-        self.avatar.setImage(avatar)
+        self.avatar.shadowOff()
+//        self.avatar.setImage(avatar)
         self.name.text = name
     }
    
