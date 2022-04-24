@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Kingfisher
 
 class FriendFotoCollectionViewController: UIViewController {
     
@@ -18,15 +19,24 @@ class FriendFotoCollectionViewController: UIViewController {
     private var layoutChangeButton = LayoutChangeButton()
     
     
-    lazy private var photoAlbum = [Photo]()
+    var photoAlbum = [Photo]() {
+        didSet {
+            currentSizePhotos = DataManager.data.getPhotoUrl(with: .x, for: self.photoAlbum)
+            reloadData()
+        }
+    }
+    
+    private var currentSizePhotos = [URL]()
     
     var userId: Int!
+    
     var firstName: String?
     var lastName: String?
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        layoutChangeButtonConfigurations()
         setupCollectionView()
         createDataSource()
         collectionView.delegate = self
@@ -35,9 +45,7 @@ class FriendFotoCollectionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        photoAlbum = Api.shared.getPhotoForUser(for: userId) ?? []
-        configNavigationController()
-        reloadData()
+        navControllerConfiguration()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -66,8 +74,7 @@ private extension FriendFotoCollectionViewController {
         layoutChangeButton.sizeInCollectionView = sizeInCollectionView!
     }
     
-     func configNavigationController(){
-         layoutChangeButtonConfigurations()
+     func navControllerConfiguration(){
        // Navigation Controller Appearance
         navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
@@ -115,8 +122,7 @@ extension FriendFotoCollectionViewController: UICollectionViewDelegate {
     private func createDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Int, Photo>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.reuseID, for: indexPath) as? FriendCollectionViewCell else {fatalError()}
-            
-            cell.setCollectionViewSetting(for: self.photoAlbum[indexPath.row])
+            cell.configCell(for: self.currentSizePhotos[indexPath.row])
             
             return cell
         })
@@ -135,7 +141,14 @@ extension FriendFotoCollectionViewController: UICollectionViewDelegate {
         guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
         
         vc.currentIndexPuthFoto = index.row
-//        vc.fotoAlbum = photoAlbum
+        
+        
+        
+        DispatchQueue.main.async {
+            vc.firstImageView.kf.setImage(with: self.currentSizePhotos[index.row])
+        }
+        vc.firstImageView.kf.indicatorType = .activity
+        vc.photoAlbum = currentSizePhotos
         vc.transitioningDelegate = self
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
@@ -166,3 +179,5 @@ extension FriendFotoCollectionViewController: UIViewControllerTransitioningDeleg
         return popTransition
     }
 }
+
+

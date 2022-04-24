@@ -40,7 +40,6 @@
 		294B7A99120FC9464282328C /* Pods_HomeWork__AuthWindow_.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 663150455C33C1500CB6AA0E /* Pods_HomeWork__AuthWindow_.framework */; };
 		8C5736A8280DF0940014E9AE /* Users.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5736A7280DF0940014E9AE /* Users.swift */; };
 		8C80B57E281094BF0064A2FA /* Friends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C80B57D281094BF0064A2FA /* Friends.swift */; };
-		8C80B5802810A9B30064A2FA /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C80B57F2810A9B30064A2FA /* Protocols.swift */; };
 		8C9FE68B280F39BD00AA223E /* Photos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9FE68A280F39BD00AA223E /* Photos.swift */; };
 		8CA0852C28149EF9004CB2C6 /* Newsfeed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA0852B28149EF9004CB2C6 /* Newsfeed.swift */; };
 		8CA0852E2814AA88004CB2C6 /* Groups.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA0852D2814AA88004CB2C6 /* Groups.swift */; };
@@ -51,6 +50,7 @@
 		8CD2EE63280731E1001F6AA7 /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2EE62280731E1001F6AA7 /* DataManager.swift */; };
 		8CD2EE6528077183001F6AA7 /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD2EE6428077183001F6AA7 /* Session.swift */; };
 		8CE2C84028134FB2001A7144 /* PopImageViewTransitionAnimate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE2C83F28134FB2001A7144 /* PopImageViewTransitionAnimate.swift */; };
+		8CF0F28F2815990E005D5E0B /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF0F28E2815990E005D5E0B /* Protocols.swift */; };
 		8CFEF4CF280C5F8200AA88C3 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFEF4CE280C5F8200AA88C3 /* Api.swift */; };
 /* End PBXBuildFile section */
 
@@ -91,7 +91,6 @@
 		663150455C33C1500CB6AA0E /* Pods_HomeWork__AuthWindow_.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_HomeWork__AuthWindow_.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C5736A7280DF0940014E9AE /* Users.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Users.swift; sourceTree = "<group>"; };
 		8C80B57D281094BF0064A2FA /* Friends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Friends.swift; sourceTree = "<group>"; };
-		8C80B57F2810A9B30064A2FA /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Protocols.swift; path = ../../../../../.Trashes/501/Protocols.swift; sourceTree = "<group>"; };
 		8C9FE68A280F39BD00AA223E /* Photos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Photos.swift; sourceTree = "<group>"; };
 		8CA0852B28149EF9004CB2C6 /* Newsfeed.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Newsfeed.swift; sourceTree = "<group>"; };
 		8CA0852D2814AA88004CB2C6 /* Groups.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Groups.swift; sourceTree = "<group>"; };
@@ -101,6 +100,7 @@
 		8CD2EE62280731E1001F6AA7 /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 		8CD2EE6428077183001F6AA7 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		8CE2C83F28134FB2001A7144 /* PopImageViewTransitionAnimate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopImageViewTransitionAnimate.swift; sourceTree = "<group>"; };
+		8CF0F28E2815990E005D5E0B /* Protocols.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		8CFEF4CE280C5F8200AA88C3 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		A1DE7EA57A092E7656DD7D3E /* Pods-HomeWork (AuthWindow).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWork (AuthWindow).debug.xcconfig"; path = "Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow).debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -157,7 +157,7 @@
 		262A844927B83E1100B2DD65 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8C80B57F2810A9B30064A2FA /* Protocols.swift */,
+				8CF0F28E2815990E005D5E0B /* Protocols.swift */,
 				26F7A96C27F79DA500A190F5 /* CloudLoadImage.swift */,
 			);
 			path = Models;
@@ -431,12 +431,12 @@
 				262A843A27B83DBC00B2DD65 /* AuthViewController.swift in Sources */,
 				26E633E227EC828D0064CFAA /* HeaderNewsView.swift in Sources */,
 				262A843627B83DBC00B2DD65 /* AppDelegate.swift in Sources */,
-				8C80B5802810A9B30064A2FA /* Protocols.swift in Sources */,
 				26E633DE27EB4BA90064CFAA /* NewsTableViewController.swift in Sources */,
 				8CD2EE5F28073083001F6AA7 /* FriendFotoCollectionViewController.swift in Sources */,
 				26FD354D27C652F000EF4403 /* GroupsTableViewCell.swift in Sources */,
 				26F7A96D27F79DA500A190F5 /* CloudLoadImage.swift in Sources */,
 				26ED6C4927CE9D1200AEF452 /* LayoutChangeButton.swift in Sources */,
+				8CF0F28F2815990E005D5E0B /* Protocols.swift in Sources */,
 				26ED6C4727CD642300AEF452 /* LikeButton.swift in Sources */,
 				26FD354B27C586D600EF4403 /* extension FriendFotoCollectionView + LayoutSection.swift in Sources */,
 				26F14F2B27E4CA680025DF57 /* NewsTableViewCell.swift in Sources */,

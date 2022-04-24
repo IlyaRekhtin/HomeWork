@@ -7,6 +7,7 @@
 
 
 import UIKit
+import SwiftUI
 
 final class DataManager {
     
@@ -16,7 +17,7 @@ final class DataManager {
     lazy var users = [User]()
     lazy var newsfeed = [Newsfeed]()
     lazy var groups = [Group]()
-    
+    lazy var photos = [Photo]()
     
     
     private init(){}
@@ -28,13 +29,27 @@ final class DataManager {
         }
         return array.sorted()
     }
-
+    
     func getFirstLettersOfTheSecondName() {
         //TODO
     }
     
     
+    //MARK: - helpers
+    
+    
+    func getPhotoUrl(with size: TypeEnum, for photos: [Photo] ) -> [URL] {
+        var urlsPhotosWithSize = [URL]()
+        for photo in photos {
+            for photoSize in photo.sizes {
+                if photoSize.type  == size.rawValue {
+                    guard let url = URL(string: photoSize.url) else {continue}
+                    urlsPhotosWithSize.append(url)
+                }
+            }
+        }
+        return urlsPhotosWithSize
+    }
     
     
 }
-

@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class ImageShowViewController: UIViewController {
     
@@ -16,13 +17,15 @@ class ImageShowViewController: UIViewController {
         return button
     }()
     
-    var firstImageView: UIImageView! {
+    var firstImageView = UIImageView() {
         didSet{
+            
             firstImageView.isUserInteractionEnabled = true
         }
     }
     
     var secondImageView: UIImageView!
+    
     private var stackView: UIStackView!
     private var customTabBar: UIView!
     private var customNavView: UIView!
@@ -52,33 +55,37 @@ class ImageShowViewController: UIViewController {
     
     var currentIndexPuthFoto: Int!
     
-    var photoAlbum: [Photo] = []
+    var photoAlbum: [URL] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black
         navigationBarApperians()
         setupImageViews()
+        
         configTabBar()
         configStackView()
         configLikeButton()
+        
         makeConstraints()
+        
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(hideNavBarAndTabBar))
         view.addGestureRecognizer(tapGR)
         let panGR = UIPanGestureRecognizer(target: self, action: #selector(panGestureAction(_:)))
         view.addGestureRecognizer(panGR)
         let swipeDownGR = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
         swipeDownGR.direction = .down
-        firstImageView.addGestureRecognizer(swipeDownGR)
+        view.addGestureRecognizer(swipeDownGR)
     }
     
     private func setupImageViews() {
         firstImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
-//        firstImageView.image = photoAlbum[currentIndexPuthFoto].photoCopyesOfDifSize.first?
         firstImageView.contentMode = .scaleAspectFit
         
         secondImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
         secondImageView.contentMode = .scaleAspectFit
+        
+        
     }
     
     private func configTabBar() {
@@ -97,13 +104,13 @@ class ImageShowViewController: UIViewController {
     }
     
     private func configLikeButton(){
-        //TODO переделать через configurations
+//        TODO переделать через configurations
 //        likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
-//        likeButton.addAction(UIAction(handler: { [self] _ in
+        likeButton.addAction(UIAction(handler: { [self] _ in
 //            fotoAlbum[currentIndexPuthFoto].myLike.toggle()
 //            likeButton.animationImageChange()
 //            likeButton.setConfig(for: fotoAlbum[currentIndexPuthFoto])
-//        }), for: .touchUpInside)
+        }), for: .touchUpInside)
     }
     
     
@@ -170,7 +177,8 @@ extension ImageShowViewController {
                 guard photoAlbum.count - 1 >= currentIndexPuthFoto + 1 else {return}
                 animationDirection = .left
                 self.secondImageView.transform = CGAffineTransform(translationX: 1.5*self.secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
-//                secondImageView.image = photoAlbum[currentIndexPuthFoto + 1].image
+                
+                secondImageView.kf.setImage(with: photoAlbum[currentIndexPuthFoto + 1])
                 
                 propertyAnimator = UIViewPropertyAnimator(duration: 0.5,
                                                           curve: .linear,
@@ -183,7 +191,7 @@ extension ImageShowViewController {
                     switch position {
                     case .end:
                         currentIndexPuthFoto += 1
-//                        firstImageView.image = fotoAlbum[currentIndexPuthFoto].image
+                        firstImageView.kf.setImage(with: photoAlbum[currentIndexPuthFoto])
                         firstImageView.transform = .identity
                         secondImageView.image = nil
                     case .start:
@@ -201,7 +209,9 @@ extension ImageShowViewController {
                 guard currentIndexPuthFoto >= 1 else {return}
                 animationDirection = .right
                 self.secondImageView.transform = CGAffineTransform(translationX: -1.5*self.secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
-//                self.secondImageView.image = photoAlbum[currentIndexPuthFoto - 1].image
+                
+                self.secondImageView.kf.setImage(with: photoAlbum[currentIndexPuthFoto - 1])
+                
                 propertyAnimator = UIViewPropertyAnimator(duration: 0.5,
                                                           curve: .linear,
                                                           animations: {
@@ -213,7 +223,7 @@ extension ImageShowViewController {
                     switch position {
                     case .end:
                         currentIndexPuthFoto -= 1
-//                        firstImageView.image = photoAlbum[currentIndexPuthFoto].image
+                        firstImageView.kf.setImage(with: photoAlbum[currentIndexPuthFoto])
                         firstImageView.transform = .identity
                         secondImageView.image = nil
                     case .start:

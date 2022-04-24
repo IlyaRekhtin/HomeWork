@@ -13,16 +13,23 @@ class FriendCollectionViewCell: UICollectionViewCell {
     
     static var reuseID = "UserCollectionCell"
     
-    var imageView = UIImageView()
-    
-    func setCollectionViewSetting (for photo: Photo) {
-       let currentPhoto = photo.sizes.filter { size in
-            size.type == "r"
-        }
-        print(currentPhoto)
-//        imageView.kf.setImage(with: currentPhoto.first?.url)
-        imageView.contentMode = .center
+    var imageView: UIImageView = {
+        let imageView = UIImageView(frame: .zero)
+
+        imageView.backgroundColor = UIColor(red: 0.7, green: 0.8, blue: 0.85, alpha: 0.7)
+        imageView.kf.indicatorType = .activity
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    func configCell (for photoUrl: URL) {
+        
+        
+        imageView.kf.setImage(with: photoUrl) { result in
+            
+        }
+       
         
         makeConstraints()
     }
@@ -34,33 +41,6 @@ class FriendCollectionViewCell: UICollectionViewCell {
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0))
         }
     }
-    
-//    private func scaleImage(_ image: UIImage) -> UIImage {
-//        
-//        
-//        let orientation = image.size.width / image.size.height
-//        
-//        let widthScale = self.frame.width / image.size.width
-//        let heigthScale = self.frame.height / image.size.height
-//        var rect = CGRect.zero
-//        switch orientation {
-//        case ...1:
-//            rect = CGRect(x: 0, y: 0, width: image.size.width * widthScale, height: image.size.height * widthScale)
-//        case 1:
-//            rect = CGRect(x: 0, y: 0, width: image.size.width * widthScale, height: image.size.width * widthScale)
-//        case 1...:
-//            rect = CGRect(x: 0, y: 0, width: image.size.width * heigthScale, height: image.size.height * heigthScale)
-//        default:
-//            break
-//        }
-//        
-//        UIGraphicsBeginImageContext(rect.size)
-//        image.draw(in: rect)
-//        let scaleImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
-//        UIGraphicsEndImageContext()
-// 
-//        return scaleImage
-//    }
-    
+
     
 }

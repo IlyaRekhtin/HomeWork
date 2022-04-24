@@ -16,7 +16,7 @@ class Api {
     //MARK: - свойства
     lazy private var urlComponents = URLComponents()
     
-    private let appID = "8140336" // уникальный ключ приложения
+    private let appID = "8147273" // уникальный ключ приложения
     
     private let apiVersion = "5.131"
     
@@ -91,6 +91,7 @@ class Api {
             self.urlComponents.queryItems = [
                 URLQueryItem(name: "owner_id", value: String(usersID!)),
                 URLQueryItem(name: "extended", value: "1"),
+                URLQueryItem(name: "photo_sizes", value: "1"),
                 URLQueryItem(name: "no_service_albums", value: "1"),
                 URLQueryItem(name: "access_token", value: Session.data.token),
                 URLQueryItem(name: "v", value: apiVersion)
@@ -109,30 +110,22 @@ class Api {
         return request
     }
     
-    
-    
-    
-    func getPhotoForUser(for userID: Int) -> [Photo]? {
-        var photos = [Photo]()
-        guard let url = self.generateURL(forUsers: userID, withApiMethod: .photosGetAll) else {return nil}
+    func getPhotoForUser(for userID: Int, complition:@escaping (Photos) -> ()){
+        guard let url = self.generateURL(forUsers: userID, withApiMethod: .photosGetAll) else {return}
         let request = URLRequest(url: url)
         URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
                 print(error.localizedDescription)
             }
             guard let data = data else {return}
-            
             do {
-                photos = try JSONDecoder().decode(Photos.self, from: data).response.items
+                let photos = try JSONDecoder().decode(Photos.self, from: data)
+                complition(photos)
             }catch{
                 print(String(describing: error))
             }
         }.resume()
-        return photos
     }
-    
-    
-    
     
     func getFriends(complition:@escaping (Friends) -> ()) {
         guard let url = self.generateURL(forUsers: nil, withApiMethod: .friendsGet) else {return}
@@ -143,17 +136,14 @@ class Api {
                 print(error.localizedDescription)
             }
             guard let data = data else {return}
-            
             do {
                 let friends = try JSONDecoder().decode(Friends.self, from: data)
-               
+                
                 complition(friends)
             }catch{
                 print(String(describing: error))
             }
         }.resume()
-        
-        
     }
     
     func getUser(_ usersId: Int, complition:@escaping (User)->Void) {
@@ -174,11 +164,50 @@ class Api {
             }
         }.resume()
     }
+}
+
+extension Api {
     
+    enum LikesMethod: String {
+        case add = "/method/likes.add"
+        case delete = "/method/likes.delete"
+    }
+    func likes(for photo: Photo, _ method: LikesMethod) -> Likes? {
+        var likes = Likes(count: 0, userLikes: 0)
+        self.urlComponents.scheme = "https"
+        self.urlComponents.host = BaseURL.api.rawValue
+        self.urlComponents.path = method.rawValue
+        self.urlComponents.queryItems = [
+            URLQueryItem(name: "type", value: "photo"),
+            URLQueryItem(name: "owner_id", value: String(photo.ownerID)),
+            URLQueryItem(name: "item_id", value: String(photo.id)),
+            URLQueryItem(name: "access_token", value: Session.data.token),
+            URLQueryItem(name: "v", value: apiVersion)
+        ]
+        guard let url = urlComponents.url else {return nil}
+        
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            guard let data = data else {return}
+            do {
+                likes = try JSONDecoder().decode(Likes.self, from: data)
+            } catch {
+                print(error.localizedDescription)
+            }
+        }.resume()
+        return likes
+    }
     
-    
-  
     
     
     
 }
+
+
+
+

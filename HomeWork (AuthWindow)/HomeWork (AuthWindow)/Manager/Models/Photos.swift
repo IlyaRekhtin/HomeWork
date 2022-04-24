@@ -19,13 +19,14 @@ struct ResponsePhoto: Codable {
 
 // MARK: - Item
 struct Photo: Codable, Hashable {
+    
     static func == (lhs: Photo, rhs: Photo) -> Bool {
         lhs.id == rhs.id
     }
     
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(id)
+//    }
     
     let albumID, date, id, ownerID: Int
     let sizes: [Size]
@@ -45,7 +46,7 @@ struct Photo: Codable, Hashable {
 }
 
 // MARK: - Likes
-struct Likes: Codable {
+struct Likes: Codable, Hashable {
     let count, userLikes: Int
 
     enum CodingKeys: String, CodingKey {
@@ -55,14 +56,26 @@ struct Likes: Codable {
 }
 
 // MARK: - Reposts
-struct Reposts: Codable {
+struct Reposts: Codable, Hashable {
     let count: Int
 }
 
 // MARK: - Size
-struct Size: Codable {
+struct Size: Codable, Hashable {
     let height: Int
     let url: String
     let type: String
     let width: Int
+}
+
+enum TypeEnum: String, Codable {
+    case m = "m"
+    case o = "o"
+    case p = "p"
+    case q = "q"
+    case r = "r"
+    case s = "s"
+    case x = "x"
+    case y = "y"
+    case z = "z"
 }

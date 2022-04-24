@@ -18,6 +18,9 @@ class AvatarView: UIView {
     }()
     private let shadowLayer = CAShapeLayer()
     
+    
+    
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConfig()
@@ -29,7 +32,16 @@ class AvatarView: UIView {
     
     func setImage(_ url: URL) {
         self.userPhoto.contentMode = .scaleAspectFill
-        self.userPhoto.kf.setImage(with: url)
+        self.userPhoto.kf.indicatorType = .activity
+        self.userPhoto.kf.setImage(with: url) { result in
+            switch result {
+            case .success(_):
+                self.shadowOn()
+            case .failure(let error):
+                print(error.errorDescription ?? "")
+            }
+        }
+       
     }
     
     func shadowOff() {
@@ -82,6 +94,8 @@ private extension AvatarView {
         shadowLayer.shadowOpacity = 1
         shadowLayer.shadowPath = CGPath(ellipseIn: CGRect(x: userPhoto.layer.position.x , y: userPhoto.layer.position.y + 5, width: self.frame.width + 3, height: self.frame.height + 3), transform: nil)
         self.layer.addSublayer(shadowLayer)
+        shadowOff()
+        
     }
     
 }

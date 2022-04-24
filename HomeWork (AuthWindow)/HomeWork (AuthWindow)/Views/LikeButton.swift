@@ -21,11 +21,11 @@ class LikeButton: UIButton {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setConfig<T:Likeble>(for foto: T) {
-        self.configuration?.image = foto.myLike ? imageLikeFill : imageLike
-        self.configuration?.baseForegroundColor = foto.myLike ? UIColor.red : UIColor.gray
-        self.likeCount = foto.myLike ? 1 : 0
-        self.likeCount += foto.likesCount
+    func setConfig(for photo: Photo) {
+  
+        self.configuration?.image = photo.likes.userLikes == 1 ? imageLikeFill : imageLike
+        self.configuration?.baseForegroundColor = photo.likes.userLikes == 1 ? UIColor.red : UIColor.gray
+        self.likeCount = photo.likes.count
         self.configuration?.title = String(likeCount)
         self.configuration?.imagePadding = 5
     }
@@ -41,14 +41,20 @@ class LikeButton: UIButton {
         
     }
     
-    func changeValue<T:Likeble>(for foto: T) {
-        switch foto.myLike {
-        case true:
+    func changeValue(for photo: Photo) {
+        switch photo.likes.userLikes {
+        case 1:
             self.configuration?.image = UIImage(systemName: "heart")
-            self.configuration?.title = String(foto.likesCount)
-        case false:
+            self.likeCount = Api.shared.likes(for: photo, .delete)?.count ?? 0
+            self.configuration?.title = String(self.likeCount)
+           
+        case 0:
             self.configuration?.image = UIImage(systemName: "heart.fill")
-            self.configuration?.title = String(foto.likesCount)
+            self.likeCount = Api.shared.likes(for: photo, .add)?.count ?? 0
+            self.configuration?.title = String(self.likeCount)
+           
+        default:
+            break
         }
         
     }

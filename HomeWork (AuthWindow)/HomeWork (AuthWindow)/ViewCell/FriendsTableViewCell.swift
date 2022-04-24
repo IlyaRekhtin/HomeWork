@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 
 class FriendsTableViewCell: UITableViewCell {
@@ -46,10 +47,10 @@ class FriendsTableViewCell: UITableViewCell {
     
     
     func configCell(for friend: Friend) {
-        let url = URL(string: friend.photo50)!
-        
+        guard let url = URL(string: friend.photo50) else {return}
         
         avatar.setImage(url)
+        
         city.text = friend.city?.title
         fullName.text = "\(friend.firstName) \(friend.lastName)"
     }
