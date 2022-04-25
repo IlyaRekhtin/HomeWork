@@ -137,7 +137,7 @@ extension FriendFotoCollectionViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImageShowViewController else {return}
+        guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImagePresentViewController else {return}
         guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
         
         vc.currentIndexPuthFoto = index.row

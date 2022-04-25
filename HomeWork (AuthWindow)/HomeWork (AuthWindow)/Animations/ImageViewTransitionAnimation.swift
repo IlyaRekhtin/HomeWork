@@ -20,7 +20,7 @@ class PushImageViewTransitionAnimation: NSObject, UIViewControllerAnimatedTransi
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let conteiner = transitionContext.containerView
         guard let fromView = transitionContext.viewController(forKey: .from) else {return}
-        guard let toView = transitionContext.viewController(forKey: .to) as? ImageShowViewController else {return}
+        guard let toView = transitionContext.viewController(forKey: .to) as? ImagePresentViewController else {return}
         
         
         toView.view.alpha =  0
