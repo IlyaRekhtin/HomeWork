@@ -17,15 +17,19 @@ class LaunchViewController: UIViewController {
         super.viewDidLoad()
         setConstraints()
         animate()
-        Api.shared.getFriends { [self] friends in
+        Api.shared.getNewsfeeds { _ in
             
+        }
+        Api.shared.getGroups { groups in
+            DataManager.data.groups = groups.response.items
+        }
+        Api.shared.getFriends { [self] friends in
             DispatchQueue.main.async {
                 DataManager.data.friends = friends.response.items
                 guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
             }
-            
         }
     }
 }
@@ -41,9 +45,6 @@ private extension LaunchViewController {
             make.size.equalTo(self.loadImage.frame.size)
         }
     }
-    
-    
-    
     private func animate() {
         
         UIView.animate(withDuration: 1, delay: 0, options: [.repeat, .autoreverse]) {
@@ -52,7 +53,7 @@ private extension LaunchViewController {
         } completion: { _ in
             self.loadImage.transform = .identity
         }
-
+        
     }
     
     

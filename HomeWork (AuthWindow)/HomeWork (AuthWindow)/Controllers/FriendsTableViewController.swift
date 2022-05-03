@@ -16,9 +16,6 @@ class FriendsViewController: UIViewController {
     
     private var firstLetterOfNameFriends = DataManager.data.getFirstLettersOfTheNameList(in: DataManager.data.friends)
     
-    override func loadView() {
-        super.loadView()
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         configurationsForTableView()
@@ -130,9 +127,9 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         vc.userId = friend.id
         vc.firstName = friend.firstName
         vc.lastName = friend.lastName
-        Api.shared.getPhotoForUser(for: friend.id){photos in
-            vc.photoAlbum = photos.response.items
-        }
+//        Api.shared.getPhotos(for: friend.id){photos in
+//            vc.photoAlbum = photos.response.items
+//        }
         
         
         

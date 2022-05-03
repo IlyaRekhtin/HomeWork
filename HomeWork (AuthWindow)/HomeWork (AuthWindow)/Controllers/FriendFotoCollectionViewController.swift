@@ -45,6 +45,9 @@ class FriendFotoCollectionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        Api.shared.getPhotos(for: userId){photos in
+            self.photoAlbum = photos.response.items
+        }
         navControllerConfiguration()
     }
     
@@ -147,8 +150,9 @@ extension FriendFotoCollectionViewController: UICollectionViewDelegate {
         DispatchQueue.main.async {
             vc.firstImageView.kf.setImage(with: self.currentSizePhotos[index.row])
         }
+        vc.currentSizePhotos = self.currentSizePhotos
         vc.firstImageView.kf.indicatorType = .activity
-        vc.photoAlbum = currentSizePhotos
+        vc.photoAlbum = self.photoAlbum
         vc.transitioningDelegate = self
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)

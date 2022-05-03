@@ -1,20 +1,15 @@
 
-
-
-
-
-
 import Foundation
 
 // MARK: - Photos
 struct Photos: Codable {
-    let response: ResponsePhoto
+    var response: ResponsePhoto
 }
 
 // MARK: - Response
 struct ResponsePhoto: Codable {
     let count: Int
-    let items: [Photo]
+    var items: [Photo]
 }
 
 // MARK: - Item
@@ -32,7 +27,7 @@ struct Photo: Codable, Hashable {
     let sizes: [Size]
     let text: String
     let hasTags: Bool
-    let likes: Likes
+    var likes: Likes
     let reposts: Reposts
 
     enum CodingKeys: String, CodingKey {
@@ -47,7 +42,7 @@ struct Photo: Codable, Hashable {
 
 // MARK: - Likes
 struct Likes: Codable, Hashable {
-    let count, userLikes: Int
+    var count, userLikes: Int
 
     enum CodingKeys: String, CodingKey {
         case count
@@ -79,3 +74,5 @@ enum TypeEnum: String, Codable {
     case y = "y"
     case z = "z"
 }
+
+

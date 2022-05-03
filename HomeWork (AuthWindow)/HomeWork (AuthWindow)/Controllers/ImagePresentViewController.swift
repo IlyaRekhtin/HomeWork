@@ -31,11 +31,11 @@ class ImagePresentViewController: UIViewController {
         stackView.distribution = .fillEqually
         return stackView
     }()
-    private let likeButton: LikeButton = {
+    private var likeButton: LikeButton = {
         let button = LikeButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         button.configuration = .plain()
         return button
-    }()
+    }() 
     private let spacer: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         return view
@@ -72,15 +72,10 @@ class ImagePresentViewController: UIViewController {
     }
     private var animationDirection: AnimationDirection = .left
     
-    //GestureRecognizer
-    let tapGR = UITapGestureRecognizer(target: ImagePresentViewController.self, action: #selector(hideNavBarAndTabBar))
-    let panGR = UIPanGestureRecognizer(target: ImagePresentViewController.self, action: #selector(panGestureAction(_:)))
-    let swipeDownGR = UISwipeGestureRecognizer(target: ImagePresentViewController.self, action: #selector(swipeDownAction))
-    
     //Data
     var currentIndexPuthFoto: Int!
-    var photoAlbum: [URL] = []
-    
+    var photoAlbum = [Photo]()
+    var currentSizePhotos = [URL]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,16 +85,6 @@ class ImagePresentViewController: UIViewController {
 
 //MARK: - Configuration view private methods
 private extension ImagePresentViewController {
-    //    func configImageViews() {
-    //        firstImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: self.view.bounds.height))
-    //        firstImageView.contentMode = .scaleAspectFit
-    //
-    //
-    //    }
-    //    func configTabBar() {
-    //        self.customTabBar = UIView(frame: CGRect(origin: .zero, size: CGSize(width: self.view.frame.width, height: 100)))
-    //        self.customTabBar.backgroundColor = .black
-    //    }
     func setConfigForMainView() {
         self.view.backgroundColor = .black
         navigationBarApperians()
@@ -113,12 +98,15 @@ private extension ImagePresentViewController {
 private extension ImagePresentViewController {
     
     func addGestureRecognizer() {
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(hideNavBarAndTabBar))
+        let panGR = UIPanGestureRecognizer(target: self, action: #selector(panGestureAction(_:)))
+        let swipeDownGR = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
         self.view.addGestureRecognizer(tapGR)
         self.view.addGestureRecognizer(panGR)
         swipeDownGR.direction = .down
-        self.firstImageView.addGestureRecognizer(swipeDownGR)
+        self.view.addGestureRecognizer(swipeDownGR)
     }
-
+    
     @objc func swipeDownAction(){
         self.dismiss(animated: true)
     }
@@ -139,7 +127,7 @@ private extension ImagePresentViewController {
             }
         }
     }
-
+    
     @objc func panGestureAction(_ sender: UIPanGestureRecognizer) {
         switch sender.state {
         case .began:
@@ -148,10 +136,10 @@ private extension ImagePresentViewController {
                 break
             case ...0:
                 //left
-                leftPanAnimation()
+                panAnimation(for: .left)
             case 0...:
                 // right
-                rightPanAnimation()
+                panAnimation(for: .right)
             default:
                 break
             }
@@ -181,70 +169,78 @@ private extension ImagePresentViewController {
         }
     }
     
-    func leftPanAnimation() {
-        guard photoAlbum.count - 1 >= currentIndexPuthFoto + 1 else {return}
-        animationDirection = .left
-        self.secondImageView.transform = CGAffineTransform(translationX: 1.5*self.secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
-        
-        secondImageView.kf.setImage(with: photoAlbum[currentIndexPuthFoto + 1])
-        
-        propertyAnimator = UIViewPropertyAnimator(duration: 0.5,
-                                                  curve: .linear,
-                                                  animations: {
-            self.firstImageView.transform = CGAffineTransform(translationX: -1.3*self.firstImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
-            self.secondImageView.transform = .identity
-        })
-        
-        propertyAnimator.addCompletion { [self] position in
-            switch position {
-            case .end:
-                currentIndexPuthFoto += 1
-                firstImageView.kf.setImage(with: photoAlbum[currentIndexPuthFoto])
-                firstImageView.transform = .identity
-                secondImageView.image = nil
-            case .start:
-                secondImageView.transform = CGAffineTransform(translationX: 1.5*secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
-            case .current:
-                break
-            @unknown default:
-                break
-            }
-            //                    likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
-            navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
-        }
-    }
     
-    func rightPanAnimation() {
-        guard currentIndexPuthFoto >= 1 else {return}
-        animationDirection = .right
-        self.secondImageView.transform = CGAffineTransform(translationX: -1.5*self.secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
+    /// Анимирует ImageViews в соответствии с направлением жеста
+    /// - Parameter diraction: направление жеста
+    private func panAnimation(for diraction: AnimationDirection) {
+        if diraction == .left {
+            guard photoAlbum.count - 1 >= currentIndexPuthFoto + 1 else {return}
+        } else {
+            guard currentIndexPuthFoto >= 1 else {return}
+        }
+        self.animationDirection = diraction
         
-        self.secondImageView.kf.setImage(with: photoAlbum[currentIndexPuthFoto - 1])
+        var firstViewPositionFactor: Double {
+            get {
+                switch diraction {
+                case .right:
+                    return 1.3
+                case .left:
+                    return -1.3
+                }
+            }
+        }
         
+        var secondViewPositionFactor: Double {
+            get {
+                switch diraction {
+                case .right:
+                    return -1.5
+                case .left:
+                    return 1.5
+                }
+            }
+        }
+        /// начальное положение заднего вью
+        self.secondImageView.transform = CGAffineTransform(translationX: secondViewPositionFactor * self.secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
+        
+        switch diraction {
+        case .right:
+            secondImageView.kf.setImage(with: currentSizePhotos[currentIndexPuthFoto - 1])
+        case .left:
+            secondImageView.kf.setImage(with: currentSizePhotos[currentIndexPuthFoto + 1])
+        }
+        /// анимация вью на переднем плане
         propertyAnimator = UIViewPropertyAnimator(duration: 0.5,
                                                   curve: .linear,
                                                   animations: {
-            self.firstImageView.transform = CGAffineTransform(translationX: 1.3*self.firstImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
+            self.firstImageView.transform = CGAffineTransform(translationX: firstViewPositionFactor * self.firstImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.8, y: 0.8))
             self.secondImageView.transform = .identity
         })
         
         propertyAnimator.addCompletion { [self] position in
             switch position {
             case .end:
-                currentIndexPuthFoto -= 1
-                firstImageView.kf.setImage(with: photoAlbum[currentIndexPuthFoto])
+                switch diraction {
+                case .right:
+                    currentIndexPuthFoto -= 1
+                case .left:
+                    currentIndexPuthFoto += 1
+                }
+                firstImageView.kf.setImage(with: currentSizePhotos[currentIndexPuthFoto])
                 firstImageView.transform = .identity
                 secondImageView.image = nil
             case .start:
-                secondImageView.transform = CGAffineTransform(translationX: -1.5*secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
+                secondImageView.transform = CGAffineTransform(translationX: secondViewPositionFactor * secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
             case .current:
                 break
             @unknown default:
                 break
             }
-            //                    likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
+            likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
             navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
         }
+        
     }
 }
 
@@ -313,22 +309,25 @@ private extension ImagePresentViewController {
     
     func customTabBarAppereans(){
         tabBarController?.tabBar.isHidden = true // скрываем штатный таббар
-        func configTabBarStackView(){
-            stackView.addArrangedSubview(likeButton)
-            configLikeButton()
-            stackView.addArrangedSubview(spacer)
-            stackView.addArrangedSubview(spacer2)
-        }
+        configTabBarStackView()
     }
+    
+    func configTabBarStackView(){
+        stackView.addArrangedSubview(likeButton)
+        configLikeButton()
+        stackView.addArrangedSubview(spacer)
+        stackView.addArrangedSubview(spacer2)
+    }
+    
     func configLikeButton(){
-        //        TODO переделать через configurations
-        //        likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
-        //        likeButton.addAction(UIAction(handler: { [self] _ in
-        //            fotoAlbum[currentIndexPuthFoto].myLike.toggle()
-        //            likeButton.animationImageChange()
-        //            likeButton.setConfig(for: fotoAlbum[currentIndexPuthFoto])
-        //        }), for: .touchUpInside)
+        likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
+        likeButton.addAction(UIAction(handler: { [self] _ in
+            photoAlbum[currentIndexPuthFoto].likes.userLikes = photoAlbum[currentIndexPuthFoto].likes.userLikes == 1 ? 0 : 1
+            photoAlbum[currentIndexPuthFoto].likes.count = photoAlbum[currentIndexPuthFoto].likes.userLikes == 1 ? photoAlbum[currentIndexPuthFoto].likes.count + 1 : photoAlbum[currentIndexPuthFoto].likes.count - 1
+            likeButton.updateLikeButton(for: photoAlbum[currentIndexPuthFoto])
+        }), for: .touchUpInside)
     }
+    
     @objc func backButtonAction(){
         self.dismiss(animated: true)
     }

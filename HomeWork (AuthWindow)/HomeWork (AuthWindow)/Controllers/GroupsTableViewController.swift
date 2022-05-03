@@ -7,21 +7,33 @@
 
 import UIKit
 
-class GroupsTableViewController: UITableViewController {
+class GroupsTableViewController: UIViewController {
     
     lazy private var groups = DataManager.data.groups
     
+    private var tableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         configNavigationController()
-        tableView.register(GroupsTableViewCell.self, forCellReuseIdentifier: GroupsTableViewCell.reuseID)
+        configurationsForTableView()
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         tableView.reloadData()
     }
     
+    private func configurationsForTableView() {
+        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        tableView.register(GroupsTableViewCell.self, forCellReuseIdentifier: GroupsTableViewCell.reuseID)
+        self.view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalToSuperview()
+        }
+    }
     
     
     private func configNavigationController(){
@@ -31,27 +43,6 @@ class GroupsTableViewController: UITableViewController {
         navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationItem.backButtonTitle = ""
         self.tabBarItem.tag = 1
-        
-      
-    }
-    // MARK: - Table view data source
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups.count
-    }
-
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
-//       todo  cell.setCellSetup(for: DataManager.data.myGroups[indexPath.row])
-        cell.selectionStyle = .none
-       
-        cell.hiddenButtonAdd()
-        return cell
     }
     
     @IBAction func searchActionButton(_ sender: Any) {
@@ -62,14 +53,34 @@ class GroupsTableViewController: UITableViewController {
         present(navVC, animated: true) {
             //todo
         }
-      
+        
     }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        groups.remove(at: indexPath.row)
-        tableView.deleteRows(at: [indexPath], with: .fade)
-        tableView.reloadData()
-         
-    }
-
 }
+    // MARK: - Table view data source
+    extension GroupsTableViewController: UITableViewDelegate, UITableViewDataSource {
+        
+        func numberOfSections(in tableView: UITableView) -> Int {
+            return 1
+        }
+        
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return groups.count
+        }
+        
+        
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
+            cell.setCellSetup(for: groups[indexPath.row])
+            cell.selectionStyle = .none
+            cell.hiddenButtonAdd()
+            return cell
+        }
+        
+        func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+            groups.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .fade)
+            tableView.reloadData()
+            
+        }
+        
+    }

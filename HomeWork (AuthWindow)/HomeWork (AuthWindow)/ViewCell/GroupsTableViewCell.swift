@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class GroupsTableViewCell: UITableViewCell {
 
@@ -15,7 +16,7 @@ class GroupsTableViewCell: UITableViewCell {
     var addGroupButton = AddGroupButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     
     private var groupImage: AvatarView = {
-        let imageView = AvatarView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+        let imageView = AvatarView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
        
         return imageView
     }()
@@ -23,17 +24,25 @@ class GroupsTableViewCell: UITableViewCell {
     private var groupName: UILabel = {
         let lable = UILabel()
         lable.textColor = .black
-        lable.font = UIFont(name: "Times New Roman Полужирный", size: 18)
+        lable.font = UIFont(name: "Times New Roman Полужирный", size: 16)
+        lable.numberOfLines = 1
+        return lable
+    }()
+    private var groupDescription: UILabel = {
+        let lable = UILabel()
+        lable.textColor = .lightGray
+        lable.font = UIFont(name: "Times New Roman", size: 10)
         lable.numberOfLines = 2
         return lable
     }()
     
-    private var testGroup: Group?
+    
+//    private var testGroup: Group?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setConstraints()
-        addGroupButton.addTarget(self, action: #selector(targetForAddGroupButton), for: .touchDown)
+//        addGroupButton.addTarget(self, action: #selector(targetForAddGroupButton), for: .touchDown)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -48,24 +57,27 @@ class GroupsTableViewCell: UITableViewCell {
     }
     
     func setCellSetup(for group: Group) {
-//        groupImage.setImage(group.avatar)
-//        groupName.text = group.name
-        testGroup = group
+        guard let url = URL(string: group.photo50) else {return}
+        groupImage.setImage(url)
+        groupName.text = group.name
+        groupDescription.text = group.itemDescription
         addGroupButton.config()
-//        addGroupButton.configuration?.image = DataManager.data.groups.contains(group) ?  AddGroupButton.imageForButton.groupIsAddImage.image : AddGroupButton.imageForButton.groupIsNotAddImage.image
     }
     
-    @objc private func targetForAddGroupButton() {
-        switch addGroupButton.configuration?.image {
-        case AddGroupButton.imageForButton.groupIsNotAddImage.image:
-            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsAddImage.image
-        case AddGroupButton.imageForButton.groupIsAddImage.image:
-            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsNotAddImage.image
-        default:
-            break
-        }
+    
+    
+    ////реализация кнопки добавить группу
+//    @objc private func targetForAddGroupButton() {
+//        switch addGroupButton.configuration?.image {
+//        case AddGroupButton.imageForButton.groupIsNotAddImage.image:
+//            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsAddImage.image
+//        case AddGroupButton.imageForButton.groupIsAddImage.image:
+//            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsNotAddImage.image
+//        default:
+//            break
+//        }
         
-        guard let group = testGroup else {return}
+//        guard let group = testGroup else {return}
 //        if DataManager.data.groups.contains(group) {
 //            for (index, _) in DataManager.data.groups.enumerated(){
 //                DataManager.data.groups.remove(at: index)
@@ -74,11 +86,12 @@ class GroupsTableViewCell: UITableViewCell {
 //            DataManager.data.groups.append(group)
 //        }
   
-    }
+//    }
     
     private func setConstraints() {
         contentView.addSubview(groupImage)
         addSubview(groupName)
+        addSubview(groupDescription)
         contentView.addSubview(addGroupButton)
        
         
@@ -96,6 +109,11 @@ class GroupsTableViewCell: UITableViewCell {
         groupName.snp.makeConstraints { make in
             make.left.equalTo(groupImage.snp.right).offset(20)
             make.top.equalToSuperview().inset(self.frame.height / 5)
+            make.right.equalTo(addGroupButton.snp.left).offset(10)
+        }
+        groupDescription.snp.makeConstraints { make in
+            make.left.equalTo(groupImage.snp.right).offset(20)
+            make.top.equalTo(groupName.snp.bottom).offset(3)
             make.right.equalTo(addGroupButton.snp.left).offset(10)
         }
     }

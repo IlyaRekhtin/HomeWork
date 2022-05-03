@@ -13,7 +13,7 @@ class SearchGroupViewController: UIViewController {
     private var tableView: UITableView!
     private var groups = DataManager.data.groups
     private var searchBar: UISearchBar!
-    private var searchResultArray = Set<Group>()
+//    private var searchResultArray = Set<Group>()
     private var tapRecognizer: UITapGestureRecognizer!
     
     private var cancelButton: UIButton!
@@ -105,19 +105,20 @@ extension SearchGroupViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if searchBar.searchTextField.text != "" {
-            return searchResultArray.count
-        } else {
-            return groups.count
-        }
+
+//        if searchBar.searchTextField.text != "" {
+//            return searchResultArray.count
+//        } else {
+//            return groups.count
+//        }
+        return 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
-        let groupArray = searchBar.searchTextField.text != "" ? Array(searchResultArray) : groups
-        let group = groupArray[indexPath.row]
-        cell.setCellSetup(for: group)
+//        let groupArray = searchBar.searchTextField.text != "" ? Array(searchResultArray) : groups
+//        let group = groupArray[indexPath.row]
+//        cell.setCellSetup(for: group)
      
         cell.selectionStyle = .none
        
@@ -129,7 +130,7 @@ extension SearchGroupViewController: UITableViewDataSource, UITableViewDelegate 
 extension SearchGroupViewController: UISearchBarDelegate, UISearchTextFieldDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        searchResultArray.removeAll()
+      //  searchResultArray.removeAll()
         for group in groups {
 //            let name = group.name
 //            if name.contains(searchText) {

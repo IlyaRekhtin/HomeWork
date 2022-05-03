@@ -258,8 +258,8 @@
 			children = (
 				8CD2EE6428077183001F6AA7 /* Session.swift */,
 				8C5736A7280DF0940014E9AE /* Users.swift */,
-				8C9FE68A280F39BD00AA223E /* Photos.swift */,
 				8C80B57D281094BF0064A2FA /* Friends.swift */,
+				8C9FE68A280F39BD00AA223E /* Photos.swift */,
 				8CA0852B28149EF9004CB2C6 /* Newsfeed.swift */,
 				8CA0852D2814AA88004CB2C6 /* Groups.swift */,
 			);
