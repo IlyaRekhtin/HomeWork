@@ -13,18 +13,22 @@ final class DataManager {
     
     static let data = DataManager()
     
-    lazy var friends = [Friend]()
-    lazy var users = [User]()
-    lazy var newsfeed = [Newsfeed]()
-    lazy var groups = [Group]()
-    lazy var photos = [Photo]()
+    lazy var myFriends = [Friend]()
     
+    lazy var myGroups = [Group]()
+    lazy var friendsPhotos = [Photo]()
+    
+    
+    ///Newsfeed
+    lazy var myNews = [News]()
+    lazy var usersForMyNews = [User]()
+    lazy var groupsForMyNews = [Group]()
     
     private init(){}
     
     func getFirstLettersOfTheNameList(in nameList: [Friend]) -> [String] {
         var array = Set<String>()
-        for user in friends {
+        for user in myFriends {
             array.insert(String(user.firstName.first!))
         }
         return array.sorted()

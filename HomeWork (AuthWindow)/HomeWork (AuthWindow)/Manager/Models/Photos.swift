@@ -19,10 +19,6 @@ struct Photo: Codable, Hashable {
         lhs.id == rhs.id
     }
     
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(id)
-//    }
-    
     let albumID, date, id, ownerID: Int
     let sizes: [Size]
     let text: String

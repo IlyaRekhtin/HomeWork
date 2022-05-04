@@ -8,6 +8,7 @@
 import UIKit
 
 
+
 class Api {
     
     static var shared = Api()
@@ -16,7 +17,7 @@ class Api {
     //MARK: - свойства
     lazy private var urlComponents = URLComponents()
     
-    private let appID = "8147273" // уникальный ключ приложения
+    private let appID = "8157085" // уникальный ключ приложения
     
     private let apiVersion = "5.131"
     
@@ -85,8 +86,9 @@ class Api {
             ]
         case .newsfeedGet:
             self.urlComponents.queryItems = [
-//                URLQueryItem(name: "filters", value: "photo"),
-//                URLQueryItem(name: "return_banned", value: "0"),
+                URLQueryItem(name: "filters", value: "photo, wall_photo"),
+                URLQueryItem(name: "source_ids", value: "friends, groups"),
+//                URLQueryItem(name: "count", value: ""),
                 URLQueryItem(name: "access_token", value: Session.data.token),
                 URLQueryItem(name: "v", value: apiVersion)
                 
@@ -100,114 +102,116 @@ class Api {
                 URLQueryItem(name: "no_service_albums", value: "1"),
                 URLQueryItem(name: "access_token", value: Session.data.token),
                 URLQueryItem(name: "v", value: apiVersion)
-                
             ]
         }
-        
-        
         return self.urlComponents.url
     }
     
     // MARK: - open methods
     /// Создает запрос для перехода к окну авторизации ВК
     /// - Returns: URLRequest
+    
     func getAuthRequest() -> URLRequest? {
         guard let url = self.generateLogInUrl() else {return nil}
         let request = URLRequest(url: url)
         return request
     }
     
-    func getNewsfeeds(complition:@escaping (Groups) -> ()) {
-        guard let url = self.generateURL(forUsers: nil, withApiMethod: .newsfeedGet) else {return}
-        print(url)
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            guard let data = data else {return}
-            do {
-                let newsfeed = try JSONSerialization.data(withJSONObject: data, options: .fragmentsAllowed)
-                print(newsfeed)
-            }catch{
-                print(String(describing: error))
-            }
-        }.resume()
-    }
+        func getNewsfeed(complition:@escaping (Newsfeed) -> ()) {
+            guard let url = self.generateURL(forUsers: nil, withApiMethod: .newsfeedGet) else {return}
+            print(url)
+            let request = URLRequest(url: url)
     
-    func getGroups(complition:@escaping (Groups) -> ()) {
-        guard let url = self.generateURL(forUsers: nil, withApiMethod: .groupsGet) else {return}
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            guard let data = data else {return}
-            do {
-                let groups = try JSONDecoder().decode(Groups.self, from: data)
-                complition(groups)
-            }catch{
-                print(String(describing: error))
-            }
-        }.resume()
-    }
+            URLSession.shared.dataTask(with: request) { data, _, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                guard let data = data else {return}
+                do {
+                    let newsfeed = try JSONDecoder().decode(Newsfeed.self, from: data)
+                    complition(newsfeed)
+                }catch{
+                    print(#function)
+                    print(String(describing: error))
+                }
+            }.resume()
+        }
     
-    func getPhotos(for userID: Int, complition:@escaping (Photos) -> ()){
-        guard let url = self.generateURL(forUsers: userID, withApiMethod: .photosGetAll) else {return}
-        let request = URLRequest(url: url)
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            guard let data = data else {return}
-            do {
-                let photos = try JSONDecoder().decode(Photos.self, from: data)
-                complition(photos)
-            }catch{
-                print(String(describing: error))
-            }
-        }.resume()
-    }
+        func getGroups(complition:@escaping (Groups) -> ()) {
+            guard let url = self.generateURL(forUsers: nil, withApiMethod: .groupsGet) else {return}
+            let request = URLRequest(url: url)
     
-    func getFriends(complition:@escaping (Friends) -> ()) {
-        guard let url = self.generateURL(forUsers: nil, withApiMethod: .friendsGet) else {return}
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            guard let data = data else {return}
-            do {
-                let friends = try JSONDecoder().decode(Friends.self, from: data)
-                
-                complition(friends)
-            }catch{
-                print(String(describing: error))
-            }
-        }.resume()
-    }
+            URLSession.shared.dataTask(with: request) { data, _, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                guard let data = data else {return}
+                do {
+                    let groups = try JSONDecoder().decode(Groups.self, from: data)
+                    complition(groups)
+                }catch{
+                    print(#function)
+                    print(String(describing: error))
+                }
+            }.resume()
+        }
     
-    func getUser(_ usersId: Int, complition:@escaping (User)->Void) {
-        guard let url = self.generateURL(forUsers: usersId, withApiMethod: .usersGet) else {return}
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            
-            guard let data = data else {return}
-            do {
-                guard let user = try JSONDecoder().decode(Users.self, from: data).users.first else {return}
-                complition(user)
-            } catch {
-                print(error.localizedDescription)
-            }
-        }.resume()
-    }
+        func getPhotos(for userID: Int, complition:@escaping (Photos) -> ()){
+            guard let url = self.generateURL(forUsers: userID, withApiMethod: .photosGetAll) else {return}
+            let request = URLRequest(url: url)
+            URLSession.shared.dataTask(with: request) { data, _, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                guard let data = data else {return}
+                do {
+                    let photos = try JSONDecoder().decode(Photos.self, from: data)
+                    complition(photos)
+                }catch{
+                    print(#function)
+                    print(String(describing: error))
+                }
+            }.resume()
+        }
+    
+        func getFriends(complition:@escaping (Friends) -> ()) {
+            guard let url = self.generateURL(forUsers: nil, withApiMethod: .friendsGet) else {return}
+            let request = URLRequest(url: url)
+    
+            URLSession.shared.dataTask(with: request) { data, _, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+                guard let data = data else {return}
+                do {
+                    let friends = try JSONDecoder().decode(Friends.self, from: data)
+                    print(#function)
+                    complition(friends)
+                }catch{
+                    print(String(describing: error))
+                }
+            }.resume()
+        }
+    
+        func getUser(_ usersId: Int, complition:@escaping (User)->Void) {
+            guard let url = self.generateURL(forUsers: usersId, withApiMethod: .usersGet) else {return}
+            let request = URLRequest(url: url)
+    
+            URLSession.shared.dataTask(with: request) { data, _, error in
+                if let error = error {
+                    print(error.localizedDescription)
+                }
+    
+                guard let data = data else {return}
+                do {
+                    guard let user = try JSONDecoder().decode(Users.self, from: data).users.items.first else {return}
+                    complition(user)
+                } catch {
+                    print(#function)
+                    print(error.localizedDescription)
+                }
+            }.resume()
+        }
 }
 //MARK: - Like method
 extension Api {
@@ -237,10 +241,6 @@ extension Api {
         }.resume()
         
     }
-    
-    
-    
-    
 }
 
 

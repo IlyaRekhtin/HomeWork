@@ -101,10 +101,11 @@ private extension ImagePresentViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(hideNavBarAndTabBar))
         let panGR = UIPanGestureRecognizer(target: self, action: #selector(panGestureAction(_:)))
         let swipeDownGR = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
+        self.firstImageView.addGestureRecognizer(swipeDownGR)
         self.view.addGestureRecognizer(tapGR)
         self.view.addGestureRecognizer(panGR)
         swipeDownGR.direction = .down
-        self.view.addGestureRecognizer(swipeDownGR)
+        
     }
     
     @objc func swipeDownAction(){
@@ -321,6 +322,7 @@ private extension ImagePresentViewController {
     
     func configLikeButton(){
         likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
+        ///likeButton add Action
         likeButton.addAction(UIAction(handler: { [self] _ in
             photoAlbum[currentIndexPuthFoto].likes.userLikes = photoAlbum[currentIndexPuthFoto].likes.userLikes == 1 ? 0 : 1
             photoAlbum[currentIndexPuthFoto].likes.count = photoAlbum[currentIndexPuthFoto].likes.userLikes == 1 ? photoAlbum[currentIndexPuthFoto].likes.count + 1 : photoAlbum[currentIndexPuthFoto].likes.count - 1

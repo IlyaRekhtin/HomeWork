@@ -7,15 +7,15 @@
 
 import UIKit
 
-class NewsTableViewController: UITableViewController {
+class NewsfeedTableViewController: UITableViewController {
     
-    private var newsfeed = DataManager.data.newsfeed
+    private lazy var myNews = DataManager.data.myNews
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+       
         configNavigationController()
-        tableView.register(NewsTableViewCell.self, forCellReuseIdentifier: NewsTableViewCell.reuseID)
+        tableView.register(NewsfeedTableViewCell.self, forCellReuseIdentifier: NewsfeedTableViewCell.reuseID)
     }
     
     // MARK: - Table view data source
@@ -24,20 +24,25 @@ class NewsTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return newsfeed.count
+        return myNews.count
     }
 
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NewsTableViewCell.reuseID, for: indexPath) as! NewsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: NewsfeedTableViewCell.reuseID, for: indexPath) as! NewsfeedTableViewCell
+        let news = myNews[indexPath.row]
+        
+        
+        
+        
+        cell.configurationCell(with: news)
         cell.selectionStyle = .none
-        cell.backgroundColor = .brown
         return cell
     }
 }
 
 //MARK: - private
-private extension NewsTableViewController {
+private extension NewsfeedTableViewController {
     func configNavigationController(){
         navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()

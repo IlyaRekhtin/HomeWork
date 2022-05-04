@@ -15,12 +15,12 @@ class HeaderNewsView: UIView {
     
     
     override init(frame: CGRect) {
-        let avatarSize = CGSize(width: frame.height - 6, height: frame.height - 6)
+        let avatarSize = CGSize(width: frame.height, height: frame.height)
         avatar = AvatarView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: avatarSize))
         name = UILabel(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: avatarSize))
         name.numberOfLines = 1
         name.textAlignment = .left
-        name.font = UIFont(name: "Times New Roman Полужирный", size: 18)
+        name.font = UIFont(name: "Times New Roman", size: 16)
         
         super.init(frame: frame)
         
@@ -35,10 +35,9 @@ class HeaderNewsView: UIView {
     
     private func setConstraints() {
         avatar.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
             make.left.equalToSuperview().inset(10)
             make.top.bottom.equalToSuperview().inset(3)
-            make.size.equalTo(avatar.frame.size)
+            make.size.width.equalTo(avatar.frame.size)
            
         }
         
@@ -49,9 +48,10 @@ class HeaderNewsView: UIView {
         }
     }
     
-    func setValue(_ avatar: UIImage, _ name: String) {
+    func setValue(_ avatar: String, _ name: String) {
+        guard let url = URL(string: avatar) else {return}
         self.avatar.shadowOff()
-//        self.avatar.setImage(avatar)
+        self.avatar.setImage(url)
         self.name.text = name
     }
    

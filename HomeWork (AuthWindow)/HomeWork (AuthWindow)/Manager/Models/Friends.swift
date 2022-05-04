@@ -42,3 +42,7 @@ enum Deactivated: String, Codable {
     case banned = "banned"
     case deleted = "deleted"
 }
+
+struct City: Codable {
+    let title: String
+}

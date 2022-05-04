@@ -26,7 +26,7 @@ struct Group: Codable {
     let type: String
     let isAdmin, isMember, isAdvertiser: Int
     let photo50, photo100, photo200: String
-    let itemDescription: String
+    let itemDescription: String?
 
     enum CodingKeys: String, CodingKey {
         case id, name

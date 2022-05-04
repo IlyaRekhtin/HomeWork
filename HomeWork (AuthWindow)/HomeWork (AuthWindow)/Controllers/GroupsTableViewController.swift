@@ -9,7 +9,7 @@ import UIKit
 
 class GroupsTableViewController: UIViewController {
     
-    lazy private var groups = DataManager.data.groups
+    lazy private var groups = DataManager.data.myGroups
     
     private var tableView: UITableView!
     

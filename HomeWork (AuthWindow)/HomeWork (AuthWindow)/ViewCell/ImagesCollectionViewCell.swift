@@ -7,16 +7,16 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class ImagesCollectionViewCell: UICollectionViewCell {
     
     static let reuseID = "images"
     
-    var photo: Photo?
-    
     var imageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-       
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     
@@ -29,11 +29,10 @@ class ImagesCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func config (_ image: Photo) {
-       
-        
-//        imageView.image = image.image
-//        photo = image
+    func config (_ imageURL: URL) {
+        imageView.kf.setImage(with: imageURL) { result in
+            
+        }
     }
     
     private func setConstraints() {

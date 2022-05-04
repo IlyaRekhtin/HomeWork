@@ -8,23 +8,25 @@
 import UIKit
 import SnapKit
 
-class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate {
+class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
     
-    static let reuseID = "news"
-
+    static let reuseID = "newsfeed"
+    
+    private lazy var usersForMyNews = DataManager.data.usersForMyNews
+    private lazy var groupsForMyNews = DataManager.data.groupsForMyNews
     private var headerNewsView = HeaderNewsView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     
-    private var newsView : UILabel = {
-        let lable = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 30))
+    private var newsfeedText : UILabel = {
+        let lable = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         lable.font = UIFont(name: "Times New Roman", size: 17)
         lable.numberOfLines = 0
         return lable
     }()
     
-    private var like: LikeButton = {
+    private var likeButton: LikeButton = {
         let button = LikeButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-        button.configuration = .gray()
         button.layer.cornerRadius = button.frame.height / 3
+
         button.clipsToBounds = true
         return button
     }()
@@ -36,51 +38,75 @@ class NewsTableViewCell: UITableViewCell, UICollectionViewDelegate {
     }()
     
     private var images = [Photo]()
+    private var imagesURL = [URL]()
     
-    var newsfeed = Newsfeed()
-    var photoNewsfeedCollectionView = UICollectionView()
+    var photoNewsfeedCollectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCollectionView()
         createDataSourse()
-       
+        setConstreints()
+        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configurationCell(_ newsfeed: Newsfeed) {
+    func configurationCell(with news: News) {
         
-//        headerNewsView.setValue(news.person.avatar, news.person.name)
-//        newsView.text = news.newsText
-//
-//        images = self.news.newsImages ?? []
-//
-//        like.setConfig(for: self.news)
-//
-//        like.addAction(UIAction(handler: { _ in
-//            self.news.myLike.toggle()
-//            self.like.animationImageChange()
-//            self.like.setConfig(for: self.news)
-//
-//            // TODO go to server change
-//
-//        }), for: .touchUpInside)
-//
-//
-//        reloadData()
-//
-//        setConstreints(self.news)
+        var userAvatarStringUrl = String()
+        var userName = String()
+        
+        switch news.sourceID {
+        case ..<0:
+            groupsForMyNews.forEach { group in
+                if news.sourceID == -group.id {
+                    userAvatarStringUrl = group.photo50
+                    userName = group.name
+                }
+            }
+        default:
+            usersForMyNews.forEach { user in
+                if news.sourceID == user.id {
+                    userAvatarStringUrl = user.photo50
+                    userName = user.firstName + " " + user.lastName
+                }
+            }
+        }
+        headerNewsView.setValue(userAvatarStringUrl, userName)
+        ///добавляем массив фотографий из news
+        if news.photos != nil {
+            images = news.photos!.items
+        }
+        imagesURL = DataManager.data.getPhotoUrl(with: .x, for: images)
+        newsfeedText.text = news.text
+        if newsfeedText.text == nil {
+            newsfeedText.snp.updateConstraints { make in
+                make.top.equalTo(self.headerNewsView.snp.bottom).offset(10)
+                make.right.left.equalToSuperview().inset(10)
+                make.height.equalTo(0)
+            }
+        }
+        
+        
+        likeButton.secConfig(for: news)
+        likeButton.addAction(UIAction(handler: { _ in
+            
+            
+        }), for: .touchUpInside)
+        
+        
+        reloadData()
     }
 }
 
 
 //MARK: - CollectionView
-private extension NewsTableViewCell {
-    //MARK: - Setup collectionView
+private extension NewsfeedTableViewCell {
+    //    //MARK: - Setup collectionView
     func setupCollectionView() {
         photoNewsfeedCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: self.layer.frame.width, height: self.layer.frame.width), collectionViewLayout: createCompositionLayout())
         photoNewsfeedCollectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
@@ -91,11 +117,11 @@ private extension NewsTableViewCell {
         photoNewsfeedCollectionView.register(ImagesCollectionViewCell.self, forCellWithReuseIdentifier: ImagesCollectionViewCell.reuseID)
     }
     
-    //MARK: - create composition layout
+    //    //MARK: - create composition layout
     func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
             
-            switch self.images.count {
+            switch self.imagesURL.count {
             case 1:
                 return self.createLayoutForNewsImage()
             case 2...3:
@@ -110,13 +136,14 @@ private extension NewsTableViewCell {
         }
         return layout
     }
-    //MARK: - create Data Source
+    //    //MARK: - create Data Source
     func createDataSourse() {
         dataSource = UICollectionViewDiffableDataSource<Int, Photo>(collectionView: self.photoNewsfeedCollectionView,
-                                                                         cellProvider: { (collectionView, indexPuth, model) -> UICollectionViewCell? in
+                                                                    cellProvider: { (collectionView, indexPuth, model) -> UICollectionViewCell? in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagesCollectionViewCell.reuseID, for: indexPuth) as! ImagesCollectionViewCell
-            cell.config(self.images[indexPuth.row])
+            cell.config(self.imagesURL[indexPuth.row])
+            
             return cell
         })
     }
@@ -130,52 +157,39 @@ private extension NewsTableViewCell {
 }
 
 //MARK: - Constraints
-private extension NewsTableViewCell {
+private extension NewsfeedTableViewCell {
     
     func setConstreints() {
         self.contentView.addSubview(headerNewsView)
         headerNewsView.snp.makeConstraints { make in
-            make.leading.top.trailing.equalToSuperview()
-            make.height.equalTo(self.headerNewsView.frame.height)
+            make.top.equalToSuperview().inset(3)
+            make.left.right.equalToSuperview()
         }
         
-//        if news.newsText != nil {
-            self.contentView.addSubview(newsView)
-            newsView.snp.makeConstraints { make in
-                make.top.equalTo(headerNewsView.snp.bottom).offset(10)
-                make.left.right.equalToSuperview().inset(10)
-            }
-//        }
-        
-        if !images.isEmpty {
-            self.contentView.addSubview(photoNewsfeedCollectionView)
-            photoNewsfeedCollectionView.snp.makeConstraints { make in
-//                if news.newsText != nil {
-//                    make.top.equalTo(self.newsView.snp.bottom).offset(3)
-//                } else {
-                    make.top.equalTo(self.headerNewsView.snp.bottom).offset(3)
-//                }
-                make.left.right.equalToSuperview()
-                make.height.equalTo(self.photoNewsfeedCollectionView.frame.height)
-            }
+        self.contentView.addSubview(newsfeedText)
+        newsfeedText.snp.makeConstraints { make in
+            make.top.equalTo(self.headerNewsView.snp.bottom).offset(10)
+            make.right.left.equalToSuperview().inset(10)
+            make.height.equalTo(100)
+        }
+        self.contentView.addSubview(photoNewsfeedCollectionView)
+        photoNewsfeedCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(self.newsfeedText.snp.bottom).offset(5)
+            make.right.left.equalToSuperview()
+            make.height.equalTo(self.photoNewsfeedCollectionView.frame.height)
         }
         
-        self.contentView.addSubview(like)
-        like.snp.makeConstraints { make in
-            if !images.isEmpty {
-                make.top.equalTo(self.photoNewsfeedCollectionView.snp.bottom).offset(5)
-            } else {
-                make.top.equalTo(self.newsView.snp.bottom).offset(5)
-            }
-            make.left.equalToSuperview().inset(5)
+        self.contentView.addSubview(likeButton)
+        likeButton.snp.makeConstraints { make in
+            make.top.equalTo(self.photoNewsfeedCollectionView.snp.bottom).offset(5)
+            make.left.equalToSuperview()
+            make.height.equalTo(self.likeButton.frame.height)
         }
-
         self.contentView.addSubview(separateView)
         separateView.snp.makeConstraints { make in
-            make.top.equalTo(self.like.snp.bottom).offset(5)
+            make.top.equalTo(self.likeButton.snp.bottom)
             make.left.right.bottom.equalToSuperview()
-            make.height.equalTo(self.separateView.frame.height)
         }
     }
-    
 }
+
