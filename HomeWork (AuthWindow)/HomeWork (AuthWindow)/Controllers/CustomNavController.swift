@@ -30,11 +30,11 @@ class CustomNavController: UINavigationController, UINavigationControllerDelegat
         
         switch operation {
         case .pop:
-            CustomPushPopAnimate.presenting = false
-            return CustomPushPopAnimate()
+            TransitionAnimateForCustonNavController.presenting = false
+            return TransitionAnimateForCustonNavController()
         case .push:
-            CustomPushPopAnimate.presenting = true
-            return CustomPushPopAnimate()
+            TransitionAnimateForCustonNavController.presenting = true
+            return TransitionAnimateForCustonNavController()
         case .none:
             return nil
         @unknown default:

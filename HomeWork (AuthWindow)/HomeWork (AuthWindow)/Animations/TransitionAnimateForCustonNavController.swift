@@ -7,7 +7,7 @@
 
 import UIKit
 
-class CustomPushPopAnimate: NSObject, UIViewControllerAnimatedTransitioning {
+class TransitionAnimateForCustonNavController: NSObject, UIViewControllerAnimatedTransitioning {
 
     private let animDuration: TimeInterval = 1
     static var presenting = true
@@ -27,7 +27,7 @@ class CustomPushPopAnimate: NSObject, UIViewControllerAnimatedTransitioning {
         let rotateIn = CGAffineTransform(rotationAngle: -.pi/2)
         let rotateOut = CGAffineTransform(rotationAngle: .pi/2)
         
-        destination.view.transform = CustomPushPopAnimate.presenting ? rotateIn : rotateOut
+        destination.view.transform = TransitionAnimateForCustonNavController.presenting ? rotateIn : rotateOut
         
         
         destination.view.layer.anchorPoint = CGPoint(x: 1, y: 0)
@@ -45,7 +45,7 @@ class CustomPushPopAnimate: NSObject, UIViewControllerAnimatedTransitioning {
                        initialSpringVelocity: 0.9,
                        options: []) {
             
-            switch CustomPushPopAnimate.presenting {
+            switch TransitionAnimateForCustonNavController.presenting {
             case true:
                 destination.view.transform = rotateIn
             case false:
@@ -54,7 +54,7 @@ class CustomPushPopAnimate: NSObject, UIViewControllerAnimatedTransitioning {
             destination.view.transform = .identity
         } completion: { finished in
             if finished && !transitionContext.transitionWasCancelled {
-                if !CustomPushPopAnimate.presenting {
+                if !TransitionAnimateForCustonNavController.presenting {
                     source.removeFromParent()
                 }
             } else if transitionContext.transitionWasCancelled {

@@ -11,7 +11,6 @@ class LikeButton: UIButton {
 /// images enum
    private enum buttonStateImages: String {
         case like
-            
         case likeFill
         
         var image: UIImage? {
@@ -24,28 +23,21 @@ class LikeButton: UIButton {
         }
     }
     
-    
-    func secConfig(for news: News){
-        guard let likes = news.likes else {return}
+    func setConfig<T: Likeble>(for item: T){
+        guard let likes = item.likes else {return}
         self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
         self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
         self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
         self.configuration?.imagePadding = 5
     }
-
-    func setConfig(for photo: Photo) {
-        self.configuration?.image = photo.likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
-        self.configuration?.baseForegroundColor = photo.likes.userLikes == 1 ? UIColor.red : UIColor.gray
-        self.configuration?.title = photo.likes.count == 0 ? "" : String(photo.likes.count)
-        self.configuration?.imagePadding = 5
-    }
     
     func updateLikeButton(for photo: Photo){
         animationImageChange()
-        self.configuration?.image = photo.likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
-        self.configuration?.baseForegroundColor = photo.likes.userLikes == 1 ? UIColor.red : UIColor.gray
-        self.configuration?.title = photo.likes.count == 0 ? "" : String(photo.likes.count)
-        photo.likes.userLikes == 1 ? Api.shared.likes(for: photo, .add) : Api.shared.likes(for: photo, .delete)
+        guard let likes = photo.likes else {return}
+        self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
+        self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
+        self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
+        likes.userLikes == 1 ? Api.shared.likes(for: photo, .add) : Api.shared.likes(for: photo, .delete)
     }
 }
 //MARK: - Animation for button

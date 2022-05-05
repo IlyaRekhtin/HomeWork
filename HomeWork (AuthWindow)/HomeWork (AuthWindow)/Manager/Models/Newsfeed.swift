@@ -11,7 +11,6 @@ struct Newsfeed: Codable {
     let response: ResponseNewsfeed
 
 }
-
 // MARK: - Response
 struct ResponseNewsfeed: Codable {
     let items: [News]
@@ -25,14 +24,14 @@ struct ResponseNewsfeed: Codable {
         case nextFrom = "next_from"
     }
 }
-
 // MARK: - ResponseItem
-struct News: Codable {
+struct News: Codable, Likeble {
+   
     let sourceID: Int
     let date: Int
     let text: String?
     let attachments: [Attachment]?
-    let likes: Likes?
+    var likes: Likes?
     let views: Views?
     let type: PostTypeEnum
     let carouselOffset: Int?

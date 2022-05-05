@@ -92,7 +92,7 @@ class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
         }
         
         
-        likeButton.secConfig(for: news)
+        likeButton.setConfig(for: news)
         likeButton.addAction(UIAction(handler: { _ in
             
             

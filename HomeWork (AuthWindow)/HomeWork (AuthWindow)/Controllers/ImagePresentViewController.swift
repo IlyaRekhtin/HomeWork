@@ -58,6 +58,7 @@ class ImagePresentViewController: UIViewController {
             firstImageView.isUserInteractionEnabled = true
         }
     }
+    
     /// ImageView for present next image on ViewController
     private var secondImageView: UIImageView! = {
         let imageView = UIImageView(frame: .zero)
@@ -170,7 +171,6 @@ private extension ImagePresentViewController {
         }
     }
     
-    
     /// Анимирует ImageViews в соответствии с направлением жеста
     /// - Parameter diraction: направление жеста
     private func panAnimation(for diraction: AnimationDirection) {
@@ -191,7 +191,6 @@ private extension ImagePresentViewController {
                 }
             }
         }
-        
         var secondViewPositionFactor: Double {
             get {
                 switch diraction {
@@ -241,7 +240,6 @@ private extension ImagePresentViewController {
             likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
             navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
         }
-        
     }
 }
 
@@ -324,8 +322,9 @@ private extension ImagePresentViewController {
         likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
         ///likeButton add Action
         likeButton.addAction(UIAction(handler: { [self] _ in
-            photoAlbum[currentIndexPuthFoto].likes.userLikes = photoAlbum[currentIndexPuthFoto].likes.userLikes == 1 ? 0 : 1
-            photoAlbum[currentIndexPuthFoto].likes.count = photoAlbum[currentIndexPuthFoto].likes.userLikes == 1 ? photoAlbum[currentIndexPuthFoto].likes.count + 1 : photoAlbum[currentIndexPuthFoto].likes.count - 1
+            guard let likes =  photoAlbum[currentIndexPuthFoto].likes else {return}
+            photoAlbum[currentIndexPuthFoto].likes?.userLikes = likes.userLikes == 1 ? 0 : 1
+            photoAlbum[currentIndexPuthFoto].likes?.count = likes.userLikes == 1 ? likes.count - 1 : likes.count + 1
             likeButton.updateLikeButton(for: photoAlbum[currentIndexPuthFoto])
         }), for: .touchUpInside)
     }

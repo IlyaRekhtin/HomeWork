@@ -15,6 +15,8 @@ class ImagesCollectionViewCell: UICollectionViewCell {
     
     var imageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        imageView.backgroundColor = UIColor(red: 0.7, green: 0.8, blue: 0.85, alpha: 0.7)
+        imageView.kf.indicatorType = .activity
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView

@@ -12,12 +12,9 @@ class FriendFotoCollectionViewController: UIViewController {
     
     private var pushTransition = PushImageViewTransitionAnimation()
     private var popTransition = PopImageViewTransitionAnimation()
-    
     private var collectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
-    
     private var layoutChangeButton = LayoutChangeButton()
-    
     
     var photoAlbum = [Photo]() {
         didSet {
@@ -29,10 +26,8 @@ class FriendFotoCollectionViewController: UIViewController {
     private var currentSizePhotos = [URL]()
     
     var userId: Int!
-    
     var firstName: String?
     var lastName: String?
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,9 +139,7 @@ extension FriendFotoCollectionViewController: UICollectionViewDelegate {
         guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
         
         vc.currentIndexPuthFoto = index.row
-        
-        
-        
+    
         DispatchQueue.main.async {
             vc.firstImageView.kf.setImage(with: self.currentSizePhotos[index.row])
         }

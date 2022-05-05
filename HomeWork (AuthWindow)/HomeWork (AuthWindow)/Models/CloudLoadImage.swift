@@ -13,8 +13,7 @@
 
 import UIKit
 
-public class CloudLoadImage : NSObject {
-
+class CloudLoadImage : NSObject {
     
     static var bezierPath: UIBezierPath = {
         let bezierPath = UIBezierPath()
@@ -33,10 +32,7 @@ public class CloudLoadImage : NSObject {
         return bezierPath
     }()
     
-    
-    
     //// Drawing Methods
-
      static func drawCanvas1() {
         //// General Declarations
         let context = UIGraphicsGetCurrentContext()!
@@ -89,13 +85,8 @@ class LoadImage: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     override func draw(_ rect: CGRect) {
-        
         CloudLoadImage.drawCanvas1()
-       
     }
-    
-    
-    
 }

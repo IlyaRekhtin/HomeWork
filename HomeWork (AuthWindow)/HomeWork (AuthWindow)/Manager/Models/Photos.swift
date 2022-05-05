@@ -13,7 +13,7 @@ struct ResponsePhoto: Codable {
 }
 
 // MARK: - Item
-struct Photo: Codable, Hashable {
+struct Photo: Codable, Hashable, Likeble {
     
     static func == (lhs: Photo, rhs: Photo) -> Bool {
         lhs.id == rhs.id
@@ -23,7 +23,7 @@ struct Photo: Codable, Hashable {
     let sizes: [Size]
     let text: String
     let hasTags: Bool
-    var likes: Likes
+    var likes: Likes?
     let reposts: Reposts
 
     enum CodingKeys: String, CodingKey {

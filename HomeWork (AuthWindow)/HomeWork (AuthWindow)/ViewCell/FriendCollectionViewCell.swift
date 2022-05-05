@@ -15,7 +15,6 @@ class FriendCollectionViewCell: UICollectionViewCell {
     
     var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
-
         imageView.backgroundColor = UIColor(red: 0.7, green: 0.8, blue: 0.85, alpha: 0.7)
         imageView.kf.indicatorType = .activity
         imageView.contentMode = .scaleAspectFill

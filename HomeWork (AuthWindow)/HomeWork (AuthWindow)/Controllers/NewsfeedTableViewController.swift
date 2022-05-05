@@ -13,7 +13,6 @@ class NewsfeedTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
         configNavigationController()
         tableView.register(NewsfeedTableViewCell.self, forCellReuseIdentifier: NewsfeedTableViewCell.reuseID)
     }
@@ -27,14 +26,9 @@ class NewsfeedTableViewController: UITableViewController {
         return myNews.count
     }
 
-    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: NewsfeedTableViewCell.reuseID, for: indexPath) as! NewsfeedTableViewCell
         let news = myNews[indexPath.row]
-        
-        
-        
-        
         cell.configurationCell(with: news)
         cell.selectionStyle = .none
         return cell
