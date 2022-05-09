@@ -5,6 +5,7 @@
 //  Created by Илья Рехтин on 23.04.2022.
 //
 import Foundation
+import RealmSwift
 
 // MARK: - Newsfeed
 struct Newsfeed: Codable {
@@ -12,11 +13,11 @@ struct Newsfeed: Codable {
 
 }
 // MARK: - Response
-struct ResponseNewsfeed: Codable {
-    let items: [News]
-    let profiles: [User]
-    let groups: [Group]
-    let nextFrom: String
+class ResponseNewsfeed:Object, Codable {
+    var items = List<News>()
+    var profiles = List<User>()
+    var groups = List<Group>()
+    @objc dynamic var nextFrom: String = ""
 
     enum CodingKeys: String, CodingKey {
         case items, profiles
@@ -25,17 +26,17 @@ struct ResponseNewsfeed: Codable {
     }
 }
 // MARK: - ResponseItem
-struct News: Codable, Likeble {
+class News:Object, Codable, Likeble {
    
-    let sourceID: Int
-    let date: Int
-    let text: String?
-    let attachments: [Attachment]?
-    var likes: Likes?
-    let views: Views?
-    let type: PostTypeEnum
-    let carouselOffset: Int?
-    let photos: ResponsePhoto?
+    @objc dynamic var sourceID: Int
+    @objc dynamic var date: Int
+    @objc dynamic var text: String?
+    var attachments: List<Attachment>?
+    @objc dynamic var likes: Likes?
+    @objc dynamic var views: Views?
+    @objc dynamic var type: String = ""
+    @objc dynamic var carouselOffset: Int
+    @objc dynamic var photos: ResponsePhoto?
 
     enum CodingKeys: String, CodingKey {
         case sourceID = "source_id"
@@ -56,10 +57,10 @@ enum PostTypeEnum: String, Codable {
     case wallPhoto = "wall_photo"
 }
 // MARK: - Attachment
-struct Attachment: Codable {
-    let type: AttachmentType
-    let link: Link?
-    let photo: Photo?
+class Attachment:Object, Codable {
+    @objc dynamic var type: String
+    @objc dynamic var link: Link?
+    @objc dynamic var photo: Photo?
 }
 
 enum AttachmentType: String, Codable {
@@ -68,13 +69,13 @@ enum AttachmentType: String, Codable {
 }
 
 // MARK: - Link
-struct Link: Codable {
-    let url: String
-    let title: String
-    let caption: String
+class Link:Object, Codable {
+    @objc dynamic var url: String
+    @objc dynamic var title: String
+    @objc dynamic var caption: String
 //    let linkDescription: String
-    let photo: Photo
-    let isFavorite: Bool
+    @objc dynamic var photo: Photo
+    @objc dynamic var isFavorite: Bool
 
     enum CodingKeys: String, CodingKey {
         case url, title, caption
@@ -85,7 +86,7 @@ struct Link: Codable {
 }
 
 // MARK: - Views
-struct Views: Codable {
-    let count: Int
+class Views:Object, Codable {
+    @objc dynamic var count: Int
 }
 

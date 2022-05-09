@@ -79,7 +79,7 @@ class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
         headerNewsView.setValue(userAvatarStringUrl, userName)
         ///добавляем массив фотографий из news
         if news.photos != nil {
-            images = news.photos!.items
+            images = Array(news.photos!.items)
         }
         imagesURL = DataManager.data.getPhotoUrl(with: .x, for: images)
         newsfeedText.text = news.text

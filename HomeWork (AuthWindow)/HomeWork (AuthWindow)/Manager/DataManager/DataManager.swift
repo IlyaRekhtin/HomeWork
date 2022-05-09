@@ -7,7 +7,8 @@
 
 
 import UIKit
-import SwiftUI
+import RealmSwift
+
 
 final class DataManager {
     
@@ -40,7 +41,7 @@ final class DataManager {
     
     
     //MARK: - helpers
-    
+
     
     func getPhotoUrl(with size: TypeEnum, for photos: [Photo] ) -> [URL] {
         var urlsPhotosWithSize = [URL]()

@@ -41,7 +41,7 @@ class FriendFotoCollectionViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Api.shared.getPhotos(for: userId){photos in
-            self.photoAlbum = photos.response.items
+            self.photoAlbum = Array(photos.response.items)
         }
         navControllerConfiguration()
     }

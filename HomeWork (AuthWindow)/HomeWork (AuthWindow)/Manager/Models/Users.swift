@@ -5,6 +5,7 @@
 //  Created by Илья Рехтин on 18.04.2022.
 //
 import Foundation
+import RealmSwift
 
 // MARK: - Users response
 struct Users: Codable {
@@ -16,17 +17,17 @@ struct Users: Codable {
 }
 
 // MARK: - Response
-struct ResponseUsers: Codable {
-    let count: Int
-    let items: [User]
+class ResponseUsers:Object, Codable {
+    @objc dynamic var count: Int
+    var items = List<User>()
 }
 
 
 // MARK: - User
-struct User: Codable {
-    let id: Int
-    let photo50: String
-    let firstName, lastName: String
+class User:Object, Codable {
+    @objc dynamic var id: Int
+    @objc dynamic var photo50: String
+    @objc dynamic var firstName, lastName: String
 
     enum CodingKeys: String, CodingKey {
         case id

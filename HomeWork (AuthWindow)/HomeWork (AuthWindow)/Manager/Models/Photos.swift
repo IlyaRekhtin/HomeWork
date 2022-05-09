@@ -1,5 +1,6 @@
 
 import Foundation
+import RealmSwift
 
 // MARK: - Photos
 struct Photos: Codable {
@@ -7,24 +8,27 @@ struct Photos: Codable {
 }
 
 // MARK: - Response
-struct ResponsePhoto: Codable {
-    let count: Int
-    var items: [Photo]
+class ResponsePhoto:Object, Codable {
+    @objc dynamic var count: Int = 0
+    var items = List<Photo>()
 }
 
 // MARK: - Item
-struct Photo: Codable, Hashable, Likeble {
+class Photo:Object, Codable, Likeble {
     
-    static func == (lhs: Photo, rhs: Photo) -> Bool {
-        lhs.id == rhs.id
-    }
+//    static func == (lhs: Photo, rhs: Photo) -> Bool {
+//        lhs.id == rhs.id
+//    }
+//    func hash(into hasher: inout Hasher) {
+//        hasher.combine(id)
+//    }
     
-    let albumID, date, id, ownerID: Int
-    let sizes: [Size]
-    let text: String
-    let hasTags: Bool
-    var likes: Likes?
-    let reposts: Reposts
+    @objc dynamic var albumID, date, id, ownerID: Int
+    @objc dynamic var text: String
+    @objc dynamic var hasTags: Bool
+    @objc dynamic var likes: Likes?
+    @objc dynamic var reposts: Reposts
+    var sizes = List<Size>()
 
     enum CodingKeys: String, CodingKey {
         case albumID = "album_id"
@@ -37,8 +41,8 @@ struct Photo: Codable, Hashable, Likeble {
 }
 
 // MARK: - Likes
-struct Likes: Codable, Hashable {
-    var count, userLikes: Int
+class Likes:Object, Codable {
+    @objc dynamic var count, userLikes: Int
 
     enum CodingKeys: String, CodingKey {
         case count
@@ -47,16 +51,16 @@ struct Likes: Codable, Hashable {
 }
 
 // MARK: - Reposts
-struct Reposts: Codable, Hashable {
-    let count: Int
+class Reposts:Object, Codable {
+    @objc dynamic var count: Int
 }
 
 // MARK: - Size
-struct Size: Codable, Hashable {
-    let height: Int
-    let url: String
-    let type: String
-    let width: Int
+class Size:Object, Codable {
+    @objc dynamic var height: Int
+    @objc dynamic var url: String
+    @objc dynamic var type: String
+    @objc dynamic var width: Int
 }
 
 enum TypeEnum: String, Codable {

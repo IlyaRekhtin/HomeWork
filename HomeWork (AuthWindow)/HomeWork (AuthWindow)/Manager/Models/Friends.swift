@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import RealmSwift
 
 // MARK: - Friends
 struct Friends: Codable {
@@ -13,19 +14,19 @@ struct Friends: Codable {
 }
 
 // MARK: - Response
-struct ResponseFriends: Codable {
-    let count: Int
-    let items: [Friend]
+class ResponseFriends:Object, Codable {
+    @objc dynamic var count: Int = 0
+    var items = List<Friend>()
 }
 
 // MARK: - Item
-struct Friend: Codable {
-    let id: Int
-    let city: City?
-    let firstName, lastName: String
-    let isClosed: Bool?
-    let photo50: String
-    let deactivated: Deactivated?
+class Friend:Object, Codable {
+    @objc dynamic var id: Int
+    @objc dynamic var city: City?
+    @objc dynamic var firstName, lastName: String
+    @objc dynamic var isClosed: Bool
+    @objc dynamic var photo50: String
+    
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -34,15 +35,9 @@ struct Friend: Codable {
         case lastName = "last_name"
         case isClosed = "is_closed"
         case photo50 = "photo_50"
-        case deactivated
     }
 }
 
-enum Deactivated: String, Codable {
-    case banned = "banned"
-    case deleted = "deleted"
-}
-
-struct City: Codable {
-    let title: String
+class City:Object, Codable {
+    @objc dynamic var title: String = ""
 }
