@@ -9,8 +9,8 @@ struct Photos: Codable {
 
 // MARK: - Response
 class ResponsePhoto:Object, Codable {
-    @objc dynamic var count: Int = 0
-    var items = List<Photo>()
+    @Persisted var count: Int = 0
+    @Persisted var items = List<Photo>()
 }
 
 // MARK: - Item
@@ -23,12 +23,15 @@ class Photo:Object, Codable, Likeble {
 //        hasher.combine(id)
 //    }
     
-    @objc dynamic var albumID, date, id, ownerID: Int
-    @objc dynamic var text: String
-    @objc dynamic var hasTags: Bool
-    @objc dynamic var likes: Likes?
-    @objc dynamic var reposts: Reposts
-    var sizes = List<Size>()
+    @Persisted var albumID: Int
+    @Persisted var date: Int
+    @Persisted var id: Int
+    @Persisted var ownerID: Int
+    @Persisted var text: String
+    @Persisted var hasTags: Bool
+    @Persisted var likes: Likes?
+    @Persisted var reposts: Reposts?
+    @Persisted var sizes = List<Size>()
 
     enum CodingKeys: String, CodingKey {
         case albumID = "album_id"
@@ -42,7 +45,8 @@ class Photo:Object, Codable, Likeble {
 
 // MARK: - Likes
 class Likes:Object, Codable {
-    @objc dynamic var count, userLikes: Int
+    @Persisted var count: Int
+    @Persisted var userLikes: Int
 
     enum CodingKeys: String, CodingKey {
         case count
@@ -52,15 +56,17 @@ class Likes:Object, Codable {
 
 // MARK: - Reposts
 class Reposts:Object, Codable {
-    @objc dynamic var count: Int
+    @Persisted var count: Int = 0
 }
 
 // MARK: - Size
 class Size:Object, Codable {
-    @objc dynamic var height: Int
-    @objc dynamic var url: String
-    @objc dynamic var type: String
-    @objc dynamic var width: Int
+    @Persisted var height: Int = 0
+    @Persisted var url: String = ""
+    @Persisted var type: String = ""
+    @Persisted var width: Int = 0
+    
+    
 }
 
 enum TypeEnum: String, Codable {

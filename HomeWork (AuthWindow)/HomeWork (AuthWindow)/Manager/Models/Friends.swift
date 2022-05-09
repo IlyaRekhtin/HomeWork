@@ -15,18 +15,18 @@ struct Friends: Codable {
 
 // MARK: - Response
 class ResponseFriends:Object, Codable {
-    @objc dynamic var count: Int = 0
-    var items = List<Friend>()
+    @Persisted var count: Int = 0
+    @Persisted var items = List<Friend>()
 }
 
 // MARK: - Item
 class Friend:Object, Codable {
-    @objc dynamic var id: Int
-    @objc dynamic var city: City?
-    @objc dynamic var firstName, lastName: String
-    @objc dynamic var isClosed: Bool
-    @objc dynamic var photo50: String
-    
+    @Persisted var id: Int
+    @Persisted var city: City?
+    @Persisted var firstName: String
+    @Persisted var lastName: String
+    @Persisted var isClosed: Bool
+    @Persisted var photo50: String
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -39,5 +39,5 @@ class Friend:Object, Codable {
 }
 
 class City:Object, Codable {
-    @objc dynamic var title: String = ""
+    @Persisted var title: String = ""
 }

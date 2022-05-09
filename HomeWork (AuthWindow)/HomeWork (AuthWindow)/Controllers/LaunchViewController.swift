@@ -23,18 +23,23 @@ class LaunchViewController: UIViewController {
         Api.shared.getFriends { friends in
             DispatchQueue.main.async {
                 DataManager.data.myFriends = Array(friends.response.items)
+                
             }
         }
         Api.shared.getGroups { groups in
             DispatchQueue.main.async {
-                DataManager.data.myGroups = Array(groups.response.items)
+                let list = groups.response.items
+                DataManager.data.myGroups = Array(list)
             }
         }
         Api.shared.getNewsfeed { newsfeed in
             DispatchQueue.main.async {
-                DataManager.data.myNews = Array(newsfeed.response.items)
-                DataManager.data.usersForMyNews = Array(newsfeed.response.profiles)
-//                DataManager.data.groupsForMyNews = Array(newsfeed.response.groups!)
+                let news = newsfeed.response.items
+                let users = newsfeed.response.profiles
+                let groups = newsfeed.response.groups
+                DataManager.data.myNews = Array(news)
+                DataManager.data.usersForMyNews = Array(users)
+                DataManager.data.groupsForMyNews = Array(groups)
                 guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)

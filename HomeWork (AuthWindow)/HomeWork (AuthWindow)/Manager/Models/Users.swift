@@ -18,16 +18,17 @@ struct Users: Codable {
 
 // MARK: - Response
 class ResponseUsers:Object, Codable {
-    @objc dynamic var count: Int
-    var items = List<User>()
+    @Persisted var count: Int
+    @Persisted var items = List<User>()
 }
 
 
 // MARK: - User
 class User:Object, Codable {
-    @objc dynamic var id: Int
-    @objc dynamic var photo50: String
-    @objc dynamic var firstName, lastName: String
+    @Persisted var id: Int
+    @Persisted var photo50: String
+    @Persisted var firstName: String
+    @Persisted var lastName: String
 
     enum CodingKeys: String, CodingKey {
         case id

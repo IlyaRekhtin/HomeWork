@@ -14,10 +14,10 @@ struct Newsfeed: Codable {
 }
 // MARK: - Response
 class ResponseNewsfeed:Object, Codable {
-    var items = List<News>()
-    var profiles = List<User>()
-    var groups = List<Group>()
-    @objc dynamic var nextFrom: String = ""
+    @Persisted var items: List<News>
+    @Persisted var profiles: List<User>
+    @Persisted var groups: List<Group>
+    @Persisted var nextFrom: String = ""
 
     enum CodingKeys: String, CodingKey {
         case items, profiles
@@ -28,16 +28,16 @@ class ResponseNewsfeed:Object, Codable {
 // MARK: - ResponseItem
 class News:Object, Codable, Likeble {
    
-    @objc dynamic var sourceID: Int
-    @objc dynamic var date: Int
-    @objc dynamic var text: String?
+    @Persisted var sourceID: Int
+    @Persisted var date: Int
+    @Persisted var text: String?
+    @Persisted var likes: Likes?
+    @Persisted var views: Views?
+    @Persisted var type: String = ""
+    @Persisted var carouselOffset: Int?
+    @Persisted var photos: ResponsePhoto?
     var attachments: List<Attachment>?
-    @objc dynamic var likes: Likes?
-    @objc dynamic var views: Views?
-    @objc dynamic var type: String = ""
-    @objc dynamic var carouselOffset: Int
-    @objc dynamic var photos: ResponsePhoto?
-
+    
     enum CodingKeys: String, CodingKey {
         case sourceID = "source_id"
         case date
@@ -58,9 +58,9 @@ enum PostTypeEnum: String, Codable {
 }
 // MARK: - Attachment
 class Attachment:Object, Codable {
-    @objc dynamic var type: String
-    @objc dynamic var link: Link?
-    @objc dynamic var photo: Photo?
+    @Persisted var type: String
+    @Persisted var link: Link?
+    @Persisted var photo: Photo?
 }
 
 enum AttachmentType: String, Codable {
@@ -70,12 +70,12 @@ enum AttachmentType: String, Codable {
 
 // MARK: - Link
 class Link:Object, Codable {
-    @objc dynamic var url: String
-    @objc dynamic var title: String
-    @objc dynamic var caption: String
+    @Persisted var url: String
+    @Persisted var title: String
+    @Persisted var caption: String
 //    let linkDescription: String
-    @objc dynamic var photo: Photo
-    @objc dynamic var isFavorite: Bool
+    @Persisted var photo: Photo
+    @Persisted var isFavorite: Bool
 
     enum CodingKeys: String, CodingKey {
         case url, title, caption
@@ -87,6 +87,6 @@ class Link:Object, Codable {
 
 // MARK: - Views
 class Views:Object, Codable {
-    @objc dynamic var count: Int
+    @Persisted var count: Int
 }
 
