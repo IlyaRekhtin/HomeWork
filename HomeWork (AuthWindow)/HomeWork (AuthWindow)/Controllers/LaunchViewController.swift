@@ -22,21 +22,20 @@ class LaunchViewController: UIViewController {
         setConstraints()
         Api.shared.getFriends { friends in
             DispatchQueue.main.async {
-                DataManager.data.myFriends = Array(friends.response.items)
-                
+                DataManager.data.saveToDatabase(friends.items)
             }
         }
         Api.shared.getGroups { groups in
             DispatchQueue.main.async {
-                let list = groups.response.items
+                let list = groups.items
                 DataManager.data.myGroups = Array(list)
             }
         }
         Api.shared.getNewsfeed { newsfeed in
             DispatchQueue.main.async {
-                let news = newsfeed.response.items
-                let users = newsfeed.response.profiles
-                let groups = newsfeed.response.groups
+                let news = newsfeed.items
+                let users = newsfeed.profiles
+                let groups = newsfeed.groups
                 DataManager.data.myNews = Array(news)
                 DataManager.data.usersForMyNews = Array(users)
                 DataManager.data.groupsForMyNews = Array(groups)

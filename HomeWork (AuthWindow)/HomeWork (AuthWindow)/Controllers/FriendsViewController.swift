@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 class FriendsViewController: UIViewController {
     
@@ -14,7 +15,9 @@ class FriendsViewController: UIViewController {
     
     private var nameSearchControl: NameSearchControl!
     
-    private var firstLetterOfNameFriends = DataManager.data.getFirstLettersOfTheNameList(in: DataManager.data.myFriends)
+    private var friends = DataManager.data.readFromDatabase(Friend())
+   
+    private var firstLetterOfNameFriends = DataManager.data.getFirstLettersOfTheNameList(in: DataManager.data.readFromDatabase(Friend()))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +46,7 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     
     //MARK: - настройка ячейки
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return filterUsersForSection(DataManager.data.myFriends, Character(firstLetterOfNameFriends[section])).count
     }
     

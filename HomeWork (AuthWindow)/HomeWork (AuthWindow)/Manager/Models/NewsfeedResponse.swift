@@ -8,12 +8,17 @@ import Foundation
 import RealmSwift
 
 // MARK: - Newsfeed
-struct Newsfeed: Codable {
-    let response: ResponseNewsfeed
+struct NewsfeedResponse: Codable {
+   
+    let newsfeed: Newsfeed
+    
+    enum CodingKeys: String, CodingKey {
+    case newsfeed = "response"
+    }
 
 }
 // MARK: - Response
-class ResponseNewsfeed:Object, Codable {
+class Newsfeed:Object, Codable {
     @Persisted var items: List<News>
     @Persisted var profiles: List<User>
     @Persisted var groups: List<Group>
@@ -35,7 +40,7 @@ class News:Object, Codable, Likeble {
     @Persisted var views: Views?
     @Persisted var type: String = ""
     @Persisted var carouselOffset: Int?
-    @Persisted var photos: ResponsePhoto?
+    @Persisted var photos: Photos?
     var attachments: List<Attachment>?
     
     enum CodingKeys: String, CodingKey {
@@ -74,7 +79,7 @@ class Link:Object, Codable {
     @Persisted var title: String
     @Persisted var caption: String
 //    let linkDescription: String
-    @Persisted var photo: Photo
+    @Persisted var photo: Photo?
     @Persisted var isFavorite: Bool
 
     enum CodingKeys: String, CodingKey {

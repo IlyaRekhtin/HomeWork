@@ -13,12 +13,10 @@ import RealmSwift
 final class DataManager {
     
     static let data = DataManager()
-    
+
     lazy var myFriends = [Friend]()
-    
     lazy var myGroups = [Group]()
     lazy var friendsPhotos = [Photo]()
-    
     
     ///Newsfeed
     lazy var myNews = [News]()
@@ -27,22 +25,21 @@ final class DataManager {
     
     private init(){}
     
-    func getFirstLettersOfTheNameList(in nameList: [Friend]) -> [String] {
+    func getFirstLettersOfTheNameList(in nameList: Results<Friend>?) -> [String] {
+        guard let nameList = nameList else {return Array()}
+
         var array = Set<String>()
-        for user in myFriends {
+        for user in nameList {
             array.insert(String(user.firstName.first!))
         }
         return array.sorted()
     }
-    
     func getFirstLettersOfTheSecondName() {
         //TODO
     }
     
     
     //MARK: - helpers
-
-    
     func getPhotoUrl(with size: TypeEnum, for photos: [Photo] ) -> [URL] {
         var urlsPhotosWithSize = [URL]()
         for photo in photos {
@@ -55,6 +52,29 @@ final class DataManager {
         }
         return urlsPhotosWithSize
     }
+}
+
+//MARK: - Realm methods
+extension DataManager {
+    func saveToDatabase<T:Object>(_ items: [T]){
+        do {
+            let realm = try Realm()
+            realm.beginWrite()
+            realm.add(items)
+            try realm.commitWrite()
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
     
-    
+    func readFromDatabase<T:Object>(_ item: T) -> Results<T>? {
+            do {
+                let realm = try Realm()
+                let items = realm.objects(T.self)
+                return items
+            } catch {
+                print(error.localizedDescription)
+                return nil
+            }
+        }
 }

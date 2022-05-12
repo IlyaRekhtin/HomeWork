@@ -9,24 +9,33 @@ import Foundation
 import RealmSwift
 
 // MARK: - Friends
-struct Friends: Codable {
-    let response: ResponseFriends
+struct FriendsResponse: Codable {
+    let friends: Friends
+    
+    enum CodingKeys: String, CodingKey {
+    case friends = "response"
+    }
 }
 
 // MARK: - Response
-class ResponseFriends:Object, Codable {
-    @Persisted var count: Int = 0
-    @Persisted var items = List<Friend>()
+struct Friends: Codable {
+    
+    var count: Int
+    var items: [Friend]
 }
 
 // MARK: - Item
-class Friend:Object, Codable {
+class Friend: Object, Codable {
     @Persisted var id: Int
     @Persisted var city: City?
     @Persisted var firstName: String
     @Persisted var lastName: String
     @Persisted var isClosed: Bool
     @Persisted var photo50: String
+    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -38,6 +47,7 @@ class Friend:Object, Codable {
     }
 }
 
-class City:Object, Codable {
+
+class City: Object, Codable {
     @Persisted var title: String = ""
 }

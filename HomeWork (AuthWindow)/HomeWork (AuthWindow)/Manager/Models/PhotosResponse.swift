@@ -3,12 +3,17 @@ import Foundation
 import RealmSwift
 
 // MARK: - Photos
-struct Photos: Codable {
-    var response: ResponsePhoto
+struct PhotosResponse: Codable {
+    var photos: Photos
+    
+    enum CodingKeys: String, CodingKey {
+    case photos = "response"
+    }
 }
 
 // MARK: - Response
-class ResponsePhoto:Object, Codable {
+class Photos:Object, Codable {
+    
     @Persisted var count: Int = 0
     @Persisted var items = List<Photo>()
 }
@@ -32,6 +37,10 @@ class Photo:Object, Codable, Likeble {
     @Persisted var likes: Likes?
     @Persisted var reposts: Reposts?
     @Persisted var sizes = List<Size>()
+    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 
     enum CodingKeys: String, CodingKey {
         case albumID = "album_id"

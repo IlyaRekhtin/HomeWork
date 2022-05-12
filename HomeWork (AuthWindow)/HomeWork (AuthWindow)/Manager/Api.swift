@@ -119,7 +119,7 @@ class Api {
     
         func getNewsfeed(complition:@escaping (Newsfeed) -> ()) {
             guard let url = self.generateURL(forUsers: nil, withApiMethod: .newsfeedGet) else {return}
-            print(url)
+
             let request = URLRequest(url: url)
     
             URLSession.shared.dataTask(with: request) { data, _, error in
@@ -128,7 +128,7 @@ class Api {
                 }
                 guard let data = data else {return}
                 do {
-                    let newsfeed = try JSONDecoder().decode(Newsfeed.self, from: data)
+                    let newsfeed = try JSONDecoder().decode(NewsfeedResponse.self, from: data).newsfeed
                     complition(newsfeed)
                 }catch{
                     print(#function)
@@ -147,7 +147,7 @@ class Api {
                 }
                 guard let data = data else {return}
                 do {
-                    let groups = try JSONDecoder().decode(Groups.self, from: data)
+                    let groups = try JSONDecoder().decode(GroupsResponse.self, from: data).groups
                     complition(groups)
                 }catch{
                     print(#function)
@@ -165,7 +165,7 @@ class Api {
                 }
                 guard let data = data else {return}
                 do {
-                    let photos = try JSONDecoder().decode(Photos.self, from: data)
+                    let photos = try JSONDecoder().decode(PhotosResponse.self, from: data).photos
                     complition(photos)
                 }catch{
                     print(#function)
@@ -184,7 +184,7 @@ class Api {
                 }
                 guard let data = data else {return}
                 do {
-                    let friends = try JSONDecoder().decode(Friends.self, from: data)
+                    let friends = try JSONDecoder().decode(FriendsResponse.self, from: data).friends
                     print(#function)
                     complition(friends)
                 }catch{
@@ -193,7 +193,7 @@ class Api {
             }.resume()
         }
     
-        func getUser(_ usersId: Int, complition:@escaping (User)->Void) {
+        func getUser(_ usersId: Int, complition:@escaping (Users)->Void) {
             guard let url = self.generateURL(forUsers: usersId, withApiMethod: .usersGet) else {return}
             let request = URLRequest(url: url)
     
@@ -204,7 +204,7 @@ class Api {
     
                 guard let data = data else {return}
                 do {
-                    guard let user = try JSONDecoder().decode(Users.self, from: data).users.items.first else {return}
+                    let user = try JSONDecoder().decode(UsersResponse.self, from: data).users
                     complition(user)
                 } catch {
                     print(#function)

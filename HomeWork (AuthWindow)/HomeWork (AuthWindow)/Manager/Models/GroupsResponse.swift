@@ -9,12 +9,16 @@ import Foundation
 import RealmSwift
 
 // MARK: - Groups
-struct Groups: Codable {
-    let response: ResponseGroups
+struct GroupsResponse: Codable {
+    let groups: Groups
+    
+    enum CodingKeys: String, CodingKey {
+    case groups = "response"
+    }
 }
 
 // MARK: - Response
-class ResponseGroups:Object, Codable {
+class Groups:Object, Codable {
     @Persisted var count: Int
     @Persisted var items: List<Group>
 }
@@ -28,6 +32,10 @@ class Group:Object, Codable {
     @Persisted var type: String
     @Persisted var photo50: String
     @Persisted var itemDescription: String?
+    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
     
     enum CodingKeys: String, CodingKey {
         case id, name

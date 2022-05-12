@@ -8,8 +8,8 @@ import Foundation
 import RealmSwift
 
 // MARK: - Users response
-struct Users: Codable {
-    let users: ResponseUsers
+struct UsersResponse: Codable {
+    let users: Users
     
     enum CodingKeys: String, CodingKey {
     case users = "response"
@@ -17,18 +17,24 @@ struct Users: Codable {
 }
 
 // MARK: - Response
-class ResponseUsers:Object, Codable {
-    @Persisted var count: Int
-    @Persisted var items = List<User>()
+struct Users: Codable {
+    
+    var count: Int
+    var items: [User]
 }
 
 
 // MARK: - User
 class User:Object, Codable {
+    
     @Persisted var id: Int
     @Persisted var photo50: String
     @Persisted var firstName: String
     @Persisted var lastName: String
+    
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 
     enum CodingKeys: String, CodingKey {
         case id
