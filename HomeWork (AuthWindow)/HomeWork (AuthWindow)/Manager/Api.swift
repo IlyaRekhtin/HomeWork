@@ -115,7 +115,7 @@ class Api {
         return request
     }
     
-    func getNewsfeed(complition:@escaping (Newsfeed) -> ()) {
+    func getNewsfeed(complition:@escaping ([News]) -> ()) {
         let url = URL.configureURL(method: .newsfeedGet, baseURL: .api, params: BaseURL.ApiMethod.newsfeedGet.params)
         
         let request = URLRequest(url: url)
@@ -126,8 +126,8 @@ class Api {
             }
             guard let data = data else {return}
             do {
-                let newsfeed = try JSONDecoder().decode(NewsfeedResponse.self, from: data).newsfeed
-                complition(newsfeed)
+                let news = try JSONDecoder().decode(NewsfeedResponse.self, from: data).newsfeed.items
+                complition(news)
             }catch{
                 print(String(describing: error))
             }

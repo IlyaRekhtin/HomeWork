@@ -18,15 +18,14 @@ struct NewsfeedResponse: Codable {
 
 }
 // MARK: - Response
-class Newsfeed:Object, Codable {
-    @Persisted var items: List<News>
-    @Persisted var profiles: List<User>
-    @Persisted var groups: List<Group>
-    @Persisted var nextFrom: String = ""
-
+struct Newsfeed: Codable {
+    var items: [News]
+//    @Persisted var profiles: List<User>
+//    @Persisted var groups: List<Group>
+    var nextFrom: String = ""
+    
     enum CodingKeys: String, CodingKey {
-        case items, profiles
-        case groups
+        case items
         case nextFrom = "next_from"
     }
     
@@ -43,6 +42,10 @@ class News:Object, Codable, Likeble {
     @Persisted var carouselOffset: Int?
     @Persisted var photos: Photos?
     var attachments: List<Attachment>?
+    
+    override class func primaryKey() -> String? {
+        return "sourceID"
+    }
     
     enum CodingKeys: String, CodingKey {
         case sourceID = "source_id"

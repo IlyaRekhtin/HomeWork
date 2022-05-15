@@ -19,10 +19,10 @@ final class DataManager {
     var friendsPhotos: Results<Photo>?
     
     ///Newsfeed
-    var myNewsfeed: Results<Newsfeed>?
-    lazy var myNews = myNewsfeed?.last?.items
-    lazy var usersForMyNews = myNewsfeed?.last?.profiles
-    lazy var groupsForMyNews = myNewsfeed?.last?.groups
+    var myNewsfeed: Newsfeed?
+//    lazy var myNews = myNewsfeed?.last?.items
+//    lazy var usersForMyNews = myNewsfeed?.last?.profiles
+//    lazy var groupsForMyNews = myNewsfeed?.last?.groups
     
     private init(){}
     

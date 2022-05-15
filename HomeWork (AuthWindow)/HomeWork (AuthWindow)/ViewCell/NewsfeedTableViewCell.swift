@@ -7,13 +7,13 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
     
     static let reuseID = "newsfeed"
     
-    private lazy var usersForMyNews = DataManager.data.usersForMyNews
-    private lazy var groupsForMyNews = DataManager.data.groupsForMyNews
+    
     private var headerNewsView = HeaderNewsView(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
     
     private var newsfeedText : UILabel = {
@@ -59,17 +59,18 @@ class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
         
         var userAvatarStringUrl = String()
         var userName = String()
-        
+        let groups = DataManager.data.readFromDatabase(Group.self)
+        let profiles = DataManager.data.readFromDatabase(Friend.self)
         switch news.sourceID {
         case ..<0:
-            groupsForMyNews?.forEach { group in
+            groups.forEach { group in
                 if news.sourceID == -group.id {
                     userAvatarStringUrl = group.photo50
                     userName = group.name
                 }
             }
         default:
-            usersForMyNews?.forEach { user in
+            profiles.forEach { user in
                 if news.sourceID == user.id {
                     userAvatarStringUrl = user.photo50
                     userName = user.firstName + " " + user.lastName

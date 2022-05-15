@@ -40,25 +40,20 @@ class LaunchViewController: UIViewController {
                 self.present(vc, animated: true)
             }
         }
-//        Api.shared.getNewsfeed { newsfeed in
-//            DispatchQueue.main.async {
-//                DataManager.data.saveToDatabase(newsfeed)
-//                guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
-//                vc.modalPresentationStyle = .fullScreen
-//                self.present(vc, animated: true)
-//            }
-//        }
+        Api.shared.getNewsfeed { newsfeed in
+            DispatchQueue.main.async {
+                newsfeed.forEach { news in
+                    DataManager.data.saveToDatabase(news)
+                }
+                guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true)
+            }
+        }
         
     }
     
-    private func laodDataFromRealm() {
-        DataManager.data.myFriends = DataManager.data.readFromDatabase(Friend.self)
-        DataManager.data.myGroups = DataManager.data.readFromDatabase(Group.self)
-        DataManager.data.myNewsfeed = DataManager.data.readFromDatabase(Newsfeed.self)
-        
-    }
-    
-    
+   
     
     
 }
