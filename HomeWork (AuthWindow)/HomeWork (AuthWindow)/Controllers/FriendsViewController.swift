@@ -15,15 +15,15 @@ class FriendsViewController: UIViewController {
     
     private var nameSearchControl: NameSearchControl!
     
-    private var firstLetterOfNameFriends = [String]()
-    
-    override func loadView() {
-        super.loadView()
-        loadDataFromBD()
+    private var friends: Results<Friend>?{
+        DataManager.data.readFromDatabase(Friend.self)
     }
     
+    private var firstLettersOfNames = [String]()
+  
     override func viewDidLoad() {
         super.viewDidLoad()
+        firstLettersOfNames = DataManager.data.getFirstLettersOfTheNameList(in: friends!)
         configurationsForTableView()
         tableView.delegate = self
         tableView.dataSource = self
@@ -39,24 +39,25 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     // MARK: - настройка секций
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return firstLetterOfNameFriends.count
+        return firstLettersOfNames.count
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return String(firstLetterOfNameFriends[section])
+        return String(firstLettersOfNames[section])
     }
     
     
     //MARK: - настройка ячейки
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        return filterUsersForSection(DataManager.data.myFriends, Character(firstLetterOfNameFriends[section])).count
+        guard let friends = self.friends else {return 0}
+        return filterUsersForSection(friends, firstLettersOfNames[section]).count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FriendsTableViewCell.reuseID, for: indexPath) as! FriendsTableViewCell
-        let firstNameLetter = Character(firstLetterOfNameFriends[indexPath.section])
-        let usersForSection = filterUsersForSection(DataManager.data.myFriends, firstNameLetter)
+        let firstNameLetter = firstLettersOfNames[indexPath.section]
+        guard let friends = self.friends else {return cell}
+        let usersForSection = filterUsersForSection(friends, firstNameLetter)
         let friend = usersForSection[indexPath.row]
         cell.configCell(for: friend)
         cell.selectionStyle = .none
@@ -66,9 +67,10 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let vc = storyboard?.instantiateViewController(identifier: "FriendFotoCollectionViewController") as? FriendFotoCollectionViewController else {return}
-        let firstNameLetter = Character(firstLetterOfNameFriends[tableView.indexPathForSelectedRow!.section])
-        let friends = filterUsersForSection(DataManager.data.myFriends, firstNameLetter)
-        let friend = friends[tableView.indexPathForSelectedRow!.row]
+        let firstNameLetter = firstLettersOfNames[tableView.indexPathForSelectedRow!.section]
+        guard let friends = self.friends else {return}
+        let currentFriends = filterUsersForSection(friends, firstNameLetter)
+        let friend = currentFriends[tableView.indexPathForSelectedRow!.row]
         vc.userId = friend.id
         vc.firstName = friend.firstName
         vc.lastName = friend.lastName
@@ -77,9 +79,8 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     
     //MARK: - вспомогательные функции
     
-    private func loadDataFromBD(){
-        DataManager.data.myFriends = DataManager.data.readFromDatabase(Friend.self)
-        firstLetterOfNameFriends = DataManager.data.getFirstLettersOfTheNameList(in: DataManager.data.myFriends)
+    private func loadDataFromRealmBD(){
+        
     }
     
     /// Распределение пользователей по с екциям
@@ -87,8 +88,10 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     ///   - friends: массив пользователей
     ///   - letterForFilter: Инициал имени
     /// - Returns: массив полдьзователей с указанным инициалом
-    private func filterUsersForSection(_ friends: [Friend], _ letterForFilter: Character) -> [Friend] {
-        let arrayUsersForSection = friends.filter {$0.firstName.first == letterForFilter}
+    private func filterUsersForSection(_ friends: Results<Friend>, _ letterForFilter: String) -> Results<Friend> {
+        let arrayUsersForSection = friends.where {
+            $0.firstName.starts(with: letterForFilter)
+        }
         return arrayUsersForSection
     }
 }
@@ -116,7 +119,7 @@ private extension FriendsViewController {
     func configurationForNameSearchControl() {
         nameSearchControl = NameSearchControl(frame: CGRect(x: 0, y: 0, width: 40, height: 200))
         
-        createLableForNameSearchControl(firstLetterOfNameFriends)
+        createLableForNameSearchControl(firstLettersOfNames)
         nameSearchControl.addButtonsForControl(for: nameSearchControl.letters)
         
         nameSearchControl.addAction(UIAction(handler: { _ in

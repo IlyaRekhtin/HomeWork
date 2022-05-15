@@ -38,7 +38,9 @@ class Photo:Object, Codable, Likeble {
     @Persisted var reposts: Reposts?
     @Persisted var sizes = List<Size>()
     
-   
+    override class func primaryKey() -> String? {
+        return "id"
+    }
 
     enum CodingKeys: String, CodingKey {
         case albumID = "album_id"

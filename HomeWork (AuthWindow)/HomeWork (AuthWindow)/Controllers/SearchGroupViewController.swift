@@ -11,7 +11,7 @@ import SnapKit
 class SearchGroupViewController: UIViewController {
     
     private var tableView: UITableView!
-    private var groups = DataManager.data.myGroups
+//    private var groups: DataManager.data.myGroups
     private var searchBar: UISearchBar!
 //    private var searchResultArray = Set<Group>()
     private var tapRecognizer: UITapGestureRecognizer!
@@ -131,13 +131,14 @@ extension SearchGroupViewController: UISearchBarDelegate, UISearchTextFieldDeleg
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
       //  searchResultArray.removeAll()
-        for group in groups {
+        
+//        for group in DataManager.data.myGroups {
 //            let name = group.name
 //            if name.contains(searchText) {
 //                searchResultArray.insert(group)
 //                self.tableView.reloadData()
 //            }
-        }
+//        }
         self.tableView.reloadData()
     }
     

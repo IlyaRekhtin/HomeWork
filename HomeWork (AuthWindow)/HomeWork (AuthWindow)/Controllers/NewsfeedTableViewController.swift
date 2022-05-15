@@ -9,7 +9,7 @@ import UIKit
 
 class NewsfeedTableViewController: UITableViewController {
     
-    private lazy var myNews = DataManager.data.myNews
+    private var myNews = DataManager.data.myNews
     
     override func viewDidLoad() {
         super.viewDidLoad()

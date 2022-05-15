@@ -23,39 +23,31 @@ class LaunchViewController: UIViewController {
         
         setConstraints()
         
-        laodDataFromRealm()
-        
         Api.shared.getFriends { friends in
             DispatchQueue.main.async {
-                if DataManager.data.myFriends.isEmpty {
-                    DataManager.data.myFriends = friends.items
-                    friends.items.forEach { friend in
-                        DataManager.data.saveToDatabase(friend)
-                    }
+                friends.items.forEach { friend in
+                    DataManager.data.saveToDatabase(friend)
                 }
             }
         }
         Api.shared.getGroups { groups in
             DispatchQueue.main.async {
-                if DataManager.data.myGroups.isEmpty {
-                DataManager.data.myGroups = Array(groups.items)
-                    groups.items.forEach { group in
-                        DataManager.data.saveToDatabase(group)
-                    }
-                }
-            }
-        }
-        Api.shared.getNewsfeed { newsfeed in
-            DispatchQueue.main.async {
-                if DataManager.data.myNewsfeed.isEmpty {
-                    DataManager.data.myNewsfeed = [newsfeed]
-                    DataManager.data.saveToDatabase(newsfeed)
+                groups.items.forEach { group in
+                    DataManager.data.saveToDatabase(group)
                 }
                 guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
                 vc.modalPresentationStyle = .fullScreen
                 self.present(vc, animated: true)
             }
         }
+//        Api.shared.getNewsfeed { newsfeed in
+//            DispatchQueue.main.async {
+//                DataManager.data.saveToDatabase(newsfeed)
+//                guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
+//                vc.modalPresentationStyle = .fullScreen
+//                self.present(vc, animated: true)
+//            }
+//        }
         
     }
     
@@ -63,12 +55,12 @@ class LaunchViewController: UIViewController {
         DataManager.data.myFriends = DataManager.data.readFromDatabase(Friend.self)
         DataManager.data.myGroups = DataManager.data.readFromDatabase(Group.self)
         DataManager.data.myNewsfeed = DataManager.data.readFromDatabase(Newsfeed.self)
-
+        
     }
     
     
     
-   
+    
 }
 //MARK: - set constraints
 private extension LaunchViewController {
@@ -92,7 +84,7 @@ private extension LaunchViewController {
         }
     }
     
-      func animateCALayer() {
+    func animateCALayer() {
         let layer = CAShapeLayer()
         layer.path = CloudLoadImage.bezierPath.cgPath
         layer.lineWidth = 3

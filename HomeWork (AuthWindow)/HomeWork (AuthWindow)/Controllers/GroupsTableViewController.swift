@@ -6,10 +6,13 @@
 //
 
 import UIKit
+import RealmSwift
 
 class GroupsTableViewController: UIViewController {
     
-    lazy private var groups = DataManager.data.myGroups
+    private var groups: Results<Group>? {
+        DataManager.data.readFromDatabase(Group.self)
+    }
     
     private var tableView: UITableView!
     
@@ -64,20 +67,24 @@ class GroupsTableViewController: UIViewController {
         }
         
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return groups.count
+            return groups?.count ?? 0
         }
         
         
         func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
             let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
-            cell.setCellSetup(for: groups[indexPath.row])
+            if let groups = self.groups {
+                cell.setCellSetup(for: groups[indexPath.row])
+            }
             cell.selectionStyle = .none
             cell.hiddenButtonAdd()
             return cell
         }
         
         func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-            groups.remove(at: indexPath.row)
+            if let groups = self.groups {
+//                groups.remove(at: indexPath.row)
+            }
             tableView.deleteRows(at: [indexPath], with: .fade)
             tableView.reloadData()
             
