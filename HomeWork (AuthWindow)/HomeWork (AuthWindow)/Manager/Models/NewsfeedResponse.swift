@@ -29,6 +29,7 @@ class Newsfeed:Object, Codable {
         case groups
         case nextFrom = "next_from"
     }
+    
 }
 // MARK: - ResponseItem
 class News:Object, Codable, Likeble {

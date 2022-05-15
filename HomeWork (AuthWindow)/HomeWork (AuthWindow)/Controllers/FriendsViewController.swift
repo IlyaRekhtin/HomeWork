@@ -15,9 +15,12 @@ class FriendsViewController: UIViewController {
     
     private var nameSearchControl: NameSearchControl!
     
-    private var friends = DataManager.data.readFromDatabase(Friend())
-   
-    private var firstLetterOfNameFriends = DataManager.data.getFirstLettersOfTheNameList(in: DataManager.data.readFromDatabase(Friend()))
+    private var firstLetterOfNameFriends = [String]()
+    
+    override func loadView() {
+        super.loadView()
+        loadDataFromBD()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -73,6 +76,12 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     //MARK: - вспомогательные функции
+    
+    private func loadDataFromBD(){
+        DataManager.data.myFriends = DataManager.data.readFromDatabase(Friend.self)
+        firstLetterOfNameFriends = DataManager.data.getFirstLettersOfTheNameList(in: DataManager.data.myFriends)
+    }
+    
     /// Распределение пользователей по с екциям
     /// - Parameters:
     ///   - friends: массив пользователей

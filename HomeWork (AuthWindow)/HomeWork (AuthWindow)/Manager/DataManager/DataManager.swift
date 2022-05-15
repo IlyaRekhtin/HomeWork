@@ -13,21 +13,27 @@ import RealmSwift
 final class DataManager {
     
     static let data = DataManager()
-
+    
     lazy var myFriends = [Friend]()
     lazy var myGroups = [Group]()
     lazy var friendsPhotos = [Photo]()
     
     ///Newsfeed
-    lazy var myNews = [News]()
-    lazy var usersForMyNews = [User]()
-    lazy var groupsForMyNews = [Group]()
+    lazy var myNewsfeed = [Newsfeed]()
+    lazy var myNews = myNewsfeed.last?.items
+    lazy var usersForMyNews = myNewsfeed.last?.profiles
+    lazy var groupsForMyNews = myNewsfeed.last?.groups
+    
+    let config: Realm.Configuration = {
+        var config = Realm.Configuration()
+        //        config.deleteRealmIfMigrationNeeded = true
+        return config
+    }()
     
     private init(){}
     
-    func getFirstLettersOfTheNameList(in nameList: Results<Friend>?) -> [String] {
-        guard let nameList = nameList else {return Array()}
-
+    func getFirstLettersOfTheNameList(in nameList: [Friend]) -> [String] {
+        
         var array = Set<String>()
         for user in nameList {
             array.insert(String(user.firstName.first!))
@@ -56,25 +62,40 @@ final class DataManager {
 
 //MARK: - Realm methods
 extension DataManager {
-    func saveToDatabase<T:Object>(_ items: [T]){
+    
+    
+    func saveToDatabase<T:Object>(_ item: T){
         do {
-            let realm = try Realm()
+            let realm = try Realm(configuration: config)
             realm.beginWrite()
-            realm.add(items)
+            realm.add(item)
             try realm.commitWrite()
         } catch {
             print(error.localizedDescription)
         }
     }
     
-    func readFromDatabase<T:Object>(_ item: T) -> Results<T>? {
-            do {
-                let realm = try Realm()
-                let items = realm.objects(T.self)
-                return items
-            } catch {
-                print(error.localizedDescription)
-                return nil
-            }
+    func readFromDatabase<T:Object>(_ item: T.Type) -> [T]{
+        do {
+            let realm = try Realm(configuration: config)
+            let items = realm.objects(T.self)
+            return Array(items)
+        } catch {
+            print(error.localizedDescription)
+            return Array()
         }
+    }
+    
+    func updateValueFromRealm<T:Object>(for item: T) {
+        do {
+            let realm = try Realm(configuration: config)
+            try realm.write {
+                realm.add(item, update: .all)
+            }
+            
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
 }

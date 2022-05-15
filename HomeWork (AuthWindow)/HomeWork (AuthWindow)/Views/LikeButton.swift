@@ -34,10 +34,12 @@ class LikeButton: UIButton {
     func updateLikeButton(for photo: Photo){
         animationImageChange()
         guard let likes = photo.likes else {return}
+        likes.count = likes.userLikes == 1 ? likes.count - 1 : likes.count + 1
+        likes.userLikes = likes.userLikes == 1 ? 0 : 1
         self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
         self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
         self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
-        likes.userLikes == 1 ? Api.shared.likes(for: photo, .add) : Api.shared.likes(for: photo, .delete)
+        likes.userLikes == 1 ? Api.shared.likes(for: photo, .likeAdd) : Api.shared.likes(for: photo, .likeDelete)
     }
 }
 //MARK: - Animation for button

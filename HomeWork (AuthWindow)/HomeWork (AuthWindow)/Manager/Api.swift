@@ -15,203 +15,207 @@ class Api {
     private init(){}
     
     //MARK: - свойства
-    lazy private var urlComponents = URLComponents()
     
-    private let appID = "8157085" // уникальный ключ приложения
+    let appID = "8157085" // уникальный ключ приложения
     
-    private let apiVersion = "5.131"
+    let apiVersion = "5.131"
     
-    private enum BaseURL: String {
+    enum BaseURL: String {
         case auth = "oauth.vk.com"
         case api = "api.vk.com"
+        /// Конечные точки API для получения информации
+        enum ApiMethod: String {
+            case usersGet = "/method/users.get"
+            case friendsGet = "/method/friends.get"
+            case groupsGet = "/method/groups.get"
+            case newsfeedGet = "/method/newsfeed.get"
+            case photosGetAll = "/method/photos.getAll"
+            case auth = "/authorize"
+            case likeAdd = "/method/likes.add"
+            case likeDelete = "/method/likes.delete"
+            
+            var params: [String: String] {
+                switch self {
+                case .usersGet:
+                    return ["user_id":String(Session.data.id),
+                            "fields": "city, counters, crop_photo",
+                            "access_token": Session.data.token,
+                            "v": Api.shared.apiVersion
+                    ]
+                case .friendsGet:
+                    return ["user_id":String(Session.data.id),
+                            "fields": "city, photo_50",
+                            "access_token": Session.data.token,
+                            "v": Api.shared.apiVersion
+                    ]
+                case .groupsGet:
+                    return ["user_id":String(Session.data.id),
+                            "extended": "1",
+                            "fields": "description",
+                            "access_token": Session.data.token,
+                            "v": Api.shared.apiVersion
+                    ]
+                case .newsfeedGet:
+                    return ["filters": "photo, wall_photo",
+                            "source_ids": "friends, groups",
+                            "access_token": Session.data.token,
+                            "v": Api.shared.apiVersion
+                    ]
+                case .photosGetAll:
+                    return ["owner_id": "",
+                            "extended": "1",
+                            "photo_sizes": "1",
+                            "count": "20",
+                            "no_service_albums":"1",
+                            "access_token": Session.data.token,
+                            "v": Api.shared.apiVersion
+                    ]
+                case .auth:
+                    return ["client_id": Api.shared.appID,
+                            "display": "mobile",
+                            "redirect_uri": "https://oauth.vk.com/blank.html",
+                            "scope": "friends, wall, photos, groups",
+                            "response_type": "token",
+                            "v": Api.shared.apiVersion
+                    ]
+                case .likeAdd:
+                    return ["type": "photo",
+                            "owner_id": "",
+                            "item_id": "",
+                            "access_token": Session.data.token,
+                            "v": Api.shared.apiVersion
+                    ]
+                case .likeDelete:
+                    return ["type": "photo",
+                            "owner_id": "",
+                            "item_id": "",
+                            "access_token": Session.data.token,
+                            "v": Api.shared.apiVersion
+                    ]
+                }
+            }
+        }
     }
     
-    /// Конечные точки API для получения информации
-    private enum ApiMethod: String {
-        case usersGet = "/method/users.get"
-        case friendsGet = "/method/friends.get"
-        case groupsGet = "/method/groups.get"
-        case newsfeedGet = "/method/newsfeed.get"
-        case photosGetAll = "/method/photos.getAll"
-    }
+    
     
     
     // MARK: - private methods
-    /// генерирует URL для авторизации в ВК
-    /// - Returns: URL
-    private func generateLogInUrl() -> URL?{
-        self.urlComponents.scheme = "https"
-        self.urlComponents.host = BaseURL.auth.rawValue
-        self.urlComponents.path = "/authorize"
-        self.urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: appID),
-            URLQueryItem(name: "display", value: "mobile"),
-            URLQueryItem(name: "redirect_uri", value: "https://oauth.vk.com/blank.html"),
-            URLQueryItem(name: "scope", value: "friends, wall, photos, groups"),
-            URLQueryItem(name: "response_type", value: "token"),
-            URLQueryItem(name: "v", value: apiVersion)
-        ]
-        return self.urlComponents.url
-    }
     
-    /// Метод для создания URL с конечной точкой выбранного метода API
-    /// - Parameter method: Перечисление содержащее возможные конечные точки API
-    /// - Returns: URL
-    private func generateURL(forUsers usersID: Int?,withApiMethod method: ApiMethod) -> URL? {
-        self.urlComponents.scheme = "https"
-        self.urlComponents.host = BaseURL.api.rawValue
-        self.urlComponents.path = method.rawValue
-        switch method {
-        case .usersGet:
-            self.urlComponents.queryItems = [
-                URLQueryItem(name: "user_id", value: String(usersID ?? Session.data.id)),
-                URLQueryItem(name: "fields", value: "city, counters, crop_photo"),
-                URLQueryItem(name: "access_token", value: Session.data.token),
-                URLQueryItem(name: "v", value: apiVersion)
-            ]
-        case .friendsGet:
-            self.urlComponents.queryItems = [
-                URLQueryItem(name: "user_id", value: String(usersID ?? Session.data.id)),
-                URLQueryItem(name: "fields", value: "city, photo_50"),
-                URLQueryItem(name: "access_token", value: Session.data.token),
-                URLQueryItem(name: "v", value: apiVersion)
-            ]
-        case .groupsGet:
-            self.urlComponents.queryItems = [
-                URLQueryItem(name: "user_id", value: String(usersID ?? Session.data.id)),
-                URLQueryItem(name: "extended", value: "1"),
-                URLQueryItem(name: "fields", value: "description"),
-                URLQueryItem(name: "access_token", value: Session.data.token),
-                URLQueryItem(name: "v", value: apiVersion)
-            ]
-        case .newsfeedGet:
-            self.urlComponents.queryItems = [
-                URLQueryItem(name: "filters", value: "photo, wall_photo"),
-                URLQueryItem(name: "source_ids", value: "friends, groups"),
-//                URLQueryItem(name: "count", value: ""),
-                URLQueryItem(name: "access_token", value: Session.data.token),
-                URLQueryItem(name: "v", value: apiVersion)
-                
-            ]
-        case .photosGetAll:
-            self.urlComponents.queryItems = [
-                URLQueryItem(name: "owner_id", value: String(usersID!)),
-                URLQueryItem(name: "extended", value: "1"),
-                URLQueryItem(name: "photo_sizes", value: "1"),
-                URLQueryItem(name: "count", value: "20"),
-                URLQueryItem(name: "no_service_albums", value: "1"),
-                URLQueryItem(name: "access_token", value: Session.data.token),
-                URLQueryItem(name: "v", value: apiVersion)
-            ]
-        }
-        return self.urlComponents.url
-    }
+    
+    
     
     // MARK: - open methods
     /// Создает запрос для перехода к окну авторизации ВК
     /// - Returns: URLRequest
     
     func getAuthRequest() -> URLRequest? {
-        guard let url = self.generateLogInUrl() else {return nil}
+        let url = URL.configureURL(method: .auth, baseURL: .auth, params: BaseURL.ApiMethod.auth.params)
         let request = URLRequest(url: url)
         return request
     }
     
-        func getNewsfeed(complition:@escaping (Newsfeed) -> ()) {
-            guard let url = self.generateURL(forUsers: nil, withApiMethod: .newsfeedGet) else {return}
-
-            let request = URLRequest(url: url)
+    func getNewsfeed(complition:@escaping (Newsfeed) -> ()) {
+        let url = URL.configureURL(method: .newsfeedGet, baseURL: .api, params: BaseURL.ApiMethod.newsfeedGet.params)
+        
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let data = data else {return}
+            do {
+                let newsfeed = try JSONDecoder().decode(NewsfeedResponse.self, from: data).newsfeed
+                complition(newsfeed)
+            }catch{
+                print(String(describing: error))
+            }
+        }.resume()
+    }
     
-            URLSession.shared.dataTask(with: request) { data, _, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-                guard let data = data else {return}
-                do {
-                    let newsfeed = try JSONDecoder().decode(NewsfeedResponse.self, from: data).newsfeed
-                    complition(newsfeed)
-                }catch{
-                    print(#function)
-                    print(String(describing: error))
-                }
-            }.resume()
-        }
+    func getGroups(complition:@escaping (Groups) -> ()) {
+        let url = URL.configureURL(method: .groupsGet, baseURL: .api, params: BaseURL.ApiMethod.groupsGet.params)
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let data = data else {return}
+            do {
+                let groups = try JSONDecoder().decode(GroupsResponse.self, from: data).groups
+                complition(groups)
+            }catch{
+                print(String(describing: error))
+            }
+        }.resume()
+    }
     
-        func getGroups(complition:@escaping (Groups) -> ()) {
-            guard let url = self.generateURL(forUsers: nil, withApiMethod: .groupsGet) else {return}
-            let request = URLRequest(url: url)
+    func getPhotos(for userID: Int, complition:@escaping (Photos) -> ()){
+       let params = ["owner_id": String(userID),
+                "extended": "1",
+                "photo_sizes": "1",
+                "count": "20",
+                "no_service_albums":"1",
+                "access_token": Session.data.token,
+                "v": Api.shared.apiVersion
+        ]
+        let url = URL.configureURL(method: .photosGetAll, baseURL: .api, params: params)
+        let request = URLRequest(url: url)
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let data = data else {return}
+            do {
+                let photos = try JSONDecoder().decode(PhotosResponse.self, from: data).photos
+                complition(photos)
+            }catch{
+                print(#function)
+                print(String(describing: error))
+            }
+        }.resume()
+    }
     
-            URLSession.shared.dataTask(with: request) { data, _, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-                guard let data = data else {return}
-                do {
-                    let groups = try JSONDecoder().decode(GroupsResponse.self, from: data).groups
-                    complition(groups)
-                }catch{
-                    print(#function)
-                    print(String(describing: error))
-                }
-            }.resume()
-        }
+    func getFriends(complition:@escaping (Friends) -> ()) {
+        let url = URL.configureURL(method: .friendsGet, baseURL: .api, params: BaseURL.ApiMethod.friendsGet.params)
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            guard let data = data else {return}
+            do {
+                let friends = try JSONDecoder().decode(FriendsResponse.self, from: data).friends
+                print(#function)
+                complition(friends)
+            }catch{
+                print(String(describing: error))
+            }
+        }.resume()
+    }
     
-        func getPhotos(for userID: Int, complition:@escaping (Photos) -> ()){
-            guard let url = self.generateURL(forUsers: userID, withApiMethod: .photosGetAll) else {return}
-            let request = URLRequest(url: url)
-            URLSession.shared.dataTask(with: request) { data, _, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-                guard let data = data else {return}
-                do {
-                    let photos = try JSONDecoder().decode(PhotosResponse.self, from: data).photos
-                    complition(photos)
-                }catch{
-                    print(#function)
-                    print(String(describing: error))
-                }
-            }.resume()
-        }
-    
-        func getFriends(complition:@escaping (Friends) -> ()) {
-            guard let url = self.generateURL(forUsers: nil, withApiMethod: .friendsGet) else {return}
-            let request = URLRequest(url: url)
-    
-            URLSession.shared.dataTask(with: request) { data, _, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-                guard let data = data else {return}
-                do {
-                    let friends = try JSONDecoder().decode(FriendsResponse.self, from: data).friends
-                    print(#function)
-                    complition(friends)
-                }catch{
-                    print(String(describing: error))
-                }
-            }.resume()
-        }
-    
-        func getUser(_ usersId: Int, complition:@escaping (Users)->Void) {
-            guard let url = self.generateURL(forUsers: usersId, withApiMethod: .usersGet) else {return}
-            let request = URLRequest(url: url)
-    
-            URLSession.shared.dataTask(with: request) { data, _, error in
-                if let error = error {
-                    print(error.localizedDescription)
-                }
-    
-                guard let data = data else {return}
-                do {
-                    let user = try JSONDecoder().decode(UsersResponse.self, from: data).users
-                    complition(user)
-                } catch {
-                    print(#function)
-                    print(error.localizedDescription)
-                }
-            }.resume()
-        }
+    func getUser(_ usersId: Int, complition:@escaping (Users)->Void) {
+        let url = URL.configureURL(method: .usersGet, baseURL: .api, params: BaseURL.ApiMethod.usersGet .params)
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+            
+            guard let data = data else {return}
+            do {
+                let user = try JSONDecoder().decode(UsersResponse.self, from: data).users
+                complition(user)
+            } catch {
+                print(#function)
+                print(error.localizedDescription)
+            }
+        }.resume()
+    }
 }
 //MARK: - Like method
 extension Api {
@@ -219,18 +223,13 @@ extension Api {
         case add = "/method/likes.add"
         case delete = "/method/likes.delete"
     }
-    func likes(for photo: Photo, _ method: LikesMethod) {
-        self.urlComponents.scheme = "https"
-        self.urlComponents.host = BaseURL.api.rawValue
-        self.urlComponents.path = method.rawValue
-        self.urlComponents.queryItems = [
-            URLQueryItem(name: "type", value: "photo"),
-            URLQueryItem(name: "owner_id", value: String(photo.ownerID)),
-            URLQueryItem(name: "item_id", value: String(photo.id)),
-            URLQueryItem(name: "access_token", value: Session.data.token),
-            URLQueryItem(name: "v", value: apiVersion)
-        ]
-        guard let url = urlComponents.url else {return}
+    func likes(for photo: Photo, _ method: Api.BaseURL.ApiMethod) {
+        let params = ["type": "photo",
+                      "owner_id": String(photo.ownerID),
+                      "item_id": String(photo.id),
+                      "access_token": Session.data.token,
+                      "v": Api.shared.apiVersion]
+        let url = URL.configureURL(method: method, baseURL: .api, params: params)
         
         let request = URLRequest(url: url)
         

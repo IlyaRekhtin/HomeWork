@@ -68,8 +68,6 @@ extension AuthViewController: WKNavigationDelegate{
             self.present(vc, animated: false)
         }
     }
-    
-   
 }
 
 

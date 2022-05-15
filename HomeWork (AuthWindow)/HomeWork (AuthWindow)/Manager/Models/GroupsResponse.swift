@@ -33,9 +33,7 @@ class Group:Object, Codable {
     @Persisted var photo50: String
     @Persisted var itemDescription: String?
     
-    override class func primaryKey() -> String? {
-        return "id"
-    }
+    
     
     enum CodingKeys: String, CodingKey {
         case id, name

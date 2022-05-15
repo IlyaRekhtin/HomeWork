@@ -62,14 +62,14 @@ class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
         
         switch news.sourceID {
         case ..<0:
-            groupsForMyNews.forEach { group in
+            groupsForMyNews?.forEach { group in
                 if news.sourceID == -group.id {
                     userAvatarStringUrl = group.photo50
                     userName = group.name
                 }
             }
         default:
-            usersForMyNews.forEach { user in
+            usersForMyNews?.forEach { user in
                 if news.sourceID == user.id {
                     userAvatarStringUrl = user.photo50
                     userName = user.firstName + " " + user.lastName
