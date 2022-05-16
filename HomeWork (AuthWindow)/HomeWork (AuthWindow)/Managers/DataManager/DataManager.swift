@@ -14,28 +14,21 @@ final class DataManager {
     
     static let data = DataManager()
     
-    var myFriends: Results<Friend>?
-    var myGroups: Results<Group>?
-    var friendsPhotos: Results<Photo>?
-    
-    ///Newsfeed
-    var myNewsfeed: Newsfeed?
-//    lazy var myNews = myNewsfeed?.last?.items
-//    lazy var usersForMyNews = myNewsfeed?.last?.profiles
-//    lazy var groupsForMyNews = myNewsfeed?.last?.groups
-    
     private init(){}
     
     func getFirstLettersOfTheNameList(in nameList: Results<Friend>) -> [String] {
-        
         var array = Set<String>()
         for user in nameList {
             array.insert(String(user.firstName.first!))
         }
         return array.sorted()
     }
-    func getFirstLettersOfTheSecondName() {
-        //TODO
+    func getFirstLettersOfTheSecondName(in nameList: Results<Friend>) -> [String]  {
+        var array = Set<String>()
+        for user in nameList {
+            array.insert(String(user.lastName.first!))
+        }
+        return array.sorted()
     }
     
     
@@ -56,7 +49,6 @@ final class DataManager {
 
 //MARK: - Realm methods
 extension DataManager {
-    
     
     func saveToDatabase<T:Object>(_ item: T){
         do {

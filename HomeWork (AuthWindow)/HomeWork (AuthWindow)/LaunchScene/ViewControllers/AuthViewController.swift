@@ -10,6 +10,7 @@ import WebKit
 import SnapKit
 
 class AuthViewController: UIViewController {
+    
     private lazy var webView : WKWebView = {
         let webViewConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: webViewConfig)
@@ -20,23 +21,22 @@ class AuthViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         webViewConfig()
-        loadWebView()
     }
+}
 
-    private func webViewConfig() {
-        self.view.addSubview(webView)
-        webView.snp.makeConstraints { make in
-            make.top.left.right.bottom.equalToSuperview()
-        }
+//MARK: - Private
+private extension AuthViewController {
+    func webViewConfig() {
         navigationController?.navigationBar.isHidden = true
         webView.navigationDelegate = self
+        makeConstraints()
+        loadWebView()
     }
     
-    private func loadWebView(){
+    func loadWebView(){
         guard  let request = Api.shared.getAuthRequest() else {return}
         webView.load(request)
     }
-    
 }
 
 //MARK: - WKNavigationDelegate
@@ -70,21 +70,12 @@ extension AuthViewController: WKNavigationDelegate{
     }
 }
 
-
-
-
-
-
-
-
-
-
-
-// alert
-//let alert = UIAlertController(title: "Wellcom!", message: "🤝 спасибо за регистрацию \(loginTextField.text ?? "друг")", preferredStyle: .actionSheet)
-//let actionButtonForAlert = UIAlertAction(title: "Ok", style: .default)
-//alert.addAction(actionButtonForAlert)
-//present(alert, animated: true) {
-//    _ = Timer.scheduledTimer(timeInterval: 1.5, target: self, selector: #selector(self.closeAlert), userInfo: nil, repeats: false)
-//
-//}
+//MARK: - make constraints
+private extension AuthViewController {
+    func makeConstraints() {
+        self.view.addSubview(webView)
+        webView.snp.makeConstraints { make in
+            make.top.left.right.bottom.equalToSuperview()
+        }
+    }
+}

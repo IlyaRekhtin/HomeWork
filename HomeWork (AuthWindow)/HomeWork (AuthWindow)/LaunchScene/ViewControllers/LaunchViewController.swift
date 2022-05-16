@@ -21,7 +21,7 @@ class LaunchViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setConstraints()
+        makeConstraints()
         
         Api.shared.getFriends { friends in
             DispatchQueue.main.async {
@@ -35,9 +35,6 @@ class LaunchViewController: UIViewController {
                 groups.items.forEach { group in
                     DataManager.data.saveToDatabase(group)
                 }
-                guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true)
             }
         }
         Api.shared.getNewsfeed { newsfeed in
@@ -45,21 +42,19 @@ class LaunchViewController: UIViewController {
                 newsfeed.forEach { news in
                     DataManager.data.saveToDatabase(news)
                 }
-                guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
-                vc.modalPresentationStyle = .fullScreen
-                self.present(vc, animated: true)
             }
+        }
+        DispatchQueue.main.async {
+            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
         }
         
     }
-    
-   
-    
-    
 }
-//MARK: - set constraints
+//MARK: - make constraints
 private extension LaunchViewController {
-    func setConstraints(){
+    func makeConstraints(){
         self.view.addSubview(loadImage)
         loadImage.snp.makeConstraints { make in
             make.center.equalToSuperview()
