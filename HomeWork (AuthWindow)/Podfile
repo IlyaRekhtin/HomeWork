@@ -7,4 +7,5 @@ target 'HomeWork (AuthWindow)' do
 
   # Pods for HomeWork (AuthWindow)
 	pod 'SnapKit', '~> 5.0.0'
+	pod 'Kingfisher', '~> 7.0'
 end
