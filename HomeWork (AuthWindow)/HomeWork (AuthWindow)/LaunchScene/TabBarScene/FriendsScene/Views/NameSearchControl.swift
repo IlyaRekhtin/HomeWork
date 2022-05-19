@@ -69,7 +69,7 @@ class NameSearchControl: UIControl {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let letterLocation = touches.first?.location(in: self)
         for (index, letter) in letters.enumerated() {
-            let indexPath = IndexPath(row: 0, section: index)
+            let indexPath = IndexPath(row: index, section: 0)
             if letter.frame.contains(letterLocation!) {
                 self.indexPuth = indexPath
                 letter.alpha = 1

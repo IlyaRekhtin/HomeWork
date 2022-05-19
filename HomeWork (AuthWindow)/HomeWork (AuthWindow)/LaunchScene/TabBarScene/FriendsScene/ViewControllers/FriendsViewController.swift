@@ -13,10 +13,13 @@ class FriendsViewController: UIViewController {
     
     private var tableView: UITableView!
     
+    private var token: NotificationToken?
+    
     private var nameSearchControl: NameSearchControl!
     
     private var friends: Results<Friend>?{
-        DataManager.data.readFromDatabase(Friend.self)
+        let objects = DataManager.data.readFromDatabase(Friend.self)
+        return objects.sorted(byKeyPath: "firstName", ascending: true)
     }
     
     private var firstLettersOfNames = [String]()
@@ -36,29 +39,15 @@ class FriendsViewController: UIViewController {
 }
 
 extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
-    // MARK: - настройка секций
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return firstLettersOfNames.count
-    }
-    
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return String(firstLettersOfNames[section])
-    }
-    
-    
     //MARK: - настройка ячейки
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let friends = self.friends else {return 0}
-        return filterUsersForSection(friends, firstLettersOfNames[section]).count
+        return friends?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FriendsTableViewCell.reuseID, for: indexPath) as! FriendsTableViewCell
-        let firstNameLetter = firstLettersOfNames[indexPath.section]
         guard let friends = self.friends else {return cell}
-        let usersForSection = filterUsersForSection(friends, firstNameLetter)
-        let friend = usersForSection[indexPath.row]
+        let friend = friends[indexPath.row]
         cell.configCell(for: friend)
         cell.selectionStyle = .none
         tableView.rowHeight = cell.getimageSize().height + 10
@@ -67,10 +56,8 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let vc = storyboard?.instantiateViewController(identifier: "FriendFotoCollectionViewController") as? FriendFotoCollectionViewController else {return}
-        let firstNameLetter = firstLettersOfNames[tableView.indexPathForSelectedRow!.section]
         guard let friends = self.friends else {return}
-        let currentFriends = filterUsersForSection(friends, firstNameLetter)
-        let friend = currentFriends[tableView.indexPathForSelectedRow!.row]
+        let friend = friends[tableView.indexPathForSelectedRow!.row]
         vc.userId = friend.id
         vc.firstName = friend.firstName
         vc.lastName = friend.lastName
@@ -95,6 +82,7 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         return arrayUsersForSection
     }
 }
+
 private extension FriendsViewController {
     //MARK: - NavBarSettings
     func configNavigationController(){
@@ -111,10 +99,38 @@ private extension FriendsViewController {
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.reuseID)
         
+        addNotificationToken()
         configurationForNameSearchControl()
-
         setConstraints()
     }
+    
+    func  addNotificationToken() {
+        self.token = friends?.observe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .initial(_):
+                self.tableView.reloadData()
+            case .update(_,
+                         deletions: let deletions,
+                         insertions: let insertions,
+                         modifications: let modifications):
+                let deletionsIndexpath = deletions.map { IndexPath(row: $0, section: 0) }
+                let insertionsIndexpath = insertions.map { IndexPath(row: $0, section: 0) }
+                let modificationsIndexpath = modifications.map { IndexPath(row: $0, section: 0) }
+
+                DispatchQueue.main.async {
+                    self.tableView.beginUpdates()
+                    self.tableView.deleteRows(at: deletionsIndexpath, with: .automatic)
+                    self.tableView.insertRows(at: insertionsIndexpath, with: .automatic)
+                    self.tableView.reloadRows(at: modificationsIndexpath, with: .automatic)
+                    self.tableView.endUpdates()
+                }
+            case .error(let error):
+                print("\(error)")
+            }
+        }
+    }
+    
     
     func configurationForNameSearchControl() {
         nameSearchControl = NameSearchControl(frame: CGRect(x: 0, y: 0, width: 40, height: 200))
@@ -159,3 +175,4 @@ private extension FriendsViewController {
     }
     
 }
+
