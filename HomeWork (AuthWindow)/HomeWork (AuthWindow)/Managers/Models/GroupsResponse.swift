@@ -18,9 +18,9 @@ struct GroupsResponse: Codable {
 }
 
 // MARK: - Response
-class Groups:Object, Codable {
-    @Persisted var count: Int
-    @Persisted var items: List<Group>
+class Groups: Codable {
+    var count: Int?
+    var items: [Group]
 }
 
 // MARK: - Item

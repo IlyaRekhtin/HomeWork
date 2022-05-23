@@ -15,13 +15,47 @@ class NewsfeedTableViewController: UITableViewController {
         DataManager.data.readFromDatabase(News.self)
     }
     
-    
+    private var token: NotificationToken?
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         configNavigationController()
         tableView.register(NewsfeedTableViewCell.self, forCellReuseIdentifier: NewsfeedTableViewCell.reuseID)
+        addNotificationToken()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction(_ :)))
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func tapAction(_ sender: UITapGestureRecognizer) {
+        
+    }
+    
+    private func  addNotificationToken() {
+        self.token = news?.observe { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .initial(_):
+                self.tableView.reloadData()
+            case .update(_,
+                         deletions: let deletions,
+                         insertions: let insertions,
+                         modifications: let modifications):
+                let deletionsIndexpath = deletions.map { IndexPath(row: $0, section: 0) }
+                let insertionsIndexpath = insertions.map { IndexPath(row: $0, section: 0) }
+                let modificationsIndexpath = modifications.map { IndexPath(row: $0, section: 0) }
+
+                DispatchQueue.main.async {
+                    self.tableView.beginUpdates()
+                    self.tableView.deleteRows(at: deletionsIndexpath, with: .automatic)
+                    self.tableView.insertRows(at: insertionsIndexpath, with: .automatic)
+                    self.tableView.reloadRows(at: modificationsIndexpath, with: .automatic)
+                    self.tableView.endUpdates()
+                }
+            case .error(let error):
+                print("\(error)")
+            }
+        }
     }
     
     // MARK: - Table view data source

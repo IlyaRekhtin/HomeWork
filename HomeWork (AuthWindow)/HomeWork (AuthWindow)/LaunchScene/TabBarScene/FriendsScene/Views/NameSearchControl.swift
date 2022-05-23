@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
 
 
 class NameSearchControl: UIControl {
@@ -28,7 +29,6 @@ class NameSearchControl: UIControl {
         }
     }
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.config()
@@ -37,45 +37,6 @@ class NameSearchControl: UIControl {
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         self.config()
-    }
-
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let letterLocation = touches.first?.location(in: self)
-        for letter in letters {
-            if letter.frame.contains(letterLocation!) {
-                letter.alpha = 0.5
-               
-            } else {
-                letter.alpha = 1
-                
-            }
-        }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let letterLocation = touches.first?.location(in: self)
-        for letter in letters {
-            if letter.frame.contains(letterLocation!) {
-                letter.alpha = 0.5
-                
-            } else {
-                letter.alpha = 1
-               
-            }
-        }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let letterLocation = touches.first?.location(in: self)
-        for (index, letter) in letters.enumerated() {
-            let indexPath = IndexPath(row: 0, section: index)
-            if letter.frame.contains(letterLocation!) {
-                self.indexPuth = indexPath
-                letter.alpha = 1
-               
-            }
-        }
     }
 
     private func config() {
@@ -90,5 +51,29 @@ class NameSearchControl: UIControl {
             stackView.addArrangedSubview(letter)
         }
     }
+}
+
+//MARK: - touches settings
+extension NameSearchControl {
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let letterLocation = touches.first?.location(in: self)
+        letters.forEach { $0.alpha = $0.frame.contains(letterLocation!) ? 0.5 : 1 }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let letterLocation = touches.first?.location(in: self)
+        letters.forEach { $0.alpha = $0.frame.contains(letterLocation!) ? 0.5 : 1 }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let letterLocation = touches.first?.location(in: self)
+        for (index, letter) in letters.enumerated() {
+            let indexPath = IndexPath(row: index, section: 0)
+            if letter.frame.contains(letterLocation!) {
+                self.indexPuth = indexPath
+                letter.alpha = 1
+            }
+        }
+    }
 }
