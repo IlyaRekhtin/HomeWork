@@ -21,13 +21,6 @@ class Photos:Object, Codable {
 // MARK: - Item
 class Photo:Object, Codable, Likeble {
     
-//    static func == (lhs: Photo, rhs: Photo) -> Bool {
-//        lhs.id == rhs.id
-//    }
-//    func hash(into hasher: inout Hasher) {
-//        hasher.combine(id)
-//    }
-    
     @Persisted var albumID: Int
     @Persisted var date: Int
     @Persisted var id: Int
@@ -49,6 +42,19 @@ class Photo:Object, Codable, Likeble {
         case sizes, text
         case hasTags = "has_tags"
         case likes, reposts
+    }
+    
+    static func getPhotoUrl(with size: TypeEnum, for photos: [Photo] ) -> [URL] {
+        var urlsPhotosWithSize = [URL]()
+        for photo in photos {
+            for photoSize in photo.sizes {
+                if photoSize.type  == size.rawValue {
+                    guard let url = URL(string: photoSize.url) else {continue}
+                    urlsPhotosWithSize.append(url)
+                }
+            }
+        }
+        return urlsPhotosWithSize
     }
 }
 

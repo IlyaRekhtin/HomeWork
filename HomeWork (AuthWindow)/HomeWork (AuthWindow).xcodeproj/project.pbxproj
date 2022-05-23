@@ -145,8 +145,8 @@
 		262A843427B83DBC00B2DD65 /* HomeWork (AuthWindow) */ = {
 			isa = PBXGroup;
 			children = (
-				8C8A79D328325ECC00C9B551 /* LaunchScene */,
 				8CFEF4CD280C5F2F00AA88C3 /* Managers */,
+				8C8A79D328325ECC00C9B551 /* LaunchScene */,
 				262A844B27B83E2B00B2DD65 /* Views */,
 				26FD354927C5869800EF4403 /* extensions */,
 				262A844C27B83E3400B2DD65 /* Boards */,

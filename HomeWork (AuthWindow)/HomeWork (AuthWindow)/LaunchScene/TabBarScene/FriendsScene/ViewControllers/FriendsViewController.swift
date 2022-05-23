@@ -26,7 +26,7 @@ class FriendsViewController: UIViewController {
   
     override func viewDidLoad() {
         super.viewDidLoad()
-        firstLettersOfNames = DataManager.data.getFirstLettersOfTheNameList(in: friends!)
+        firstLettersOfNames = nameSearchControl.getFirstLettersOfTheNameList(in: friends!)
         configurationsForTableView()
         tableView.delegate = self
         tableView.dataSource = self

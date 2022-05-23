@@ -26,7 +26,7 @@ class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
     private var likeButton: LikeButton = {
         let button = LikeButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         button.layer.cornerRadius = button.frame.height / 3
-
+        
         button.clipsToBounds = true
         return button
     }()
@@ -38,7 +38,7 @@ class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
     }()
     
     private var images = [Photo]()
-    private var imagesURL = [URL]()
+    private var currentSizePhotos = [URL]()
     
     var photoNewsfeedCollectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
@@ -46,6 +46,7 @@ class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCollectionView()
+        self.photoNewsfeedCollectionView.delegate = self
         createDataSourse()
         setConstreints()
         
@@ -82,7 +83,7 @@ class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
         if news.photos != nil {
             images = Array(news.photos!.items)
         }
-        imagesURL = DataManager.data.getPhotoUrl(with: .x, for: images)
+        currentSizePhotos = Photo.getPhotoUrl(with: .x, for: images)
         newsfeedText.text = news.text
         if newsfeedText.text == nil {
             newsfeedText.snp.updateConstraints { make in
@@ -98,7 +99,6 @@ class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
             
             
         }), for: .touchUpInside)
-        
         
         reloadData()
     }
@@ -122,7 +122,7 @@ private extension NewsfeedTableViewCell {
     func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
             
-            switch self.imagesURL.count {
+            switch self.currentSizePhotos.count {
             case 1:
                 return self.createLayoutForNewsImage()
             case 2...3:
@@ -143,8 +143,7 @@ private extension NewsfeedTableViewCell {
                                                                     cellProvider: { (collectionView, indexPuth, model) -> UICollectionViewCell? in
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagesCollectionViewCell.reuseID, for: indexPuth) as! ImagesCollectionViewCell
-            cell.config(self.imagesURL[indexPuth.row])
-            
+            cell.config(self.currentSizePhotos[indexPuth.row])
             return cell
         })
     }

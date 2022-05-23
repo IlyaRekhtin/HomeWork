@@ -18,7 +18,7 @@ class FriendFotoCollectionViewController: UIViewController {
     
     var photoAlbum = [Photo]() {
         didSet {
-            currentSizePhotos = DataManager.data.getPhotoUrl(with: .x, for: self.photoAlbum)
+            currentSizePhotos = Photo.getPhotoUrl(with: .x, for: self.photoAlbum)
             reloadData()
         }
     }

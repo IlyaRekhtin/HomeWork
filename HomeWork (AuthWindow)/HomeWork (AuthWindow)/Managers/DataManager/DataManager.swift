@@ -9,44 +9,13 @@
 import UIKit
 import RealmSwift
 
-
 final class DataManager {
     
     static let data = DataManager()
     
     private init(){}
     
-    func getFirstLettersOfTheNameList(in nameList: Results<Friend>) -> [String] {
-        var array = Set<String>()
-        for user in nameList {
-            array.insert(String(user.firstName.first!))
-        }
-        return array.sorted()
-    }
-    func getFirstLettersOfTheSecondName(in nameList: Results<Friend>) -> [String]  {
-        var array = Set<String>()
-        for user in nameList {
-            array.insert(String(user.lastName.first!))
-        }
-        return array.sorted()
-    }
-    
-    
-    //MARK: - helpers
-    func getPhotoUrl(with size: TypeEnum, for photos: [Photo] ) -> [URL] {
-        var urlsPhotosWithSize = [URL]()
-        for photo in photos {
-            for photoSize in photo.sizes {
-                if photoSize.type  == size.rawValue {
-                    guard let url = URL(string: photoSize.url) else {continue}
-                    urlsPhotosWithSize.append(url)
-                }
-            }
-        }
-        return urlsPhotosWithSize
-    }
 }
-
 //MARK: - Realm methods
 extension DataManager {
     

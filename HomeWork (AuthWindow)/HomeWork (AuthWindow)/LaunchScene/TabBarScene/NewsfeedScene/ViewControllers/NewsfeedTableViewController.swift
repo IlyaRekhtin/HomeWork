@@ -23,6 +23,12 @@ class NewsfeedTableViewController: UITableViewController {
         configNavigationController()
         tableView.register(NewsfeedTableViewCell.self, forCellReuseIdentifier: NewsfeedTableViewCell.reuseID)
         addNotificationToken()
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction(_ :)))
+        self.view.addGestureRecognizer(tap)
+    }
+    
+    @objc private func tapAction(_ sender: UITapGestureRecognizer) {
+        
     }
     
     private func  addNotificationToken() {

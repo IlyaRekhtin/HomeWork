@@ -7,12 +7,10 @@
 
 import UIKit
 
-
-
-class Api {
+final class Api {
     
     static var shared = Api()
-    private init(){}
+    
     
     //MARK: - свойства
     
@@ -97,18 +95,9 @@ class Api {
         }
     }
     
-    
-    
-    
-    // MARK: - private methods
-    
-    
-    
-    
     // MARK: - open methods
     /// Создает запрос для перехода к окну авторизации ВК
     /// - Returns: URLRequest
-    
     func getAuthRequest() -> URLRequest? {
         let url = URL.configureURL(method: .auth, baseURL: .auth, params: BaseURL.ApiMethod.auth.params)
         let request = URLRequest(url: url)
