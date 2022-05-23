@@ -103,7 +103,7 @@ extension GroupsTableViewController: UITableViewDelegate, UITableViewDataSource 
             cell.setCellSetup(for: groups[indexPath.row])
         }
         cell.selectionStyle = .none
-        cell.hiddenButtonAdd()
+//        cell.hiddenButtonAdd()
         return cell
     }
     

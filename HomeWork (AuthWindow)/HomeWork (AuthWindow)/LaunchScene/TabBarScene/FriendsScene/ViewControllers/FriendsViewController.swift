@@ -26,7 +26,7 @@ class FriendsViewController: UIViewController {
   
     override func viewDidLoad() {
         super.viewDidLoad()
-        firstLettersOfNames = nameSearchControl.getFirstLettersOfTheNameList(in: friends!)
+        firstLettersOfNames = self.getFirstLettersOfTheNameList(in: friends!)
         configurationsForTableView()
         tableView.delegate = self
         tableView.dataSource = self
@@ -66,10 +66,6 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     
     //MARK: - вспомогательные функции
     
-    private func loadDataFromRealmBD(){
-        
-    }
-    
     /// Распределение пользователей по с екциям
     /// - Parameters:
     ///   - friends: массив пользователей
@@ -80,6 +76,22 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
             $0.firstName.starts(with: letterForFilter)
         }
         return arrayUsersForSection
+    }
+    
+    func getFirstLettersOfTheNameList(in nameList: Results<Friend>) -> [String] {
+        var array = Set<String>()
+        for user in nameList {
+            array.insert(String(user.firstName.first!))
+        }
+        return array.sorted()
+    }
+    
+    func getFirstLettersOfTheSecondName(in nameList: Results<Friend>) -> [String]  {
+        var array = Set<String>()
+        for user in nameList {
+            array.insert(String(user.lastName.first!))
+        }
+        return array.sorted()
     }
 }
 

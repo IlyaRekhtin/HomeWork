@@ -77,23 +77,3 @@ extension NameSearchControl {
         }
     }
 }
-
-//MARK: - sort methods
-extension NameSearchControl {
-    
-    func getFirstLettersOfTheNameList(in nameList: Results<Friend>) -> [String] {
-        var array = Set<String>()
-        for user in nameList {
-            array.insert(String(user.firstName.first!))
-        }
-        return array.sorted()
-    }
-    
-    func getFirstLettersOfTheSecondName(in nameList: Results<Friend>) -> [String]  {
-        var array = Set<String>()
-        for user in nameList {
-            array.insert(String(user.lastName.first!))
-        }
-        return array.sorted()
-    }
-}

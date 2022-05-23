@@ -42,7 +42,7 @@ class GroupsTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setConstraints()
-//        addGroupButton.addTarget(self, action: #selector(targetForAddGroupButton), for: .touchDown)
+        addGroupButton.addTarget(self, action: #selector(targetForAddGroupButton), for: .touchDown)
     }
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -67,26 +67,19 @@ class GroupsTableViewCell: UITableViewCell {
     
     
     ////реализация кнопки добавить группу
-//    @objc private func targetForAddGroupButton() {
-//        switch addGroupButton.configuration?.image {
-//        case AddGroupButton.imageForButton.groupIsNotAddImage.image:
-//            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsAddImage.image
-//        case AddGroupButton.imageForButton.groupIsAddImage.image:
-//            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsNotAddImage.image
-//        default:
-//            break
-//        }
+    @objc private func targetForAddGroupButton() {
+        switch addGroupButton.configuration?.image {
+        case AddGroupButton.imageForButton.groupIsNotAddImage.image:
+            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsAddImage.image
+        case AddGroupButton.imageForButton.groupIsAddImage.image:
+            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsNotAddImage.image
+        default:
+            break
+        }
         
-//        guard let group = testGroup else {return}
-//        if DataManager.data.groups.contains(group) {
-//            for (index, _) in DataManager.data.groups.enumerated(){
-//                DataManager.data.groups.remove(at: index)
-//            }
-//        } else {
-//            DataManager.data.groups.append(group)
-//        }
+      
   
-//    }
+    }
     
     private func setConstraints() {
         contentView.addSubview(groupImage)
