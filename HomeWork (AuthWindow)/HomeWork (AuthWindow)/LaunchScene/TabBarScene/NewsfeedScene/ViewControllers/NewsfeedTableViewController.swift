@@ -11,10 +11,10 @@ import RealmSwift
 
 class NewsfeedTableViewController: UITableViewController {
     
+    private let service = NewsfeedService()
     private var news: Results<News>? {
         DataManager.data.readFromDatabase(News.self)
     }
-    
     private var token: NotificationToken?
     
     override func viewDidLoad() {
@@ -23,6 +23,7 @@ class NewsfeedTableViewController: UITableViewController {
         configNavigationController()
         tableView.register(NewsfeedTableViewCell.self, forCellReuseIdentifier: NewsfeedTableViewCell.reuseID)
         addNotificationToken()
+        service.getNewsfeed()
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction(_ :)))
         self.view.addGestureRecognizer(tap)
     }

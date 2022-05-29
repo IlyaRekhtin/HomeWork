@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-class FriendCollectionViewCell: UICollectionViewCell {
+class PhotoAlbumCollectionCell: UICollectionViewCell {
     
     static var reuseID = "UserCollectionCell"
     

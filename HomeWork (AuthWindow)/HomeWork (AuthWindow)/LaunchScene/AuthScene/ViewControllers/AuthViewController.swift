@@ -8,15 +8,19 @@
 import UIKit
 import WebKit
 import SnapKit
+import FirebaseDatabase
 
 class AuthViewController: UIViewController {
     
+    
+    private let service = AuthService()
     private lazy var webView : WKWebView = {
         let webViewConfig = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero, configuration: webViewConfig)
         webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
+    private let ref = Database.database().reference(withPath: "users")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,11 +35,6 @@ private extension AuthViewController {
         webView.navigationDelegate = self
         makeConstraints()
         loadWebView()
-    }
-    
-    func loadWebView(){
-        guard  let request = Api.shared.getAuthRequest() else {return}
-        webView.load(request)
     }
 }
 
@@ -62,20 +61,33 @@ extension AuthViewController: WKNavigationDelegate{
             Session.data.id = Int(id)!
             Session.data.token = token
             decisionHandler(.cancel)
-            
-            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "LaunchViewController") as? LaunchViewController else {return}
+            addUserFromFireBaseDB()
+            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: false)
         }
     }
 }
 
-//MARK: - make constraints
+//MARK: - private
 private extension AuthViewController {
     func makeConstraints() {
         self.view.addSubview(webView)
         webView.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
         }
+    }
+    func loadWebView(){
+        guard  let request = service.getAuthRequest() else {return}
+        webView.load(request)
+    }
+}
+
+//MARK: - firebase
+private extension AuthViewController {
+    func addUserFromFireBaseDB() {
+        let currentUser = CurrentUser(id: Session.data.id)
+        let currentUserRef = ref.child(String(Session.data.id).lowercased())
+        currentUserRef.setValue(currentUser.toAnyObject())
     }
 }

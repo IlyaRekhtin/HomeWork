@@ -7,21 +7,28 @@
 
 import UIKit
 import RealmSwift
+import FirebaseFirestore
 
 class GroupsTableViewController: UIViewController {
     
+    private let service = GroupsService()
     private var groups: Results<Group>? {
-        DataManager.data.readFromDatabase(Group.self)
+        DataManager.data.readFromDatabase(Group.self).filter("isMember == 1")
     }
     
     private var token: NotificationToken?
     
     private var tableView: UITableView!
     
+    override func loadView() {
+        super.loadView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigationController()
         configurationsForTableView()
+        service.getGroups()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
@@ -42,7 +49,7 @@ class GroupsTableViewController: UIViewController {
             guard let self = self else { return }
             switch result {
             case .initial(_):
-                self.tableView.reloadData()
+                print("init")
             case .update(_,
                          deletions: let deletions,
                          insertions: let insertions,
@@ -88,9 +95,6 @@ class GroupsTableViewController: UIViewController {
 // MARK: - Table view data source
 extension GroupsTableViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return groups?.count ?? 0
@@ -109,14 +113,14 @@ extension GroupsTableViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard let group = groups?[indexPath.row] else {return}
-        /// удаляем из базы данных
+        /// удалям группу на сервере
+            service.leaveGroup(group)
+        /// удаляем из базы данных realm
         do {
             let realm = try Realm()
             try realm.write {
                 realm.delete(group)
             }
-            
-            // TODO удалить группу на сервере
         } catch {
             print(error.localizedDescription)
         }

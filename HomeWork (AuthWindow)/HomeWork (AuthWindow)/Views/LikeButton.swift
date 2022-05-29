@@ -8,8 +8,8 @@
 import UIKit
 
 class LikeButton: UIButton {
-/// images enum
-   private enum buttonStateImages: String {
+    /// images enum
+    private enum buttonStateImages: String {
         case like
         case likeFill
         
@@ -39,11 +39,11 @@ class LikeButton: UIButton {
         self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
         self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
         self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
-        likes.userLikes == 1 ? Api.shared.likes(for: photo, .likeAdd) : Api.shared.likes(for: photo, .likeDelete)
+        likes.userLikes == 1 ? self.likes(for: photo, .likeAdd) : self.likes(for: photo, .likeDelete)
     }
 }
 //MARK: - Animation for button
-    extension LikeButton {
+extension LikeButton {
     private func animationImageChange() {
         let animation = CASpringAnimation(keyPath: "position.y")
         animation.fromValue = self.layer.position.y - 5
@@ -52,10 +52,29 @@ class LikeButton: UIButton {
         animation.stiffness = 1000
         animation.mass = 0.5
         self.layer.add(animation, forKey: nil)
-       
-   }
+        
+    }
     
 }
-   
-    
+
+//MARK: - network method
+extension LikeButton {
+    func likes(for photo: Photo, _ method: Api.BaseURL.ApiMethod) {
+        let params = ["type": "photo",
+                      "owner_id": String(photo.ownerID),
+                      "item_id": String(photo.id),
+                      "access_token": Session.data.token,
+                      "v": Api.shared.apiVersion]
+        let url = URL.configureURL(method: method, baseURL: .api, params: params)
+        
+        let request = URLRequest(url: url)
+        
+        URLSession.shared.dataTask(with: request) { data, _, error in
+            if let error = error {
+                print(error.localizedDescription)
+            }
+        }.resume()
+    }
+}
+
 

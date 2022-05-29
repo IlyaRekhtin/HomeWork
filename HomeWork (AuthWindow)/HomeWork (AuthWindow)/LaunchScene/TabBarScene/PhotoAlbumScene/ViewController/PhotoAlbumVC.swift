@@ -8,8 +8,10 @@
 import UIKit
 import Kingfisher
 
-class FriendFotoCollectionViewController: UIViewController {
+class PhotoAlbumVC: UIViewController {
     
+    
+    private let service = PhotoAlbumService()
     private var pushTransition = PushImageViewTransitionAnimation()
     private var popTransition = PopImageViewTransitionAnimation()
     private var collectionView: UICollectionView!
@@ -40,7 +42,7 @@ class FriendFotoCollectionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        Api.shared.getPhotos(for: userId){photos in
+        service.getPhotos(for: userId){photos in
             self.photoAlbum = Array(photos.items)
         }
         navControllerConfiguration()
@@ -52,7 +54,7 @@ class FriendFotoCollectionViewController: UIViewController {
 }
 
 //MARK: - Private
-private extension FriendFotoCollectionViewController {
+private extension PhotoAlbumVC {
     
      func layoutChangeButtonConfigurations(){
         let sizeInCollectionView = LayoutChangeButton.FotoSizeInCollectionView(rawValue: UserDefaults.standard.integer(forKey: "sizeForLayoutForFotoGallary"))
@@ -90,7 +92,7 @@ private extension FriendFotoCollectionViewController {
 }
 
 //MARK: - CollectionView
-extension FriendFotoCollectionViewController: UICollectionViewDelegate {
+extension PhotoAlbumVC: UICollectionViewDelegate {
     
     private func setupCollectionView() {
         collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionLayout())
@@ -100,7 +102,7 @@ extension FriendFotoCollectionViewController: UICollectionViewDelegate {
         collectionView.showsVerticalScrollIndicator = false
         view.addSubview(collectionView)
         // Register cell
-        collectionView.register(FriendCollectionViewCell.self, forCellWithReuseIdentifier: FriendCollectionViewCell.reuseID)
+        collectionView.register(PhotoAlbumCollectionCell.self, forCellWithReuseIdentifier: PhotoAlbumCollectionCell.reuseID)
     }
     
     private func createCompositionLayout() -> UICollectionViewLayout {
@@ -119,7 +121,7 @@ extension FriendFotoCollectionViewController: UICollectionViewDelegate {
     
     private func createDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Int, Photo>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: FriendCollectionViewCell.reuseID, for: indexPath) as? FriendCollectionViewCell else {fatalError()}
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCollectionCell.reuseID, for: indexPath) as? PhotoAlbumCollectionCell else {fatalError()}
             cell.configCell(for: self.currentSizePhotos[indexPath.row])
             
             return cell
@@ -155,11 +157,11 @@ extension FriendFotoCollectionViewController: UICollectionViewDelegate {
 
 
 //MARK: TransitionDelegate
-extension FriendFotoCollectionViewController: UIViewControllerTransitioningDelegate {
+extension PhotoAlbumVC: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard let selectedIndexPathCell = collectionView.indexPathsForSelectedItems,
-              let selectedCell = collectionView.cellForItem(at: selectedIndexPathCell.first!) as? FriendCollectionViewCell, let selectedCellSuperview = selectedCell.superview else {return nil}
+              let selectedCell = collectionView.cellForItem(at: selectedIndexPathCell.first!) as? PhotoAlbumCollectionCell, let selectedCellSuperview = selectedCell.superview else {return nil}
         pushTransition.imageInitFrame = selectedCellSuperview.convert(selectedCell.layer.frame, to: nil)
         pushTransition.imageInitFrame = selectedCell.layer.frame
         pushTransition.imageInitFrame = CGRect(

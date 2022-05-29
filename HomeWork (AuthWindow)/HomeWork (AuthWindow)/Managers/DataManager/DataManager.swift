@@ -19,11 +19,11 @@ final class DataManager {
 //MARK: - Realm methods
 extension DataManager {
     
-    func saveToDatabase<T:Object>(_ item: T){
+    func saveObjectToDatabase<T:Object>(_ items: [T]){
         do {
             let realm = try Realm()
             try realm.write {
-                realm.add(item, update: .modified)
+                realm.add(items, update: .modified)
             }
         } catch {
             print(error.localizedDescription)
@@ -31,19 +31,22 @@ extension DataManager {
     }
     
     func readFromDatabase<T:Object>(_ item: T.Type) -> Results<T> {
+        
         let realm = try! Realm()
         let items = realm.objects(T.self)
         return items
     }
     
-    func updateValueFromRealm<T:Object>(for item: T) {
+    func deleteObjectFromDataBase<T:Object>(for item: T) {
         do {
             let realm = try Realm()
             try realm.write {
-                realm.add(item, update: .all)
+                realm.delete(item)
             }
         } catch {
             print(error.localizedDescription)
         }
     }
+    
+    
 }

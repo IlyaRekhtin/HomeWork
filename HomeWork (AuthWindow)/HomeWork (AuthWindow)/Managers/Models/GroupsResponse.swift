@@ -29,6 +29,7 @@ class Group:Object, Codable {
     @Persisted var name: String
     @Persisted var screenName: String
     @Persisted var isClosed: Int
+    @Persisted var isMember: Int
     @Persisted var type: String
     @Persisted var photo50: String
     @Persisted var itemDescription: String?
@@ -41,6 +42,7 @@ class Group:Object, Codable {
         case id, name
         case screenName = "screen_name"
         case isClosed = "is_closed"
+        case isMember = "is_member"
         case type
         case photo50 = "photo_50"
         case itemDescription = "description"

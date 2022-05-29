@@ -8,10 +8,13 @@
 import UIKit
 import SnapKit
 import RealmSwift
+import FirebaseDatabase
 
 class LaunchViewController: UIViewController {
     
     var loadImage = LoadImage(frame: CGRect(x: 0, y: 0, width: 90, height: 65))
+    private let ref = Database.database().reference(withPath: "users")
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -20,36 +23,18 @@ class LaunchViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        addUserFromFireBaseDB()
         makeConstraints()
-        
-        Api.shared.getFriends { friends in
-            DispatchQueue.main.async {
-                friends.items.forEach { friend in
-                    DataManager.data.saveToDatabase(friend)
-                }
-            }
-        }
-        Api.shared.getGroups { groups in
-            DispatchQueue.main.async {
-                groups.items.forEach { group in
-                    DataManager.data.saveToDatabase(group)
-                }
-            }
-        }
-        Api.shared.getNewsfeed { newsfeed in
-            DispatchQueue.main.async {
-                newsfeed.forEach { news in
-                    DataManager.data.saveToDatabase(news)
-                }
-            }
-        }
-        DispatchQueue.main.async {
-            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
-        }
-        
+    }
+    
+}
+
+//MARK: - firebase
+private extension LaunchViewController {
+    func addUserFromFireBaseDB() {
+        let currentUser = CurrentUser(id: Session.data.id)
+        let currentUserRef = ref.child(String(Session.data.id).lowercased())
+        currentUserRef.setValue(currentUser.toAnyObject())
     }
 }
 //MARK: - make constraints
