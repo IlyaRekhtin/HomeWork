@@ -13,6 +13,10 @@ final class DataManager {
     
     static let data = DataManager()
     
+    var news = [News]()
+    var users = [User]()
+    var groups = [Group]()
+    
     private init(){}
     
 }

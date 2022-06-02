@@ -1,49 +1,43 @@
-//
-//  like.swift
-//  HomeWork (AuthWindow)
-//
-//  Created by Илья Рехтин on 28.02.2022.
-//
 
 import UIKit
 
-class LikeButton: UIButton {
+class RepostsButton: UIButton {
     /// images enum
     private enum buttonStateImages: String {
-        case like
-        case likeFill
+        case reposts
+        case repostsFill
         
         var image: UIImage? {
             switch self {
-            case .like:
+            case .reposts:
                 return UIImage(systemName: "heart")
-            case .likeFill:
+            case .repostsFill:
                 return UIImage(systemName: "heart.fill")
             }
         }
     }
     
-    func setConfig<T: Likeble>(for item: T){
-        guard let likes = item.likes else {return}
-        self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
-        self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
-        self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
+    func setConfig<T: Reposteble>(for item: T){
+        guard let reposts = item.reposts else {return}
+        self.configuration?.image = reposts.userReposted == 1 ? buttonStateImages.repostsFill.image : buttonStateImages.reposts.image
+        self.configuration?.baseForegroundColor = reposts.userReposted == 1 ? UIColor.darkGray : UIColor.gray
+        self.configuration?.title = reposts.count == 0 ? "" : String(reposts.count)
         self.configuration?.imagePadding = 5
     }
     
-    func updateLikeButton<T: Likeble>(for item: T){
+    func updateLikeButton<T: Reposteble>(for item: T){
         animationImageChange()
-        guard let likes = item.likes else {return}
-        likes.count = likes.userLikes == 1 ? likes.count - 1 : likes.count + 1
-        likes.userLikes = likes.userLikes == 1 ? 0 : 1
-        self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
-        self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
-        self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
-//        likes.userLikes == 1 ? self.likes(for: item, .likeAdd) : self.likes(for: item, .likeDelete)
+        guard let reposts = item.reposts else {return}
+        reposts.count = reposts.userReposted == 1 ? reposts.count - 1 : reposts.count + 1
+        reposts.userReposted = reposts.userReposted == 1 ? 0 : 1
+        self.configuration?.image = reposts.userReposted == 1 ? buttonStateImages.repostsFill.image : buttonStateImages.reposts.image
+        self.configuration?.baseForegroundColor = reposts.userReposted == 1 ? UIColor.darkGray : UIColor.gray
+        self.configuration?.title = reposts.count == 0 ? "" : String(reposts.count)
+//        likes.userLikes == 1 ? self.repost(for: photo, .likeAdd) : self.repost(for: photo, .likeDelete)
     }
 }
 //MARK: - Animation for button
-extension LikeButton {
+extension RepostsButton {
     private func animationImageChange() {
         let animation = CASpringAnimation(keyPath: "position.y")
         animation.fromValue = self.layer.position.y - 5
@@ -58,8 +52,8 @@ extension LikeButton {
 }
 
 //MARK: - network method
-extension LikeButton {
-    func likes(for photo: Photo, _ method: Api.BaseURL.ApiMethod) {
+extension RepostsButton {
+    func repost(for photo: Photo, _ method: Api.BaseURL.ApiMethod) {
         let params = ["type": "photo",
                       "owner_id": String(photo.ownerID),
                       "item_id": String(photo.id),

@@ -63,34 +63,4 @@ final class GroupsService {
         }.resume()
     }
     
-    func joinGroup(_ group: Group) {
-        let params = ["group_id": String(group.id),
-                      "access_token": Session.data.token,
-                      "v": Api.shared.apiVersion
-        ]
-        let url = URL.configureURL(method: .joinGroup, baseURL: .api, params: params)
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }.resume()
-    }
-    
-    func leaveGroup(_ group: Group) {
-        let params = ["group_id": String(group.id),
-                      "access_token": Session.data.token,
-                      "v": Api.shared.apiVersion
-        ]
-        let url = URL.configureURL(method: .leaveGroup, baseURL: .api, params: params)
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }.resume()
-    }
-    
 }

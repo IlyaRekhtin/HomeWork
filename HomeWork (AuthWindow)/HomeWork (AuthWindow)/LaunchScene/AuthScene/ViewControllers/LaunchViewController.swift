@@ -9,55 +9,64 @@ import UIKit
 import SnapKit
 import RealmSwift
 import FirebaseDatabase
+import SystemConfiguration
 
 class LaunchViewController: UIViewController {
-    
+    let service = NewsfeedService()
     var loadImage = LoadImage(frame: CGRect(x: 0, y: 0, width: 90, height: 65))
-    private let ref = Database.database().reference(withPath: "users")
-    
+    lazy var appImageView: UIImageView = {
+        let appImageView = UIImageView(frame: CGRect(origin: .zero, size: .zero))
+        appImageView.image = UIImage(named: "VKLable")
+        appImageView.clipsToBounds = true
+        appImageView.contentMode = .scaleAspectFit
+        return appImageView
+    }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        animate()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addUserFromFireBaseDB()
+        self.view.backgroundColor = .systemMint
         makeConstraints()
+        animateCALayer()
+        service.getNewsfeed { newsfeed in
+            DispatchQueue.main.async {
+                
+                DataManager.data.news = newsfeed.items
+                DataManager.data.users = newsfeed.profiles
+                DataManager.data.groups = newsfeed.groups
+                
+                guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: false)
+            }
+        }
+        
     }
     
 }
 
-//MARK: - firebase
-private extension LaunchViewController {
-    func addUserFromFireBaseDB() {
-        let currentUser = CurrentUser(id: Session.data.id)
-        let currentUserRef = ref.child(String(Session.data.id).lowercased())
-        currentUserRef.setValue(currentUser.toAnyObject())
-    }
-}
 //MARK: - make constraints
 private extension LaunchViewController {
     func makeConstraints(){
         self.view.addSubview(loadImage)
         loadImage.snp.makeConstraints { make in
-            make.center.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.bottom.equalToSuperview().inset(100)
             make.size.equalTo(self.loadImage.frame.size)
+        }
+        self.view.addSubview(appImageView)
+        appImageView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.size.equalTo(200)
         }
     }
 }
 
 //MARK: - animation methods
 private extension LaunchViewController {
-    func animate() {
-        UIView.animate(withDuration: 1, delay: 0, options: [.repeat, .autoreverse]) {
-            self.animateCALayer()
-            self.loadImage.transform = CGAffineTransform(scaleX: 1.5, y: 1.5)
-        } completion: { _ in
-            self.loadImage.transform = .identity
-        }
-    }
     
     func animateCALayer() {
         let layer = CAShapeLayer()

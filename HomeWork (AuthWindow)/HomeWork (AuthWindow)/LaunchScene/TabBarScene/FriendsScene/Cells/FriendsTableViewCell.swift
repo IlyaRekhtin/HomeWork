@@ -21,7 +21,7 @@ class FriendsTableViewCell: UITableViewCell {
     private var fullName: UILabel = {
         let lable = UILabel()
         lable.textColor = .black
-        lable.font = UIFont(name: "Timas New Roman Полужирный", size: 18)
+        lable.font = UIFont(name: "Timas New Roman", size: 18)
         return lable
     }()
     

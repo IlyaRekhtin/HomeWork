@@ -114,7 +114,8 @@ extension GroupsTableViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard let group = groups?[indexPath.row] else {return}
         /// удалям группу на сервере
-            service.leaveGroup(group)
+        let buttonService = ButtonForAddGroupsService()
+        buttonService.leaveGroup(group)
         /// удаляем из базы данных realm
         do {
             let realm = try Realm()

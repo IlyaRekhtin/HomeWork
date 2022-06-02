@@ -12,69 +12,58 @@ import RealmSwift
 class NewsfeedTableViewController: UITableViewController {
     
     private let service = NewsfeedService()
-    private var news: Results<News>? {
-        DataManager.data.readFromDatabase(News.self)
+    var news = DataManager.data.news
+    var users = DataManager.data.users
+    var groups = DataManager.data.groups
+    
+    override func loadView() {
+        super.loadView()
+        
     }
-    private var token: NotificationToken?
     
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         configNavigationController()
-        tableView.register(NewsfeedTableViewCell.self, forCellReuseIdentifier: NewsfeedTableViewCell.reuseID)
-        addNotificationToken()
-        service.getNewsfeed()
+        tableView.register(HeaderNewsCell.self, forCellReuseIdentifier: HeaderNewsCell.reuseID)
+        tableView.register(FooterNewsCell.self, forCellReuseIdentifier: FooterNewsCell.reuseID)
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction(_ :)))
         self.view.addGestureRecognizer(tap)
+        print(news.count)
     }
     
     @objc private func tapAction(_ sender: UITapGestureRecognizer) {
         
     }
     
-    private func  addNotificationToken() {
-        self.token = news?.observe { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .initial(_):
-                self.tableView.reloadData()
-            case .update(_,
-                         deletions: let deletions,
-                         insertions: let insertions,
-                         modifications: let modifications):
-                let deletionsIndexpath = deletions.map { IndexPath(row: $0, section: 0) }
-                let insertionsIndexpath = insertions.map { IndexPath(row: $0, section: 0) }
-                let modificationsIndexpath = modifications.map { IndexPath(row: $0, section: 0) }
-
-                DispatchQueue.main.async {
-                    self.tableView.beginUpdates()
-                    self.tableView.deleteRows(at: deletionsIndexpath, with: .automatic)
-                    self.tableView.insertRows(at: insertionsIndexpath, with: .automatic)
-                    self.tableView.reloadRows(at: modificationsIndexpath, with: .automatic)
-                    self.tableView.endUpdates()
-                }
-            case .error(let error):
-                print("\(error)")
-            }
-        }
-    }
+    
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return news.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return news?.count ?? 0
+        return 2
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: NewsfeedTableViewCell.reuseID, for: indexPath) as! NewsfeedTableViewCell
-        if let news = news?[indexPath.row] {
-        cell.configurationCell(with: news)
-        cell.selectionStyle = .none
+        let headerCell = tableView.dequeueReusableCell(withIdentifier: HeaderNewsCell.reuseID, for: indexPath) as! HeaderNewsCell
+        let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterNewsCell.reuseID, for: indexPath) as! FooterNewsCell
+        
+        let currentNews = news[indexPath.section]
+        let itemForHeader = currentNews.sourceID < 0 ? groups.filter{-$0.id == currentNews.sourceID}.first : users.filter{$0.id == currentNews.sourceID}.first
+        switch indexPath.row {
+        case 0:
+            currentNews.sourceID < 0 ? headerCell.configCellForGroup(itemForHeader as! Group, date: currentNews.date) : headerCell.configCellForFriend(itemForHeader as! User, date: currentNews.date)
+            return headerCell
+        case 1:
+            footerCell.configCellForFooter(news: currentNews)
+            footerCell.backgroundColor = .brown
+            return footerCell
+        default:
+            footerCell.configCellForFooter(news: currentNews)
+            return footerCell
         }
-        return cell
     }
 }
 
@@ -89,4 +78,6 @@ private extension NewsfeedTableViewController {
         navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false
     }
+    
+ 
 }

@@ -28,9 +28,10 @@ struct Users: Codable {
 class User:Object, Codable {
     
     @Persisted var id: Int
-    @Persisted var photo50: String
     @Persisted var firstName: String
     @Persisted var lastName: String
+    @Persisted var isClosed: Bool
+    @Persisted var photo50: String
     
     override class func primaryKey() -> String? {
         return "id"
@@ -41,5 +42,6 @@ class User:Object, Codable {
         case photo50 = "photo_50"
         case firstName = "first_name"
         case lastName = "last_name"
+        case isClosed = "is_closed"
     }
 }

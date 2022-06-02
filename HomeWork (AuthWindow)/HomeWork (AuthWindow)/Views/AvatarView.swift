@@ -19,8 +19,6 @@ class AvatarView: UIView {
     private let shadowLayer = CAShapeLayer()
     
     
-    
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConfig()
@@ -60,21 +58,7 @@ class AvatarView: UIView {
 //MARK: - private
 private extension AvatarView {
     
-    @objc func addDampingAnimationForUserPhoto() {
-        UIView.animate(withDuration: 0.5,
-                       delay: 0,
-                       usingSpringWithDamping: 0.5,
-                       initialSpringVelocity: 1,
-                       options: .curveEaseInOut) {
-            self.transform = CGAffineTransform(scaleX: 0.8, y: 0.8)
-            
-        }
-        self.transform = .identity
-    }
-    
     func setConfig() {
-        let tapRecognizer = UITapGestureRecognizer(target: self, action: #selector(addDampingAnimationForUserPhoto))
-        self.addGestureRecognizer(tapRecognizer)
         userPhoto.layer.cornerRadius = self.frame.width / 2
         setShadow()
         setConstraints()

@@ -20,24 +20,27 @@ struct NewsfeedResponse: Codable {
 // MARK: - Response
 struct Newsfeed: Codable {
     var items: [News]
-//    @Persisted var profiles: List<User>
-//    @Persisted var groups: List<Group>
+    var profiles: [User]
+    var groups: [Group]
     var nextFrom: String = ""
     
     enum CodingKeys: String, CodingKey {
         case items
+        case profiles
+        case groups
         case nextFrom = "next_from"
     }
     
 }
 // MARK: - ResponseItem
-class News:Object, Codable, Likeble {
+class News:Object, Codable, Likeble, Reposteble{
    
     @Persisted var sourceID: Int
     @Persisted var date: Int
     @Persisted var text: String?
     @Persisted var likes: Likes?
     @Persisted var views: Views?
+    @Persisted var reposts: Reposts?
     @Persisted var type: String = ""
     @Persisted var carouselOffset: Int?
     @Persisted var photos: Photos?
@@ -54,6 +57,7 @@ class News:Object, Codable, Likeble {
         case attachments
         case likes
         case views
+        case reposts
         case type
         case carouselOffset = "carousel_offset"
         case photos

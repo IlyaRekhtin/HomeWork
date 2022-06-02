@@ -9,7 +9,7 @@ import Foundation
 
 final class NewsfeedService {
     
-    func getNewsfeed() {
+    func getNewsfeed( complition: @escaping (Newsfeed) -> ()) {
         let params = ["filters": "photo, wall_photo",
                       "source_ids": "friends, groups",
                       "access_token": Session.data.token,
@@ -25,8 +25,8 @@ final class NewsfeedService {
             }
             guard let data = data else {return}
             do {
-                let news = try JSONDecoder().decode(NewsfeedResponse.self, from: data).newsfeed.items
-                DataManager.data.saveObjectToDatabase(news)
+                let newsfeed = try JSONDecoder().decode(NewsfeedResponse.self, from: data).newsfeed
+                complition(newsfeed)
             }catch{
                 print(String(describing: error))
             }

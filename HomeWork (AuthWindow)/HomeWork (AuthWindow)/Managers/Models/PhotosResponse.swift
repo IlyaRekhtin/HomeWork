@@ -71,7 +71,13 @@ class Likes:Object, Codable {
 
 // MARK: - Reposts
 class Reposts:Object, Codable {
-    @Persisted var count: Int = 0
+    @Persisted var count: Int
+    @Persisted var userReposted: Int
+    
+    enum CodingKeys: String, CodingKey {
+        case count
+        case userReposted = "user_reposted"
+    }
 }
 
 // MARK: - Size

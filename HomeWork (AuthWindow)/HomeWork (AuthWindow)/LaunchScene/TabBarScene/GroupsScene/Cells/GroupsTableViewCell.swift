@@ -14,17 +14,10 @@ import FirebaseFirestore
 class GroupsTableViewCell: UITableViewCell {
     
     static var reuseID = "groupCell"
-    let service = GroupsService()
+    let service = ButtonForAddGroupsService()
     var activeGroup: Group!
     
-    var addGroupButton: UIButton = {
-        var config = UIButton.Configuration.plain()
-        config.baseForegroundColor = .systemGreen
-        config.buttonSize = .mini
-        var button = UIButton()
-        button.configuration = config
-        return button
-    }() {
+    var addGroupButton = ButtonForAddGroup(frame: .zero) {
         didSet {
             addGroupButton.setNeedsUpdateConfiguration()
         }
