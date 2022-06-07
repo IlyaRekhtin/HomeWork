@@ -23,6 +23,15 @@ class LikeButton: UIButton {
         }
     }
     
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.configuration?.image = buttonStateImages.like.image
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func setConfig<T: Likeble>(for item: T){
         guard let likes = item.likes else {return}
         self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image

@@ -30,7 +30,17 @@ final class HeaderNewsCell: UITableViewCell {
         newsDate.numberOfLines = 1
         newsDate.textAlignment = .left
         newsDate.font = UIFont(name: "Times New Roman", size: 12)
+        newsDate.textColor = .lightGray
         return newsDate
+    }()
+    
+    private var newsTime: UILabel = {
+        let newsTime = UILabel()
+        newsTime.numberOfLines = 1
+        newsTime.textAlignment = .left
+        newsTime.font = UIFont(name: "Times New Roman", size: 12)
+        newsTime.textColor = .lightGray
+        return newsTime
     }()
     
     private var buttonForAddGroup: ButtonForAddGroup = {
@@ -47,13 +57,33 @@ final class HeaderNewsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configCellForGroup(_ group: Group, date: Int) {
+    func configCellForGroup(_ group: Group, for news: News) {
         guard let url = URL(string: group.photo50) else {return}
         avatar.setImage(url)
         fullName.text = group.name
-        newsDate.text = String(date)
+        /// формат и установка даты
+        let dateNews = Date(timeIntervalSince1970: Double(news.date))
+        let dateFormatterForDate = DateFormatter()
+        dateFormatterForDate.timeZone = .current
+        dateFormatterForDate.locale = .current
+        dateFormatterForDate.dateFormat = "dd-MM-yyy"
+        let today = Calendar.current.startOfDay(for: .now)
         
-        // для группы добавляем кнопку инвайта
+        if Calendar.current.startOfDay(for: dateNews) == today {
+            self.newsDate.text = "Сегодня"
+        } else if Calendar.current.startOfDay(for: dateNews) == today - (60*60*24) {
+            self.newsDate.text = "Вчера"
+        } else {
+            self.newsDate.text = dateFormatterForDate.string(from: dateNews)
+        }
+        ///формат и установка времени
+        let dateFormatterForTime = DateFormatter()
+        dateFormatterForTime.timeZone = .current
+        dateFormatterForTime.locale = .current
+        dateFormatterForTime.dateFormat = "HH:mm"
+        self.newsTime.text = dateFormatterForTime.string(from: dateNews)
+        
+        /// для группы добавляем кнопку инвайта
         self.addSubview(buttonForAddGroup)
         buttonForAddGroup.snp.makeConstraints { make in
             make.centerY.equalToSuperview()
@@ -61,14 +91,24 @@ final class HeaderNewsCell: UITableViewCell {
         }
         
         buttonForAddGroup.configuration?.image = group.isMember == 1 ? UIImage(systemName: "checkmark")! : UIImage(systemName: "plus")!
-        buttonForAddGroup.isHidden = group.isMember == 0 ? true : false
+        buttonForAddGroup.isHidden = group.isMember == 1 ? true : false
     }
     
-    func configCellForFriend(_ friend: User, date: Int) {
+    func configCellForFriend(_ friend: Profile,for news: News) {
         guard let url = URL(string: friend.photo50) else {return}
         avatar.setImage(url)
         fullName.text = friend.firstName + friend.lastName
-        newsDate.text = String(date)
+        let date = Date(timeIntervalSince1970: Double(news.date))
+        let dateFormatter = DateFormatter()
+        dateFormatter.timeZone = .current
+        dateFormatter.locale = .current
+        dateFormatter.dateFormat = "dd-MM-yyy HH:mm"
+        let dateFormatterForTime = DateFormatter()
+        dateFormatterForTime.timeZone = .current
+        dateFormatterForTime.locale = .current
+        dateFormatterForTime.dateFormat = "HH:mm"
+        self.newsTime.text = dateFormatterForTime.string(from: date)
+        self.newsDate.text = dateFormatter.string(from: date)
     }
 }
 //MARK: - make constrainst
@@ -76,21 +116,28 @@ private extension HeaderNewsCell {
     func makeConstraints() {
         self.addSubview(avatar)
         avatar.snp.makeConstraints { make in
-            make.width.equalTo(avatar.frame.width)
+            make.size.equalTo(avatar.frame.size)
             make.left.top.bottom.equalToSuperview().inset(5)
         }
         
         self.addSubview(fullName)
         fullName.snp.makeConstraints { make in
             make.left.equalTo(avatar.snp.right).offset(20)
-            make.top.trailing.equalToSuperview().inset(8)
+            make.top.right.equalToSuperview().inset(8)
         }
         
         self.addSubview(newsDate)
         newsDate.snp.makeConstraints { make in
             make.left.equalTo(avatar.snp.right).offset(20)
             make.top.equalTo(fullName.snp.bottom).offset(5)
-            make.trailing.equalToSuperview()
+            
         }
+        self.addSubview(newsTime)
+        newsTime.snp.makeConstraints { make in
+            make.left.equalTo(newsDate.snp.right).offset(3)
+            make.top.equalTo(fullName.snp.bottom).offset(5)
+            make.right.equalToSuperview()
+        }
+        
     }
 }

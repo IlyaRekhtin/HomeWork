@@ -10,11 +10,22 @@ import UIKit
 import RealmSwift
 
 class NewsfeedTableViewController: UITableViewController {
+    private enum CellType: Int {
+        case header = 0, text, footer
+    }
     
     private let service = NewsfeedService()
+    
+    
+    
+    
+    
     var news = DataManager.data.news
     var users = DataManager.data.users
     var groups = DataManager.data.groups
+    
+    
+    
     
     override func loadView() {
         super.loadView()
@@ -24,8 +35,11 @@ class NewsfeedTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigationController()
+        tableView.separatorStyle = .none
         tableView.register(HeaderNewsCell.self, forCellReuseIdentifier: HeaderNewsCell.reuseID)
         tableView.register(FooterNewsCell.self, forCellReuseIdentifier: FooterNewsCell.reuseID)
+        tableView.register(TextNewsCell.self, forCellReuseIdentifier: TextNewsCell.reuseID)
+//        tableView.register(LinkNewsCell.self, forCellReuseIdentifier: LinkNewsCell.reuseID)
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapAction(_ :)))
         self.view.addGestureRecognizer(tap)
         print(news.count)
@@ -43,25 +57,37 @@ class NewsfeedTableViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let headerCell = tableView.dequeueReusableCell(withIdentifier: HeaderNewsCell.reuseID, for: indexPath) as! HeaderNewsCell
+        let textCell = tableView.dequeueReusableCell(withIdentifier: TextNewsCell.reuseID, for: indexPath) as! TextNewsCell
         let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterNewsCell.reuseID, for: indexPath) as! FooterNewsCell
-        
         let currentNews = news[indexPath.section]
-        let itemForHeader = currentNews.sourceID < 0 ? groups.filter{-$0.id == currentNews.sourceID}.first : users.filter{$0.id == currentNews.sourceID}.first
-        switch indexPath.row {
-        case 0:
-            currentNews.sourceID < 0 ? headerCell.configCellForGroup(itemForHeader as! Group, date: currentNews.date) : headerCell.configCellForFriend(itemForHeader as! User, date: currentNews.date)
+        let attachments = currentNews.attachments
+        
+        
+        let cellType = CellType(rawValue: indexPath.row)
+        switch cellType {
+        case .header:
+            if currentNews.sourceID < 0 {
+                if let group = groups.filter({-$0.id == currentNews.sourceID}).first {
+                    headerCell.configCellForGroup(group, for: currentNews)
+                }
+            } else {
+                if let profile = users.filter({$0.id == currentNews.sourceID}).first {
+                    headerCell.configCellForFriend(profile, for: currentNews)
+                }
+            }
             return headerCell
-        case 1:
-            footerCell.configCellForFooter(news: currentNews)
-            footerCell.backgroundColor = .brown
+        case .text:
+            textCell.configCell(for: currentNews.text ?? "нету")
+            return textCell
+        case .footer:
+            footerCell.configCell(for: currentNews)
             return footerCell
-        default:
-            footerCell.configCellForFooter(news: currentNews)
+        case .none:
             return footerCell
         }
     }

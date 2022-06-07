@@ -80,18 +80,18 @@ class NewsfeedTableViewCell: UITableViewCell, UICollectionViewDelegate {
         }
         headerNewsView.setValue(userAvatarStringUrl, userName)
         ///добавляем массив фотографий из news
-        if news.photos != nil {
-            images = Array(news.photos!.items)
-        }
-        currentSizePhotos = Photo.getPhotoUrl(with: .x, for: images)
-        newsfeedText.text = news.text
-        if newsfeedText.text == nil {
-            newsfeedText.snp.updateConstraints { make in
-                make.top.equalTo(self.headerNewsView.snp.bottom).offset(10)
-                make.right.left.equalToSuperview().inset(10)
-                make.height.equalTo(0)
-            }
-        }
+//        if news.photos != nil {
+//            images = Array(news.photos!.items)
+//        }
+//        currentSizePhotos = Photo.getPhotoUrl(with: .x, for: images)
+//        newsfeedText.text = news.text
+//        if newsfeedText.text == nil {
+//            newsfeedText.snp.updateConstraints { make in
+//                make.top.equalTo(self.headerNewsView.snp.bottom).offset(10)
+//                make.right.left.equalToSuperview().inset(10)
+//                make.height.equalTo(0)
+//            }
+//        }
         
         
         likeButton.setConfig(for: news)

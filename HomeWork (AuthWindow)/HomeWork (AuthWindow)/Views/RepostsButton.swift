@@ -10,9 +10,9 @@ class RepostsButton: UIButton {
         var image: UIImage? {
             switch self {
             case .reposts:
-                return UIImage(systemName: "heart")
+                return UIImage(systemName: "arrowshape.turn.up.right")
             case .repostsFill:
-                return UIImage(systemName: "heart.fill")
+                return UIImage(systemName: "arrowshape.turn.up.right.fill")
             }
         }
     }

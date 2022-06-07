@@ -44,6 +44,7 @@ class PhotoAlbumVC: UIViewController {
         super.viewWillAppear(animated)
         service.getPhotos(for: userId){photos in
             self.photoAlbum = Array(photos.items)
+          
         }
         navControllerConfiguration()
     }
