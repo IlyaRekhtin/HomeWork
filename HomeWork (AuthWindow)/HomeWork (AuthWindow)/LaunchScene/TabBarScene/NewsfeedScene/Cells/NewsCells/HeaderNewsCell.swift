@@ -62,26 +62,9 @@ final class HeaderNewsCell: UITableViewCell {
         avatar.setImage(url)
         fullName.text = group.name
         /// формат и установка даты
-        let dateNews = Date(timeIntervalSince1970: Double(news.date))
-        let dateFormatterForDate = DateFormatter()
-        dateFormatterForDate.timeZone = .current
-        dateFormatterForDate.locale = .current
-        dateFormatterForDate.dateFormat = "dd-MM-yyy"
-        let today = Calendar.current.startOfDay(for: .now)
-        
-        if Calendar.current.startOfDay(for: dateNews) == today {
-            self.newsDate.text = "Сегодня"
-        } else if Calendar.current.startOfDay(for: dateNews) == today - (60*60*24) {
-            self.newsDate.text = "Вчера"
-        } else {
-            self.newsDate.text = dateFormatterForDate.string(from: dateNews)
-        }
+        self.newsDate.text = getCurrentDate(for: news.date)
         ///формат и установка времени
-        let dateFormatterForTime = DateFormatter()
-        dateFormatterForTime.timeZone = .current
-        dateFormatterForTime.locale = .current
-        dateFormatterForTime.dateFormat = "HH:mm"
-        self.newsTime.text = dateFormatterForTime.string(from: dateNews)
+        self.newsTime.text = getCurrentTime(for: news.date)
         
         /// для группы добавляем кнопку инвайта
         self.addSubview(buttonForAddGroup)
@@ -98,17 +81,34 @@ final class HeaderNewsCell: UITableViewCell {
         guard let url = URL(string: friend.photo50) else {return}
         avatar.setImage(url)
         fullName.text = friend.firstName + friend.lastName
-        let date = Date(timeIntervalSince1970: Double(news.date))
-        let dateFormatter = DateFormatter()
-        dateFormatter.timeZone = .current
-        dateFormatter.locale = .current
-        dateFormatter.dateFormat = "dd-MM-yyy HH:mm"
+        self.newsTime.text = getCurrentTime(for: news.date)
+        self.newsDate.text = getCurrentDate(for: news.date)
+    }
+    
+    private func getCurrentDate(for timeInterval: Int) -> String {
+        let dateNews = Date(timeIntervalSince1970: Double(timeInterval))
+        let dateFormatterForDate = DateFormatter()
+        dateFormatterForDate.timeZone = .current
+        dateFormatterForDate.locale = .current
+        dateFormatterForDate.dateFormat = "dd-MM-yyy"
+        let today = Calendar.current.startOfDay(for: .now)
+        
+        if Calendar.current.startOfDay(for: dateNews) == today {
+             return "Сегодня"
+        } else if Calendar.current.startOfDay(for: dateNews) == today - (60*60*24) {
+            return "Вчера"
+        } else {
+            return dateFormatterForDate.string(from: dateNews)
+        }
+    }
+    
+    private func getCurrentTime(for timeInterval: Int) -> String {
+        let dateNews = Date(timeIntervalSince1970: Double(timeInterval))
         let dateFormatterForTime = DateFormatter()
         dateFormatterForTime.timeZone = .current
         dateFormatterForTime.locale = .current
         dateFormatterForTime.dateFormat = "HH:mm"
-        self.newsTime.text = dateFormatterForTime.string(from: date)
-        self.newsDate.text = dateFormatter.string(from: date)
+        return dateFormatterForTime.string(from: dateNews)
     }
 }
 //MARK: - make constrainst

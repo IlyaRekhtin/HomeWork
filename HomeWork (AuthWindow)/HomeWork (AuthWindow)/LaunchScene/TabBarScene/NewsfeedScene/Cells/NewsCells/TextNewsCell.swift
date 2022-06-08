@@ -23,6 +23,8 @@ final class TextNewsCell: UITableViewCell {
     private var newsText: UITextView = {
         var newsText = UITextView()
         newsText.isScrollEnabled = false
+        newsText.isEditable = false
+        newsText.isSelectable = false
         newsText.textAlignment = .left
         newsText.textColor = .black
         newsText.font = UIFont(name: "Times New Roman", size: 16)

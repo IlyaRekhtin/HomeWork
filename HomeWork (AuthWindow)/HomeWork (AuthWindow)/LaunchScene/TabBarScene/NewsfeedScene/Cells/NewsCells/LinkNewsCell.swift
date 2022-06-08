@@ -11,21 +11,30 @@ import Kingfisher
 
 final class LinkNewsCell: UITableViewCell {
     
-    static let reuseID = "footerNewsCell"
+    static let reuseID = "linkNewsCell"
     
     private let backView: UIView = {
-        var backView = UIView(frame: CGRect(x: 0, y: 0, width: UIScreen().bounds.width, height: UIScreen().bounds.width))
-        backView.layer.cornerRadius = backView.bounds.width / 5
+        var backView = UIView()
+        backView.layer.cornerRadius = 10
         backView.layer.borderColor = UIColor.darkGray.cgColor
-        backView.backgroundColor = .clear
+        backView.backgroundColor = .yellow
         backView.layer.borderWidth = 1
         backView.clipsToBounds = true
         return backView
     }()
     
+    private let titleBackView: UIView = {
+        var backView = UIView()
+        
+        backView.backgroundColor = .white
+        
+        return backView
+    }()
+    
     private var linkImage: UIImageView = {
         let linkImage = UIImageView(frame: .zero)
-        linkImage.contentMode = .scaleAspectFit
+        linkImage.clipsToBounds = true
+        linkImage.contentMode = .scaleAspectFill
         return linkImage
     }()
     
@@ -42,7 +51,7 @@ final class LinkNewsCell: UITableViewCell {
     private var linkSubTitle: UILabel = {
         var linkSubTitle = UILabel()
         linkSubTitle.textColor = .lightGray
-        linkSubTitle.font = UIFont(name: "Times New Roman", size: 10)
+        linkSubTitle.font = UIFont(name: "Times New Roman", size: 12)
         linkSubTitle.numberOfLines = 1
         return linkSubTitle
     }()
@@ -62,9 +71,11 @@ final class LinkNewsCell: UITableViewCell {
     
     func configCell(for link: Link) {
         self.linkURL = link.url
+        DispatchQueue.main.async {
+            let photoURL = Photo.getPhotoUrl(with: .k, for: [link.photo])
+            self.linkImage.kf.setImage(with: photoURL.first)
+        }
         
-        let photoURL = Photo.getPhotoUrl(with: .z, for: [link.photo])
-        self.linkImage.kf.setImage(with: photoURL.first)
         
         self.linkTitle.text = link.title
         self.linkSubTitle.text = link.caption
@@ -78,29 +89,37 @@ final class LinkNewsCell: UITableViewCell {
 //MARK: - make constrainst
 private extension LinkNewsCell {
     func makeConstraints() {
-        self.contentView.addSubview(backView)
+        
+        self.addSubview(backView)
         backView.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3))
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5))
+            make.height.equalTo(250)
         }
         
         backView.addSubview(linkImage)
         linkImage.snp.makeConstraints { make in
-            make.top.left.right.equalToSuperview()
-            make.height.equalTo(self.backView.frame.height - 70)
+            make.top.right.left.bottom.equalToSuperview()
+            
+        }
+
+        backView.addSubview(titleBackView)
+        titleBackView.snp.makeConstraints { make in
+            make.bottom.equalTo(self.backView.snp.bottom)
+            make.right.left.equalTo(self.backView)
+            make.height.equalTo(70)
         }
         
-        
-        backView.addSubview(linkTitle)
+        titleBackView.addSubview(linkTitle)
         linkTitle.snp.makeConstraints { make in
-            make.top.equalTo(self.linkImage.snp.bottom).offset(5)
-            make.right.left.equalToSuperview()
-            make.height.equalTo(50)
+            make.top.equalTo(self.titleBackView.snp.top).offset(8)
+            make.right.left.equalTo(self.backView).inset(10)
         }
-        
-        backView.addSubview(linkSubTitle)
+
+        titleBackView.addSubview(linkSubTitle)
         linkSubTitle.snp.makeConstraints { make in
-            make.top.equalTo(self.linkTitle.snp.bottom).offset(3)
-            make.right.left.bottom.equalToSuperview()
+            make.top.equalTo(self.linkTitle.snp.bottom).inset(3)
+            make.right.left.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview().inset(5)
         }
     }
 }

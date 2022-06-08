@@ -36,7 +36,9 @@ struct Profile: Codable {
 
 // MARK: - OnlineInfo
 struct OnlineInfo: Codable {
-    let visible, isOnline, isMobile: Bool
+    let visible: Bool?
+    let isOnline: Bool?
+    let isMobile: Bool?
     let lastSeen, appID: Int?
 
     enum CodingKeys: String, CodingKey {

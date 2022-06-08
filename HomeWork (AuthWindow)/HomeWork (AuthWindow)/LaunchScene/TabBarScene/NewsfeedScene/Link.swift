@@ -11,7 +11,7 @@ import Foundation
 struct Link: Codable {
     let url: String
     let title: String
-    let caption: String
+    let caption: String?
     let linkDescription: String
     let photo: Photo
     let isFavorite: Bool

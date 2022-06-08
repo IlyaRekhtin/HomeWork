@@ -8,7 +8,7 @@
 import UIKit
 
 
-extension NewsfeedTableViewCell {
+extension PhotoNewsCell {
     
     func createLayoutForNewsImage() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),

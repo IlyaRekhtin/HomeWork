@@ -35,6 +35,7 @@ final class FooterNewsCell: UITableViewCell {
         var views = UILabel()
         views.textColor = .gray
         views.font = UIFont(name: "Times New Roman", size: 14)
+        views.contentMode = .center
         return views
     }()
     
@@ -80,7 +81,8 @@ private extension FooterNewsCell {
 
         self.contentView.addSubview(views)
         views.snp.makeConstraints { make in
-            make.top.right.equalToSuperview().inset(10)
+            make.centerY.equalTo(self.likeButton.snp.centerY)
+            make.right.equalToSuperview().inset(10)
         }
         
         self.contentView.addSubview(separateView)
