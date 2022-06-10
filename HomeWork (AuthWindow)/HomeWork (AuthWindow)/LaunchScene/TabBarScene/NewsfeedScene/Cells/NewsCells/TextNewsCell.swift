@@ -34,7 +34,6 @@ final class TextNewsCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        makeConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -42,6 +41,7 @@ final class TextNewsCell: UITableViewCell {
     }
     
     func configCell(for newsText: String) {
+        makeConstraints()
         self.newsText.text = newsText
         //TODO button
     }
@@ -56,7 +56,6 @@ private extension TextNewsCell {
         self.contentView.addSubview(newsText)
         newsText.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
-            
         }
         
 //        self.addSubview(moreButton)

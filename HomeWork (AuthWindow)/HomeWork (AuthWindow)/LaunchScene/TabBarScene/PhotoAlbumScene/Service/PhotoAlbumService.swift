@@ -29,7 +29,6 @@ final class PhotoAlbumService {
                 let photos = try JSONDecoder().decode(PhotosResponse.self, from: data).photos
                 complition(photos)
             }catch{
-                print(#function)
                 print(String(describing: error))
             }
         }.resume()

@@ -13,7 +13,7 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     
     static let reuseID = "photoNewsCell"
     
-    private var images = [Photo]()
+    private var photos = [Photo]()
     private var currentSizePhotos = [URL]()
     
     var photoNewsfeedCollectionView: UICollectionView!
@@ -24,13 +24,19 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
         setupCollectionView()
         self.photoNewsfeedCollectionView.delegate = self
         createDataSourse()
-        setConstreints()
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func configCell(for photos: [Photo]) {
+        setConstraints()
+        self.photos = photos
+        self.currentSizePhotos = Photo.getURLForPhotos(photos)
+        reloadData()
+    }
+    
     
 }
 //MARK: - CollectionView
@@ -79,7 +85,18 @@ private extension PhotoNewsCell {
     func reloadData(){
         var snapShot = NSDiffableDataSourceSnapshot<Int, Photo>()
         snapShot.appendSections([1])
-        snapShot.appendItems(images)
+        snapShot.appendItems(photos)
         dataSource.apply(snapShot)
     }
 }
+//MARK: - make constraints
+private extension PhotoNewsCell {
+    func setConstraints() {
+        self.contentView.addSubview(photoNewsfeedCollectionView)
+        photoNewsfeedCollectionView.snp.makeConstraints { make in
+            make.top.left.right.bottom.equalToSuperview()
+            make.height.equalTo(self.photoNewsfeedCollectionView.frame.height)
+        }
+    }
+}
+

@@ -39,11 +39,11 @@ final class FooterNewsCell: UITableViewCell {
         return views
     }()
     
-    private let separateView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 5))
-        view.backgroundColor = .opaqueSeparator
-        return view
-    }()
+//    private let separateView: UIView = {
+//        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 5))
+//        view.backgroundColor = .opaqueSeparator
+//        return view
+//    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -85,12 +85,12 @@ private extension FooterNewsCell {
             make.right.equalToSuperview().inset(10)
         }
         
-        self.contentView.addSubview(separateView)
-        separateView.snp.makeConstraints { make in
-            make.top.equalTo(self.likeButton.snp.bottom).offset(10)
-            make.height.equalTo(self.separateView.frame.height)
-            make.left.right.bottom.equalToSuperview()
-            
-        }
+//        self.contentView.addSubview(separateView)
+//        separateView.snp.makeConstraints { make in
+//            make.top.equalTo(self.likeButton.snp.bottom).offset(10)
+//            make.height.equalTo(self.separateView.frame.height)
+//            make.left.right.bottom.equalToSuperview()
+//            
+//        }
     }
 }

@@ -21,14 +21,14 @@ class FriendsTableViewCell: UITableViewCell {
     private var fullName: UILabel = {
         let lable = UILabel()
         lable.textColor = .black
-        lable.font = UIFont(name: "Times New Roman", size: 18)
+        lable.font = UIFont(name: "Times New Roman", size: 16)
         return lable
     }()
     
     private var city: UILabel = {
         let lable = UILabel()
         lable.textColor = .lightGray
-        lable.font = UIFont(name: "Times New Roman", size: 12)
+        lable.font = UIFont(name: "Times New Roman", size: 14)
         lable.alpha = 0.9
         return lable
     }()

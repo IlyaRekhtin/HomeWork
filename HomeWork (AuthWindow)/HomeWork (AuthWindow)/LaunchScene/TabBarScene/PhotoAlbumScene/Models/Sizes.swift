@@ -8,13 +8,15 @@
 import Foundation
 import RealmSwift
 
-class Size:Object, Codable {
+class Size:Object, Codable, Comparable {
+    static func < (lhs: Size, rhs: Size) -> Bool {
+        lhs.width < rhs.width
+    }
+    
     @Persisted var height: Int = 0
     @Persisted var url: String = ""
     var type: TypeEnum?
     @Persisted var width: Int = 0
-    
-    
 }
 enum TypeEnum: String, Codable {
     case max = "max"

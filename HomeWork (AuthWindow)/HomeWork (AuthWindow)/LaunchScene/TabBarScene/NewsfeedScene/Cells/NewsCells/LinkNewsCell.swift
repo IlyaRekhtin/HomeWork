@@ -16,9 +16,9 @@ final class LinkNewsCell: UITableViewCell {
     private let backView: UIView = {
         var backView = UIView()
         backView.layer.cornerRadius = 10
-        backView.layer.borderColor = UIColor.darkGray.cgColor
-        backView.backgroundColor = .yellow
-        backView.layer.borderWidth = 1
+        backView.layer.borderColor = UIColor.lightGray.cgColor
+        backView.backgroundColor = .clear
+        backView.layer.borderWidth = 0.5
         backView.clipsToBounds = true
         return backView
     }()
@@ -51,7 +51,7 @@ final class LinkNewsCell: UITableViewCell {
     private var linkSubTitle: UILabel = {
         var linkSubTitle = UILabel()
         linkSubTitle.textColor = .lightGray
-        linkSubTitle.font = UIFont(name: "Times New Roman", size: 12)
+        linkSubTitle.font = UIFont(name: "Times New Roman", size: 14)
         linkSubTitle.numberOfLines = 1
         return linkSubTitle
     }()
@@ -62,7 +62,6 @@ final class LinkNewsCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        makeConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -70,9 +69,10 @@ final class LinkNewsCell: UITableViewCell {
     }
     
     func configCell(for link: Link) {
+        makeConstraints()
         self.linkURL = link.url
         DispatchQueue.main.async {
-            let photoURL = Photo.getPhotoUrl(with: .k, for: [link.photo])
+            let photoURL = Photo.getURLForPhotos([link.photo])
             self.linkImage.kf.setImage(with: photoURL.first)
         }
         

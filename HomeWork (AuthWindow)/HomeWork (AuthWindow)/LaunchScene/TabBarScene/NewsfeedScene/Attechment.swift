@@ -38,7 +38,7 @@ struct Poll: Codable {
     let votes: Int
     let disableUnvote, anonymous: Bool
     let embedHash: String
-    let photo: PollPhoto
+    let photo: PollPhoto?
     let answers: [Answer]
     let authorID: Int
 

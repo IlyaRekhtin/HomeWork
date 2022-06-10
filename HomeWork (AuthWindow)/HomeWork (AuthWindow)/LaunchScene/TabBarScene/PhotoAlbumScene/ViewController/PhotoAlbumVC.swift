@@ -20,7 +20,7 @@ class PhotoAlbumVC: UIViewController {
     
     var photoAlbum = [Photo]() {
         didSet {
-            currentSizePhotos = Photo.getPhotoUrl(with: .x, for: self.photoAlbum)
+            currentSizePhotos = Photo.getURLForPhotos(self.photoAlbum)
             reloadData()
         }
     }
