@@ -81,7 +81,6 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     func createDataSourse() {
         dataSource = UICollectionViewDiffableDataSource<Int, Photo>(collectionView: self.photoNewsfeedCollectionView,
                                                                     cellProvider: { (collectionView, indexPuth, model) -> UICollectionViewCell? in
-            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagesCollectionViewCell.reuseID, for: indexPuth) as! ImagesCollectionViewCell
             cell.config(self.currentSizePhotos[indexPuth.row])
             return cell

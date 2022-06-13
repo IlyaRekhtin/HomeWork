@@ -1,10 +1,9 @@
-//
+
 //  NewsTableViewController.swift
 //  HomeWork (AuthWindow)
 //
 //  Created by Илья Рехтин on 23.03.2022.
 //
-
 
 import UIKit
 import RealmSwift
@@ -13,23 +12,11 @@ protocol PhotoNewsCellDelegate {
     func cellCollectionItemTapped(cell: PhotoNewsCell)
 }
 
-class NewsfeedTableViewController: UITableViewController, PhotoNewsCellDelegate {
-    func cellCollectionItemTapped(cell: PhotoNewsCell) {
-        guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImagePresentViewController else {return}
-        guard let index = cell.photoNewsfeedCollectionView.indexPathsForSelectedItems?.first else {return}
-        
-        vc.currentIndexPuthFoto = index.row
-    
-        DispatchQueue.main.async {
-            vc.firstImageView.kf.setImage(with: cell.currentSizePhotos[index.row])
-        }
-        vc.currentSizePhotos = cell.currentSizePhotos
-        vc.firstImageView.kf.indicatorType = .activity
-        vc.photoAlbum = cell.photos
-        vc.transitioningDelegate = self
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
-    }
+protocol LinkNewsCellDelegate {
+    func linkTaped(cell: LinkNewsCell)
+}
+
+class NewsfeedTableViewController: UITableViewController {
     
     enum CellType: Int {
         case header = 0, text, link, photos, video, audio, docs, poll, footer
@@ -49,8 +36,8 @@ class NewsfeedTableViewController: UITableViewController, PhotoNewsCellDelegate 
         configNavigationController()
         configTableView()
     }
-   
-   private func configNavigationController(){
+    
+    private func configNavigationController(){
         navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
@@ -70,7 +57,7 @@ class NewsfeedTableViewController: UITableViewController, PhotoNewsCellDelegate 
         tableView.register(DocViewCell.self, forCellReuseIdentifier: DocViewCell.reuseID)
         tableView.register(Cell.self, forCellReuseIdentifier: Cell.reuseID)
     }
-   
+    
 }
 
 //MARK: - tableview data source
@@ -133,6 +120,7 @@ extension NewsfeedTableViewController {
             textCell.configCell(for: text!)
             return textCell
         case .link:
+            linkCell.delegate = self
             linkCell.configCell(for: links.first!)
             return linkCell
         case .photos:
@@ -157,12 +145,7 @@ extension NewsfeedTableViewController {
             return footerCell
         }
     }
-    
-   
-    
 }
-
-
 //MARK: - private helpers methods
 private extension NewsfeedTableViewController {
     
@@ -275,10 +258,10 @@ extension NewsfeedTableViewController: UIViewControllerTransitioningDelegate {
         pushTransition.imageInitFrame = selectedCellSuperview.convert(selectedCell.layer.frame, to: nil)
         pushTransition.imageInitFrame = selectedCell.layer.frame
         pushTransition.imageInitFrame = CGRect(
-          x: pushTransition.imageInitFrame.origin.x ,
-          y: pushTransition.imageInitFrame.origin.y + 50,
-          width: pushTransition.imageInitFrame.size.width,
-          height: pushTransition.imageInitFrame.size.height + 70
+            x: pushTransition.imageInitFrame.origin.x ,
+            y: pushTransition.imageInitFrame.origin.y + 50,
+            width: pushTransition.imageInitFrame.size.width,
+            height: pushTransition.imageInitFrame.size.height + 70
         )
         return pushTransition
     }
@@ -286,5 +269,36 @@ extension NewsfeedTableViewController: UIViewControllerTransitioningDelegate {
     func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         //TODO возвращение в ячейку коллекции
         return popTransition
+    }
+}
+
+//MARK: - PhotoNewsCellDelegate
+extension NewsfeedTableViewController: PhotoNewsCellDelegate {
+    func cellCollectionItemTapped(cell: PhotoNewsCell) {
+        guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImagePresentViewController else {return}
+        guard let index = cell.photoNewsfeedCollectionView.indexPathsForSelectedItems?.first else {return}
+
+        vc.currentIndexPuthFoto = index.row
+
+        DispatchQueue.main.async {
+            vc.firstImageView.kf.setImage(with: cell.currentSizePhotos[index.row])
+        }
+        vc.currentSizePhotos = cell.currentSizePhotos
+        vc.firstImageView.kf.indicatorType = .activity
+        vc.photoAlbum = cell.photos
+        vc.transitioningDelegate = self
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+}
+
+//MARK: - LinkNewsCellDelegate
+extension NewsfeedTableViewController: LinkNewsCellDelegate {
+    func linkTaped(cell: LinkNewsCell) {
+        guard let vc = self.storyboard?.instantiateViewController(identifier: "WebViewController") as? WebViewController else {return}
+        vc.urlString = cell.linkURL
+        vc.transitioningDelegate = self
+        vc.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }

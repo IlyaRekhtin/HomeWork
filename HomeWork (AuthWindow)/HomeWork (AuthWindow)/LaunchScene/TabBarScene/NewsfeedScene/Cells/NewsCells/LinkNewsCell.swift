@@ -57,7 +57,9 @@ final class LinkNewsCell: UITableViewCell {
     }()
     
     
-    private var linkURL = ""
+    
+    var linkURL = ""
+    var delegate: LinkNewsCellDelegate?
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -72,17 +74,19 @@ final class LinkNewsCell: UITableViewCell {
         makeConstraints()
         self.linkURL = link.url
         DispatchQueue.main.async {
-            let photoURL = Photo.getURLForPhotos([link.photo])
+            guard let photos = link.photo else {return}
+            let photoURL = Photo.getURLForPhotos([photos])
             self.linkImage.kf.setImage(with: photoURL.first)
         }
-        
-        
         self.linkTitle.text = link.title
         self.linkSubTitle.text = link.caption
-        
-        //TODO action
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToLink))
+        self.addGestureRecognizer(tap)
     }
     
+    @objc private func tapToLink() {
+        delegate?.linkTaped(cell: self)
+    }
     
     
 }

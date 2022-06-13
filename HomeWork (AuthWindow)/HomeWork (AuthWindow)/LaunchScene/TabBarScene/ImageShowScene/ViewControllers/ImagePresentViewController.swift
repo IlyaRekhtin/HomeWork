@@ -102,7 +102,7 @@ private extension ImagePresentViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(hideNavBarAndTabBar))
         let panGR = UIPanGestureRecognizer(target: self, action: #selector(panGestureAction(_:)))
         let swipeDownGR = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
-        self.firstImageView.addGestureRecognizer(swipeDownGR)
+        self.view.addGestureRecognizer(swipeDownGR)
         self.view.addGestureRecognizer(tapGR)
         self.view.addGestureRecognizer(panGR)
         swipeDownGR.direction = .down

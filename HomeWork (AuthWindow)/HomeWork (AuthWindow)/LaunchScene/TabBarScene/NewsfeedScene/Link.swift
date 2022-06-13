@@ -10,11 +10,11 @@ import Foundation
 // MARK: - Link
 struct Link: Codable {
     let url: String
-    let title: String
+    let title: String?
     let caption: String?
-    let linkDescription: String
-    let photo: Photo
-    let isFavorite: Bool
+    let linkDescription: String?
+    let photo: Photo?
+    let isFavorite: Bool?
 
     enum CodingKeys: String, CodingKey {
         case url, title, caption
