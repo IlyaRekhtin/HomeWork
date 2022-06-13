@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct Doc: Codable {
-    let id, ownerID: Int
-    let title: String
-    let size: Int
-    let ext: String
-    let date, type: Int
-    let url: String
-    let accessKey: String
+struct Doc: Codable, Hashable {
+    let id, ownerID: Int?
+    let title: String?
+    let size: Int?
+    let ext: String?
+    let date, type: Int?
+    let url: String?
+    let accessKey: String?
 
     enum CodingKeys: String, CodingKey {
         case id

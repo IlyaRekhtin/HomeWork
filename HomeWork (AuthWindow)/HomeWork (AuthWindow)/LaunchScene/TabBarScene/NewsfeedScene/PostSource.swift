@@ -9,7 +9,7 @@ import Foundation
 
 struct PostSource: Codable {
     let platform: PostSourcePlatform?
-    let type: PostSourceType
+    let type: PostSourceType?
 }
 
 enum PostSourcePlatform: String, Codable {

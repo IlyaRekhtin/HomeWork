@@ -26,6 +26,7 @@ class LikeButton: UIButton {
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.configuration?.image = buttonStateImages.like.image
+        self.configuration?.buttonSize = .large
     }
     
     required init?(coder: NSCoder) {
@@ -33,7 +34,13 @@ class LikeButton: UIButton {
     }
     
     func setConfig<T: Likeble>(for item: T){
-        guard let likes = item.likes else {return}
+        guard let likes = item.likes else {
+            self.configuration?.image = buttonStateImages.like.image
+            self.configuration?.baseForegroundColor = UIColor.gray
+            self.isEnabled = false
+            return
+        }
+        self.isEnabled = true
         self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
         self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
         self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
@@ -48,34 +55,47 @@ class LikeButton: UIButton {
         self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
         self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
         self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
-//        likes.userLikes == 1 ? self.likes(for: item, .likeAdd) : self.likes(for: item, .likeDelete)
+        likes.userLikes == 1 ? self.likes(item: item, .likeAdd) :  self.likes(item: item, .likeDelete)
     }
 }
 //MARK: - Animation for button
 extension LikeButton {
     private func animationImageChange() {
-        let animation = CASpringAnimation(keyPath: "position.y")
-        animation.fromValue = self.layer.position.y - 5
-        animation.toValue = self.layer.position.y
-        animation.duration = 0.5
-        animation.stiffness = 1000
-        animation.mass = 0.5
-        self.layer.add(animation, forKey: nil)
-        
+        if self.isEnabled == true {
+            let animation = CASpringAnimation(keyPath: "position.y")
+            animation.fromValue = self.layer.position.y - 5
+            animation.toValue = self.layer.position.y
+            animation.duration = 0.5
+            animation.stiffness = 1000
+            animation.mass = 0.5
+            self.layer.add(animation, forKey: nil)
+        }
     }
-    
 }
 
 //MARK: - network method
 extension LikeButton {
-    func likes(for photo: Photo, _ method: Api.BaseURL.ApiMethod) {
-        let params = ["type": "photo",
-                      "owner_id": String(photo.ownerID),
-                      "item_id": String(photo.id),
+    func likes<T: Likeble>(item: T, _ method: Api.BaseURL.ApiMethod) {
+        var type = ""
+        var ownerID = 0
+        var id = 0
+        if let photo = item as? Photo {
+            type = "photo"
+            ownerID = photo.ownerID
+            id = photo.id
+        } else if let news = item as? News {
+            type = "post"
+            ownerID = news.sourceID
+            id = news.postID
+            
+        }
+        let params = ["type": type,
+                      "owner_id":String(ownerID),
+                      "item_id": String(id),
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion]
         let url = URL.configureURL(method: method, baseURL: .api, params: params)
-        
+        print(url)
         let request = URLRequest(url: url)
         
         URLSession.shared.dataTask(with: request) { data, _, error in

@@ -8,20 +8,20 @@
 import Foundation
 
 struct Video: Codable {
-    let accessKey: String
-    let canComment, canLike, canRepost, canSubscribe: Int
-    let canAddToFaves, canAdd: Int
+    let accessKey: String?
+    let canComment, canLike, canRepost, canSubscribe: Int?
+    let canAddToFaves, canAdd: Int?
     let comments: Int?
-    let date: Int
-    let videoDescription: String
-    let duration: Int
-    let image: [Size]
-    let id, ownerID: Int
-    let title: String
-    let isFavorite: Bool
-    let trackCode: String
+    let date: Int?
+    let videoDescription: String?
+    let duration: Int?
+    let image: [Size]?
+    let id, ownerID: Int?
+    let title: String?
+    let isFavorite: Bool?
+    let trackCode: String?
     let type: AttachmentType?
-    let views: Int
+    let views: Int?
     let localViews: Int?
     let platform: VideoPlatform?
     let firstFrame: [Size]?

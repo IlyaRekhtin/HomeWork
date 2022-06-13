@@ -9,15 +9,15 @@ import Foundation
 
 // MARK: - Audio
 struct Audio: Codable {
-    let artist: String
-    let id, ownerID: Int
-    let title: String
-    let duration: Int
-    let isExplicit, isFocusTrack: Bool
-    let trackCode: String
-    let url: String
-    let date, genreID: Int
-    let shortVideosAllowed, storiesAllowed, storiesCoverAllowed: Bool
+    let artist: String?
+    let id, ownerID: Int?
+    let title: String?
+    let duration: Int?
+    let isExplicit, isFocusTrack: Bool?
+    let trackCode: String?
+    let url: String?
+    let date, genreID: Int?
+    let shortVideosAllowed, storiesAllowed, storiesCoverAllowed: Bool?
 
     enum CodingKeys: String, CodingKey {
         case artist, id

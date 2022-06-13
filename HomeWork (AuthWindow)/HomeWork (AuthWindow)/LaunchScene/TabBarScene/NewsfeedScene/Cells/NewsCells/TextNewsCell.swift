@@ -53,7 +53,7 @@ final class TextNewsCell: UITableViewCell {
 private extension TextNewsCell {
     func makeConstraints() {
         
-        self.contentView.addSubview(newsText)
+        self.addSubview(newsText)
         newsText.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
         }

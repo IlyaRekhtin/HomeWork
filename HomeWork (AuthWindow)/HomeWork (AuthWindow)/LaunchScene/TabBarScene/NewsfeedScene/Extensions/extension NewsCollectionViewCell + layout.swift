@@ -26,8 +26,29 @@ extension PhotoNewsCell {
         return section
     }
     
+    func createLayoutForTwoNewsImages() -> NSCollectionLayoutSection {
+        
+        let firstItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                 heightDimension:.fractionalHeight(0.5))
+        let firstItem = NSCollectionLayoutItem(layoutSize: firstItemSize)
+        firstItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0)
+        
+        
+       
+        let secondItem = NSCollectionLayoutItem(layoutSize: firstItemSize)
+        secondItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                    heightDimension: .fractionalHeight(1))
+        let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [firstItem, secondItem])
+        
+        let section = NSCollectionLayoutSection(group:group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        return section
+    }
     
-    func createLayoutForTwoToThreeNewsImages() -> NSCollectionLayoutSection {
+    func createLayoutForThreeNewsImages() -> NSCollectionLayoutSection {
         
         let topItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                                  heightDimension:.fractionalHeight(0.6))
@@ -81,9 +102,42 @@ extension PhotoNewsCell {
         return section
     }
     
+    func createLayoutForFiveNewsImages() -> NSCollectionLayoutSection {
+        
+        let topItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                  heightDimension:.fractionalHeight(1))
+        let topItem = NSCollectionLayoutItem(layoutSize: topItemSize)
+        topItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 2, trailing: 0)
+        
+        let topGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                    heightDimension: .fractionalHeight(0.75))
+        
+        let topGroup = NSCollectionLayoutGroup.horizontal(layoutSize: topGroupSize, subitems: [topItem])
+
+        let bottomItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.25),
+                                              heightDimension:.fractionalHeight(1))
+        let bottomItem = NSCollectionLayoutItem(layoutSize: bottomItemSize)
+        bottomItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        let bottomCentreItem = NSCollectionLayoutItem(layoutSize: bottomItemSize)
+        bottomCentreItem.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 2, bottom: 0, trailing: 2)
+        
+        let bottomGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                                     heightDimension: .fractionalHeight(0.25))
+        let bottomGroup = NSCollectionLayoutGroup.horizontal(layoutSize: bottomGroupSize, subitems: [bottomItem, bottomCentreItem, bottomCentreItem, bottomItem])
+        
+        let largeGroupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
+                                               heightDimension: .fractionalHeight(1))
+        let largeGroup = NSCollectionLayoutGroup.vertical(layoutSize: largeGroupSize, subitems: [topGroup, bottomGroup])
+        
+
+        let section = NSCollectionLayoutSection(group:largeGroup)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
+        
+        return section
+    }
     
-    
-    func createLayoutForFiveToSixNewsImages() -> NSCollectionLayoutSection {
+    func createLayoutForSixNewsImages() -> NSCollectionLayoutSection {
         
         let leftItemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(0.67),
                                               heightDimension:.fractionalHeight(1))

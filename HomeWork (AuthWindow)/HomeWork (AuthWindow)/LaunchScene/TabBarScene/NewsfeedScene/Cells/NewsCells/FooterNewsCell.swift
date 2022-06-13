@@ -57,6 +57,9 @@ final class FooterNewsCell: UITableViewCell {
     func configCell(for news: News) {
         
         self.likeButton.setConfig(for: news)
+        likeButton.addAction(UIAction(handler: { [self] _ in
+            likeButton.updateLikeButton(for: news)
+        }), for: .touchUpInside)
         self.reposts.setConfig(for: news)
         guard let viewsCount = news.views?.count else {return}
         self.views.text = "🙈" + String(viewsCount)

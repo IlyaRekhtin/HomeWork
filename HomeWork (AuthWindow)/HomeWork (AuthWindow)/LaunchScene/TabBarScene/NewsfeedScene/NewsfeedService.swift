@@ -12,6 +12,7 @@ final class NewsfeedService {
     func getNewsfeed( complition: @escaping (Newsfeed) -> ()) {
         let params = ["filters": "post, photo",
                       "source_ids": "friends, groups",
+                      "count": "100",
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion
               ]

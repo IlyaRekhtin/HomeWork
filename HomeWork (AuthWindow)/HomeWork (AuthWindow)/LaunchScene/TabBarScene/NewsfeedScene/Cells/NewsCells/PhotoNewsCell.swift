@@ -13,11 +13,13 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     
     static let reuseID = "photoNewsCell"
     
-    private var photos = [Photo]()
-    private var currentSizePhotos = [URL]()
+    var photos = [Photo]()
+    var currentSizePhotos = [URL]()
     
     var photoNewsfeedCollectionView: UICollectionView!
     var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
+    var delegate: PhotoNewsCellDelegate?
+    
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -40,7 +42,7 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     
 }
 //MARK: - CollectionView
-private extension PhotoNewsCell {
+ extension PhotoNewsCell {
     //    //MARK: - Setup collectionView
     func setupCollectionView() {
         photoNewsfeedCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: self.layer.frame.width, height: self.layer.frame.width), collectionViewLayout: createCompositionLayout())
@@ -59,12 +61,16 @@ private extension PhotoNewsCell {
             switch self.currentSizePhotos.count {
             case 1:
                 return self.createLayoutForNewsImage()
-            case 2...3:
-                return self.createLayoutForTwoToThreeNewsImages()
+            case 2:
+                return self.createLayoutForTwoNewsImages()
+            case 3:
+                return self.createLayoutForThreeNewsImages()
             case 4:
                 return self.createLayoutForFourNewsImages()
-            case 5...6:
-                return self.createLayoutForFiveToSixNewsImages()
+            case 5:
+                return self.createLayoutForFiveNewsImages()
+            case 6:
+                return self.createLayoutForSixNewsImages()
             default:
                 return self.createLayoutForNewsImage()
             }
@@ -87,6 +93,11 @@ private extension PhotoNewsCell {
         snapShot.appendSections([1])
         snapShot.appendItems(photos)
         dataSource.apply(snapShot)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.cellCollectionItemTapped(cell: self)
+        
     }
 }
 //MARK: - make constraints

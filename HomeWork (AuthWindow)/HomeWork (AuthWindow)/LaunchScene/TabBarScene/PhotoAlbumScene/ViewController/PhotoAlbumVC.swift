@@ -162,7 +162,8 @@ extension PhotoAlbumVC: UIViewControllerTransitioningDelegate {
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         guard let selectedIndexPathCell = collectionView.indexPathsForSelectedItems,
-              let selectedCell = collectionView.cellForItem(at: selectedIndexPathCell.first!) as? PhotoAlbumCollectionCell, let selectedCellSuperview = selectedCell.superview else {return nil}
+              let selectedCell = collectionView.cellForItem(at: selectedIndexPathCell.first!) as? PhotoAlbumCollectionCell,
+              let selectedCellSuperview = selectedCell.superview else {return nil}
         pushTransition.imageInitFrame = selectedCellSuperview.convert(selectedCell.layer.frame, to: nil)
         pushTransition.imageInitFrame = selectedCell.layer.frame
         pushTransition.imageInitFrame = CGRect(

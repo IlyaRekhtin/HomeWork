@@ -8,8 +8,8 @@
 import Foundation
 
 struct CategoryAction: Codable {
-    let action: Action
-    let name: String
+    let action: Action?
+    let name: String?
 }
 
 // MARK: - Action

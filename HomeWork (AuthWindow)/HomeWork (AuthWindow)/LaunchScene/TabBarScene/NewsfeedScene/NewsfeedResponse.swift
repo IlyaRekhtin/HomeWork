@@ -22,7 +22,7 @@ struct Newsfeed: Codable {
     var items: [News]
     var profiles: [Profile]
     var groups: [Group]
-    var nextFrom: String = ""
+    var nextFrom: String?
     
     enum CodingKeys: String, CodingKey {
         case items

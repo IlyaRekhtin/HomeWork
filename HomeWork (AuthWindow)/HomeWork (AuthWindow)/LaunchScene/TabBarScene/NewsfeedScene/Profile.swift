@@ -8,10 +8,10 @@
 import Foundation
 
 struct Profile: Codable {
-    let id, sex: Int
+    let id, sex: Int?
     let photo50, photo100: String
-    let onlineInfo: OnlineInfo
-    let online: Int
+    let onlineInfo: OnlineInfo?
+    let online: Int?
     let deactivated: String?
     let firstName, lastName: String
     let screenName: String?

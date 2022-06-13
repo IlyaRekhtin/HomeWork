@@ -24,13 +24,14 @@ class LaunchViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        animateCALayer()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .systemMint
         makeConstraints()
-        animateCALayer()
+        
         service.getNewsfeed { newsfeed in
             DispatchQueue.main.async {
                 

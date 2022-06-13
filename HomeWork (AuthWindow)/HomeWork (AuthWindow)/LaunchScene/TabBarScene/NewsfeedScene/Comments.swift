@@ -8,7 +8,7 @@
 import Foundation
 
 struct Comments: Codable {
-    let canPost, count: Int
+    let canPost, count: Int?
     let groupsCanPost: Bool?
 
     enum CodingKeys: String, CodingKey {

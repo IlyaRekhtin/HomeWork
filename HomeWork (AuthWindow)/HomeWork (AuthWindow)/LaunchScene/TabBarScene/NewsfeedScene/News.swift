@@ -10,6 +10,7 @@ import Foundation
 struct News: Codable, Likeble, Reposteble {
    
     let sourceID: Int
+    let postID: Int
     let date: Int
     let text: String?
     let isFavorite: Bool?
@@ -22,10 +23,11 @@ struct News: Codable, Likeble, Reposteble {
     let categoryAction: CategoryAction?
     let carouselOffset: Int?
     let attachments: [Attachment]?
-    let photos: Photos?
+    let photos: Photos? 
     
     enum CodingKeys: String, CodingKey {
         case sourceID = "source_id"
+        case postID = "post_id"
         case date
         case isFavorite = "is_favorite"
         case postType = "post_type"
