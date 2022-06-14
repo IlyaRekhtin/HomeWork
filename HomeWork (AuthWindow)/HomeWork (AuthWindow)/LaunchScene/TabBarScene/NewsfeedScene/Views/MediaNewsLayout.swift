@@ -8,7 +8,7 @@
 import UIKit
 
 
-extension PhotoNewsCell {
+class MediaNewsLayout {
     
     func createLayoutForNewsImage() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),

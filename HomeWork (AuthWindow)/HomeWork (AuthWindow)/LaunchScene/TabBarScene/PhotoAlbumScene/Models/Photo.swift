@@ -11,7 +11,7 @@ import RealmSwift
 class Photo:Object, Codable, Likeble {
     
     
-   
+    
     @Persisted var albumID: Int
     @Persisted var date: Int
     @Persisted var id: Int
@@ -25,7 +25,7 @@ class Photo:Object, Codable, Likeble {
     override class func primaryKey() -> String? {
         return "id"
     }
-
+    
     enum CodingKeys: String, CodingKey {
         case albumID = "album_id"
         case date, id
@@ -35,13 +35,12 @@ class Photo:Object, Codable, Likeble {
         case likes, reposts
     }
     
-    static func getURLForPhotos(_ photos: [Photo]) -> [URL]{
+    static func getURLForMaxPhotos(_ photos: [Photo]) -> [URL]{
         var size = Size()
         var urls = [URL]()
-        
         photos.forEach { photo in
             for currentSize in photo.sizes {
-                if size < currentSize {
+                if size <= currentSize {
                     size = currentSize
                 }
             }
@@ -51,5 +50,16 @@ class Photo:Object, Codable, Likeble {
         }
         return urls
     }
+    
+    static func max(in sizes: [Size]) -> String {
+        var size = Size()
+        for currentSize in sizes {
+            if size <= currentSize {
+                size = currentSize
+            }
+        }
+        return size.url
+    }
+    
 }
 

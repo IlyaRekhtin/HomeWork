@@ -17,7 +17,8 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     var currentSizePhotos = [URL]()
     
     var photoNewsfeedCollectionView: UICollectionView!
-    var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
+    private var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
+    private let layout = MediaNewsLayout()
     var delegate: PhotoNewsCellDelegate?
     
     
@@ -35,7 +36,7 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     func configCell(for photos: [Photo]) {
         setConstraints()
         self.photos = photos
-        self.currentSizePhotos = Photo.getURLForPhotos(photos)
+        self.currentSizePhotos = Photo.getURLForMaxPhotos(photos)
         reloadData()
     }
     
@@ -60,19 +61,19 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
             
             switch self.currentSizePhotos.count {
             case 1:
-                return self.createLayoutForNewsImage()
+                return self.layout.createLayoutForNewsImage()
             case 2:
-                return self.createLayoutForTwoNewsImages()
+                return self.layout.createLayoutForTwoNewsImages()
             case 3:
-                return self.createLayoutForThreeNewsImages()
+                return self.layout.createLayoutForThreeNewsImages()
             case 4:
-                return self.createLayoutForFourNewsImages()
+                return self.layout.createLayoutForFourNewsImages()
             case 5:
-                return self.createLayoutForFiveNewsImages()
+                return self.layout.createLayoutForFiveNewsImages()
             case 6:
-                return self.createLayoutForSixNewsImages()
+                return self.layout.createLayoutForSixNewsImages()
             default:
-                return self.createLayoutForNewsImage()
+                return self.layout.createLayoutForNewsImage()
             }
         }
         return layout

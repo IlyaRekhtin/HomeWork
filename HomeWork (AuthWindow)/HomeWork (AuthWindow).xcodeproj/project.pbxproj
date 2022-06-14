@@ -29,7 +29,7 @@
 		26F14F2127D922960025DF57 /* HeaderSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F14F2027D922960025DF57 /* HeaderSearchBar.swift */; };
 		26F14F2B27E4CA680025DF57 /* Cell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F14F2A27E4CA680025DF57 /* Cell.swift */; };
 		26F14F2D27E4EDF80025DF57 /* ImagesCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F14F2C27E4EDF80025DF57 /* ImagesCollectionViewCell.swift */; };
-		26F14F2F27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F14F2E27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift */; };
+		26F14F2F27E8B0270025DF57 /* MediaNewsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F14F2E27E8B0270025DF57 /* MediaNewsLayout.swift */; };
 		26F7A96B27F798CC00A190F5 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7A96A27F798CC00A190F5 /* LaunchViewController.swift */; };
 		26F7A96D27F79DA500A190F5 /* CloudLoadImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7A96C27F79DA500A190F5 /* CloudLoadImage.swift */; };
 		26F7A96F27F8D5BE00A190F5 /* CustomNavController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F7A96E27F8D5BE00A190F5 /* CustomNavController.swift */; };
@@ -125,7 +125,7 @@
 		26F14F2027D922960025DF57 /* HeaderSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderSearchBar.swift; sourceTree = "<group>"; };
 		26F14F2A27E4CA680025DF57 /* Cell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cell.swift; sourceTree = "<group>"; };
 		26F14F2C27E4EDF80025DF57 /* ImagesCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesCollectionViewCell.swift; sourceTree = "<group>"; };
-		26F14F2E27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "extension NewsCollectionViewCell + layout.swift"; sourceTree = "<group>"; };
+		26F14F2E27E8B0270025DF57 /* MediaNewsLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaNewsLayout.swift; sourceTree = "<group>"; };
 		26F7A96A27F798CC00A190F5 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		26F7A96C27F79DA500A190F5 /* CloudLoadImage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudLoadImage.swift; sourceTree = "<group>"; };
 		26F7A96E27F8D5BE00A190F5 /* CustomNavController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavController.swift; sourceTree = "<group>"; };
@@ -509,6 +509,7 @@
 		8C8A79D928325FEB00C9B551 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				26F14F2E27E8B0270025DF57 /* MediaNewsLayout.swift */,
 				26E633E127EC828D0064CFAA /* DocButton.swift */,
 			);
 			path = Views;
@@ -564,14 +565,6 @@
 			isa = PBXGroup;
 			children = (
 				26FD354A27C586D600EF4403 /* extension PhotoAlbumVC + LayoutSection.swift */,
-			);
-			path = Extensions;
-			sourceTree = "<group>";
-		};
-		8C8A79E02832611B00C9B551 /* Extensions */ = {
-			isa = PBXGroup;
-			children = (
-				26F14F2E27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -775,7 +768,6 @@
 			children = (
 				8CFB9FF828513D8C00A305A6 /* PhotoNewsCell.swift */,
 				26F14F2C27E4EDF80025DF57 /* ImagesCollectionViewCell.swift */,
-				8C8A79E02832611B00C9B551 /* Extensions */,
 			);
 			path = PhotosCells;
 			sourceTree = "<group>";
@@ -1002,7 +994,7 @@
 				8CD2EE6528077183001F6AA7 /* Session.swift in Sources */,
 				8CD2EE5D28073076001F6AA7 /* ImagePresentViewController.swift in Sources */,
 				8C4378972843BDE5005ACB5F /* AddedGroup.swift in Sources */,
-				26F14F2F27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift in Sources */,
+				26F14F2F27E8B0270025DF57 /* MediaNewsLayout.swift in Sources */,
 				261C864027D3DA3800EEAC50 /* NameSearchControl.swift in Sources */,
 				8CF333C228589D8300A3A81C /* VideoTableViewCell.swift in Sources */,
 				8C167A1D284AA24A00214B83 /* Attechment.swift in Sources */,

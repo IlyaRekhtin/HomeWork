@@ -55,6 +55,7 @@ class NewsfeedTableViewController: UITableViewController {
         tableView.register(LinkNewsCell.self, forCellReuseIdentifier: LinkNewsCell.reuseID)
         tableView.register(PhotoNewsCell.self, forCellReuseIdentifier: PhotoNewsCell.reuseID)
         tableView.register(DocViewCell.self, forCellReuseIdentifier: DocViewCell.reuseID)
+        tableView.register(VideoTableViewCell.self, forCellReuseIdentifier: VideoTableViewCell.reuseID)
         tableView.register(Cell.self, forCellReuseIdentifier: Cell.reuseID)
     }
     
@@ -85,27 +86,15 @@ extension NewsfeedTableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let headerCell = tableView.dequeueReusableCell(withIdentifier: HeaderNewsCell.reuseID, for: indexPath) as! HeaderNewsCell
-        let textCell = tableView.dequeueReusableCell(withIdentifier: TextNewsCell.reuseID, for: indexPath) as! TextNewsCell
-        let linkCell = tableView.dequeueReusableCell(withIdentifier: LinkNewsCell.reuseID, for: indexPath) as! LinkNewsCell
-        let photosCell = tableView.dequeueReusableCell(withIdentifier: PhotoNewsCell.reuseID, for: indexPath) as! PhotoNewsCell
-        let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterNewsCell.reuseID, for: indexPath) as! FooterNewsCell
-        let docsCell = tableView.dequeueReusableCell(withIdentifier: DocViewCell.reuseID, for: indexPath) as! DocViewCell
-        let cell = tableView.dequeueReusableCell(withIdentifier: Cell.reuseID, for: indexPath) as! Cell
-        
+
         let currentNews = news[indexPath.section]
-        let photosForPhoto = (currentNews.photos?.items)
         let attachments = currentNews.attachments
-        let text = currentNews.text
-        let photosForPost = sortAttachmentForPhotos(attachments?.filter{$0.type == .photo})
-        let links = sortAttachmentForLinks(attachments?.filter{$0.type == .link})
-        let docs = sortAttachmentForDocs(attachments?.filter{$0.type == .doc})
-        
         self.varibleSection = sectionConstruct(for: currentNews)
         let cellType = varibleSection[indexPath.row]
         
         switch cellType {
         case .header:
+            let headerCell = tableView.dequeueReusableCell(withIdentifier: HeaderNewsCell.reuseID, for: indexPath) as! HeaderNewsCell
             if currentNews.sourceID < 0 {
                 if let group = groups.filter({-$0.id == currentNews.sourceID}).first {
                     headerCell.configCellForGroup(group, for: currentNews)
@@ -117,30 +106,46 @@ extension NewsfeedTableViewController {
             }
             return headerCell
         case .text:
-            textCell.configCell(for: text!)
+            let textCell = tableView.dequeueReusableCell(withIdentifier: TextNewsCell.reuseID, for: indexPath) as! TextNewsCell
+            if let text = currentNews.text {
+                textCell.configCell(for: text)
+            }
             return textCell
         case .link:
+            let linkCell = tableView.dequeueReusableCell(withIdentifier: LinkNewsCell.reuseID, for: indexPath) as! LinkNewsCell
+            let links = sortAttachmentForLinks(attachments?.filter{$0.type == .link})
             linkCell.delegate = self
             linkCell.configCell(for: links.first!)
             return linkCell
         case .photos:
+            let photosCell = tableView.dequeueReusableCell(withIdentifier: PhotoNewsCell.reuseID, for: indexPath) as! PhotoNewsCell
+            
             photosCell.delegate = self
             if currentNews.type == .post {
-                photosCell.configCell(for: photosForPost)
+                let photosItemForPostType = sortAttachmentForPhotos(attachments?.filter{$0.type == .photo})
+                photosCell.configCell(for: photosItemForPostType)
             } else {
-                photosCell.configCell(for: Array(photosForPhoto!))
+                if let photosItemForPhotoType = (currentNews.photos?.items) { // убираем оционал
+                    photosCell.configCell(for: Array(photosItemForPhotoType))
+                }
             }
             return photosCell
         case .video:
-            return cell
+            let videoCell = tableView.dequeueReusableCell(withIdentifier: VideoTableViewCell.reuseID, for: indexPath) as! VideoTableViewCell
+            return videoCell
         case .audio:
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cell.reuseID, for: indexPath) as! Cell
             return cell
         case .docs:
+            let docsCell = tableView.dequeueReusableCell(withIdentifier: DocViewCell.reuseID, for: indexPath) as! DocViewCell
+            let docs = sortAttachmentForDocs(attachments?.filter{$0.type == .doc})
             docsCell.configCell(for: docs)
             return docsCell
         case .poll:
+            let cell = tableView.dequeueReusableCell(withIdentifier: Cell.reuseID, for: indexPath) as! Cell
             return cell
         case .footer:
+            let footerCell = tableView.dequeueReusableCell(withIdentifier: FooterNewsCell.reuseID, for: indexPath) as! FooterNewsCell
             footerCell.configCell(for: currentNews)
             return footerCell
         }

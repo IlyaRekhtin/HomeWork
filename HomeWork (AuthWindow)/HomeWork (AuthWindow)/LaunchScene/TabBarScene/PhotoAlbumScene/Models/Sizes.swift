@@ -10,7 +10,7 @@ import RealmSwift
 
 class Size:Object, Codable, Comparable {
     static func < (lhs: Size, rhs: Size) -> Bool {
-        lhs.width < rhs.width
+        lhs.width < rhs.width && lhs.height < rhs.height
     }
     
     @Persisted var height: Int = 0

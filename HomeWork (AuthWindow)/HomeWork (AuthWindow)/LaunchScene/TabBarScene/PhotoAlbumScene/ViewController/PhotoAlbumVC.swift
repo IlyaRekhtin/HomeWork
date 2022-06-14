@@ -20,7 +20,7 @@ class PhotoAlbumVC: UIViewController {
     
     var photoAlbum = [Photo]() {
         didSet {
-            currentSizePhotos = Photo.getURLForPhotos(self.photoAlbum)
+            currentSizePhotos = Photo.getURLForMaxPhotos(self.photoAlbum)
             reloadData()
         }
     }
@@ -37,15 +37,16 @@ class PhotoAlbumVC: UIViewController {
         setupCollectionView()
         createDataSource()
         collectionView.delegate = self
-       
+        DispatchQueue.global().async {
+            self.service.getPhotos(for: self.userId){photos in
+                self.photoAlbum = Array(photos.items)
+                self.reloadData()
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        service.getPhotos(for: userId){photos in
-            self.photoAlbum = Array(photos.items)
-          
-        }
         navControllerConfiguration()
     }
     

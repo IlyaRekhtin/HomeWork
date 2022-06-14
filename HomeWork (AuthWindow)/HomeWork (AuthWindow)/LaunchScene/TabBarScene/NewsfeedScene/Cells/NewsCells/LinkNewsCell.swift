@@ -75,7 +75,7 @@ final class LinkNewsCell: UITableViewCell {
         self.linkURL = link.url
         DispatchQueue.main.async {
             guard let photos = link.photo else {return}
-            let photoURL = Photo.getURLForPhotos([photos])
+            let photoURL = Photo.getURLForMaxPhotos([photos])
             self.linkImage.kf.setImage(with: photoURL.first)
         }
         self.linkTitle.text = link.title
