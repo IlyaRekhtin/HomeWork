@@ -1,14 +1,117 @@
 //
-//  extension NewsCollectionViewCell + layout.swift
+//  VideoTableViewCell.swift
 //  HomeWork (AuthWindow)
 //
-//  Created by Илья Рехтин on 21.03.2022.
+//  Created by Илья Рехтин on 14.06.2022.
 //
 
 import UIKit
+import SnapKit
+import Kingfisher
 
+final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
+    
+    static let reuseID = "videoTableViewCell"
+    
+    var video = [Video]()
+    var currentSizePhotos = [URL]()
+    
+    var videoCollectionView: UICollectionView!
+    var dataSource: UICollectionViewDiffableDataSource<Int, Video>!
+    
+    
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupCollectionView()
+        self.videoCollectionView.delegate = self
+        createDataSourse()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configCell(for video: [Video]) {
+        setConstraints()
+        self.video = video
+        reloadData()
+    }
+    
+    
+}
+//MARK: - CollectionView
+ extension VideoTableViewCell {
+    //    //MARK: - Setup collectionView
+    func setupCollectionView() {
+        videoCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: self.layer.frame.width, height: self.layer.frame.width), collectionViewLayout: createCompositionLayout())
+        videoCollectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        videoCollectionView.isScrollEnabled = false
+        videoCollectionView.showsHorizontalScrollIndicator = false
+        videoCollectionView.showsVerticalScrollIndicator = false
+        videoCollectionView.delegate = self
+        videoCollectionView.register(VideoCollectionViewCell.self, forCellWithReuseIdentifier: VideoCollectionViewCell.reuseID)
+    }
+    
+    //    //MARK: - create composition layout
+    func createCompositionLayout() -> UICollectionViewLayout {
+        let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
+            
+            switch self.video.count {
+            case 1:
+                return self.createLayoutForNewsImage()
+            case 2:
+                return self.createLayoutForTwoNewsImages()
+            case 3:
+                return self.createLayoutForThreeNewsImages()
+            case 4:
+                return self.createLayoutForFourNewsImages()
+            case 5:
+                return self.createLayoutForFiveNewsImages()
+            case 6:
+                return self.createLayoutForSixNewsImages()
+            default:
+                return self.createLayoutForNewsImage()
+            }
+        }
+        return layout
+    }
+    //    //MARK: - create Data Source
+    func createDataSourse() {
+        dataSource = UICollectionViewDiffableDataSource<Int, Video>(collectionView: self.videoCollectionView,
+                                                                    cellProvider: { (collectionView, indexPuth, model) -> UICollectionViewCell? in
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.reuseID, for: indexPuth) as! VideoCollectionViewCell
+            let currentVideo = self.video[indexPuth.row]
+            cell.config(for: currentVideo)
+            return cell
+        })
+    }
+    
+    func reloadData(){
+        var snapShot = NSDiffableDataSourceSnapshot<Int, Video>()
+        snapShot.appendSections([1])
+        snapShot.appendItems(video)
+        dataSource.apply(snapShot)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        
+    }
+}
+//MARK: - make constraints
+private extension VideoTableViewCell {
+    func setConstraints() {
+        self.contentView.addSubview(videoCollectionView)
+        videoCollectionView.snp.makeConstraints { make in
+            make.top.left.right.bottom.equalToSuperview()
+            make.height.equalTo(self.videoCollectionView.frame.height)
+        }
+    }
+}
 
-extension PhotoNewsCell {
+//MARK: - layout
+extension VideoTableViewCell {
     
     func createLayoutForNewsImage() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),

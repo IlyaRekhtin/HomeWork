@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Video: Codable {
+struct Video: Codable, Hashable {
     let accessKey: String?
     let canComment, canLike, canRepost, canSubscribe: Int?
     let canAddToFaves, canAdd: Int?

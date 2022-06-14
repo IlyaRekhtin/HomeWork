@@ -16,10 +16,19 @@ final class WebViewController: UIViewController, WKUIDelegate {
         return webView
     }()
     
+    var linkDescription: UILabel = {
+        let lable = UILabel(frame: .zero)
+        lable.font = UIFont(name: "Times New Roman", size: 16)
+        lable.numberOfLines = 1
+        return lable
+    }()
+    
+    
     lazy var urlString = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.title = linkDescription.text
         webView.uiDelegate = self
         self.view = webView
         loadContent(from: self.urlString)

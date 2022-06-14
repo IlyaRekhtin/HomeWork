@@ -94,6 +94,8 @@
 		8CE7AE1E2829597F0092BB4D /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 8CE7AE1D2829597F0092BB4D /* Realm */; };
 		8CE7AE202829597F0092BB4D /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8CE7AE1F2829597F0092BB4D /* RealmSwift */; };
 		8CF333C02857D32C00A3A81C /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF333BF2857D32C00A3A81C /* WebViewController.swift */; };
+		8CF333C228589D8300A3A81C /* VideoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF333C128589D8300A3A81C /* VideoTableViewCell.swift */; };
+		8CF333C628589FC700A3A81C /* VideoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF333C528589FC700A3A81C /* VideoCollectionViewCell.swift */; };
 		8CFB9FF928513D8C00A305A6 /* PhotoNewsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFB9FF828513D8C00A305A6 /* PhotoNewsCell.swift */; };
 		8CFEF4CF280C5F8200AA88C3 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFEF4CE280C5F8200AA88C3 /* Api.swift */; };
 /* End PBXBuildFile section */
@@ -180,6 +182,8 @@
 		8CD2EE6428077183001F6AA7 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		8CE2C83F28134FB2001A7144 /* PopImageViewTransitionAnimate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopImageViewTransitionAnimate.swift; sourceTree = "<group>"; };
 		8CF333BF2857D32C00A3A81C /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		8CF333C128589D8300A3A81C /* VideoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoTableViewCell.swift; sourceTree = "<group>"; };
+		8CF333C528589FC700A3A81C /* VideoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoCollectionViewCell.swift; sourceTree = "<group>"; };
 		8CFB9FF828513D8C00A305A6 /* PhotoNewsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoNewsCell.swift; sourceTree = "<group>"; };
 		8CFEF4CE280C5F8200AA88C3 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		A1DE7EA57A092E7656DD7D3E /* Pods-HomeWork (AuthWindow).debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-HomeWork (AuthWindow).debug.xcconfig"; path = "Target Support Files/Pods-HomeWork (AuthWindow)/Pods-HomeWork (AuthWindow).debug.xcconfig"; sourceTree = "<group>"; };
@@ -479,7 +483,6 @@
 				8C8A79D928325FEB00C9B551 /* Views */,
 				8C8A79DA2832600500C9B551 /* Cells */,
 				8C8A79D728325F3E00C9B551 /* ViewControllers */,
-				8C8A79E02832611B00C9B551 /* Extensions */,
 				8CF333BC2857D29C00A3A81C /* WebScene */,
 			);
 			path = NewsfeedScene;
@@ -515,7 +518,6 @@
 			isa = PBXGroup;
 			children = (
 				8CBFB1952846AAC900E8FC2D /* NewsCells */,
-				26F14F2C27E4EDF80025DF57 /* ImagesCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -660,8 +662,9 @@
 				8CBFB1982846AB1900E8FC2D /* FooterNewsCell.swift */,
 				8CBFB19C2846AB4600E8FC2D /* TextNewsCell.swift */,
 				8CBFB19A2846AB3000E8FC2D /* LinkNewsCell.swift */,
-				8CFB9FF828513D8C00A305A6 /* PhotoNewsCell.swift */,
 				8C5A762A285541D1000F801E /* DocViewCell.swift */,
+				8CF333C428589E4B00A3A81C /* PhotosCells */,
+				8CF333C328589E2C00A3A81C /* VideoCells */,
 			);
 			path = NewsCells;
 			sourceTree = "<group>";
@@ -756,6 +759,25 @@
 			children = (
 			);
 			path = Service;
+			sourceTree = "<group>";
+		};
+		8CF333C328589E2C00A3A81C /* VideoCells */ = {
+			isa = PBXGroup;
+			children = (
+				8CF333C128589D8300A3A81C /* VideoTableViewCell.swift */,
+				8CF333C528589FC700A3A81C /* VideoCollectionViewCell.swift */,
+			);
+			path = VideoCells;
+			sourceTree = "<group>";
+		};
+		8CF333C428589E4B00A3A81C /* PhotosCells */ = {
+			isa = PBXGroup;
+			children = (
+				8CFB9FF828513D8C00A305A6 /* PhotoNewsCell.swift */,
+				26F14F2C27E4EDF80025DF57 /* ImagesCollectionViewCell.swift */,
+				8C8A79E02832611B00C9B551 /* Extensions */,
+			);
+			path = PhotosCells;
 			sourceTree = "<group>";
 		};
 		8CFEF4CD280C5F2F00AA88C3 /* Managers */ = {
@@ -918,6 +940,7 @@
 			files = (
 				263690CA27BD7D4000B2B159 /* TabBarController.swift in Sources */,
 				8C4378A5284413E8005ACB5F /* AuthService.swift in Sources */,
+				8CF333C628589FC700A3A81C /* VideoCollectionViewCell.swift in Sources */,
 				8C80B57E281094BF0064A2FA /* FriendsResponse.swift in Sources */,
 				263690D227BD867100B2B159 /* SearchGroupViewController.swift in Sources */,
 				26ED6C4127CAE01100AEF452 /* AvatarView.swift in Sources */,
@@ -981,6 +1004,7 @@
 				8C4378972843BDE5005ACB5F /* AddedGroup.swift in Sources */,
 				26F14F2F27E8B0270025DF57 /* extension NewsCollectionViewCell + layout.swift in Sources */,
 				261C864027D3DA3800EEAC50 /* NameSearchControl.swift in Sources */,
+				8CF333C228589D8300A3A81C /* VideoTableViewCell.swift in Sources */,
 				8C167A1D284AA24A00214B83 /* Attechment.swift in Sources */,
 				8CBFB19B2846AB3000E8FC2D /* LinkNewsCell.swift in Sources */,
 				26F7A96B27F798CC00A190F5 /* LaunchViewController.swift in Sources */,
