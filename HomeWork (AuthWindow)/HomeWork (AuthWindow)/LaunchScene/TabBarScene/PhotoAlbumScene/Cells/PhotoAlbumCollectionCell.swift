@@ -23,7 +23,7 @@ class PhotoAlbumCollectionCell: UICollectionViewCell {
     }()
     
     func configCell (for photoUrl: URL) {
-        imageView.kf.setImage(with: photoUrl) { result in }
+        imageView.kf.setImage(with: photoUrl)
         makeConstraints()
     }
     

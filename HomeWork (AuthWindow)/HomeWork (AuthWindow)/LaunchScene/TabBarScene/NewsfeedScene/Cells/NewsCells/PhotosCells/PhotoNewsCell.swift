@@ -13,13 +13,16 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     
     static let reuseID = "photoNewsCell"
     
-    var photos = [Photo]()
-    var currentSizePhotos = [URL]()
+    var photos = [Photo](){
+        didSet {
+            self.reloadData()
+        }
+    }
     
     var photoNewsfeedCollectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
     private let layout = MediaNewsLayout()
-    var delegate: PhotoNewsCellDelegate?
+    var delegate: NewsfeedItemTapped?
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -36,11 +39,7 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     func configCell(for photos: [Photo]) {
         setConstraints()
         self.photos = photos
-        self.currentSizePhotos = Photo.getURLForMaxPhotos(photos)
-        reloadData()
     }
-    
-    
 }
 //MARK: - CollectionView
  extension PhotoNewsCell {
@@ -59,7 +58,7 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
             
-            switch self.currentSizePhotos.count {
+            switch self.photos.count {
             case 1:
                 return self.layout.createLayoutForNewsImage()
             case 2:
@@ -83,7 +82,7 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
         dataSource = UICollectionViewDiffableDataSource<Int, Photo>(collectionView: self.photoNewsfeedCollectionView,
                                                                     cellProvider: { (collectionView, indexPuth, model) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagesCollectionViewCell.reuseID, for: indexPuth) as! ImagesCollectionViewCell
-            cell.config(self.currentSizePhotos[indexPuth.row])
+            cell.config(self.photos[indexPuth.row])
             return cell
         })
     }
@@ -96,7 +95,7 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.cellCollectionItemTapped(cell: self)
+        delegate?.newsfeedItemTapped(cell: self)
         
     }
 }

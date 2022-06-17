@@ -15,21 +15,22 @@ class VideoCollectionViewCell: UICollectionViewCell {
     
    private let imageView: UIImageView = {
         var imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        imageView.backgroundColor = UIColor(red: 0.7, green: 0.8, blue: 0.85, alpha: 0.7)
+        imageView.backgroundColor = .black
         imageView.kf.indicatorType = .activity
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
         return imageView
     }()
     
-    private let durationLable: UILabel = {
-        var lable = UILabel(frame: .zero)
-        lable.backgroundColor = .darkGray
-        lable.font = UIFont(name: "Times New Roman", size: 12)
-        lable.textColor = .white
-        lable.layer.cornerRadius = 5
-        lable.clipsToBounds = true
-        return lable
+    private let videoDurationView = VideoDurationView(frame: CGRect(x: 0, y: 0, width: 200, height: 24))
+    
+    private let playButton: UIButton = {
+        var button = UIButton(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        button.configuration = UIButton.Configuration.plain()
+        button.configuration?.baseForegroundColor = .white
+        button.configuration?.image = UIImage(systemName: "play.circle")
+        button.configuration?.buttonSize = .large
+        return button
     }()
     
     
@@ -43,11 +44,15 @@ class VideoCollectionViewCell: UICollectionViewCell {
     }
     
     func config (for video: Video) {
-        guard let firstFramesSize = video.firstFrame else {return}
-        let startImageUrlStr = Photo.max(in: firstFramesSize)
+        guard let image = video.image else {return}
+        let startImageUrlStr = Photo.preview(in: image)
         guard let url = URL(string: startImageUrlStr) else {return}
         imageView.kf.setImage(with: url)
+        guard let videoDuration = video.duration else {return}
+        videoDurationView.setTime(for: videoDuration)
     }
+    
+    
     
     private func setConstraints() {
         addSubview(imageView)
@@ -55,12 +60,18 @@ class VideoCollectionViewCell: UICollectionViewCell {
             make.top.leading.trailing.bottom.equalToSuperview()
         }
         
-        imageView.addSubview(durationLable)
-        durationLable.snp.makeConstraints { make in
-            make.width.lessThanOrEqualTo(100)
-            make.height.equalTo(20)
-            make.left.equalToSuperview().offset(5)
-            make.bottom.equalToSuperview().offset(5)
+        imageView.addSubview(videoDurationView)
+        videoDurationView.snp.makeConstraints { make in
+            make.width.lessThanOrEqualTo(self.videoDurationView.frame.width)
+            make.height.equalTo(self.videoDurationView.frame.height)
+            make.right.equalToSuperview().inset(10)
+            make.bottom.equalToSuperview().inset(10)
+        }
+        
+        imageView.addSubview(playButton)
+        playButton.snp.makeConstraints { make in
+            make.height.width.equalTo(self.playButton.frame.width)
+            make.center.equalToSuperview()
         }
     }
 }

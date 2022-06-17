@@ -51,6 +51,18 @@ class Photo:Object, Codable, Likeble {
         return urls
     }
     
+    
+    static func preview(in sizes: [Size]) -> String {
+        var size = Size()
+        for currentSize in sizes {
+            if size <= currentSize, currentSize.width <= 300 {
+                size = currentSize
+            }
+        }
+        return size.url
+    }
+    
+    
     static func max(in sizes: [Size]) -> String {
         var size = Size()
         for currentSize in sizes {

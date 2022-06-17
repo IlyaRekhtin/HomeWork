@@ -59,7 +59,7 @@ final class LinkNewsCell: UITableViewCell {
     
     
     var linkURL = ""
-    var delegate: LinkNewsCellDelegate?
+    var delegate: NewsfeedItemTapped?
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -75,8 +75,9 @@ final class LinkNewsCell: UITableViewCell {
         self.linkURL = link.url
         DispatchQueue.main.async {
             guard let photos = link.photo else {return}
-            let photoURL = Photo.getURLForMaxPhotos([photos])
-            self.linkImage.kf.setImage(with: photoURL.first)
+            let photoURL = Photo.preview(in: Array(photos.sizes))
+            guard let url = URL(string: photoURL) else {return}
+            self.linkImage.kf.setImage(with: url)
         }
         self.linkTitle.text = link.title
         self.linkSubTitle.text = link.caption
@@ -85,7 +86,7 @@ final class LinkNewsCell: UITableViewCell {
     }
     
     @objc private func tapToLink() {
-        delegate?.linkTaped(cell: self)
+        delegate?.newsfeedItemTapped(cell: self)
     }
     
     

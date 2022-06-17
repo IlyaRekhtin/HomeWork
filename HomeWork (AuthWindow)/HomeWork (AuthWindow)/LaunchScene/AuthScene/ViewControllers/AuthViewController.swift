@@ -62,7 +62,7 @@ extension AuthViewController: WKNavigationDelegate{
             Session.data.token = token
             decisionHandler(.cancel)
             addUserFromFireBaseDB()
-            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "LaunchViewController") as? LaunchViewController else {return}
+            guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: false)
         }

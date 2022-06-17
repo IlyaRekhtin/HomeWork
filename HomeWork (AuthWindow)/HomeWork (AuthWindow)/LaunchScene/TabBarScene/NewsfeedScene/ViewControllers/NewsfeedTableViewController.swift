@@ -6,35 +6,55 @@
 //
 
 import UIKit
-import RealmSwift
 
-protocol PhotoNewsCellDelegate {
-    func cellCollectionItemTapped(cell: PhotoNewsCell)
+protocol NewsfeedItemTapped {
+    func newsfeedItemTapped(cell: UITableViewCell)
 }
 
-protocol LinkNewsCellDelegate {
-    func linkTaped(cell: LinkNewsCell)
-}
-
-class NewsfeedTableViewController: UITableViewController {
+class NewsfeedTableViewController: UIViewController {
     
     enum CellType: Int {
         case header = 0, text, link, photos, video, audio, docs, poll, footer
     }
     
+    private var news = [News]()
+    private var profiles = [Profile]()
+    private var groups = [Group]()
+    
+    private let service = NewsfeedService()
+    private var tableView: UITableView!
     private var pushTransition = PushImageViewTransitionAnimation()
     private var popTransition = PopImageViewTransitionAnimation()
-    private let service = NewsfeedService()
     private var varibleSection = [CellType]()
     
-    var news = DataManager.data.news
-    var users = DataManager.data.users
-    var groups = DataManager.data.groups
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigationController()
         configTableView()
+        tableView.delegate = self
+        tableView.dataSource = self
+        loadNewsfeed()
+    }
+    
+    
+    private func loadNewsfeed() {
+        let dispatchGroup = DispatchGroup()
+        self.service.getNewsfeed { [self] newsfeed in
+            DispatchQueue.global().async(group: dispatchGroup) {
+                self.news = newsfeed.items
+            }
+            DispatchQueue.global().async(group: dispatchGroup){
+                self.profiles = newsfeed.profiles
+            }
+            DispatchQueue.global().async(group: dispatchGroup) {
+                self.groups = newsfeed.groups
+            }
+            
+            dispatchGroup.notify(queue: .main) {
+                self.tableView.reloadData()
+            }
+        }
     }
     
     private func configNavigationController(){
@@ -48,6 +68,7 @@ class NewsfeedTableViewController: UITableViewController {
     }
     
     private func configTableView() {
+        tableView = UITableView(frame: self.view.bounds)
         tableView.separatorStyle = .none
         tableView.register(HeaderNewsCell.self, forCellReuseIdentifier: HeaderNewsCell.reuseID)
         tableView.register(FooterNewsCell.self, forCellReuseIdentifier: FooterNewsCell.reuseID)
@@ -57,26 +78,28 @@ class NewsfeedTableViewController: UITableViewController {
         tableView.register(DocViewCell.self, forCellReuseIdentifier: DocViewCell.reuseID)
         tableView.register(VideoTableViewCell.self, forCellReuseIdentifier: VideoTableViewCell.reuseID)
         tableView.register(Cell.self, forCellReuseIdentifier: Cell.reuseID)
+        self.view.addSubview(self.tableView)
     }
+    
     
 }
 
 //MARK: - tableview data source
-extension NewsfeedTableViewController {
-    override func numberOfSections(in tableView: UITableView) -> Int {
+extension NewsfeedTableViewController:UITableViewDelegate, UITableViewDataSource {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return news.count
     }
     
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.varibleSection = sectionConstruct(for: news[section])
         return self.varibleSection.count
     }
     
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 5
     }
     
-    override func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let separateView: UIView = {
             let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 5))
             view.backgroundColor = .opaqueSeparator
@@ -85,8 +108,8 @@ extension NewsfeedTableViewController {
         return separateView
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
         let currentNews = news[indexPath.section]
         let attachments = currentNews.attachments
         self.varibleSection = sectionConstruct(for: currentNews)
@@ -100,27 +123,29 @@ extension NewsfeedTableViewController {
                     headerCell.configCellForGroup(group, for: currentNews)
                 }
             } else {
-                if let profile = users.filter({$0.id == currentNews.sourceID}).first {
+                if let profile = profiles.filter({$0.id == currentNews.sourceID}).first {
                     headerCell.configCellForFriend(profile, for: currentNews)
                 }
             }
             return headerCell
         case .text:
             let textCell = tableView.dequeueReusableCell(withIdentifier: TextNewsCell.reuseID, for: indexPath) as! TextNewsCell
+            
             if let text = currentNews.text {
                 textCell.configCell(for: text)
             }
             return textCell
         case .link:
             let linkCell = tableView.dequeueReusableCell(withIdentifier: LinkNewsCell.reuseID, for: indexPath) as! LinkNewsCell
+            
             let links = sortAttachmentForLinks(attachments?.filter{$0.type == .link})
             linkCell.delegate = self
             linkCell.configCell(for: links.first!)
             return linkCell
         case .photos:
             let photosCell = tableView.dequeueReusableCell(withIdentifier: PhotoNewsCell.reuseID, for: indexPath) as! PhotoNewsCell
-            
             photosCell.delegate = self
+            
             if currentNews.type == .post {
                 let photosItemForPostType = sortAttachmentForPhotos(attachments?.filter{$0.type == .photo})
                 photosCell.configCell(for: photosItemForPostType)
@@ -132,6 +157,8 @@ extension NewsfeedTableViewController {
             return photosCell
         case .video:
             let videoCell = tableView.dequeueReusableCell(withIdentifier: VideoTableViewCell.reuseID, for: indexPath) as! VideoTableViewCell
+            let videos = sortAttachmentForVideo(attachments?.filter{$0.type == .video})
+            videoCell.configCell(for: videos)
             return videoCell
         case .audio:
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.reuseID, for: indexPath) as! Cell
@@ -153,7 +180,6 @@ extension NewsfeedTableViewController {
 }
 //MARK: - private helpers methods
 private extension NewsfeedTableViewController {
-    
     ///  Определяем количество и тип строк исходя из содержимого News
     /// - Parameter news: cвойство с типом News
     /// - Returns: массив типов ячеек в соответствии с перечислением
@@ -183,7 +209,6 @@ private extension NewsfeedTableViewController {
                 let video = attachments.filter{$0.type == .video}
                 let docs = attachments.filter{$0.type == .doc}
                 let poll = attachments.filter{$0.type == .poll}
-                
                 
                 // в наличии значит добавляем
                 if news.text != nil, news.text != "" {
@@ -220,36 +245,48 @@ private extension NewsfeedTableViewController {
         guard let attachments = attachments else {
             return []
         }
-        var photos = [Photo]()
+        var items = [Photo]()
         attachments.forEach { attachment in
             guard let photo = attachment.photo else {return}
-            photos.append(photo)
+            items.append(photo)
         }
-        return photos
+        return items
     }
     
     func sortAttachmentForLinks(_ attachments: [Attachment]?) -> [Link] {
         guard let attachments = attachments else {
             return []
         }
-        var links = [Link]()
+        var items = [Link]()
         attachments.forEach { attachment in
             guard let link = attachment.link else {return}
-            links.append(link)
+            items.append(link)
         }
-        return links
+        return items
     }
     
     func sortAttachmentForDocs(_ attachments: [Attachment]?) -> [Doc] {
         guard let attachments = attachments else {
             return []
         }
-        var docs = [Doc]()
+        var items = [Doc]()
         attachments.forEach { attachment in
             guard let doc = attachment.doc else {return}
-            docs.append(doc)
+            items.append(doc)
         }
-        return docs
+        return items
+    }
+    
+    func sortAttachmentForVideo(_ attachments: [Attachment]?) -> [Video] {
+        guard let attachments = attachments else {
+            return []
+        }
+        var items = [Video]()
+        attachments.forEach { attachment in
+            guard let video = attachment.video else {return}
+            items.append(video)
+        }
+        return items
     }
 }
 
@@ -278,32 +315,30 @@ extension NewsfeedTableViewController: UIViewControllerTransitioningDelegate {
 }
 
 //MARK: - PhotoNewsCellDelegate
-extension NewsfeedTableViewController: PhotoNewsCellDelegate {
-    func cellCollectionItemTapped(cell: PhotoNewsCell) {
-        guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImagePresentViewController else {return}
-        guard let index = cell.photoNewsfeedCollectionView.indexPathsForSelectedItems?.first else {return}
-
-        vc.currentIndexPuthFoto = index.row
-
-        DispatchQueue.main.async {
-            vc.firstImageView.kf.setImage(with: cell.currentSizePhotos[index.row])
+extension NewsfeedTableViewController: NewsfeedItemTapped {
+    
+    func newsfeedItemTapped(cell: UITableViewCell) {
+        if let cell = cell as? PhotoNewsCell {
+            guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImagePresentViewController,
+                  let index = cell.photoNewsfeedCollectionView.indexPathsForSelectedItems?.first
+            else {return}
+            vc.currentIndexPuthFoto = index.row
+            let urlStr = Photo.max(in: Array(cell.photos[index.row].sizes))
+            guard let url = URL(string: urlStr) else {return}
+            vc.firstImageView.kf.setImage(with: url)
+            
+            vc.firstImageView.kf.indicatorType = .activity
+            vc.photoAlbum = cell.photos
+            vc.transitioningDelegate = self
+            vc.modalPresentationStyle = .fullScreen
+            self.present(vc, animated: true)
+        } else if let cell = cell as? LinkNewsCell {
+            guard let vc = self.storyboard?.instantiateViewController(identifier: "WebViewController") as? WebViewController else {return}
+            vc.urlString = cell.linkURL
+            vc.transitioningDelegate = self
+            vc.modalPresentationStyle = .fullScreen
+            self.navigationController?.pushViewController(vc, animated: true)
         }
-        vc.currentSizePhotos = cell.currentSizePhotos
-        vc.firstImageView.kf.indicatorType = .activity
-        vc.photoAlbum = cell.photos
-        vc.transitioningDelegate = self
-        vc.modalPresentationStyle = .fullScreen
-        self.present(vc, animated: true)
     }
 }
 
-//MARK: - LinkNewsCellDelegate
-extension NewsfeedTableViewController: LinkNewsCellDelegate {
-    func linkTaped(cell: LinkNewsCell) {
-        guard let vc = self.storyboard?.instantiateViewController(identifier: "WebViewController") as? WebViewController else {return}
-        vc.urlString = cell.linkURL
-        vc.transitioningDelegate = self
-        vc.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(vc, animated: true)
-    }
-}

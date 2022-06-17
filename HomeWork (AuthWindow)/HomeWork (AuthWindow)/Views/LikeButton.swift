@@ -23,9 +23,10 @@ class LikeButton: UIButton {
         }
     }
     
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.configuration?.image = buttonStateImages.like.image
+//        self.configuration?.image = buttonStateImages.like.image
         self.configuration?.buttonSize = .large
     }
     
@@ -47,15 +48,17 @@ class LikeButton: UIButton {
         self.configuration?.imagePadding = 5
     }
     
-    func updateLikeButton<T: Likeble>(for item: T){
+   
+    
+    
+    func updateLikeButton(for likes: Likes){
         animationImageChange()
-        guard let likes = item.likes else {return}
         likes.count = likes.userLikes == 1 ? likes.count - 1 : likes.count + 1
         likes.userLikes = likes.userLikes == 1 ? 0 : 1
         self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
         self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
         self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
-        likes.userLikes == 1 ? self.likes(item: item, .likeAdd) :  self.likes(item: item, .likeDelete)
+
     }
 }
 //MARK: - Animation for button
@@ -75,22 +78,11 @@ extension LikeButton {
 
 //MARK: - network method
 extension LikeButton {
-    func likes<T: Likeble>(item: T, _ method: Api.BaseURL.ApiMethod) {
-        var type = ""
-        var ownerID = 0
-        var id = 0
-        if let photo = item as? Photo {
-            type = "photo"
-            ownerID = photo.ownerID
-            id = photo.id
-        } else if let news = item as? News {
-            type = "post"
-            ownerID = news.sourceID
-            id = news.postID
-            
-        }
+    
+   static func likes(owner: Int, id: Int, type: String, _ method: Api.BaseURL.ApiMethod) {
+       
         let params = ["type": type,
-                      "owner_id":String(ownerID),
+                      "owner_id":String(owner),
                       "item_id": String(id),
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion]

@@ -13,7 +13,11 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
     
     static let reuseID = "videoTableViewCell"
     
-    var video = [Video]()
+    var video = [Video]() {
+        didSet{
+            reloadData()
+        }
+    }
     
     private var videoCollectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, Video>!
@@ -22,7 +26,6 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupCollectionView()
-        self.videoCollectionView.delegate = self
         createDataSourse()
     }
     
@@ -33,7 +36,6 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
     func configCell(for video: [Video]) {
         setConstraints()
         self.video = video
-        reloadData()
     }
     
     
@@ -43,6 +45,7 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
     //    //MARK: - Setup collectionView
     func setupCollectionView() {
         videoCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: self.layer.frame.width, height: self.layer.frame.width), collectionViewLayout: createCompositionLayout())
+        videoCollectionView.delegate = self
         videoCollectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         videoCollectionView.isScrollEnabled = false
         videoCollectionView.showsHorizontalScrollIndicator = false

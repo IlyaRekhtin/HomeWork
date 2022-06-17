@@ -25,6 +25,7 @@ enum AttachmentType: String, Codable {
     case photo = "photo"
     case video = "video"
     case poll = "poll"
+    case live = "live"
 }
 
 // MARK: - Poll

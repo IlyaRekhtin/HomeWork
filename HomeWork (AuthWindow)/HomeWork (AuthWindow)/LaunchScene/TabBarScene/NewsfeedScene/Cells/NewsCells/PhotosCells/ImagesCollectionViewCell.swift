@@ -15,7 +15,7 @@ class ImagesCollectionViewCell: UICollectionViewCell {
     
     var imageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        imageView.backgroundColor = UIColor(red: 0.7, green: 0.8, blue: 0.85, alpha: 0.7)
+        imageView.backgroundColor = .clear
         imageView.kf.indicatorType = .activity
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
@@ -31,10 +31,10 @@ class ImagesCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func config (_ imageURL: URL) {
-        imageView.kf.setImage(with: imageURL) { result in
-            
-        }
+    func config (_ image: Photo) {
+        let urlStr = Photo.preview(in: Array(image.sizes))
+        guard let url = URL(string: urlStr) else {return}
+        imageView.kf.setImage(with: url)
     }
     
     private func setConstraints() {

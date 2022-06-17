@@ -18,14 +18,7 @@ class PhotoAlbumVC: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
     private var layoutChangeButton = LayoutChangeButton()
     
-    var photoAlbum = [Photo]() {
-        didSet {
-            currentSizePhotos = Photo.getURLForMaxPhotos(self.photoAlbum)
-            reloadData()
-        }
-    }
-    
-    private var currentSizePhotos = [URL]()
+    var photoAlbum = [Photo]()
     
     var userId: Int!
     var firstName: String?
@@ -37,12 +30,14 @@ class PhotoAlbumVC: UIViewController {
         setupCollectionView()
         createDataSource()
         collectionView.delegate = self
-        DispatchQueue.global().async {
-            self.service.getPhotos(for: self.userId){photos in
-                self.photoAlbum = Array(photos.items)
-                self.reloadData()
+        
+        self.service.getPhotos(for: self.userId){photos in
+            self.photoAlbum = Array(photos.items)
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
             }
         }
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -58,7 +53,7 @@ class PhotoAlbumVC: UIViewController {
 //MARK: - Private
 private extension PhotoAlbumVC {
     
-     func layoutChangeButtonConfigurations(){
+    func layoutChangeButtonConfigurations(){
         let sizeInCollectionView = LayoutChangeButton.FotoSizeInCollectionView(rawValue: UserDefaults.standard.integer(forKey: "sizeForLayoutForFotoGallary"))
         
         let actionForChangeButton = UIAction(handler: { [self] _ in
@@ -76,16 +71,16 @@ private extension PhotoAlbumVC {
         layoutChangeButton.sizeInCollectionView = sizeInCollectionView!
     }
     
-     func navControllerConfiguration(){
-       // Navigation Controller Appearance
+    func navControllerConfiguration(){
+        // Navigation Controller Appearance
         navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.tintColor = .systemGreen
         self.navigationItem.setRightBarButton(layoutChangeButton, animated: true)
-         // config custom barButton
-         
+        // config custom barButton
+        
         self.navigationItem.title = "\(firstName ?? "")" + " " + "\(lastName ?? "")"
         navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false
@@ -109,13 +104,13 @@ extension PhotoAlbumVC: UICollectionViewDelegate {
     
     private func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
-        
+            
             switch self.layoutChangeButton.sizeInCollectionView {
             case .fullScreen:
                 return self.createSectionLayoutOneOnLine()
             case .treeOnLine:
                 return self.createSectionLayoutThreeOnLine()
-            
+                
             }
         }
         return layout
@@ -124,8 +119,10 @@ extension PhotoAlbumVC: UICollectionViewDelegate {
     private func createDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Int, Photo>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCollectionCell.reuseID, for: indexPath) as? PhotoAlbumCollectionCell else {fatalError()}
-            cell.configCell(for: self.currentSizePhotos[indexPath.row])
-            
+            let urlStr = Photo.preview(in: Array(self.photoAlbum[indexPath.row].sizes))
+            if let url = URL(string: urlStr) {
+                cell.configCell(for: url)
+            }
             return cell
         })
     }
@@ -138,16 +135,16 @@ extension PhotoAlbumVC: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
+        
         guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImagePresentViewController else {return}
         guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
         
         vc.currentIndexPuthFoto = index.row
-    
-        DispatchQueue.main.async {
-            vc.firstImageView.kf.setImage(with: self.currentSizePhotos[index.row])
-        }
-        vc.currentSizePhotos = self.currentSizePhotos
+        
+        let urlStr = Photo.max(in: Array(self.photoAlbum[index.row].sizes))
+        guard let url = URL(string: urlStr) else {return}
+        vc.firstImageView.kf.setImage(with: url)
+        
         vc.firstImageView.kf.indicatorType = .activity
         vc.photoAlbum = self.photoAlbum
         vc.transitioningDelegate = self
@@ -168,10 +165,10 @@ extension PhotoAlbumVC: UIViewControllerTransitioningDelegate {
         pushTransition.imageInitFrame = selectedCellSuperview.convert(selectedCell.layer.frame, to: nil)
         pushTransition.imageInitFrame = selectedCell.layer.frame
         pushTransition.imageInitFrame = CGRect(
-          x: pushTransition.imageInitFrame.origin.x ,
-          y: pushTransition.imageInitFrame.origin.y + 50,
-          width: pushTransition.imageInitFrame.size.width,
-          height: pushTransition.imageInitFrame.size.height + 70
+            x: pushTransition.imageInitFrame.origin.x ,
+            y: pushTransition.imageInitFrame.origin.y + 50,
+            width: pushTransition.imageInitFrame.size.width,
+            height: pushTransition.imageInitFrame.size.height + 70
         )
         return pushTransition
     }

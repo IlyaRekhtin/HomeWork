@@ -37,7 +37,7 @@ class DocViewCell: UITableViewCell {
     private lazy var docsButton = [doc, doc1, doc2, doc3, doc4, doc5, doc6, doc7, doc8, doc9]
     
    
-    private lazy var stacView: UIStackView = {
+    var stacView: UIStackView = {
         var stacView = UIStackView(frame: .zero)
         stacView.axis = .vertical
         stacView.distribution = .fill
@@ -45,6 +45,7 @@ class DocViewCell: UITableViewCell {
         stacView.contentMode = .scaleToFill
         return stacView
     }()
+    
     
     func configCell(for docs: [Doc]) {
         for (index, doc) in docs.enumerated() {
@@ -54,7 +55,7 @@ class DocViewCell: UITableViewCell {
             let docSize = NSString(format: "%.1f", Double(size) * mbait)
             let docDate = getCurrentTime(for: doc.date ?? 0)
             docsButton[index]?.configuration?.subtitle = "\(docSize) Mb ・ \(docDate)"
-            self.stacView.addArrangedSubview(docsButton[index]!)
+            stacView.addArrangedSubview(docsButton[index]!)
         }
         makeConstraints()
     }
@@ -64,7 +65,7 @@ class DocViewCell: UITableViewCell {
         let dateFormatterForTime = DateFormatter()
         dateFormatterForTime.timeZone = .current
         dateFormatterForTime.locale = .current
-        dateFormatterForTime.dateFormat = "dd:MM HH:mm"
+        dateFormatterForTime.dateFormat = "dd.MM.yy HH:mm"
         return dateFormatterForTime.string(from: dateNews)
     }
     

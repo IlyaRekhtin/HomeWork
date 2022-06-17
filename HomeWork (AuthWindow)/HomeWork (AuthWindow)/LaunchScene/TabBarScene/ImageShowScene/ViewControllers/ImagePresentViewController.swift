@@ -75,7 +75,13 @@ class ImagePresentViewController: UIViewController {
     
     //Data
     var currentIndexPuthFoto: Int!
-    var photoAlbum = [Photo]()
+    var photoAlbum = [Photo]() {
+        didSet {
+            DispatchQueue.global().async {
+                self.currentSizePhotos = Photo.getURLForMaxPhotos(self.photoAlbum)
+            }
+        }
+    }
     var currentSizePhotos = [URL]()
     
     override func viewDidLoad() {
@@ -322,7 +328,10 @@ private extension ImagePresentViewController {
         likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
         ///likeButton add Action
         likeButton.addAction(UIAction(handler: { [self] _ in
-            likeButton.updateLikeButton(for: photoAlbum[currentIndexPuthFoto])
+            let item = photoAlbum[currentIndexPuthFoto]
+            guard let likes = item.likes else {return}
+            likeButton.updateLikeButton(for: likes)
+            likes.userLikes == 1 ? LikeButton.likes(owner: item.ownerID, id: item.id, type: "photo", .likeDelete) : LikeButton.likes(owner: item.ownerID, id: item.id, type: "photo", .likeAdd)
         }), for: .touchUpInside)
     }
     

@@ -9,8 +9,8 @@ import Foundation
 import RealmSwift
 
 class Likes:Object, Codable {
-    @Persisted var count: Int
-    @Persisted var userLikes: Int
+    @Persisted var count: Int = 0
+    @Persisted var userLikes: Int = 0
 
     enum CodingKeys: String, CodingKey {
         case count

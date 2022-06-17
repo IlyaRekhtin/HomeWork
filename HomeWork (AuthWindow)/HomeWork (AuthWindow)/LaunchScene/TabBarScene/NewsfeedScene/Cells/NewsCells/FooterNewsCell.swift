@@ -21,7 +21,6 @@ final class FooterNewsCell: UITableViewCell {
         return likeButton
     }()
     
-    
     private var reposts: RepostsButton = {
         let reposts = RepostsButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         reposts.layer.cornerRadius = reposts.frame.height / 4
@@ -39,6 +38,10 @@ final class FooterNewsCell: UITableViewCell {
         return views
     }()
     
+    private var likes = Likes()
+    private var id = 0
+    private var owner = 0
+    
 //    private let separateView: UIView = {
 //        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 5))
 //        view.backgroundColor = .opaqueSeparator
@@ -48,6 +51,10 @@ final class FooterNewsCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         makeConstraints()
+        likeButton.addAction(UIAction(handler: { [self] _ in
+            likeButton.updateLikeButton(for: self.likes)
+            likes.userLikes == 1 ? LikeButton.likes(owner: owner, id: id, type: "post", .likeDelete) : LikeButton.likes(owner: owner, id: id, type: "post", .likeAdd)
+        }), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -55,11 +62,11 @@ final class FooterNewsCell: UITableViewCell {
     }
     
     func configCell(for news: News) {
-        
+        self.owner = news.sourceID
+        self.id = news.postID
+        guard let likes = news.likes else {return}
+        self.likes = likes
         self.likeButton.setConfig(for: news)
-        likeButton.addAction(UIAction(handler: { [self] _ in
-            likeButton.updateLikeButton(for: news)
-        }), for: .touchUpInside)
         self.reposts.setConfig(for: news)
         guard let viewsCount = news.views?.count else {return}
         self.views.text = "🙈" + String(viewsCount)
