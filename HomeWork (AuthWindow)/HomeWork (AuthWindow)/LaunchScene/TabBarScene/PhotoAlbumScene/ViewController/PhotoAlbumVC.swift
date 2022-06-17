@@ -18,7 +18,13 @@ class PhotoAlbumVC: UIViewController {
     private var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
     private var layoutChangeButton = LayoutChangeButton()
     
-    var photoAlbum = [Photo]()
+    var photoAlbum = [Photo]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.reloadData()
+            }
+        }
+    }
     
     var userId: Int!
     var firstName: String?
@@ -32,12 +38,10 @@ class PhotoAlbumVC: UIViewController {
         collectionView.delegate = self
         
         self.service.getPhotos(for: self.userId){photos in
-            self.photoAlbum = Array(photos.items)
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
+            DispatchQueue.global(qos:.userInteractive).async {
+                self.photoAlbum = Array(photos.items)
             }
         }
-        
     }
     
     override func viewWillAppear(_ animated: Bool) {

@@ -17,7 +17,7 @@ class FriendsViewController: UIViewController {
     private var nameSearchControl: NameSearchControl!
     
     private var friends: Results<Friend>?{
-        let objects = DataManager.data.readFromDatabase(Friend.self)
+        let objects = self.service.readFriendsFromDatabase()
         return objects.sorted(byKeyPath: "firstName", ascending: true)
     }
     
@@ -27,7 +27,7 @@ class FriendsViewController: UIViewController {
         super.viewDidLoad()
         firstLettersOfNames = self.getFirstLettersOfTheNameList(in: friends!)
         configurationsForTableView()
-        service.getFriends()
+        service.fetchFriendsFromNetworkAndSaveToDatabase()
         tableView.delegate = self
         tableView.dataSource = self
     }

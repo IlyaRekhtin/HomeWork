@@ -23,11 +23,12 @@ class LikeButton: UIButton {
         }
     }
     
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-//        self.configuration?.image = buttonStateImages.like.image
+    init<T: Likeble>(item: T) {
+        super.init(frame: .zero)
         self.configuration?.buttonSize = .large
+        self.addAction(UIAction(handler: { _ in
+            self.updateLikeButton(for: item)
+        }), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -48,17 +49,18 @@ class LikeButton: UIButton {
         self.configuration?.imagePadding = 5
     }
     
-   
     
     
-    func updateLikeButton(for likes: Likes){
+    
+    func updateLikeButton<T: Likeble>(for item: T){
         animationImageChange()
+        guard let likes = item.likes else {return}
         likes.count = likes.userLikes == 1 ? likes.count - 1 : likes.count + 1
         likes.userLikes = likes.userLikes == 1 ? 0 : 1
         self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
         self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
         self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
-
+        likes.userLikes == 1 ? LikeButton.likesNetwork(item: item, method: .likeAdd) :  LikeButton.likesNetwork(item: item, method: .likeDelete)
     }
 }
 //MARK: - Animation for button
@@ -79,10 +81,22 @@ extension LikeButton {
 //MARK: - network method
 extension LikeButton {
     
-   static func likes(owner: Int, id: Int, type: String, _ method: Api.BaseURL.ApiMethod) {
-       
+    static func likesNetwork<T: Likeble>(item: T, method: Api.BaseURL.ApiMethod) {
+        var type = ""
+        var ownerID = 0
+        var id = 0
+        if let photo = item as? Photo {
+            type = "photo"
+            ownerID = photo.ownerID
+            id = photo.id
+        } else if let news = item as? News {
+            type = "post"
+            ownerID = news.sourceID
+            id = news.postID
+            
+        }
         let params = ["type": type,
-                      "owner_id":String(owner),
+                      "owner_id":String(ownerID),
                       "item_id": String(id),
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion]

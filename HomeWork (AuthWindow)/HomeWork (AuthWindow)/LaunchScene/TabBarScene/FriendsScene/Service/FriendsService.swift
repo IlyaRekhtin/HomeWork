@@ -6,30 +6,40 @@
 //
 
 import UIKit
+import RealmSwift
 
 
 final class FriendsService {
     
-    func getFriends() {
+    func fetchFriendsFromNetworkAndSaveToDatabase() {
+        let queue = OperationQueue()
+        queue.qualityOfService = .userInteractive
         let params = ["user_id":String(Session.data.id),
                       "fields": "city, photo_50",
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion
-              ]
+        ]
+        
         let url = URL.configureURL(method: .friendsGet, baseURL: .api, params: params)
         let request = URLRequest(url: url)
         
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            guard let data = data else {return}
-            do {
-                let friends = try JSONDecoder().decode(FriendsResponse.self, from: data).friends.items
-                DataManager.data.saveObjectToDatabase(friends)
-            }catch{
-                print(String(describing: error))
-            }
-        }.resume()
+        let fetchDataOperation = FetchDataOperation(for: request)
+        queue.addOperation(fetchDataOperation)
+        
+        let parseDataOperation = ParseDataToFriendsOperation()
+        parseDataOperation.addDependency(fetchDataOperation)
+        queue.addOperation(parseDataOperation)
+        
+        let writeDataToDatabase = WriteDataToDatabaseOperation(parseDataOperation.friends)
+        writeDataToDatabase.addDependency(parseDataOperation)
+        queue.addOperation(writeDataToDatabase)
     }
+    
+    func readFriendsFromDatabase() -> Results<Friend>{
+        let friends = DataManager.data.readFromDatabase(Friend.self)
+        return friends
+    }
+    
+    
+    
 }

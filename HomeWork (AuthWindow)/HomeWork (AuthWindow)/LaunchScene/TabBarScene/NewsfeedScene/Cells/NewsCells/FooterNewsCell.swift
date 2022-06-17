@@ -13,7 +13,7 @@ final class FooterNewsCell: UITableViewCell {
     static let reuseID = "footerNewsCell"
     
     private var likeButton: LikeButton = {
-        let likeButton = LikeButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        let likeButton = LikeButton(item: CGRect(x: 0, y: 0, width: 100, height: 50))
         likeButton.layer.cornerRadius = likeButton.frame.height / 4
         likeButton.clipsToBounds = true
         likeButton.configuration = .bordered()
@@ -51,10 +51,6 @@ final class FooterNewsCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         makeConstraints()
-        likeButton.addAction(UIAction(handler: { [self] _ in
-            likeButton.updateLikeButton(for: self.likes)
-            likes.userLikes == 1 ? LikeButton.likes(owner: owner, id: id, type: "post", .likeDelete) : LikeButton.likes(owner: owner, id: id, type: "post", .likeAdd)
-        }), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {

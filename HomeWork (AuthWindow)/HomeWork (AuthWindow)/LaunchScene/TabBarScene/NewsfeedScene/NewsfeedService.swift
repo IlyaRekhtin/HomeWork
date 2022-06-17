@@ -10,7 +10,7 @@ import Foundation
 final class NewsfeedService {
     
     func getNewsfeed(complition:@escaping (Newsfeed) -> ()) {
-        
+        DispatchQueue.global(qos:.userInteractive).async {
         let params = ["filters": "post, photo, video",
                       "source_ids": "friends, groups",
                       "count": "100",
@@ -18,9 +18,8 @@ final class NewsfeedService {
                       "v": Api.shared.apiVersion
         ]
         let url = URL.configureURL(method: .newsfeedGet, baseURL: .api, params: params)
-        print(url)
         let request = URLRequest(url: url)
-        DispatchQueue.global(qos:.userInteractive).async {
+        
             URLSession.shared.dataTask(with: request) { data, _, error in
                 if let error = error {
                     print(error.localizedDescription)
