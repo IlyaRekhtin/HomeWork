@@ -104,6 +104,7 @@
 		8CFD113F285D087900130C31 /* ParseDataToFriendsOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFD113E285D087900130C31 /* ParseDataToFriendsOperation.swift */; };
 		8CFD1141285D098A00130C31 /* WriteDataToDatabaseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFD1140285D098A00130C31 /* WriteDataToDatabaseOperation.swift */; };
 		8CFD1143285D0ADD00130C31 /* ReadDataFromDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFD1142285D0ADD00130C31 /* ReadDataFromDatabase.swift */; };
+		8CFD1148286100C600130C31 /* PromiseKit in Frameworks */ = {isa = PBXBuildFile; productRef = 8CFD1147286100C600130C31 /* PromiseKit */; };
 		8CFEF4CF280C5F8200AA88C3 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CFEF4CE280C5F8200AA88C3 /* Api.swift */; };
 /* End PBXBuildFile section */
 
@@ -211,6 +212,7 @@
 				8C0F59592842CD6600463CD3 /* FirebaseDatabaseSwift in Frameworks */,
 				8C0F59572842CD6600463CD3 /* FirebaseDatabase in Frameworks */,
 				8CE7AE202829597F0092BB4D /* RealmSwift in Frameworks */,
+				8CFD1148286100C600130C31 /* PromiseKit in Frameworks */,
 				8C0F595F2842CD6600463CD3 /* FirebaseStorage in Frameworks */,
 				8C0F59552842CD6600463CD3 /* FirebaseAuth in Frameworks */,
 				8CE7AE1E2829597F0092BB4D /* Realm in Frameworks */,
@@ -855,6 +857,7 @@
 				8C0F595A2842CD6600463CD3 /* FirebaseFirestore */,
 				8C0F595C2842CD6600463CD3 /* FirebaseFirestoreSwift */,
 				8C0F595E2842CD6600463CD3 /* FirebaseStorage */,
+				8CFD1147286100C600130C31 /* PromiseKit */,
 			);
 			productName = "HomeWork (AuthWindow)";
 			productReference = 262A843227B83DBC00B2DD65 /* HomeWork (AuthWindow).app */;
@@ -888,6 +891,7 @@
 				8CA0852F2814D13E004CB2C6 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				8CE7AE1C2829597F0092BB4D /* XCRemoteSwiftPackageReference "realm-swift" */,
 				8C0F59532842CD6600463CD3 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8CFD1146286100C500130C31 /* XCRemoteSwiftPackageReference "PromiseKit" */,
 			);
 			productRefGroup = 262A843327B83DBC00B2DD65 /* Products */;
 			projectDirPath = "";
@@ -1298,6 +1302,14 @@
 				minimumVersion = 10.19.0;
 			};
 		};
+		8CFD1146286100C500130C31 /* XCRemoteSwiftPackageReference "PromiseKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/mxcl/PromiseKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1345,6 +1357,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8CE7AE1C2829597F0092BB4D /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;
+		};
+		8CFD1147286100C600130C31 /* PromiseKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8CFD1146286100C500130C31 /* XCRemoteSwiftPackageReference "PromiseKit" */;
+			productName = PromiseKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

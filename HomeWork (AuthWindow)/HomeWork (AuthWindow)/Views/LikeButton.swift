@@ -8,6 +8,7 @@
 import UIKit
 
 class LikeButton: UIButton {
+    
     /// images enum
     private enum buttonStateImages: String {
         case like
@@ -22,12 +23,21 @@ class LikeButton: UIButton {
             }
         }
     }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.configuration?.imagePadding = 5
+        self.configuration?.buttonSize = .medium
+        self.addAction(UIAction(handler: { _ in
+            self.updateLikeButton()
+        }), for: .touchUpInside)
+    }
     
     init<T: Likeble>(item: T) {
         super.init(frame: .zero)
-        self.configuration?.buttonSize = .large
+        self.configuration?.imagePadding = 5
+        self.configuration?.buttonSize = .medium
         self.addAction(UIAction(handler: { _ in
-            self.updateLikeButton(for: item)
+            self.updateLikeButton()
         }), for: .touchUpInside)
     }
     
@@ -46,22 +56,21 @@ class LikeButton: UIButton {
         self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
         self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
         self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
-        self.configuration?.imagePadding = 5
     }
     
-    
-    
-    
-    func updateLikeButton<T: Likeble>(for item: T){
+    @objc func updateLikeButton(){
         animationImageChange()
-        guard let likes = item.likes else {return}
-        likes.count = likes.userLikes == 1 ? likes.count - 1 : likes.count + 1
-        likes.userLikes = likes.userLikes == 1 ? 0 : 1
-        self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
-        self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
-        self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
-        likes.userLikes == 1 ? LikeButton.likesNetwork(item: item, method: .likeAdd) :  LikeButton.likesNetwork(item: item, method: .likeDelete)
+//        likes.count = likes.userLikes == 1 ? likes.count - 1 : likes.count + 1
+//        likes.userLikes = likes.userLikes == 1 ? 0 : 1
+//        self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
+//        self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
+//        self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
+//        likes.userLikes == 1 ? LikeButton.likesNetwork(item: item, method: .likeAdd) :  LikeButton.likesNetwork(item: item, method: .likeDelete)
     }
+    
+    
+    
+    
 }
 //MARK: - Animation for button
 extension LikeButton {

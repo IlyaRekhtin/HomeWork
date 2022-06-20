@@ -329,9 +329,9 @@ private extension ImagePresentViewController {
         ///likeButton add Action
         likeButton.addAction(UIAction(handler: { [self] _ in
             let item = photoAlbum[currentIndexPuthFoto]
-            guard let likes = item.likes else {return}
-            likeButton.updateLikeButton(for: likes)
-            likes.userLikes == 1 ? LikeButton.likes(owner: item.ownerID, id: item.id, type: "photo", .likeDelete) : LikeButton.likes(owner: item.ownerID, id: item.id, type: "photo", .likeAdd)
+//            guard let likes = item.likes else {return}
+//            likeButton.updateLikeButton(for: item)
+//            likes.userLikes == 1 ? LikeButton.likes(owner: item.ownerID, id: item.id, type: "photo", .likeDelete) : LikeButton.likes(owner: item.ownerID, id: item.id, type: "photo", .likeAdd)
         }), for: .touchUpInside)
     }
     

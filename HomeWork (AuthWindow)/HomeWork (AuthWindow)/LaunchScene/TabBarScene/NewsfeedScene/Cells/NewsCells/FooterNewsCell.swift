@@ -12,8 +12,11 @@ final class FooterNewsCell: UITableViewCell {
     
     static let reuseID = "footerNewsCell"
     
+    
+    
+    
     private var likeButton: LikeButton = {
-        let likeButton = LikeButton(item: CGRect(x: 0, y: 0, width: 100, height: 50))
+        let likeButton = LikeButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         likeButton.layer.cornerRadius = likeButton.frame.height / 4
         likeButton.clipsToBounds = true
         likeButton.configuration = .bordered()
@@ -38,9 +41,12 @@ final class FooterNewsCell: UITableViewCell {
         return views
     }()
     
-    private var likes = Likes()
+    private var item: News?
+    
     private var id = 0
     private var owner = 0
+    
+    
     
 //    private let separateView: UIView = {
 //        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 5))
@@ -51,6 +57,7 @@ final class FooterNewsCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         makeConstraints()
+        
     }
     
     required init?(coder: NSCoder) {
@@ -58,16 +65,20 @@ final class FooterNewsCell: UITableViewCell {
     }
     
     func configCell(for news: News) {
+        self.item = news
         self.owner = news.sourceID
         self.id = news.postID
-        guard let likes = news.likes else {return}
-        self.likes = likes
         self.likeButton.setConfig(for: news)
         self.reposts.setConfig(for: news)
         guard let viewsCount = news.views?.count else {return}
         self.views.text = "🙈" + String(viewsCount)
     }
     
+    
+    @objc private func likeButtonTap() {
+//        guard let item = self.item else {return}
+//        self.likeButton.updateLikeButton(for: item)
+    }
     
     
 }
