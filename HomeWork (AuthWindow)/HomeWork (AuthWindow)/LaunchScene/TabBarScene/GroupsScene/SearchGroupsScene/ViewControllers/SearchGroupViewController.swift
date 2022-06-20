@@ -12,7 +12,7 @@ import FirebaseDatabase
 
 class SearchGroupViewController: UIViewController {
     
-    private let service = GroupsService()
+    private let service = SearchGroupsService()
     private var tableView: UITableView!
     private var searchBar: UISearchBar!
     private var searchResultArray = [Group]()
@@ -40,7 +40,6 @@ class SearchGroupViewController: UIViewController {
             let realm = try Realm()
             try realm.write {
                 let objects = realm.objects(Group.self).filter("isMember == 0")
-                print(objects.count)
                 realm.delete(objects)
             }
         } catch {

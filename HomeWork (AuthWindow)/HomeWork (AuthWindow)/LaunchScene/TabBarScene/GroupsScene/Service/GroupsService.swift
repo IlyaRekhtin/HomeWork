@@ -6,61 +6,58 @@
 //
 
 import UIKit
+import PromiseKit
+
+enum AppError: String, Error {
+    case urlError = "url not found"
+    case decodeError = "don't decode"
+    case fetchError = "don't fetch"
+}
+
 
 final class GroupsService {
     
-    
-    
-    func getGroups() {
+    func getURL() -> Promise<URL> {
         let params = ["user_id":String(Session.data.id),
                       "extended": "1",
                       "fields": "description",
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion
               ]
-        let url = URL.configureURL(method: .groupsGet, baseURL: .api, params: params)
-        let request = URLRequest(url: url)
         
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
+        return Promise { resolver in
+            guard let url = URL.configureURL(method: .groupsGet, baseURL: .api, params: params) else {
+                resolver.reject(AppError.urlError)
+                return
             }
-            guard let data = data else {return}
-            do {
-                let groups = try JSONDecoder().decode(GroupsResponse.self, from: data).groups.items
-                DispatchQueue.main.async {
-                    DataManager.data.saveObjectToDatabase(groups)
+            resolver.fulfill(url)
+        }
+    }
+    
+   func fetchData(_ url: URL) -> Promise<Data> {
+        return Promise { resolver in
+            URLSession.shared.dataTask(with: url) { data, _, _ in
+                guard let data = data else {
+                    resolver.reject(AppError.fetchError)
+                    return
                 }
-            }catch{
-                print(String(describing: error))
-            }
-        }.resume()
+                resolver.fulfill(data)
+            }.resume()
+        }
     }
     
-    func getGroupsSearch(searchText: String, complition:@escaping ([Group]) -> ()) {
-        let params = ["q":searchText,
-                      "type": "group, page",
-                      "sort": "0",
-                      "count":"10",
-                      "access_token": Session.data.token,
-                      "v": Api.shared.apiVersion
-              ]
-        let url = URL.configureURL(method: .groupsSearch, baseURL: .api, params: params)
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-            guard let data = data else {return}
+    func parsedData(_ data: Data) -> Promise<[Group]> {
+        return Promise { resolver in
             do {
                 let groups = try JSONDecoder().decode(GroupsResponse.self, from: data).groups.items
-                complition(groups)
+                resolver.fulfill(groups)
             }catch{
-                print(String(describing: error))
-                complition([Group]())
+                resolver.reject(AppError.decodeError)
             }
-        }.resume()
+        }
     }
     
+    func writeGroupsToDatabase(_ groups: [Group]) {
+        DataManager.data.saveObjectToDatabase(groups)
+    }
 }

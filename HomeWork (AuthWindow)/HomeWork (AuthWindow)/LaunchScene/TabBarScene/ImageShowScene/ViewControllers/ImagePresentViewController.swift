@@ -327,8 +327,8 @@ private extension ImagePresentViewController {
     func configLikeButton(){
         likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
         ///likeButton add Action
-        likeButton.addAction(UIAction(handler: { [self] _ in
-            let item = photoAlbum[currentIndexPuthFoto]
+        likeButton.addAction(UIAction(handler: { _ in
+//            let item = photoAlbum[currentIndexPuthFoto]
 //            guard let likes = item.likes else {return}
 //            likeButton.updateLikeButton(for: item)
 //            likes.userLikes == 1 ? LikeButton.likes(owner: item.ownerID, id: item.id, type: "photo", .likeDelete) : LikeButton.likes(owner: item.ownerID, id: item.id, type: "photo", .likeAdd)

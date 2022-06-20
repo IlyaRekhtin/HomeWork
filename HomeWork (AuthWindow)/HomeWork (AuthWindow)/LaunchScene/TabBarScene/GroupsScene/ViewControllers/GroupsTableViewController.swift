@@ -28,10 +28,19 @@ class GroupsTableViewController: UIViewController {
         super.viewDidLoad()
         configNavigationController()
         configurationsForTableView()
-        service.getGroups()
+        loadGroups()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
+    }
+    
+    private func configNavigationController(){
+        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationItem.backButtonTitle = ""
+        self.tabBarItem.tag = 1
     }
     
     private func configurationsForTableView() {
@@ -43,6 +52,17 @@ class GroupsTableViewController: UIViewController {
         }
         addNotificationToken()
     }
+    
+    private func loadGroups() {
+        service.getURL()
+            .then(on: .global(), service.fetchData(_:))
+            .then(on: .global(), service.parsedData(_:)).done(on: .global()) { groups in
+                self.service.writeGroupsToDatabase(groups)
+            }.catch { error in
+                print(error.localizedDescription)
+            }
+    }
+    
     
     private func  addNotificationToken() {
         self.token = groups?.observe { [weak self] result in
@@ -69,16 +89,6 @@ class GroupsTableViewController: UIViewController {
                 print("\(error)")
             }
         }
-    }
-    
-    
-    private func configNavigationController(){
-        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationItem.backButtonTitle = ""
-        self.tabBarItem.tag = 1
     }
     
     @IBAction func searchActionButton(_ sender: Any) {

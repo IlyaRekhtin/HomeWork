@@ -70,6 +70,7 @@
 		8C4378A5284413E8005ACB5F /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4378A4284413E8005ACB5F /* AuthService.swift */; };
 		8C4378AC28441B56005ACB5F /* PhotoAlbumService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C4378AB28441B56005ACB5F /* PhotoAlbumService.swift */; };
 		8C5A762B285541D1000F801E /* DocViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C5A762A285541D1000F801E /* DocViewCell.swift */; };
+		8C61EA4B28611EDB006F1D5A /* SearchGroupsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C61EA4A28611EDA006F1D5A /* SearchGroupsService.swift */; };
 		8C79566B28240185009C7EB1 /* Likeble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C79566A28240185009C7EB1 /* Likeble.swift */; };
 		8C80B57E281094BF0064A2FA /* FriendsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C80B57D281094BF0064A2FA /* FriendsResponse.swift */; };
 		8C8A79EC283264E200C9B551 /* PushImageViewTransitionAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8A79EB283264E200C9B551 /* PushImageViewTransitionAnimation.swift */; };
@@ -169,6 +170,7 @@
 		8C4378A4284413E8005ACB5F /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		8C4378AB28441B56005ACB5F /* PhotoAlbumService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoAlbumService.swift; sourceTree = "<group>"; };
 		8C5A762A285541D1000F801E /* DocViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocViewCell.swift; sourceTree = "<group>"; };
+		8C61EA4A28611EDA006F1D5A /* SearchGroupsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchGroupsService.swift; sourceTree = "<group>"; };
 		8C79566A28240185009C7EB1 /* Likeble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Likeble.swift; sourceTree = "<group>"; };
 		8C80B57D281094BF0064A2FA /* FriendsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsResponse.swift; sourceTree = "<group>"; };
 		8C8A79EB283264E200C9B551 /* PushImageViewTransitionAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushImageViewTransitionAnimation.swift; sourceTree = "<group>"; };
@@ -463,6 +465,21 @@
 			path = DataManager;
 			sourceTree = "<group>";
 		};
+		8C61EA4928611EB1006F1D5A /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				8C61EA4A28611EDA006F1D5A /* SearchGroupsService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		8C61EA4C286120D5006F1D5A /* CashService */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CashService;
+			sourceTree = "<group>";
+		};
 		8C79566C2824018F009C7EB1 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
@@ -717,6 +734,7 @@
 		8CCD3636283C196F00847F7A /* SearchGroupsScene */ = {
 			isa = PBXGroup;
 			children = (
+				8C61EA4928611EB1006F1D5A /* Service */,
 				8CBFB1A4284928D200E8FC2D /* Model */,
 				8CCD3638283C19A100847F7A /* Cells */,
 				8C8A79E52832618900C9B551 /* Views */,
@@ -805,6 +823,7 @@
 		8CFEF4CD280C5F2F00AA88C3 /* AppService */ = {
 			isa = PBXGroup;
 			children = (
+				8C61EA4C286120D5006F1D5A /* CashService */,
 				8CFD113A285D020000130C31 /* NetworkService */,
 				8C5736A9280DFAB60014E9AE /* DataManager */,
 				8C5736A5280DEF210014E9AE /* ApiManager */,
@@ -1040,6 +1059,7 @@
 				8CBFB19B2846AB3000E8FC2D /* LinkNewsCell.swift in Sources */,
 				26F7A96B27F798CC00A190F5 /* LaunchViewController.swift in Sources */,
 				8CFD1141285D098A00130C31 /* WriteDataToDatabaseOperation.swift in Sources */,
+				8C61EA4B28611EDB006F1D5A /* SearchGroupsService.swift in Sources */,
 				26F7A96F27F8D5BE00A190F5 /* CustomNavController.swift in Sources */,
 				8CA0852C28149EF9004CB2C6 /* NewsfeedResponse.swift in Sources */,
 				8C4378A128441317005ACB5F /* NewsfeedService.swift in Sources */,
@@ -1202,7 +1222,7 @@
 				INFOPLIST_FILE = "HomeWork (AuthWindow)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = CustomVKClient;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -1235,7 +1255,7 @@
 				INFOPLIST_FILE = "HomeWork (AuthWindow)/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = CustomVKClient;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = Main;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

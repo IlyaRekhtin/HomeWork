@@ -18,7 +18,7 @@ final class AuthService {
                       "response_type": "token",
                       "v": Api.shared.apiVersion
               ]
-        let url = URL.configureURL(method: .auth, baseURL: .auth, params: params)
+        guard let url = URL.configureURL(method: .auth, baseURL: .auth, params: params) else {return nil}
         let request = URLRequest(url: url)
         return request
     }

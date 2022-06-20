@@ -20,7 +20,6 @@ class NewsfeedTableViewController: UIViewController {
     private var news = [News]()
     private var profiles = [Profile]()
     private var groups = [Group]()
-    
     private let service = NewsfeedService()
     private var tableView: UITableView!
     private var pushTransition = PushImageViewTransitionAnimation()

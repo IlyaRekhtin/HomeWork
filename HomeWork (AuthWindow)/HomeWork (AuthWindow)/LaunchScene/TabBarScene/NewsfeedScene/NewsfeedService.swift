@@ -17,7 +17,7 @@ final class NewsfeedService {
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion
         ]
-        let url = URL.configureURL(method: .newsfeedGet, baseURL: .api, params: params)
+            guard let url = URL.configureURL(method: .newsfeedGet, baseURL: .api, params: params) else {return}
         let request = URLRequest(url: url)
         
             URLSession.shared.dataTask(with: request) { data, _, error in

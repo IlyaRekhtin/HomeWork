@@ -13,10 +13,6 @@ final class DataManager {
     
     static let data = DataManager()
     
-    var news = [News]()
-    var profiles = [Profile]()
-    var groups = [Group]()
-    
     private init(){}
     
 }

@@ -20,7 +20,7 @@ final class FriendsService {
                       "v": Api.shared.apiVersion
         ]
         
-        let url = URL.configureURL(method: .friendsGet, baseURL: .api, params: params)
+        guard let url = URL.configureURL(method: .friendsGet, baseURL: .api, params: params) else {return}
         let request = URLRequest(url: url)
         
         let fetchDataOperation = FetchDataOperation(for: request)

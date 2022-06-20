@@ -59,7 +59,7 @@ extension RepostsButton {
                       "item_id": String(photo.id),
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion]
-        let url = URL.configureURL(method: method, baseURL: .api, params: params)
+        guard let url = URL.configureURL(method: method, baseURL: .api, params: params) else {return}
         
         let request = URLRequest(url: url)
         

@@ -14,7 +14,7 @@ class ButtonForAddGroupsService {
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion
         ]
-        let url = URL.configureURL(method: .joinGroup, baseURL: .api, params: params)
+        guard let url = URL.configureURL(method: .joinGroup, baseURL: .api, params: params) else {return}
         let request = URLRequest(url: url)
         
         URLSession.shared.dataTask(with: request) { data, _, error in
@@ -29,7 +29,7 @@ class ButtonForAddGroupsService {
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion
         ]
-        let url = URL.configureURL(method: .leaveGroup, baseURL: .api, params: params)
+        guard let url = URL.configureURL(method: .leaveGroup, baseURL: .api, params: params) else {return}
         let request = URLRequest(url: url)
         
         URLSession.shared.dataTask(with: request) { data, _, error in
