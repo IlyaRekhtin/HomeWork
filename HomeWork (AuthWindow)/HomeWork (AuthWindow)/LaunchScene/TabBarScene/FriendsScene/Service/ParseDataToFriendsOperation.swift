@@ -7,9 +7,10 @@
 
 import Foundation
 
-class ParseDataToFriendsOperation: Operation {
+class ParseDataToFriendsOperation: AsyncOperation {
     
     var friends = [Friend]()
+    
     
     override func main() {
         guard let fetchDataOperation = dependencies.first as? FetchDataOperation,
@@ -17,11 +18,12 @@ class ParseDataToFriendsOperation: Operation {
         do {
             let friends = try JSONDecoder().decode(FriendsResponse.self, from: data).friends.items
             self.friends = friends
+            self.state = .finished
         } catch {
             print(String(describing: error))
         }
     }
     
-    
+   
     
 }

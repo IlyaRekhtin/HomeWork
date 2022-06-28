@@ -14,10 +14,12 @@ class FriendsTableViewCell: UITableViewCell {
     
     static let reuseID = "CellFriends"
 
-    private var avatar: AvatarView = {
+    var avatar: AvatarView = {
         let imageView = AvatarView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         return imageView
     }()
+    
+   
     private var fullName: UILabel = {
         let lable = UILabel()
         lable.textColor = .black
@@ -47,10 +49,6 @@ class FriendsTableViewCell: UITableViewCell {
     
     
     func configCell(for friend: Friend) {
-        guard let url = URL(string: friend.photo50) else {return}
-        
-        avatar.setImage(url)
-        
         city.text = friend.city?.title
         fullName.text = "\(friend.firstName) \(friend.lastName)"
     }
