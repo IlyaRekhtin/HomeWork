@@ -30,7 +30,7 @@ final class FriendsService {
         parseDataOperation.addDependency(fetchDataOperation)
         queue.addOperation(parseDataOperation)
         
-        let writeDataToDatabase = WriteDataToDatabaseOperation(parseDataOperation.friends)
+        let writeDataToDatabase = WriteDataToDatabaseOperation()
         writeDataToDatabase.addDependency(parseDataOperation)
         queue.addOperation(writeDataToDatabase)
     }

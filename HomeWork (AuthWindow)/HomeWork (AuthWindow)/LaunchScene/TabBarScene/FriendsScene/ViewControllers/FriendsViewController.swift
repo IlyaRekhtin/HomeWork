@@ -12,6 +12,7 @@ import RealmSwift
 class FriendsViewController: UIViewController {
     
     private let service = FriendsService()
+    private var photoSrvice: PhotoService!
     private var tableView: UITableView!
     private var token: NotificationToken?
     private var nameSearchControl: NameSearchControl!
@@ -25,9 +26,11 @@ class FriendsViewController: UIViewController {
   
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         firstLettersOfNames = self.getFirstLettersOfTheNameList(in: friends!)
         configurationsForTableView()
         service.fetchFriendsFromNetworkAndSaveToDatabase()
+        self.photoSrvice = PhotoService(tableView: self.tableView)
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -53,6 +56,8 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         guard let friends = self.friends else {return cell}
         let friend = friends[indexPath.row]
         cell.configCell(for: friend)
+        cell.avatar.userPhoto.image = photoSrvice.photo(at: indexPath, by: friend.photo50)
+        cell.avatar.shadowOn()
         cell.selectionStyle = .none
         tableView.rowHeight = cell.getimageSize().height + 10
         return cell
@@ -114,7 +119,6 @@ private extension FriendsViewController {
     func configurationsForTableView() {
         tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
         tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.reuseID)
-        
         addNotificationToken()
         configurationForNameSearchControl()
         setConstraints()

@@ -23,7 +23,7 @@ class GroupsTableViewCell: UITableViewCell {
         }
     }
     
-    private var groupImage: AvatarView = {
+    var groupImage: AvatarView = {
         let imageView = AvatarView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         
         return imageView
@@ -64,10 +64,8 @@ class GroupsTableViewCell: UITableViewCell {
     }
     
     func setCellSetup(for group: Group) {
-        
-        guard let url = URL(string: group.photo50) else {return}
         self.activeGroup = group
-        groupImage.setImage(url)
+        groupImage.setImage(group.photo50)
         groupName.text = group.name
         addGroupButton.configuration?.image = activeGroup.isMember == 1 ? UIImage(systemName: "checkmark")! : UIImage(systemName: "plus")!
         addGroupButton.isHidden = group.isMember == 1 ? true : false

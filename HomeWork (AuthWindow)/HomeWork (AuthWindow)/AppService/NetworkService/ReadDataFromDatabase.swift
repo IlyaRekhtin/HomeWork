@@ -8,7 +8,7 @@
 import Foundation
 import RealmSwift
 
-class ReadDataFromDatabase<T:Object>: Operation {
+class ReadDataFromDatabase<T:Object>: AsyncOperation {
     
     var item: T.Type
     var results: Results<T>?
