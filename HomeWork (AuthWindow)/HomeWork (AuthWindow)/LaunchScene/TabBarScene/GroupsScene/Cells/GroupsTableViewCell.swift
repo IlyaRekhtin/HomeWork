@@ -8,16 +8,24 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import RealmSwift
+import FirebaseFirestore
 
 class GroupsTableViewCell: UITableViewCell {
-
-    static var reuseID = "groupCell"
     
-    var addGroupButton = AddGroupButton(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
+    static var reuseID = "groupCell"
+    let service = ButtonForAddGroupsService()
+    var activeGroup: Group!
+    
+    var addGroupButton = ButtonForAddGroup(frame: .zero) {
+        didSet {
+            addGroupButton.setNeedsUpdateConfiguration()
+        }
+    }
     
     private var groupImage: AvatarView = {
         let imageView = AvatarView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-       
+        
         return imageView
     }()
     
@@ -37,7 +45,6 @@ class GroupsTableViewCell: UITableViewCell {
     }()
     
     
-//    private var testGroup: Group?
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -57,28 +64,60 @@ class GroupsTableViewCell: UITableViewCell {
     }
     
     func setCellSetup(for group: Group) {
+        
         guard let url = URL(string: group.photo50) else {return}
+        self.activeGroup = group
         groupImage.setImage(url)
         groupName.text = group.name
-        groupDescription.text = group.itemDescription
-        addGroupButton.config()
+        addGroupButton.configuration?.image = activeGroup.isMember == 1 ? UIImage(systemName: "checkmark")! : UIImage(systemName: "plus")!
+        addGroupButton.isHidden = group.isMember == 1 ? true : false
+        
     }
     
-    
-    
-    ////реализация кнопки добавить группу
+    //    ////реализация кнопки добавить группу
     @objc private func targetForAddGroupButton() {
-        switch addGroupButton.configuration?.image {
-        case AddGroupButton.imageForButton.groupIsNotAddImage.image:
-            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsAddImage.image
-        case AddGroupButton.imageForButton.groupIsAddImage.image:
-            addGroupButton.configuration?.image = AddGroupButton.imageForButton.groupIsNotAddImage.image
-        default:
-            break
-        }
         
-      
-  
+        if activeGroup.isMember == 0 {
+            service.joinGroup(self.activeGroup)
+        } else {
+            service.leaveGroup(self.activeGroup)
+        }
+        /// кастим до firestore модели
+        let addGroup = AddedGroup(name: activeGroup.name, id: activeGroup.id)
+        do {
+            let realm = try Realm()
+            try realm.write {
+                if activeGroup.isMember == 0 {
+                    realm.add(activeGroup, update: .modified)
+                    addGroupButton.configuration?.image = UIImage(systemName: "checkmark")!
+                    saveToFirestore(addGroup)
+                    activeGroup.isMember = 1
+                } else {
+                    activeGroup.isMember = 0
+                    addGroupButton.configuration?.image = UIImage(systemName: "plus")!
+                    deleteFromFirestore(addGroup)
+                    
+                }
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+    
+    //MARK: - Firestore
+    private func saveToFirestore(_ group: AddedGroup) {
+        let dataBase = Firestore.firestore()
+        dataBase.collection(String(Session.data.id)).document(group.name).setData(group.toAnyObject(), merge: true) { error in
+            if let error = error {
+                print(error.localizedDescription)
+            } else {
+                print("data saved")
+            }
+        }
+    }
+    private func deleteFromFirestore(_ group: AddedGroup) {
+        let dataBase = Firestore.firestore()
+        dataBase.collection(String(Session.data.id)).document(group.name).delete()
     }
     
     private func setConstraints() {
@@ -86,12 +125,11 @@ class GroupsTableViewCell: UITableViewCell {
         addSubview(groupName)
         addSubview(groupDescription)
         contentView.addSubview(addGroupButton)
-       
+        
         
         addGroupButton.snp.makeConstraints { make in
-            make.width.equalTo(addGroupButton.frame.width)
             make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(20)
+            make.right.equalToSuperview().inset(10)
         }
         
         groupImage.snp.makeConstraints { make in
@@ -102,12 +140,12 @@ class GroupsTableViewCell: UITableViewCell {
         groupName.snp.makeConstraints { make in
             make.left.equalTo(groupImage.snp.right).offset(20)
             make.top.equalToSuperview().inset(self.frame.height / 5)
-            make.right.equalTo(addGroupButton.snp.left).offset(10)
+            make.right.equalToSuperview().inset(50)
         }
         groupDescription.snp.makeConstraints { make in
             make.left.equalTo(groupImage.snp.right).offset(20)
             make.top.equalTo(groupName.snp.bottom).offset(3)
-            make.right.equalTo(addGroupButton.snp.left).offset(10)
+            make.right.equalToSuperview().inset(50)
         }
     }
 }

@@ -10,7 +10,7 @@ import Foundation
 extension URL {
     static func configureURL(method: Api.BaseURL.ApiMethod,
                              baseURL: Api.BaseURL,
-                             params: [String: String]) -> URL {
+                             params: [String: String]) -> URL? {
         var queryItems: [URLQueryItem] = []
 
         params.forEach { param, value in
@@ -23,9 +23,7 @@ extension URL {
         urlComponents.path = method.rawValue
         urlComponents.queryItems = queryItems
 
-        guard let url = urlComponents.url else {
-            fatalError("URL is invalidate")
-        }
+        let url = urlComponents.url 
         return url
     }
     

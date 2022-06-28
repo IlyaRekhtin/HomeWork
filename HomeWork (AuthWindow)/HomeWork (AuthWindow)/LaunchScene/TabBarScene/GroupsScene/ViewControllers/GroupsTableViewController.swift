@@ -7,24 +7,40 @@
 
 import UIKit
 import RealmSwift
+import FirebaseFirestore
 
 class GroupsTableViewController: UIViewController {
     
+    private let service = GroupsService()
     private var groups: Results<Group>? {
-        DataManager.data.readFromDatabase(Group.self)
+        DataManager.data.readFromDatabase(Group.self).filter("isMember == 1")
     }
     
     private var token: NotificationToken?
     
     private var tableView: UITableView!
     
+    override func loadView() {
+        super.loadView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configNavigationController()
         configurationsForTableView()
+        loadGroups()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
+    }
+    
+    private func configNavigationController(){
+        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationItem.backButtonTitle = ""
+        self.tabBarItem.tag = 1
     }
     
     private func configurationsForTableView() {
@@ -37,12 +53,23 @@ class GroupsTableViewController: UIViewController {
         addNotificationToken()
     }
     
+    private func loadGroups() {
+        service.getURL()
+            .then(on: .global(), service.fetchData(_:))
+            .then(on: .global(), service.parsedData(_:)).done(on: .global()) { groups in
+                self.service.writeGroupsToDatabase(groups)
+            }.catch { error in
+                print(error.localizedDescription)
+            }
+    }
+    
+    
     private func  addNotificationToken() {
         self.token = groups?.observe { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .initial(_):
-                self.tableView.reloadData()
+                print("init")
             case .update(_,
                          deletions: let deletions,
                          insertions: let insertions,
@@ -64,16 +91,6 @@ class GroupsTableViewController: UIViewController {
         }
     }
     
-    
-    private func configNavigationController(){
-        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationItem.backButtonTitle = ""
-        self.tabBarItem.tag = 1
-    }
-    
     @IBAction func searchActionButton(_ sender: Any) {
         guard let vc = storyboard?.instantiateViewController(withIdentifier: "searchViewController") as? SearchGroupViewController else {return}
         let navVC = UINavigationController(rootViewController: vc)
@@ -88,9 +105,6 @@ class GroupsTableViewController: UIViewController {
 // MARK: - Table view data source
 extension GroupsTableViewController: UITableViewDelegate, UITableViewDataSource {
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return groups?.count ?? 0
@@ -109,14 +123,15 @@ extension GroupsTableViewController: UITableViewDelegate, UITableViewDataSource 
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard let group = groups?[indexPath.row] else {return}
-        /// удаляем из базы данных
+        /// удалям группу на сервере
+        let buttonService = ButtonForAddGroupsService()
+        buttonService.leaveGroup(group)
+        /// удаляем из базы данных realm
         do {
             let realm = try Realm()
             try realm.write {
                 realm.delete(group)
             }
-            
-            // TODO удалить группу на сервере
         } catch {
             print(error.localizedDescription)
         }

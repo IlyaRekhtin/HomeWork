@@ -11,14 +11,13 @@ import RealmSwift
 
 class FriendsViewController: UIViewController {
     
+    private let service = FriendsService()
     private var tableView: UITableView!
-    
     private var token: NotificationToken?
-    
     private var nameSearchControl: NameSearchControl!
     
     private var friends: Results<Friend>?{
-        let objects = DataManager.data.readFromDatabase(Friend.self)
+        let objects = self.service.readFriendsFromDatabase()
         return objects.sorted(byKeyPath: "firstName", ascending: true)
     }
     
@@ -28,6 +27,7 @@ class FriendsViewController: UIViewController {
         super.viewDidLoad()
         firstLettersOfNames = self.getFirstLettersOfTheNameList(in: friends!)
         configurationsForTableView()
+        service.fetchFriendsFromNetworkAndSaveToDatabase()
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -35,6 +35,10 @@ class FriendsViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configNavigationController()
+    }
+    
+    deinit {
+        token?.invalidate()
     }
 }
 
@@ -55,7 +59,7 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let vc = storyboard?.instantiateViewController(identifier: "FriendFotoCollectionViewController") as? FriendFotoCollectionViewController else {return}
+        guard let vc = storyboard?.instantiateViewController(identifier: "FriendFotoCollectionViewController") as? PhotoAlbumVC else {return}
         guard let friends = self.friends else {return}
         let friend = friends[tableView.indexPathForSelectedRow!.row]
         vc.userId = friend.id

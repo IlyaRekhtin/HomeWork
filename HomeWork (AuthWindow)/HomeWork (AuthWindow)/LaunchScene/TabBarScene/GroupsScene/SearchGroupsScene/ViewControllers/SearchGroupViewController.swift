@@ -7,13 +7,17 @@
 
 import UIKit
 import SnapKit
+import RealmSwift
+import FirebaseDatabase
 
 class SearchGroupViewController: UIViewController {
     
+    private let service = SearchGroupsService()
     private var tableView: UITableView!
     private var searchBar: UISearchBar!
     private var searchResultArray = [Group]()
     private var tapRecognizer: UITapGestureRecognizer!
+    
     
     private var cancelButton: UIButton!
     
@@ -29,6 +33,21 @@ class SearchGroupViewController: UIViewController {
         animateSearchBar()
     }
     
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        do {
+            let realm = try Realm()
+            try realm.write {
+                let objects = realm.objects(Group.self).filter("isMember == 0")
+                realm.delete(objects)
+            }
+        } catch {
+            print(error.localizedDescription)
+        }
+    }
+   
+
     //    @objc private func cancelButtonAction() {
     //        dismiss(animated: true)
     //    }
@@ -130,7 +149,7 @@ extension SearchGroupViewController: UITableViewDataSource, UITableViewDelegate 
 extension SearchGroupViewController: UISearchBarDelegate, UISearchTextFieldDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        Api.shared.getGroupsSearch(searchText: searchText) { groups in
+        service.getGroupsSearch(searchText: searchText) { groups in
             DispatchQueue.main.async {
                 self.searchResultArray = groups
                 self.tableView.reloadData()
