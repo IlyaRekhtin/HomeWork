@@ -72,7 +72,7 @@ class CloudLoadImage : NSObject {
 
 }
 
-class LoadImage: UIView {
+class getStartImage: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

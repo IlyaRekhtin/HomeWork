@@ -22,7 +22,6 @@ class ReadDataFromDatabase<T:Object>: AsyncOperation {
     }
     
     func readFromDatabase<T:Object>(_ item: T.Type) -> Results<T> {
-        
         let realm = try! Realm()
         let items = realm.objects(T.self)
         return items

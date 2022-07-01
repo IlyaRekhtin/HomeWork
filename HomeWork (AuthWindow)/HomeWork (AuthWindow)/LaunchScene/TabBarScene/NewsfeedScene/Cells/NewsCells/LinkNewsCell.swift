@@ -38,8 +38,6 @@ final class LinkNewsCell: UITableViewCell {
         return linkImage
     }()
     
-    
-    
     private var linkTitle: UILabel = {
         var linkTitle = UILabel()
         linkTitle.textColor = .black
@@ -56,14 +54,12 @@ final class LinkNewsCell: UITableViewCell {
         return linkSubTitle
     }()
     
-    
-    
     var linkURL = ""
     var delegate: NewsfeedItemTapped?
     
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        makeConstraints()
     }
     
     required init?(coder: NSCoder) {
@@ -71,7 +67,6 @@ final class LinkNewsCell: UITableViewCell {
     }
     
     func configCell(for link: Link) {
-        makeConstraints()
         self.linkURL = link.url
         DispatchQueue.main.async {
             guard let photos = link.photo else {return}
@@ -104,7 +99,6 @@ private extension LinkNewsCell {
         backView.addSubview(linkImage)
         linkImage.snp.makeConstraints { make in
             make.top.right.left.bottom.equalToSuperview()
-            
         }
 
         backView.addSubview(titleBackView)

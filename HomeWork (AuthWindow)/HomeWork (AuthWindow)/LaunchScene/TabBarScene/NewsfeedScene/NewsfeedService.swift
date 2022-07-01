@@ -10,7 +10,6 @@ import Foundation
 final class NewsfeedService {
     
     func getNewsfeed(complition:@escaping (Newsfeed) -> ()) {
-        DispatchQueue.global(qos:.userInteractive).async {
         let params = ["filters": "post, photo, video",
                       "source_ids": "friends, groups",
                       "count": "100",
@@ -28,12 +27,12 @@ final class NewsfeedService {
                 do {
                     
                     let newsfeed = try JSONDecoder().decode(NewsfeedResponse.self, from: data).newsfeed
-                    complition(newsfeed)
+                    DispatchQueue.main.async {
+                        complition(newsfeed)
+                    }
                 }catch{
                     print(String(describing: error))
                 }
             }.resume()
-        }
-        
     }
 }

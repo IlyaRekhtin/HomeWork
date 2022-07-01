@@ -57,7 +57,6 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         let friend = friends[indexPath.row]
         cell.configCell(for: friend)
         cell.avatar.userPhoto.image = photoSrvice.photo(at: indexPath, by: friend.photo50)
-        cell.avatar.shadowOn()
         cell.selectionStyle = .none
         tableView.rowHeight = cell.getimageSize().height + 10
         return cell
