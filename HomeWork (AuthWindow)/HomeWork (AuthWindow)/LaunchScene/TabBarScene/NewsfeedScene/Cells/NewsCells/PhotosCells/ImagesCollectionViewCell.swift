@@ -32,7 +32,7 @@ class ImagesCollectionViewCell: UICollectionViewCell {
     }
     
     func config (_ image: Photo) {
-        let urlStr = Photo.preview(in: Array(image.sizes))
+        let urlStr = Photo.max(in: Array(image.sizes))
         guard let url = URL(string: urlStr) else {return}
         imageView.kf.setImage(with: url)
     }

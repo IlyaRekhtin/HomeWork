@@ -22,9 +22,12 @@ class NewsfeedTableViewController: UIViewController {
     private var groups = [Group]()
     private let service = NewsfeedService()
     private var tableView: UITableView!
+    private var newsfeedStartDate: String!
+    private var newsfeedNewxtFrom: String = ""
     private var pushTransition = PushImageViewTransitionAnimation()
     private var popTransition = PopImageViewTransitionAnimation()
     private var varibleSection = [CellType]()
+    private var isLoading = false
     
     
     override func viewDidLoad() {
@@ -33,27 +36,26 @@ class NewsfeedTableViewController: UIViewController {
         configTableView()
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.prefetchDataSource = self
         loadNewsfeed()
     }
     
     
-    private func loadNewsfeed() {
-        let dispatchGroup = DispatchGroup()
-        self.service.getNewsfeed { [self] newsfeed in
-            DispatchQueue.global().async(group: dispatchGroup) {
+    private func loadNewsfeed(){
+        service.getURL()
+            .then(on: .global(), service.fetchData(_:))
+            .then(on: .global(), service.parsedData(_:))
+            .done(on: .main) { [weak self] newsfeed in
+                guard let self = self else { return }
                 self.news = newsfeed.items
-            }
-            DispatchQueue.global().async(group: dispatchGroup){
                 self.profiles = newsfeed.profiles
-            }
-            DispatchQueue.global().async(group: dispatchGroup) {
                 self.groups = newsfeed.groups
-            }
-            
-            dispatchGroup.notify(queue: .main) {
+                self.newsfeedNewxtFrom = newsfeed.nextFrom ?? ""
+                self.newsfeedStartDate = String(newsfeed.items.first?.date ?? 0)
                 self.tableView.reloadData()
+            }.catch { error in
+                print(error.localizedDescription)
             }
-        }
     }
     
     private func configNavigationController(){
@@ -68,19 +70,46 @@ class NewsfeedTableViewController: UIViewController {
     
     private func configTableView() {
         tableView = UITableView(frame: self.view.bounds)
+        configRefreshControl()
         tableView.separatorStyle = .none
         tableView.register(HeaderNewsCell.self, forCellReuseIdentifier: HeaderNewsCell.reuseID)
         tableView.register(FooterNewsCell.self, forCellReuseIdentifier: FooterNewsCell.reuseID)
         tableView.register(TextNewsCell.self, forCellReuseIdentifier: TextNewsCell.reuseID)
         tableView.register(LinkNewsCell.self, forCellReuseIdentifier: LinkNewsCell.reuseID)
         tableView.register(PhotoNewsCell.self, forCellReuseIdentifier: PhotoNewsCell.reuseID)
-        tableView.register(DocViewCell.self, forCellReuseIdentifier: DocViewCell.reuseID)
+        tableView.register(DocTableViewCell.self, forCellReuseIdentifier: DocTableViewCell.reuseID)
         tableView.register(VideoTableViewCell.self, forCellReuseIdentifier: VideoTableViewCell.reuseID)
         tableView.register(Cell.self, forCellReuseIdentifier: Cell.reuseID)
         self.view.addSubview(self.tableView)
     }
     
+    private func configRefreshControl() {
+        self.tableView.refreshControl = UIRefreshControl()
+        self.tableView.refreshControl?.tintColor = .lightGray
+        self.tableView.refreshControl?.attributedTitle = NSAttributedString(string: "Обновление...")
+        self.tableView.refreshControl?.addTarget(self, action: #selector(refreshNewsfeed), for: .valueChanged)
+    }
     
+    @objc private func refreshNewsfeed() {
+        guard let date = self.newsfeedStartDate else {return}
+        service.getURL(from: date)
+            .then(on: .global(), service.fetchData(_:))
+            .then(on: .global(), service.parsedData(_:)).done(on: .main) { [weak self] newsfeed in
+                guard let self = self else { return }
+                var newItems = newsfeed.items
+                newItems.remove(at: 0)
+                if newItems.count > 0 {
+                    self.news.insert(contentsOf: newItems, at: 0)
+                    let indexSet = IndexSet(integersIn: 0 ..< newItems.count)
+                    self.tableView.insertSections(indexSet, with: .automatic)
+                    self.newsfeedStartDate = String(newItems.first?.date ?? 0)
+                }
+            }.ensure {
+                self.tableView.refreshControl?.endRefreshing()
+            }.catch { error in
+                print(error.localizedDescription)
+            }
+    }
 }
 
 //MARK: - tableview data source
@@ -163,7 +192,7 @@ extension NewsfeedTableViewController:UITableViewDelegate, UITableViewDataSource
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.reuseID, for: indexPath) as! Cell
             return cell
         case .docs:
-            let docsCell = tableView.dequeueReusableCell(withIdentifier: DocViewCell.reuseID, for: indexPath) as! DocViewCell
+            let docsCell = tableView.dequeueReusableCell(withIdentifier: DocTableViewCell.reuseID, for: indexPath) as! DocTableViewCell
             let docs = sortAttachmentForDocs(attachments?.filter{$0.type == .doc})
             docsCell.configCell(for: docs)
             return docsCell
@@ -176,6 +205,48 @@ extension NewsfeedTableViewController:UITableViewDelegate, UITableViewDataSource
             return footerCell
         }
     }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let currentNews = news[indexPath.section]
+        let attachments = currentNews.attachments
+        self.varibleSection = sectionConstruct(for: currentNews)
+        let cellType = varibleSection[indexPath.row]
+        switch cellType {
+        case .header:
+            return UITableView.automaticDimension
+        case .text:
+            return UITableView.automaticDimension
+        case .link:
+            return UITableView.automaticDimension
+        case .photos:
+            let photosItemForPostType = sortAttachmentForPhotos(attachments?.filter{$0.type == .photo})
+            switch photosItemForPostType.count {
+            case 1:
+                if let image = photosItemForPostType.last {
+                    let width = self.view.frame.width
+                    let ratio = Photo.ratio(for: image)
+                    print(ratio)
+                    let itemHight = width * ratio
+                    print(itemHight)
+                   return itemHight
+                } else {
+                    return self.view.frame.width
+                }
+            default:
+                return self.view.frame.width
+            }
+        case .video:
+            return self.view.frame.width
+        case .audio:
+            return UITableView.automaticDimension
+        case .docs:
+            return UITableView.automaticDimension
+        case .poll:
+            return UITableView.automaticDimension
+        case .footer:
+            return UITableView.automaticDimension
+        }
+    }
 }
 //MARK: - private helpers methods
 private extension NewsfeedTableViewController {
@@ -183,6 +254,7 @@ private extension NewsfeedTableViewController {
     /// - Parameter news: cвойство с типом News
     /// - Returns: массив типов ячеек в соответствии с перечислением
     func sectionConstruct(for news: News) -> [CellType] {
+        
         //возврощвемый массив
         var section = [CellType]()
         // первая строка всегда hendler(аватар и название источника новости)
@@ -238,6 +310,8 @@ private extension NewsfeedTableViewController {
         }
         return section
     }
+    
+    
     
     
     func sortAttachmentForPhotos(_ attachments: [Attachment]?) -> [Photo] {
@@ -341,3 +415,32 @@ extension NewsfeedTableViewController: NewsfeedItemTapped {
     }
 }
 
+extension NewsfeedTableViewController: UITableViewDataSourcePrefetching {
+    func tableView(_ tableView: UITableView, prefetchRowsAt indexPaths: [IndexPath]) {
+        guard let maxSection = indexPaths.map({ $0.section }).max() else {
+            return
+        }
+        
+        if maxSection > news.count - 3,
+           !isLoading {
+            isLoading.toggle()
+            
+            service.getURL(with: self.newsfeedNewxtFrom)
+                .then(on: .global(), service.fetchData(_:))
+                .then(on: .global(), service.parsedData(_:))
+                .get{ [weak self] newsfeed in
+                    self?.newsfeedNewxtFrom = newsfeed.nextFrom ?? ""
+                }
+                .done(on: DispatchQueue.main) { [weak self] newsfeed in
+                    guard let self = self else { return }
+                    let indexSet = IndexSet(integersIn: self.news.count ..< self.news.count + newsfeed.items.count)
+                    self.news.append(contentsOf: newsfeed.items)
+                    self.tableView.insertSections(indexSet, with: .automatic)
+                }.ensure {
+                    self.isLoading = false
+                }.catch { error in
+                    print(error)
+                }
+        }
+    }
+}

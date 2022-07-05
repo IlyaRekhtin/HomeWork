@@ -50,6 +50,7 @@ final class HeaderNewsCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.selectionStyle = .none
         makeConstraints()
     }
     
@@ -58,8 +59,7 @@ final class HeaderNewsCell: UITableViewCell {
     }
     
     func configCellForGroup(_ group: Group, for news: News) {
-        guard let url = URL(string: group.photo50) else {return}
-        avatar.setImage(url)
+        avatar.setImage(group.photo50)
         fullName.text = group.name
         /// формат и установка даты
         self.newsDate.text = getCurrentDate(for: news.date)
@@ -78,8 +78,7 @@ final class HeaderNewsCell: UITableViewCell {
     }
     
     func configCellForFriend(_ friend: Profile,for news: News) {
-        guard let url = URL(string: friend.photo50) else {return}
-        avatar.setImage(url)
+        avatar.setImage(friend.photo50)
         fullName.text = friend.firstName + friend.lastName
         self.newsTime.text = getCurrentTime(for: news.date)
         self.newsDate.text = getCurrentDate(for: news.date)

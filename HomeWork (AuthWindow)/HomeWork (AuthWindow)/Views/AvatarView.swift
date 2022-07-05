@@ -11,13 +11,13 @@ import Kingfisher
 
 class AvatarView: UIView {
     
-    private var userPhoto : UIImageView = {
+    var userPhoto : UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.clipsToBounds = true
         return imageView
     }()
-    private let shadowLayer = CAShapeLayer()
     
+    private let shadowLayer = CAShapeLayer()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -28,9 +28,10 @@ class AvatarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setImage(_ url: URL) {
+    func setImage(_ url: String) {
         self.userPhoto.contentMode = .scaleAspectFill
         self.userPhoto.kf.indicatorType = .activity
+        guard let url = URL(string: url) else {return}
         self.userPhoto.kf.setImage(with: url) { result in
             switch result {
             case .success(_):
@@ -73,11 +74,16 @@ private extension AvatarView {
     }
     
     func setShadow() {
-        shadowLayer.shadowColor = UIColor.gray.cgColor
-        shadowLayer.shadowRadius = 3
-        shadowLayer.shadowOpacity = 1
-        shadowLayer.shadowPath = CGPath(ellipseIn: CGRect(x: userPhoto.layer.position.x , y: userPhoto.layer.position.y + 5, width: self.frame.width + 3, height: self.frame.height + 3), transform: nil)
-        self.layer.addSublayer(shadowLayer)
+        
+            self.shadowLayer.shadowColor = UIColor.gray.cgColor
+            self.shadowLayer.shadowRadius = 3
+            self.shadowLayer.shadowOpacity = 1
+            self.shadowLayer.shadowPath = CGPath(ellipseIn: CGRect(x: self.userPhoto.layer.position.x , y: self.userPhoto.layer.position.y + 5, width: self.frame.width + 3, height: self.frame.height + 3), transform: nil)
+        
+        
+            self.layer.addSublayer(self.shadowLayer)
+        
+        
         shadowOff()
         
     }

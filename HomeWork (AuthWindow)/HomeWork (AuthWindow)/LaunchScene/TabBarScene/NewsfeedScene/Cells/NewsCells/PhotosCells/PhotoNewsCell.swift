@@ -37,15 +37,16 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     }
     
     func configCell(for photos: [Photo]) {
-        setConstraints()
+        
         self.photos = photos
+        setConstraints()
     }
 }
 //MARK: - CollectionView
  extension PhotoNewsCell {
     //    //MARK: - Setup collectionView
     func setupCollectionView() {
-        photoNewsfeedCollectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: self.layer.frame.width, height: self.layer.frame.width), collectionViewLayout: createCompositionLayout())
+        photoNewsfeedCollectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionLayout())
         photoNewsfeedCollectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         photoNewsfeedCollectionView.isScrollEnabled = false
         photoNewsfeedCollectionView.showsHorizontalScrollIndicator = false
@@ -94,9 +95,10 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
         dataSource.apply(snapShot)
     }
     
+     
+     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.newsfeedItemTapped(cell: self)
-        
     }
 }
 //MARK: - make constraints
@@ -105,6 +107,7 @@ private extension PhotoNewsCell {
         self.contentView.addSubview(photoNewsfeedCollectionView)
         photoNewsfeedCollectionView.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
+            
             make.height.equalTo(self.photoNewsfeedCollectionView.frame.height)
         }
     }
