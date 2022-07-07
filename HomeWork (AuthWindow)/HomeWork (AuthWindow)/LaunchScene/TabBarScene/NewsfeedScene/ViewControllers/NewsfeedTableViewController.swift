@@ -240,7 +240,8 @@ extension NewsfeedTableViewController:UITableViewDelegate, UITableViewDataSource
         case .audio:
             return UITableView.automaticDimension
         case .docs:
-            return UITableView.automaticDimension
+            guard let docsCount = attachments?.filter({$0.type == .doc}).count else { return 0 }
+            return CGFloat(docsCount * 60)
         case .poll:
             return UITableView.automaticDimension
         case .footer:
@@ -436,6 +437,7 @@ extension NewsfeedTableViewController: UITableViewDataSourcePrefetching {
                     let indexSet = IndexSet(integersIn: self.news.count ..< self.news.count + newsfeed.items.count)
                     self.news.append(contentsOf: newsfeed.items)
                     self.tableView.insertSections(indexSet, with: .automatic)
+                    self.newsfeedNewxtFrom = newsfeed.nextFrom ?? ""
                 }.ensure {
                     self.isLoading = false
                 }.catch { error in

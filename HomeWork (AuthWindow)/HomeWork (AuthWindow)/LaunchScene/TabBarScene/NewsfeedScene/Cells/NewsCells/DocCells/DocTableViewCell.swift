@@ -103,7 +103,6 @@ private extension DocTableViewCell {
         self.contentView.addSubview(docsCollectionView)
         docsCollectionView.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
-//            make.height.equalTo(self.docs.count * 60)
         }
     }
 }
