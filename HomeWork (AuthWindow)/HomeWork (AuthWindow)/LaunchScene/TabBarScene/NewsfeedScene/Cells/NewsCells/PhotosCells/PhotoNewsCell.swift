@@ -22,7 +22,7 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     var photoNewsfeedCollectionView: UICollectionView!
     private var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
     private let layout = MediaNewsLayout()
-    var delegate: NewsfeedItemTapped?
+//    var delegate: NewsfeedItemTapped?
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -98,7 +98,7 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
      
      
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.newsfeedItemTapped(cell: self)
+//        delegate?.newsfeedItemTapped(cell: self)
     }
 }
 //MARK: - make constraints

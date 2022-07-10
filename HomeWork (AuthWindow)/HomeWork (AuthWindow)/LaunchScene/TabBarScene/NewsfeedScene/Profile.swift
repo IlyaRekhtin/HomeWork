@@ -8,6 +8,7 @@
 import Foundation
 
 struct Profile: Codable {
+    
     let id, sex: Int?
     let photo50, photo100: String
     let onlineInfo: OnlineInfo?
@@ -16,7 +17,7 @@ struct Profile: Codable {
     let firstName, lastName: String
     let screenName: String?
     let onlineMobile, onlineApp: Int?
-    let canAccessClosed, isClosed: Bool?
+    var canAccessClosed, isClosed: Bool
 
     enum CodingKeys: String, CodingKey {
         case id, sex

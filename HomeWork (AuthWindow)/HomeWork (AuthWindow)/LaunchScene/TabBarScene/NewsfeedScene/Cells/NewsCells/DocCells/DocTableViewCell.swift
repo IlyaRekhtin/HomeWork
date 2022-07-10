@@ -36,7 +36,7 @@ final class DocTableViewCell: UITableViewCell, UICollectionViewDelegate {
         
         return section
     }()
-    var delegate: NewsfeedItemTapped?
+//    var delegate: NewsfeedItemTapped?
     
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -93,7 +93,7 @@ final class DocTableViewCell: UITableViewCell, UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        delegate?.newsfeedItemTapped(cell: self)
+//        delegate?.newsfeedItemTapped(cell: self)
         
     }
 }

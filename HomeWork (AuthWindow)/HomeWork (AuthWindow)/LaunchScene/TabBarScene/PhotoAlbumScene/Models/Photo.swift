@@ -8,7 +8,7 @@
 import UIKit
 import RealmSwift
 
-class Photo:Object, Codable, Likeble {
+class Photo: Object, Codable, Likeble{
     
     
     

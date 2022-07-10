@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import RealmSwift
 
-class Cell: UITableViewCell {
+class Cell: UICollectionViewCell {
     
     static let reuseID = "newsfeed"
     
@@ -21,9 +21,8 @@ class Cell: UITableViewCell {
         lable.numberOfLines = 0
         return lable
     }()
-
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         newsfeedText.text = "ЗАГЛУШКА"
         setConstreints()
     }

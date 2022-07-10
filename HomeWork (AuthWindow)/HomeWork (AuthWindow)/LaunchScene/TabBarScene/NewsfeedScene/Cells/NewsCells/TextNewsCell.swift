@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class TextNewsCell: UITableViewCell {
+final class TextNewsCell: UICollectionViewCell {
     
     static let reuseID = "textNewsCell"
     
@@ -32,14 +32,6 @@ final class TextNewsCell: UITableViewCell {
     }()
     
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     func configCell(for newsText: String) {
         makeConstraints()
         self.newsText.text = newsText
@@ -56,6 +48,7 @@ private extension TextNewsCell {
         self.addSubview(newsText)
         newsText.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
+            make.height.equalTo(200)
         }
         
 //        self.addSubview(moreButton)

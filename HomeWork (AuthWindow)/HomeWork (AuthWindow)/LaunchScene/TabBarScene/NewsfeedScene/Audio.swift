@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Audio
-struct Audio: Codable {
+struct Audio: Codable, Hashable {
     let artist: String?
     let id, ownerID: Int?
     let title: String?

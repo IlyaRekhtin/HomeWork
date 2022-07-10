@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-final class LinkNewsCell: UITableViewCell {
+final class LinkNewsCell: UICollectionViewCell {
     
     static let reuseID = "linkNewsCell"
     
@@ -55,10 +55,10 @@ final class LinkNewsCell: UITableViewCell {
     }()
     
     var linkURL = ""
-    var delegate: NewsfeedItemTapped?
+//    var delegate: NewsfeedItemTapped?
     
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         makeConstraints()
     }
     
@@ -76,13 +76,13 @@ final class LinkNewsCell: UITableViewCell {
         }
         self.linkTitle.text = link.title
         self.linkSubTitle.text = link.caption
-        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToLink))
-        self.addGestureRecognizer(tap)
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToLink))
+//    self.addGestureRecognizer(tap)
     }
     
-    @objc private func tapToLink() {
-        delegate?.newsfeedItemTapped(cell: self)
-    }
+//    @objc private func tapToLink() {
+//        delegate?.newsfeedItemTapped(cell: self)
+//    }
     
     
 }
