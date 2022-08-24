@@ -225,10 +225,10 @@
             </objects>
             <point key="canvasLocation" x="529" y="1542"/>
         </scene>
-        <!--Newsfeed Collection View Controller-->
+        <!--Newsfeed Table View Controller-->
         <scene sceneID="84x-EM-P85">
             <objects>
-                <viewController storyboardIdentifier="Newsfeed" id="TIz-k4-pyS" customClass="NewsfeedCollectionViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="Newsfeed" id="TIz-k4-pyS" customClass="NewsfeedTableViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Yyb-MS-5cd">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

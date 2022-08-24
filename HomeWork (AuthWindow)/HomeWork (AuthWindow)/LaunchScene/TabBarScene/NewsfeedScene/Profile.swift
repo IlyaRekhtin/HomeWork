@@ -17,7 +17,8 @@ struct Profile: Codable {
     let firstName, lastName: String
     let screenName: String?
     let onlineMobile, onlineApp: Int?
-    var canAccessClosed, isClosed: Bool
+    var canAccessClosed: Bool?
+    var isClosed: Bool?
 
     enum CodingKeys: String, CodingKey {
         case id, sex

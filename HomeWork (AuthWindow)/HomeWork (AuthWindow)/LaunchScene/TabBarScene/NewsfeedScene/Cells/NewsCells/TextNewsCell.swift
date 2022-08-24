@@ -8,7 +8,7 @@
 import UIKit
 import SnapKit
 
-final class TextNewsCell: UICollectionViewCell {
+final class TextNewsCell: UITableViewCell {
     
     static let reuseID = "textNewsCell"
     
@@ -27,7 +27,7 @@ final class TextNewsCell: UICollectionViewCell {
         newsText.isSelectable = false
         newsText.textAlignment = .left
         newsText.textColor = .black
-        newsText.font = UIFont(name: "Times New Roman", size: 16)
+        newsText.font = UIFont.mainTextFont
         return newsText
     }()
     
@@ -48,7 +48,6 @@ private extension TextNewsCell {
         self.addSubview(newsText)
         newsText.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
-            make.height.equalTo(200)
         }
         
 //        self.addSubview(moreButton)

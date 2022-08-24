@@ -22,14 +22,14 @@ final class HeaderNewsCell: UITableViewCell {
         let name = UILabel()
         name.numberOfLines = 1
         name.textAlignment = .left
-        name.font = UIFont(name: "Times New Roman", size: 16)
+        name.font = UIFont.mainTextFont
         return name
     }()
     private var newsDate: UILabel = {
         let newsDate = UILabel()
         newsDate.numberOfLines = 1
         newsDate.textAlignment = .left
-        newsDate.font = UIFont(name: "Times New Roman", size: 12)
+        newsDate.font = UIFont.subTextFont
         newsDate.textColor = .lightGray
         return newsDate
     }()
@@ -38,7 +38,7 @@ final class HeaderNewsCell: UITableViewCell {
         let newsTime = UILabel()
         newsTime.numberOfLines = 1
         newsTime.textAlignment = .left
-        newsTime.font = UIFont(name: "Times New Roman", size: 12)
+        newsTime.font = UIFont.subTextFont
         newsTime.textColor = .lightGray
         return newsTime
     }()

@@ -57,6 +57,7 @@ final class NewsfeedService {
         return Promise { resolver in
             guard let url = URL.configureURL(method: .newsfeedGet, baseURL: .api, params: params) else {
                 resolver.reject(AppError.urlError)
+                print(#function)
                 return
             }
             resolver.fulfill(url)
@@ -69,6 +70,7 @@ final class NewsfeedService {
             URLSession.shared.dataTask(with: url) { data, _, _ in
                 guard let data = data else {
                     resolver.reject(AppError.fetchError)
+                    print(#function)
                     return
                 }
                 resolver.fulfill(data)
@@ -83,6 +85,8 @@ final class NewsfeedService {
                 resolver.fulfill(newsfeed)
             }catch{
                 resolver.reject(AppError.decodeError)
+                debugPrint(error)
+                print(#function)
             }
         }
     }

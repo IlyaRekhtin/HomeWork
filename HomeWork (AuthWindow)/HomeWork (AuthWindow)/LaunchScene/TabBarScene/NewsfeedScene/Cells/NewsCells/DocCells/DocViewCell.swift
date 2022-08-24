@@ -37,7 +37,7 @@ class DocViewCell: UICollectionViewCell {
     private var docNameLable: UILabel = {
         let docNameLable = UILabel()
         docNameLable.textColor = .lightGray
-        docNameLable.font = UIFont(name: "Timaes New Roman", size: 14)
+        docNameLable.font = UIFont.mainTextFont
         docNameLable.numberOfLines = 1
         return docNameLable
     }()
@@ -45,7 +45,7 @@ class DocViewCell: UICollectionViewCell {
     private var docSubLable: UILabel = {
         let docSubLable = UILabel()
         docSubLable.textColor = .lightGray
-        docSubLable.font = UIFont(name: "Timaes New Roman", size: 14)
+        docSubLable.font = UIFont.subTextFont
         docSubLable.numberOfLines = 1
         return docSubLable
     }()

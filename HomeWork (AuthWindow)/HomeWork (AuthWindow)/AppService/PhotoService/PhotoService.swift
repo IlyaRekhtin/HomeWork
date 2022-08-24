@@ -38,7 +38,7 @@ final class PhotoService {
         self.container = Collection(collection: collectionView)
     }
     
-    func photo(at indexPath: IndexPath, by url: String) -> UIImage? {
+    func getPhoto(at indexPath: IndexPath, by url: String) -> UIImage? {
         var image: UIImage?
         
         if let photo = images[url] {

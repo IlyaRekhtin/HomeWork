@@ -9,7 +9,7 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-final class LinkNewsCell: UICollectionViewCell {
+final class LinkNewsCell: UITableViewCell {
     
     static let reuseID = "linkNewsCell"
     
@@ -41,7 +41,7 @@ final class LinkNewsCell: UICollectionViewCell {
     private var linkTitle: UILabel = {
         var linkTitle = UILabel()
         linkTitle.textColor = .black
-        linkTitle.font = UIFont(name: "Times New Roman", size: 16)
+        linkTitle.font = UIFont.mainTextFont
         linkTitle.numberOfLines = 2
         return linkTitle
     }()
@@ -49,16 +49,16 @@ final class LinkNewsCell: UICollectionViewCell {
     private var linkSubTitle: UILabel = {
         var linkSubTitle = UILabel()
         linkSubTitle.textColor = .lightGray
-        linkSubTitle.font = UIFont(name: "Times New Roman", size: 14)
+        linkSubTitle.font = UIFont.subTextFont
         linkSubTitle.numberOfLines = 1
         return linkSubTitle
     }()
     
     var linkURL = ""
-//    var delegate: NewsfeedItemTapped?
+    var delegate: NewsfeedItemTapped?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
         makeConstraints()
     }
     
@@ -67,6 +67,7 @@ final class LinkNewsCell: UICollectionViewCell {
     }
     
     func configCell(for link: Link) {
+        
         self.linkURL = link.url
         DispatchQueue.main.async {
             guard let photos = link.photo else {return}
@@ -76,13 +77,13 @@ final class LinkNewsCell: UICollectionViewCell {
         }
         self.linkTitle.text = link.title
         self.linkSubTitle.text = link.caption
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToLink))
-//    self.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(target: self, action: #selector(tapToLink))
+    self.addGestureRecognizer(tap)
     }
     
-//    @objc private func tapToLink() {
-//        delegate?.newsfeedItemTapped(cell: self)
-//    }
+    @objc private func tapToLink() {
+        delegate?.newsfeedItemTapped(cell: self)
+    }
     
     
 }

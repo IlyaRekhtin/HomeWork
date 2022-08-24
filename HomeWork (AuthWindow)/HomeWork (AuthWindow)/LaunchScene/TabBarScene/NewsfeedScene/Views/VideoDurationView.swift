@@ -18,7 +18,7 @@ final class VideoDurationView: UIView {
     
     private let lableForTime: UILabel = {
         var lable = UILabel(frame: .zero)
-        lable.font = UIFont(name: "Times New Roman", size: 12)
+        lable.font = UIFont.subTextFont
         lable.textColor = .white
         return lable
     }()

@@ -33,7 +33,7 @@ final class FooterNewsCell: UITableViewCell {
     private var views: UILabel = {
         var views = UILabel()
         views.textColor = .gray
-        views.font = UIFont(name: "Times New Roman", size: 14)
+        views.font = UIFont.mainTextFont
         views.contentMode = .center
         return views
     }()

@@ -12,7 +12,9 @@ import RealmSwift
 class FriendsViewController: UIViewController {
     
     private let service = FriendsService()
+    
     private var photoSrvice: PhotoService!
+    
     private var tableView: UITableView!
     private var token: NotificationToken?
     private var nameSearchControl: NameSearchControl!
@@ -56,7 +58,7 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         guard let friends = self.friends else {return cell}
         let friend = friends[indexPath.row]
         cell.configCell(for: friend)
-        cell.avatar.userPhoto.image = photoSrvice.photo(at: indexPath, by: friend.photo50)
+        cell.avatar.userPhoto.image = photoSrvice.getPhoto(at: indexPath, by: friend.photo50)
         cell.selectionStyle = .none
         tableView.rowHeight = cell.getimageSize().height + 10
         return cell

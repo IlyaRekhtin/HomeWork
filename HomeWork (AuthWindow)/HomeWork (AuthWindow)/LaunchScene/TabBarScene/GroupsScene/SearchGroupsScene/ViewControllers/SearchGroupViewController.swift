@@ -91,7 +91,7 @@ private extension SearchGroupViewController {
         cancelButton.configuration?.title = "Отменить"
         cancelButton.configuration?.baseForegroundColor = .systemGreen
         cancelButton.configuration?.titleAlignment = .center
-        cancelButton.titleLabel?.font = UIFont(name: "Times New Roman", size: 17)
+        cancelButton.titleLabel?.font = UIFont.mainTextFont
         cancelButton.layer.opacity = 0
     }
     

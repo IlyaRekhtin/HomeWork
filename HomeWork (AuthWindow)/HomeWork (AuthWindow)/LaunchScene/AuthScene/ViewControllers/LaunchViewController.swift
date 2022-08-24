@@ -13,8 +13,7 @@ import SystemConfiguration
 
 class LaunchViewController: UIViewController {
     
-    private let service = NewsfeedService()
-    private var loadImage = getStartImage(frame: CGRect(x: 0, y: 0, width: 90, height: 65))
+    private var loadImage = StartImage(frame: CGRect(x: 0, y: 0, width: 90, height: 65))
     private lazy var appImageView: UIImageView = {
         let appImageView = UIImageView(frame: CGRect(origin: .zero, size: .zero))
         appImageView.image = UIImage(named: "VKLable")
@@ -22,7 +21,6 @@ class LaunchViewController: UIViewController {
         appImageView.contentMode = .scaleAspectFit
         return appImageView
     }()
-    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -34,10 +32,6 @@ class LaunchViewController: UIViewController {
         self.view.backgroundColor = .systemMint
         makeConstraints()
     }
-    
-  
-
-    
 }
 
 

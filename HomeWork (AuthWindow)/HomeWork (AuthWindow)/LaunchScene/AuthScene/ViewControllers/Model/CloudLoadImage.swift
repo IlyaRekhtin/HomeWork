@@ -35,7 +35,7 @@ class CloudLoadImage : NSObject {
         let context = UIGraphicsGetCurrentContext()!
 
         //// Color Declarations
-        let color2 = UIColor(red: 0.632, green: 1.000, blue: 0.632, alpha: 1.000)
+         let color2 = UIColor.loadIconColor
 
         //// Shadow Declarations
         let shadow = NSShadow()
@@ -72,7 +72,7 @@ class CloudLoadImage : NSObject {
 
 }
 
-class getStartImage: UIView {
+class StartImage: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
