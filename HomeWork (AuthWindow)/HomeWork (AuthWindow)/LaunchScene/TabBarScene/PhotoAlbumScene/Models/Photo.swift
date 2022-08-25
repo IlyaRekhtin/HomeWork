@@ -57,7 +57,10 @@ class Photo: Object, Codable, Likeble{
         return height / width
     }
     
-    static func preview(in sizes: [Size]) -> String {
+    static func preview(in sizes: [Size]?) -> String {
+        guard let sizes = sizes else {
+            return ""
+        }
         var size = Size()
         for currentSize in sizes {
             if size <= currentSize, currentSize.width ?? 1 <= 300 {

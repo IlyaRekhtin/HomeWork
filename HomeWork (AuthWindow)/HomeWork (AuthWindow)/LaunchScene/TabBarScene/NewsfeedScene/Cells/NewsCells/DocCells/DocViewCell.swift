@@ -12,20 +12,6 @@ class DocViewCell: UICollectionViewCell {
     
     static var reuseID = "DocViewCell"
     
-    private let mbait = 0.0000009537
-    
-    //    private var docButton: UIButton = {
-    //        var config = UIButton.Configuration.plain()
-    //        config.baseBackgroundColor = .lightGray
-    //        config.baseForegroundColor = .darkGray
-    //        config.image = UIImage(systemName: "doc.circle")
-    //        config.imagePadding = 20
-    //        config.titleAlignment = .leading
-    //        config.buttonSize = .large
-    //        let button = UIButton(configuration: config)
-    //        return button
-    //    }()
-    
     private let docImage: UIImageView = {
         let docImage = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         docImage.tintColor = .lightGray
@@ -67,24 +53,10 @@ class DocViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    func configCell(for doc: Doc) {
-        self.docNameLable.text = doc.title
-        guard let size = doc.size else {return}
-        let docSize = NSString(format: "%.1f", Double(size) * mbait)
-        let docDate = getCurrentTime(for: doc.date ?? 0)
-        self.docSubLable.text = "\(docSize) Mb ・ \(docDate)"
+    func configCell(for doc: DocViewModel) {
+        self.docNameLable.text = doc.docNameLable
+        self.docSubLable.text = doc.docSubLable
     }
-    
-    private func getCurrentTime(for timeInterval: Int) -> String {
-        let dateNews = Date(timeIntervalSince1970: Double(timeInterval))
-        let dateFormatterForTime = DateFormatter()
-        dateFormatterForTime.timeZone = .current
-        dateFormatterForTime.locale = .current
-        dateFormatterForTime.dateFormat = "dd.MM.yy HH:mm"
-        return dateFormatterForTime.string(from: dateNews)
-    }
-    
 }
 //MARK: - make constraints
 private extension DocViewCell {

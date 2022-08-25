@@ -31,30 +31,18 @@ final class TextNewsCell: UITableViewCell {
         return newsText
     }()
     
-    
     func configCell(for newsText: String) {
         makeConstraints()
         self.newsText.text = newsText
         //TODO button
     }
-    
-    
-    
 }
 //MARK: - make constrainst
 private extension TextNewsCell {
     func makeConstraints() {
-        
         self.addSubview(newsText)
         newsText.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
         }
-        
-//        self.addSubview(moreButton)
-//        moreButton.snp.makeConstraints { make in
-//            make.top.equalTo(self.newsText.snp.bottom).offset(5)
-//            make.bottom.left.right.equalToSuperview()
-//
-//        }
     }
 }

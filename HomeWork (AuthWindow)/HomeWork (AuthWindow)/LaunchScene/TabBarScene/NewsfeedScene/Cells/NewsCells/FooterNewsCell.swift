@@ -42,12 +42,6 @@ final class FooterNewsCell: UITableViewCell {
     private var id = 0
     private var owner = 0
     
-//    private let separateView: UIView = {
-//        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 5))
-//        view.backgroundColor = .opaqueSeparator
-//        return view
-//    }()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         makeConstraints()
@@ -70,8 +64,7 @@ final class FooterNewsCell: UITableViewCell {
     
     
     @objc private func likeButtonTap() {
-//        guard let item = self.item else {return}
-//        self.likeButton.updateLikeButton(for: item)
+        
     }
     
     

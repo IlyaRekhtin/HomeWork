@@ -13,7 +13,7 @@ class Friend: Object, Codable {
     @Persisted var city: City?
     @Persisted var firstName: String
     @Persisted var lastName: String
-    @Persisted var isClosed: Bool
+    @Persisted var isClosed: Bool?
     @Persisted var photo50: String
     
     override class func primaryKey() -> String? {

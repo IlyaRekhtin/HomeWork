@@ -13,14 +13,14 @@ final class DocTableViewCell: UITableViewCell, UICollectionViewDelegate {
     
     static let reuseID = "docTableViewCell"
     
-    var docs = [Doc](){
+    var docs = [DocViewModel](){
         didSet {
             self.reloadData()
         }
     }
     
     var docsCollectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Int, Doc>!
+    private var dataSource: UICollectionViewDiffableDataSource<Int, DocViewModel>!
     private let layout: NSCollectionLayoutSection = {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),
                                               heightDimension:.fractionalHeight(1))
@@ -50,7 +50,7 @@ final class DocTableViewCell: UITableViewCell, UICollectionViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configCell(for docs: [Doc]) {
+    func configCell(for docs: [DocViewModel]) {
         self.docs = docs
         setConstraints()
     }
@@ -77,7 +77,7 @@ final class DocTableViewCell: UITableViewCell, UICollectionViewDelegate {
     }
     //    //MARK: - create Data Source
     func createDataSourse() {
-        dataSource = UICollectionViewDiffableDataSource<Int, Doc>(collectionView: self.docsCollectionView,
+        dataSource = UICollectionViewDiffableDataSource<Int, DocViewModel>(collectionView: self.docsCollectionView,
                                                                     cellProvider: { (collectionView, indexPuth, model) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: DocViewCell.reuseID, for: indexPuth) as! DocViewCell
             cell.configCell(for: self.docs[indexPuth.row])
@@ -86,7 +86,7 @@ final class DocTableViewCell: UITableViewCell, UICollectionViewDelegate {
     }
     
     func reloadData(){
-        var snapShot = NSDiffableDataSourceSnapshot<Int, Doc>()
+        var snapShot = NSDiffableDataSourceSnapshot<Int, DocViewModel>()
         snapShot.appendSections([1])
         snapShot.appendItems(docs)
         dataSource.apply(snapShot)

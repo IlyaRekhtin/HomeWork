@@ -8,14 +8,15 @@
 import Foundation
 import RealmSwift
 
-class Group:Object, Codable {
+class Group:Object, Codable, HeaderProtocol {
+    var lastName: String?
     @Persisted var id: Int
     @Persisted var name: String
     @Persisted var screenName: String
     @Persisted var isClosed: Int
     @Persisted var isMember: Int
     @Persisted var type: String
-    @Persisted var photo50: String
+    @Persisted var avatar: String
     @Persisted var itemDescription: String?
     
     override class func primaryKey() -> String? {
@@ -28,7 +29,7 @@ class Group:Object, Codable {
         case isClosed = "is_closed"
         case isMember = "is_member"
         case type
-        case photo50 = "photo_50"
+        case avatar = "photo_50"
         case itemDescription = "description"
     }
 }

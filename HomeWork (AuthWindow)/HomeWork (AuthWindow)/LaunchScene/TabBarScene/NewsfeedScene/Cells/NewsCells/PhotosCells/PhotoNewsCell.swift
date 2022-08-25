@@ -12,15 +12,17 @@ import Kingfisher
 final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     
     static let reuseID = "photoNewsCell"
+  
+    var photos = [Photo]()
     
-    var photos = [Photo](){
+    var photoViewModels = [PhotoViewModel]() {
         didSet {
             self.reloadData()
         }
     }
     
     var photoNewsfeedCollectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
+    private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoViewModel>!
     private let layout = MediaNewsLayout()
     var delegate: NewsfeedItemTapped?
     
@@ -30,16 +32,15 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
         setupCollectionView()
         self.photoNewsfeedCollectionView.delegate = self
         createDataSourse()
+        setConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configCell(for photos: [Photo]) {
-        
-        self.photos = photos
-        setConstraints()
+    func configCell(for photos: [PhotoViewModel]) {
+        self.photoViewModels = photos
     }
 }
 //MARK: - CollectionView
@@ -59,7 +60,7 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
             
-            switch self.photos.count {
+            switch self.photoViewModels.count {
             case 1:
                 return self.layout.createLayoutForNewsImage()
             case 2:
@@ -80,18 +81,20 @@ final class PhotoNewsCell: UITableViewCell, UICollectionViewDelegate {
     }
     //    //MARK: - create Data Source
     func createDataSourse() {
-        dataSource = UICollectionViewDiffableDataSource<Int, Photo>(collectionView: self.photoNewsfeedCollectionView,
+        dataSource = UICollectionViewDiffableDataSource<Int, PhotoViewModel>(collectionView: self.photoNewsfeedCollectionView,
                                                                     cellProvider: { (collectionView, indexPuth, model) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ImagesCollectionViewCell.reuseID, for: indexPuth) as! ImagesCollectionViewCell
-            cell.config(self.photos[indexPuth.row])
+           
+            cell.config(self.photoViewModels[indexPuth.row])
+            
             return cell
         })
     }
     
     func reloadData(){
-        var snapShot = NSDiffableDataSourceSnapshot<Int, Photo>()
+        var snapShot = NSDiffableDataSourceSnapshot<Int, PhotoViewModel>()
         snapShot.appendSections([1])
-        snapShot.appendItems(photos)
+        snapShot.appendItems(photoViewModels)
         dataSource.apply(snapShot)
     }
     
@@ -107,7 +110,6 @@ private extension PhotoNewsCell {
         self.contentView.addSubview(photoNewsfeedCollectionView)
         photoNewsfeedCollectionView.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
-            
             make.height.equalTo(self.photoNewsfeedCollectionView.frame.height)
         }
     }

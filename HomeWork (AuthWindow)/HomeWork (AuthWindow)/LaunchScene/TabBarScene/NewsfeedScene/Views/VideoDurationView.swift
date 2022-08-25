@@ -27,7 +27,7 @@ final class VideoDurationView: UIView {
         super.init(frame: frame)
         self.layer.cornerRadius = 7
         self.clipsToBounds = true
-        self.backgroundColor = .lightGray
+        self.backgroundColor = .clear
         makeConstraints()
     }
     
