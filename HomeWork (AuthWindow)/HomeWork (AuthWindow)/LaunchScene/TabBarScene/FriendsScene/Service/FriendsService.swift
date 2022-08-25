@@ -19,7 +19,6 @@ final class FriendsService {
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion
         ]
-        
         guard let url = URL.configureURL(method: .friendsGet, baseURL: .api, params: params) else {return}
         let request = URLRequest(url: url)
         

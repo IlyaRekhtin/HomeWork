@@ -17,20 +17,18 @@ class FriendsViewController: UIViewController {
     
     private var tableView: UITableView!
     private var token: NotificationToken?
-    private var nameSearchControl: NameSearchControl!
     
     private var friends: Results<Friend>?{
         let objects = self.service.readFriendsFromDatabase()
         return objects.sorted(byKeyPath: "firstName", ascending: true)
     }
     
-    private var firstLettersOfNames = [String]()
-  
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        firstLettersOfNames = self.getFirstLettersOfTheNameList(in: friends!)
         configurationsForTableView()
+        makeConstraints()
+        addNotificationToken()
+        
         service.fetchFriendsFromNetworkAndSaveToDatabase()
         self.photoSrvice = PhotoService(tableView: self.tableView)
         tableView.delegate = self
@@ -46,6 +44,27 @@ class FriendsViewController: UIViewController {
         token?.invalidate()
     }
 }
+//MARK: - private
+private extension FriendsViewController {
+    func configurationsForTableView() {
+        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
+        tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.reuseID)
+    }
+    //MARK: - NavBarSettings
+    func configNavigationController(){
+        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.tintColor = .systemGreen
+        navigationItem.backButtonTitle = ""
+        tabBarController?.tabBar.isHidden = false
+    }
+    
+    @IBAction func exitForAccount(_ sender: Any) {
+        //TODO
+    }
+}
 
 extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     //MARK: - настройка ячейки
@@ -59,6 +78,7 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         let friend = friends[indexPath.row]
         cell.configCell(for: friend)
         cell.avatar.userPhoto.image = photoSrvice.getPhoto(at: indexPath, by: friend.photo50)
+        
         cell.selectionStyle = .none
         tableView.rowHeight = cell.getimageSize().height + 10
         return cell
@@ -73,58 +93,20 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
         vc.lastName = friend.lastName
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    
-    //MARK: - вспомогательные функции
-    
-    /// Распределение пользователей по с екциям
-    /// - Parameters:
-    ///   - friends: массив пользователей
-    ///   - letterForFilter: Инициал имени
-    /// - Returns: массив полдьзователей с указанным инициалом
-    private func filterUsersForSection(_ friends: Results<Friend>, _ letterForFilter: String) -> Results<Friend> {
-        let arrayUsersForSection = friends.where {
-            $0.firstName.starts(with: letterForFilter)
+}
+
+//MARK: - make constraints
+private extension FriendsViewController {
+    func makeConstraints(){
+        self.view.addSubview(tableView)
+        tableView.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.equalToSuperview()
         }
-        return arrayUsersForSection
-    }
-    
-    func getFirstLettersOfTheNameList(in nameList: Results<Friend>) -> [String] {
-        var array = Set<String>()
-        for user in nameList {
-            array.insert(String(user.firstName.first!))
-        }
-        return array.sorted()
-    }
-    
-    func getFirstLettersOfTheSecondName(in nameList: Results<Friend>) -> [String]  {
-        var array = Set<String>()
-        for user in nameList {
-            array.insert(String(user.lastName.first!))
-        }
-        return array.sorted()
     }
 }
 
+//MARK: - Notification token
 private extension FriendsViewController {
-    //MARK: - NavBarSettings
-    func configNavigationController(){
-        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.tintColor = .systemGreen
-        navigationItem.backButtonTitle = ""
-        tabBarController?.tabBar.isHidden = false
-    }
-    
-    func configurationsForTableView() {
-        tableView = UITableView(frame: CGRect(x: 0, y: 0, width: 100, height: 100))
-        tableView.register(FriendsTableViewCell.self, forCellReuseIdentifier: FriendsTableViewCell.reuseID)
-        addNotificationToken()
-        configurationForNameSearchControl()
-        setConstraints()
-    }
-    
     func  addNotificationToken() {
         self.token = friends?.observe { [weak self] result in
             guard let self = self else { return }
@@ -151,49 +133,4 @@ private extension FriendsViewController {
             }
         }
     }
-    
-    
-    func configurationForNameSearchControl() {
-        nameSearchControl = NameSearchControl(frame: CGRect(x: 0, y: 0, width: 40, height: 200))
-        
-        createLableForNameSearchControl(firstLettersOfNames)
-        nameSearchControl.addButtonsForControl(for: nameSearchControl.letters)
-        
-        nameSearchControl.addAction(UIAction(handler: { _ in
-            self.tableView.scrollToRow(at: self.nameSearchControl.indexPuth!, at: .top, animated: true)
-        }), for: .touchCancel)
-    }
-    
-    func createLableForNameSearchControl(_ letters: [String]) {
-        for letter in letters {
-            let lable = UILabel(frame: CGRect(x: 0, y: 0, width: 25, height: 25))
-            lable.text = letter
-            lable.textColor = .systemGreen
-            self.nameSearchControl.letters.append(lable)
-        }
-    }
-    
-    @IBAction func exitForAccount(_ sender: Any) {
-        //TODO
-    }
 }
-
-//MARK: - make constraints
-private extension FriendsViewController {
-    
-    func setConstraints(){
-        self.view.addSubview(tableView)
-        tableView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalToSuperview()
-        }
-        
-        self.view.addSubview(nameSearchControl)
-        nameSearchControl.snp.makeConstraints { make in
-            make.top.equalToSuperview().inset(100)
-            make.bottom.equalToSuperview().inset(100)
-            make.trailing.equalToSuperview().inset(8)
-        }
-    }
-    
-}
-

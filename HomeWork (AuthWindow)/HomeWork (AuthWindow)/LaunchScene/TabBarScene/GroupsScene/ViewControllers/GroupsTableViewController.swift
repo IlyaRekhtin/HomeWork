@@ -11,7 +11,7 @@ import FirebaseFirestore
 
 class GroupsTableViewController: UIViewController {
     
-    private let service = GroupsService()
+    private let service = GroupAdapter()
     private var groups: Results<Group>? {
         DataManager.data.readFromDatabase(Group.self).filter("isMember == 1")
     }
@@ -28,7 +28,7 @@ class GroupsTableViewController: UIViewController {
         super.viewDidLoad()
         configNavigationController()
         configurationsForTableView()
-        loadGroups()
+        service.fetchAndWriteGroupsInRealm()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
@@ -51,16 +51,6 @@ class GroupsTableViewController: UIViewController {
             make.top.leading.trailing.bottom.equalToSuperview()
         }
         addNotificationToken()
-    }
-    
-    private func loadGroups() {
-        service.getURL()
-            .then(on: .global(), service.fetchData(_:))
-            .then(on: .global(), service.parsedData(_:)).done(on: .global()) { groups in
-                self.service.writeGroupsToDatabase(groups)
-            }.catch { error in
-                print(error.localizedDescription)
-            }
     }
     
     

@@ -76,7 +76,7 @@
 		8C8CF59A28B6903900787317 /* UIColor + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8CF59928B6903800787317 /* UIColor + extension.swift */; };
 		8C8CF59C28B6919400787317 /* UIFont + extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8CF59B28B6919400787317 /* UIFont + extension.swift */; };
 		8C8CF59E28B6BE3100787317 /* NewsfeedAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8CF59D28B6BE3100787317 /* NewsfeedAdapter.swift */; };
-		8C8CF5A028B6C5BF00787317 /* FriendsAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8CF59F28B6C5BF00787317 /* FriendsAdapter.swift */; };
+		8C8CF5A428B6D36300787317 /* GroupAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8CF5A328B6D36300787317 /* GroupAdapter.swift */; };
 		8C91DA4B287414870061EB58 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 8C91DA4A287414870061EB58 /* FirebaseDatabase */; };
 		8C91DA4D287414870061EB58 /* FirebaseDatabaseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8C91DA4C287414870061EB58 /* FirebaseDatabaseSwift */; };
 		8C91DA4F287414870061EB58 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8C91DA4E287414870061EB58 /* FirebaseFirestore */; };
@@ -190,7 +190,7 @@
 		8C8CF59928B6903800787317 /* UIColor + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + extension.swift"; sourceTree = "<group>"; };
 		8C8CF59B28B6919400787317 /* UIFont + extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + extension.swift"; sourceTree = "<group>"; };
 		8C8CF59D28B6BE3100787317 /* NewsfeedAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsfeedAdapter.swift; sourceTree = "<group>"; };
-		8C8CF59F28B6C5BF00787317 /* FriendsAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendsAdapter.swift; sourceTree = "<group>"; };
+		8C8CF5A328B6D36300787317 /* GroupAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupAdapter.swift; sourceTree = "<group>"; };
 		8C9FE68A280F39BD00AA223E /* PhotosResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosResponse.swift; sourceTree = "<group>"; };
 		8CA0852B28149EF9004CB2C6 /* NewsfeedResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsfeedResponse.swift; sourceTree = "<group>"; };
 		8CA0852D2814AA88004CB2C6 /* GroupsResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupsResponse.swift; sourceTree = "<group>"; };
@@ -378,7 +378,6 @@
 			children = (
 				8C43789D284410B8005ACB5F /* FriendsService.swift */,
 				8CFD113E285D087900130C31 /* ParseDataToFriendsOperation.swift */,
-				8C8CF59F28B6C5BF00787317 /* FriendsAdapter.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -795,6 +794,7 @@
 			isa = PBXGroup;
 			children = (
 				8CCD363B283C1ED000847F7A /* GroupsService.swift */,
+				8C8CF5A328B6D36300787317 /* GroupAdapter.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1049,7 +1049,6 @@
 				8C79566B28240185009C7EB1 /* Likeble.swift in Sources */,
 				8C1D26A9283160DB00DE252B /* Extension URL.swift in Sources */,
 				262A843627B83DBC00B2DD65 /* AppDelegate.swift in Sources */,
-				8C8CF5A028B6C5BF00787317 /* FriendsAdapter.swift in Sources */,
 				8C167A2D284AA4AB00214B83 /* Profile.swift in Sources */,
 				26E633DE27EB4BA90064CFAA /* NewsfeedTableViewController.swift in Sources */,
 				8CD2EE5F28073083001F6AA7 /* PhotoAlbumVC.swift in Sources */,
@@ -1112,6 +1111,7 @@
 				8CA0852C28149EF9004CB2C6 /* NewsfeedResponse.swift in Sources */,
 				8C4378A128441317005ACB5F /* NewsfeedService.swift in Sources */,
 				8C7C0030287B746A0055F43E /* NewsItemProtocol.swift in Sources */,
+				8C8CF5A428B6D36300787317 /* GroupAdapter.swift in Sources */,
 				8C8A79EC283264E200C9B551 /* PushImageViewTransitionAnimation.swift in Sources */,
 				8CBFB1A6284928EB00E8FC2D /* ButtonForAddGroup.swift in Sources */,
 				262A843827B83DBC00B2DD65 /* SceneDelegate.swift in Sources */,
