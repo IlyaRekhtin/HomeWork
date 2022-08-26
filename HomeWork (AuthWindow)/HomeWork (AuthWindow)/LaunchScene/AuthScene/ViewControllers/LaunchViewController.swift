@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 import RealmSwift
-import FirebaseDatabase
 import SystemConfiguration
 
 class LaunchViewController: UIViewController {

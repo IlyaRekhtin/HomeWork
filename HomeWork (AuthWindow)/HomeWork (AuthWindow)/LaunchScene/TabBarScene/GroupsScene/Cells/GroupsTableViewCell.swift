@@ -9,7 +9,6 @@ import UIKit
 import SnapKit
 import Kingfisher
 import RealmSwift
-import FirebaseFirestore
 
 class GroupsTableViewCell: UITableViewCell {
     
@@ -81,19 +80,19 @@ class GroupsTableViewCell: UITableViewCell {
             service.leaveGroup(self.activeGroup)
         }
         /// кастим до firestore модели
-        let addGroup = AddedGroup(name: activeGroup.name, id: activeGroup.id)
+//        let addGroup = AddedGroup(name: activeGroup.name, id: activeGroup.id)
         do {
             let realm = try Realm()
             try realm.write {
                 if activeGroup.isMember == 0 {
                     realm.add(activeGroup, update: .modified)
                     addGroupButton.configuration?.image = UIImage(systemName: "checkmark")!
-                    saveToFirestore(addGroup)
+//                    saveToFirestore(addGroup)
                     activeGroup.isMember = 1
                 } else {
                     activeGroup.isMember = 0
                     addGroupButton.configuration?.image = UIImage(systemName: "plus")!
-                    deleteFromFirestore(addGroup)
+//                    deleteFromFirestore(addGroup)
                     
                 }
             }
@@ -102,21 +101,21 @@ class GroupsTableViewCell: UITableViewCell {
         }
     }
     
-    //MARK: - Firestore
-    private func saveToFirestore(_ group: AddedGroup) {
-        let dataBase = Firestore.firestore()
-        dataBase.collection(String(Session.data.id)).document(group.name).setData(group.toAnyObject(), merge: true) { error in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                print("data saved")
-            }
-        }
-    }
-    private func deleteFromFirestore(_ group: AddedGroup) {
-        let dataBase = Firestore.firestore()
-        dataBase.collection(String(Session.data.id)).document(group.name).delete()
-    }
+//    //MARK: - Firestore
+//    private func saveToFirestore(_ group: AddedGroup) {
+//        let dataBase = Firestore.firestore()
+//        dataBase.collection(String(Session.data.id)).document(group.name).setData(group.toAnyObject(), merge: true) { error in
+//            if let error = error {
+//                print(error.localizedDescription)
+//            } else {
+//                print("data saved")
+//            }
+//        }
+//    }
+//    private func deleteFromFirestore(_ group: AddedGroup) {
+//        let dataBase = Firestore.firestore()
+//        dataBase.collection(String(Session.data.id)).document(group.name).delete()
+//    }
     
     private func setConstraints() {
         contentView.addSubview(groupImage)

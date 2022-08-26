@@ -8,7 +8,6 @@
 import UIKit
 import WebKit
 import SnapKit
-import FirebaseDatabase
 
 class AuthViewController: UIViewController {
     
@@ -20,7 +19,6 @@ class AuthViewController: UIViewController {
         webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
-    private let ref = Database.database().reference(withPath: "users")
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,7 +59,7 @@ extension AuthViewController: WKNavigationDelegate{
             Session.data.id = Int(id)!
             Session.data.token = token
             decisionHandler(.cancel)
-            addUserFromFireBaseDB()
+//            addUserFromFireBaseDB()
             guard let vc = self.storyboard?.instantiateViewController(withIdentifier: "TabBarController") as? TabBarController else {return}
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: false)
@@ -83,11 +81,11 @@ private extension AuthViewController {
     }
 }
 
-//MARK: - firebase
-private extension AuthViewController {
-    func addUserFromFireBaseDB() {
-        let currentUser = CurrentUser(id: Session.data.id)
-        let currentUserRef = ref.child(String(Session.data.id).lowercased())
-        currentUserRef.setValue(currentUser.toAnyObject())
-    }
-}
+////MARK: - firebase
+//private extension AuthViewController {
+//    func addUserFromFireBaseDB() {
+//        let currentUser = CurrentUser(id: Session.data.id)
+//        let currentUserRef = ref.child(String(Session.data.id).lowercased())
+//        currentUserRef.setValue(currentUser.toAnyObject())
+//    }
+//}
