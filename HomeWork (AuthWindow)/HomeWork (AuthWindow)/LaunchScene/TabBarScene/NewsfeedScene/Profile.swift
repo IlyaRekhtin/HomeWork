@@ -7,24 +7,26 @@
 
 import Foundation
 
-struct Profile: Codable {
+struct Profile: Codable, HeaderProtocol {
+
     let id, sex: Int?
-    let photo50, photo100: String
+    let avatar, photo100: String
     let onlineInfo: OnlineInfo?
     let online: Int?
     let deactivated: String?
-    let firstName, lastName: String
+    let name: String
+    let lastName: String?
     let screenName: String?
     let onlineMobile, onlineApp: Int?
-    let canAccessClosed, isClosed: Bool?
-
+    var canAccessClosed: Bool?
+    var isClosed: Bool?
     enum CodingKeys: String, CodingKey {
         case id, sex
-        case photo50 = "photo_50"
+        case avatar = "photo_50"
         case photo100 = "photo_100"
         case onlineInfo = "online_info"
         case online, deactivated
-        case firstName = "first_name"
+        case name = "first_name"
         case lastName = "last_name"
         case screenName = "screen_name"
         case onlineMobile = "online_mobile"

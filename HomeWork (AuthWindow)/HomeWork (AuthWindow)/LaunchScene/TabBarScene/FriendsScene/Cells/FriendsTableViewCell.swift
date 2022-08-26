@@ -14,21 +14,23 @@ class FriendsTableViewCell: UITableViewCell {
     
     static let reuseID = "CellFriends"
 
-    private var avatar: AvatarView = {
+    var avatar: AvatarView = {
         let imageView = AvatarView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
         return imageView
     }()
+    
+   
     private var fullName: UILabel = {
         let lable = UILabel()
         lable.textColor = .black
-        lable.font = UIFont(name: "Times New Roman", size: 16)
+        lable.font = UIFont.mainTextFont
         return lable
     }()
     
     private var city: UILabel = {
         let lable = UILabel()
         lable.textColor = .lightGray
-        lable.font = UIFont(name: "Times New Roman", size: 14)
+        lable.font = UIFont.subTextFont
         lable.alpha = 0.9
         return lable
     }()
@@ -47,10 +49,6 @@ class FriendsTableViewCell: UITableViewCell {
     
     
     func configCell(for friend: Friend) {
-        guard let url = URL(string: friend.photo50) else {return}
-        
-        avatar.setImage(url)
-        
         city.text = friend.city?.title
         fullName.text = "\(friend.firstName) \(friend.lastName)"
     }

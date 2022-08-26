@@ -19,7 +19,6 @@ final class FriendsService {
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion
         ]
-        
         guard let url = URL.configureURL(method: .friendsGet, baseURL: .api, params: params) else {return}
         let request = URLRequest(url: url)
         
@@ -30,7 +29,7 @@ final class FriendsService {
         parseDataOperation.addDependency(fetchDataOperation)
         queue.addOperation(parseDataOperation)
         
-        let writeDataToDatabase = WriteDataToDatabaseOperation(parseDataOperation.friends)
+        let writeDataToDatabase = WriteDataToDatabaseOperation()
         writeDataToDatabase.addDependency(parseDataOperation)
         queue.addOperation(writeDataToDatabase)
     }

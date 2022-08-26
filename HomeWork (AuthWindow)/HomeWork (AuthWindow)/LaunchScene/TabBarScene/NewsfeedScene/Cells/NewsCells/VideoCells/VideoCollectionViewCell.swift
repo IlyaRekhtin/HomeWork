@@ -36,25 +36,22 @@ class VideoCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setConstraints()
+        makeConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func config (for video: Video) {
-        guard let image = video.image else {return}
-        let startImageUrlStr = Photo.preview(in: image)
-        guard let url = URL(string: startImageUrlStr) else {return}
+    func config (for video: VideoViewModel) {
+        guard let url = URL(string: video.image) else {return}
         imageView.kf.setImage(with: url)
-        guard let videoDuration = video.duration else {return}
-        videoDurationView.setTime(for: videoDuration)
+        videoDurationView.setTime(for: video.duration)
     }
-    
-    
-    
-    private func setConstraints() {
+}
+//MARK: - snap kit
+private extension VideoCollectionViewCell {
+    func makeConstraints() {
         addSubview(imageView)
         imageView.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalToSuperview()

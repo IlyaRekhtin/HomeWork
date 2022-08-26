@@ -8,23 +8,21 @@
 import Foundation
 import RealmSwift
 
-class WriteDataToDatabaseOperation<T:Object>: Operation {
+class WriteDataToDatabaseOperation<T:Object>: AsyncOperation {
     
-    var items: [T]
-    
-    init(_ items: [T]) {
-        self.items = items
-    }
     
     override func main() {
-        saveObjectToDatabase(items)
+        saveObjectToDatabase()
     }
     
-    private func saveObjectToDatabase<T:Object>(_ items: [T]){
+    private func saveObjectToDatabase(){
+        guard let parseData = dependencies.first as? ParseDataToFriendsOperation else {return}
         do {
+            let friends = parseData.friends
             let realm = try Realm()
             try realm.write {
-                realm.add(items, update: .modified)
+                realm.add(friends, update: .modified)
+                self.state = .finished
             }
         } catch {
             print(error.localizedDescription)

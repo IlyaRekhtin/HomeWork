@@ -13,14 +13,14 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
     
     static let reuseID = "videoTableViewCell"
     
-    var video = [Video]() {
+    var videos = [VideoViewModel]() {
         didSet{
             reloadData()
         }
     }
     
     private var videoCollectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Int, Video>!
+    private var dataSource: UICollectionViewDiffableDataSource<Int, VideoViewModel>!
     private let layout = MediaNewsLayout()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -33,9 +33,9 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configCell(for video: [Video]) {
+    func configCell(for video: [VideoViewModel]) {
         setConstraints()
-        self.video = video
+        self.videos = video
     }
     
     
@@ -58,7 +58,7 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
     func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
             
-            switch self.video.count {
+            switch self.videos.count {
             case 1:
                 return self.layout.createLayoutForNewsImage()
             case 2:
@@ -79,19 +79,19 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
     }
     //    //MARK: - create Data Source
     func createDataSourse() {
-        dataSource = UICollectionViewDiffableDataSource<Int, Video>(collectionView: self.videoCollectionView,
+        dataSource = UICollectionViewDiffableDataSource<Int, VideoViewModel>(collectionView: self.videoCollectionView,
                                                                     cellProvider: { (collectionView, indexPuth, model) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.reuseID, for: indexPuth) as! VideoCollectionViewCell
-            let currentVideo = self.video[indexPuth.row]
+            let currentVideo = self.videos[indexPuth.row]
             cell.config(for: currentVideo)
             return cell
         })
     }
     
     func reloadData(){
-        var snapShot = NSDiffableDataSourceSnapshot<Int, Video>()
+        var snapShot = NSDiffableDataSourceSnapshot<Int, VideoViewModel>()
         snapShot.appendSections([1])
-        snapShot.appendItems(video)
+        snapShot.appendItems(videos)
         dataSource.apply(snapShot)
     }
     

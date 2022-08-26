@@ -11,10 +11,7 @@ import SnapKit
 final class FooterNewsCell: UITableViewCell {
     
     static let reuseID = "footerNewsCell"
-    
-    
-    
-    
+
     private var likeButton: LikeButton = {
         let likeButton = LikeButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
         likeButton.layer.cornerRadius = likeButton.frame.height / 4
@@ -36,23 +33,14 @@ final class FooterNewsCell: UITableViewCell {
     private var views: UILabel = {
         var views = UILabel()
         views.textColor = .gray
-        views.font = UIFont(name: "Times New Roman", size: 14)
+        views.font = UIFont.mainTextFont
         views.contentMode = .center
         return views
     }()
     
     private var item: News?
-    
     private var id = 0
     private var owner = 0
-    
-    
-    
-//    private let separateView: UIView = {
-//        let view = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 5))
-//        view.backgroundColor = .opaqueSeparator
-//        return view
-//    }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -76,8 +64,7 @@ final class FooterNewsCell: UITableViewCell {
     
     
     @objc private func likeButtonTap() {
-//        guard let item = self.item else {return}
-//        self.likeButton.updateLikeButton(for: item)
+        
     }
     
     
@@ -101,13 +88,5 @@ private extension FooterNewsCell {
             make.centerY.equalTo(self.likeButton.snp.centerY)
             make.right.equalToSuperview().inset(10)
         }
-        
-//        self.contentView.addSubview(separateView)
-//        separateView.snp.makeConstraints { make in
-//            make.top.equalTo(self.likeButton.snp.bottom).offset(10)
-//            make.height.equalTo(self.separateView.frame.height)
-//            make.left.right.bottom.equalToSuperview()
-//            
-//        }
     }
 }

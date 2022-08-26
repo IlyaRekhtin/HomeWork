@@ -18,7 +18,7 @@ final class WebViewController: UIViewController, WKUIDelegate {
     
     var linkDescription: UILabel = {
         let lable = UILabel(frame: .zero)
-        lable.font = UIFont(name: "Times New Roman", size: 16)
+        lable.font = UIFont.mainTextFont
         lable.numberOfLines = 1
         return lable
     }()

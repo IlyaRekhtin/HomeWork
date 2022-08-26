@@ -30,4 +30,6 @@ struct Newsfeed: Codable {
         case groups
         case nextFrom = "next_from"
     }
+    
+    
 }

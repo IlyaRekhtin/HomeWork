@@ -5,10 +5,10 @@
 //  Created by Илья Рехтин on 03.06.2022.
 //
 
-import Foundation
+import UIKit
 import RealmSwift
 
-class Photo:Object, Codable, Likeble {
+class Photo: Object, Codable, Likeble{
     
     
     
@@ -51,11 +51,19 @@ class Photo:Object, Codable, Likeble {
         return urls
     }
     
+    static func ratio(for photo: Photo) -> CGFloat {
+        let height = CGFloat(photo.sizes.last?.height ?? 1)
+        let width = CGFloat(photo.sizes.last?.width ?? 1)
+        return height / width
+    }
     
-    static func preview(in sizes: [Size]) -> String {
+    static func preview(in sizes: [Size]?) -> String {
+        guard let sizes = sizes else {
+            return ""
+        }
         var size = Size()
         for currentSize in sizes {
-            if size <= currentSize, currentSize.width <= 300 {
+            if size <= currentSize, currentSize.width ?? 1 <= 300 {
                 size = currentSize
             }
         }

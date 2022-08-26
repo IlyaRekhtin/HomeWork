@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - Link
-struct Link: Codable {
+struct Link: Codable, Hashable {
     let url: String
     let title: String?
     let caption: String?

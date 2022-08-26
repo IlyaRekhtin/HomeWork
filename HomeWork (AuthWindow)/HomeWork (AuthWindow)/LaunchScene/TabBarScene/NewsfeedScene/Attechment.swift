@@ -29,7 +29,15 @@ enum AttachmentType: String, Codable {
 }
 
 // MARK: - Poll
-struct Poll: Codable {
+struct Poll: Codable, Hashable {
+    static func == (lhs: Poll, rhs: Poll) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
     let multiple: Bool
     let endDate: Int
     let closed, isBoard, canEdit, canVote: Bool
@@ -64,7 +72,7 @@ struct Poll: Codable {
 }
 
 // MARK: - Answer
-struct Answer: Codable {
+struct Answer: Codable, Hashable {
     let id: Int
     let rate: Double
     let text: String
@@ -72,7 +80,7 @@ struct Answer: Codable {
 }
 
 // MARK: - PollPhoto
-struct PollPhoto: Codable {
+struct PollPhoto: Codable, Hashable {
     let color: String
     let id: Int
     let images: [Size]

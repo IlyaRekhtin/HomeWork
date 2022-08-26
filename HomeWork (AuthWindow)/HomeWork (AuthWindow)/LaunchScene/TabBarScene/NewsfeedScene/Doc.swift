@@ -8,6 +8,7 @@
 import Foundation
 
 struct Doc: Codable, Hashable {
+    
     let id, ownerID: Int?
     let title: String?
     let size: Int?

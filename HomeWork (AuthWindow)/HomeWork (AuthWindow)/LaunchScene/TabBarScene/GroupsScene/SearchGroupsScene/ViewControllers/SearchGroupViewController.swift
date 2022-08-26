@@ -91,7 +91,7 @@ private extension SearchGroupViewController {
         cancelButton.configuration?.title = "Отменить"
         cancelButton.configuration?.baseForegroundColor = .systemGreen
         cancelButton.configuration?.titleAlignment = .center
-        cancelButton.titleLabel?.font = UIFont(name: "Times New Roman", size: 17)
+        cancelButton.titleLabel?.font = UIFont.mainTextFont
         cancelButton.layer.opacity = 0
     }
     
@@ -138,7 +138,6 @@ extension SearchGroupViewController: UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
-        //                let groupArray = searchBar.searchTextField.text != "" ? searchResultArray : groups
         let group = searchResultArray[indexPath.row]
         cell.setCellSetup(for: group)
         cell.selectionStyle = .none

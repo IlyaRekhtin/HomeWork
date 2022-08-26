@@ -84,25 +84,6 @@
             </objects>
             <point key="canvasLocation" x="1700" y="1542"/>
         </scene>
-        <!--Новости-->
-        <scene sceneID="dwn-AK-9zJ">
-            <objects>
-                <tableViewController storyboardIdentifier="Newsfeed" id="10r-22-Wfb" customClass="NewsfeedTableViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" separatorInsetReference="fromAutomaticInsets" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" id="q6E-DO-yWv">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <inset key="separatorInset" minX="15" minY="0.0" maxX="5" maxY="0.0"/>
-                        <connections>
-                            <outlet property="dataSource" destination="10r-22-Wfb" id="ija-5e-CiW"/>
-                            <outlet property="delegate" destination="10r-22-Wfb" id="QBY-3m-7aY"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="Новости" id="ccC-4k-eiT"/>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="MvK-lj-aJl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-591" y="2297"/>
-        </scene>
         <!--Image Present View Controller-->
         <scene sceneID="jed-h3-6Mj">
             <objects>
@@ -145,7 +126,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
-                        <segue destination="10r-22-Wfb" kind="relationship" relationship="rootViewController" id="b29-3x-UFI"/>
+                        <segue destination="TIz-k4-pyS" kind="relationship" relationship="rootViewController" id="3nQ-L7-6gx"/>
                     </connections>
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1vC-Ql-Y75" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -243,6 +224,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oY2-jM-ftz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="529" y="1542"/>
+        </scene>
+        <!--Newsfeed Table View Controller-->
+        <scene sceneID="84x-EM-P85">
+            <objects>
+                <viewController storyboardIdentifier="Newsfeed" id="TIz-k4-pyS" customClass="NewsfeedTableViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Yyb-MS-5cd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="Kfn-gp-FGd"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="Gq7-7h-9T3"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1c6-qJ-eBl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-591" y="2297"/>
         </scene>
         <!--Friends View Controller-->
         <scene sceneID="vXU-rK-6gJ">

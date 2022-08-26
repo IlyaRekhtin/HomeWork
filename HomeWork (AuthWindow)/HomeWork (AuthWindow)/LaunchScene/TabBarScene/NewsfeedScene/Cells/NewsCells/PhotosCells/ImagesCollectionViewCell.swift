@@ -31,9 +31,10 @@ class ImagesCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func config (_ image: Photo) {
-        let urlStr = Photo.preview(in: Array(image.sizes))
-        guard let url = URL(string: urlStr) else {return}
+    func config (_ image: PhotoViewModel) {
+        guard let url = URL(string: image.photo) else {
+            return
+        }
         imageView.kf.setImage(with: url)
     }
     

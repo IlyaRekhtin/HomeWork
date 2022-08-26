@@ -17,11 +17,11 @@ class Cell: UITableViewCell {
  
     private var newsfeedText : UILabel = {
         let lable = UILabel(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-        lable.font = UIFont(name: "Times New Roman", size: 17)
+        lable.font = UIFont.mainTextFont
         lable.numberOfLines = 0
         return lable
     }()
-
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         newsfeedText.text = "ЗАГЛУШКА"

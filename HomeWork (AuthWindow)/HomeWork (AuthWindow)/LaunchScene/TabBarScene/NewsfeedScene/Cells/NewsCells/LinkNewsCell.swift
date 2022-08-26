@@ -25,25 +25,21 @@ final class LinkNewsCell: UITableViewCell {
     
     private let titleBackView: UIView = {
         var backView = UIView()
-        
         backView.backgroundColor = .white
-        
         return backView
     }()
     
     private var linkImage: UIImageView = {
         let linkImage = UIImageView(frame: .zero)
         linkImage.clipsToBounds = true
-        linkImage.contentMode = .scaleAspectFill
+        linkImage.contentMode = .scaleToFill
         return linkImage
     }()
-    
-    
     
     private var linkTitle: UILabel = {
         var linkTitle = UILabel()
         linkTitle.textColor = .black
-        linkTitle.font = UIFont(name: "Times New Roman", size: 16)
+        linkTitle.font = UIFont.mainTextFont
         linkTitle.numberOfLines = 2
         return linkTitle
     }()
@@ -51,36 +47,28 @@ final class LinkNewsCell: UITableViewCell {
     private var linkSubTitle: UILabel = {
         var linkSubTitle = UILabel()
         linkSubTitle.textColor = .lightGray
-        linkSubTitle.font = UIFont(name: "Times New Roman", size: 14)
+        linkSubTitle.font = UIFont.subTextFont
         linkSubTitle.numberOfLines = 1
         return linkSubTitle
     }()
     
-    
-    
     var linkURL = ""
     var delegate: NewsfeedItemTapped?
     
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        makeConstraints()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configCell(for link: Link) {
-        makeConstraints()
-        self.linkURL = link.url
-        DispatchQueue.main.async {
-            guard let photos = link.photo else {return}
-            let photoURL = Photo.preview(in: Array(photos.sizes))
-            guard let url = URL(string: photoURL) else {return}
-            self.linkImage.kf.setImage(with: url)
-        }
-        self.linkTitle.text = link.title
-        self.linkSubTitle.text = link.caption
+    func configCell(for link: LinkViewModel) {
+        self.linkURL = link.linkURL
+        self.linkImage.kf.setImage(with: link.linkImage)
+        self.linkTitle.text = link.linkTitle
+        self.linkSubTitle.text = link.linkSubTitle
         let tap = UITapGestureRecognizer(target: self, action: #selector(tapToLink))
         self.addGestureRecognizer(tap)
     }
@@ -104,9 +92,8 @@ private extension LinkNewsCell {
         backView.addSubview(linkImage)
         linkImage.snp.makeConstraints { make in
             make.top.right.left.bottom.equalToSuperview()
-            
         }
-
+        
         backView.addSubview(titleBackView)
         titleBackView.snp.makeConstraints { make in
             make.bottom.equalTo(self.backView.snp.bottom)
@@ -119,7 +106,7 @@ private extension LinkNewsCell {
             make.top.equalTo(self.titleBackView.snp.top).offset(8)
             make.right.left.equalTo(self.backView).inset(10)
         }
-
+        
         titleBackView.addSubview(linkSubTitle)
         linkSubTitle.snp.makeConstraints { make in
             make.top.equalTo(self.linkTitle.snp.bottom).inset(3)

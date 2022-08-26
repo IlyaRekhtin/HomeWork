@@ -22,14 +22,14 @@ final class HeaderNewsCell: UITableViewCell {
         let name = UILabel()
         name.numberOfLines = 1
         name.textAlignment = .left
-        name.font = UIFont(name: "Times New Roman", size: 16)
+        name.font = UIFont.mainTextFont
         return name
     }()
     private var newsDate: UILabel = {
         let newsDate = UILabel()
         newsDate.numberOfLines = 1
         newsDate.textAlignment = .left
-        newsDate.font = UIFont(name: "Times New Roman", size: 12)
+        newsDate.font = UIFont.subTextFont
         newsDate.textColor = .lightGray
         return newsDate
     }()
@@ -38,18 +38,14 @@ final class HeaderNewsCell: UITableViewCell {
         let newsTime = UILabel()
         newsTime.numberOfLines = 1
         newsTime.textAlignment = .left
-        newsTime.font = UIFont(name: "Times New Roman", size: 12)
+        newsTime.font = UIFont.subTextFont
         newsTime.textColor = .lightGray
         return newsTime
     }()
     
-    private var buttonForAddGroup: ButtonForAddGroup = {
-        let buttonForAddGroup = ButtonForAddGroup(frame: .zero)
-        return buttonForAddGroup
-    }()
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.selectionStyle = .none
         makeConstraints()
     }
     
@@ -57,58 +53,11 @@ final class HeaderNewsCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configCellForGroup(_ group: Group, for news: News) {
-        guard let url = URL(string: group.photo50) else {return}
-        avatar.setImage(url)
-        fullName.text = group.name
-        /// формат и установка даты
-        self.newsDate.text = getCurrentDate(for: news.date)
-        ///формат и установка времени
-        self.newsTime.text = getCurrentTime(for: news.date)
-        
-        /// для группы добавляем кнопку инвайта
-        self.addSubview(buttonForAddGroup)
-        buttonForAddGroup.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.right.equalToSuperview().inset(10)
-        }
-        
-        buttonForAddGroup.configuration?.image = group.isMember == 1 ? UIImage(systemName: "checkmark")! : UIImage(systemName: "plus")!
-        buttonForAddGroup.isHidden = group.isMember == 1 ? true : false
-    }
-    
-    func configCellForFriend(_ friend: Profile,for news: News) {
-        guard let url = URL(string: friend.photo50) else {return}
-        avatar.setImage(url)
-        fullName.text = friend.firstName + friend.lastName
-        self.newsTime.text = getCurrentTime(for: news.date)
-        self.newsDate.text = getCurrentDate(for: news.date)
-    }
-    
-    private func getCurrentDate(for timeInterval: Int) -> String {
-        let dateNews = Date(timeIntervalSince1970: Double(timeInterval))
-        let dateFormatterForDate = DateFormatter()
-        dateFormatterForDate.timeZone = .current
-        dateFormatterForDate.locale = .current
-        dateFormatterForDate.dateFormat = "dd-MM-yyy"
-        let today = Calendar.current.startOfDay(for: .now)
-        
-        if Calendar.current.startOfDay(for: dateNews) == today {
-             return "Сегодня"
-        } else if Calendar.current.startOfDay(for: dateNews) == today - (60*60*24) {
-            return "Вчера"
-        } else {
-            return dateFormatterForDate.string(from: dateNews)
-        }
-    }
-    
-    private func getCurrentTime(for timeInterval: Int) -> String {
-        let dateNews = Date(timeIntervalSince1970: Double(timeInterval))
-        let dateFormatterForTime = DateFormatter()
-        dateFormatterForTime.timeZone = .current
-        dateFormatterForTime.locale = .current
-        dateFormatterForTime.dateFormat = "HH:mm"
-        return dateFormatterForTime.string(from: dateNews)
+    func configCellForFriend(_ header: HeaderViewModel) {
+        avatar.setImage(header.avatar)
+        fullName.text = header.name
+        self.newsTime.text = header.newsTime
+        self.newsDate.text = header.newsDate
     }
 }
 //MARK: - make constrainst

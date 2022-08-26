@@ -10,13 +10,13 @@ import RealmSwift
 
 class Size:Object, Codable, Comparable {
     static func < (lhs: Size, rhs: Size) -> Bool {
-        lhs.width < rhs.width && lhs.height < rhs.height
+        lhs.width ?? 1 < rhs.width ?? 1 && lhs.height ?? 1 < rhs.height ?? 1
     }
     
-    @Persisted var height: Int = 0
+    @Persisted var height: Int?
     @Persisted var url: String = ""
     var type: TypeEnum?
-    @Persisted var width: Int = 0
+    @Persisted var width: Int?
 }
 enum TypeEnum: String, Codable {
     case max = "max"

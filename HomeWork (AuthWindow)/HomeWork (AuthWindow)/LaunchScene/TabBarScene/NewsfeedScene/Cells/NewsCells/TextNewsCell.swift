@@ -27,42 +27,22 @@ final class TextNewsCell: UITableViewCell {
         newsText.isSelectable = false
         newsText.textAlignment = .left
         newsText.textColor = .black
-        newsText.font = UIFont(name: "Times New Roman", size: 16)
+        newsText.font = UIFont.mainTextFont
         return newsText
     }()
-    
-    
-    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     func configCell(for newsText: String) {
         makeConstraints()
         self.newsText.text = newsText
         //TODO button
     }
-    
-    
-    
 }
 //MARK: - make constrainst
 private extension TextNewsCell {
     func makeConstraints() {
-        
         self.addSubview(newsText)
         newsText.snp.makeConstraints { make in
             make.top.left.right.bottom.equalToSuperview()
         }
-        
-//        self.addSubview(moreButton)
-//        moreButton.snp.makeConstraints { make in
-//            make.top.equalTo(self.newsText.snp.bottom).offset(5)
-//            make.bottom.left.right.equalToSuperview()
-//
-//        }
     }
 }
