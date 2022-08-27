@@ -9,15 +9,16 @@ import UIKit
 import SnapKit
 import Kingfisher
 import RealmSwift
-import FirebaseFirestore
+import SwiftUI
 
 class GroupsTableViewCell: UITableViewCell {
     
     static var reuseID = "groupCell"
-    let service = ButtonForAddGroupsService()
-    var activeGroup: Group!
     
-    var addGroupButton = ButtonForAddGroup(frame: .zero) {
+    private let service = ButtonForAddGroupsService()
+    private var activeGroup: GroupViewModel!
+    var groupForRealm: Group!
+    private var addGroupButton = ButtonForAddGroup(frame: .zero) {
         didSet {
             addGroupButton.setNeedsUpdateConfiguration()
         }
@@ -63,59 +64,32 @@ class GroupsTableViewCell: UITableViewCell {
         return groupImage.frame.size
     }
     
-    func setCellSetup(for group: Group) {
+    func setCellSetup(for group: GroupViewModel) {
         self.activeGroup = group
         groupImage.setImage(group.avatar)
         groupName.text = group.name
-        addGroupButton.configuration?.image = activeGroup.isMember == 1 ? UIImage(systemName: "checkmark")! : UIImage(systemName: "plus")!
-        addGroupButton.isHidden = group.isMember == 1 ? true : false
-        
+        addGroupButton.configuration?.image = activeGroup.isMember ? UIImage(systemName: "checkmark")! : UIImage(systemName: "plus")!
+        addGroupButton.isHidden = group.isMember ? true : false
     }
     
-    //    ////реализация кнопки добавить группу
+    ////реализация кнопки добавить группу
     @objc private func targetForAddGroupButton() {
-        
-        if activeGroup.isMember == 0 {
-            service.joinGroup(self.activeGroup)
-        } else {
-            service.leaveGroup(self.activeGroup)
-        }
-        /// кастим до firestore модели
-        let addGroup = AddedGroup(name: activeGroup.name, id: activeGroup.id)
+        activeGroup.isMember ? service.groupNetwork(self.activeGroup.id, .leaveGroup) : service.groupNetwork(self.activeGroup.id, .joinGroup)
         do {
             let realm = try Realm()
             try realm.write {
-                if activeGroup.isMember == 0 {
-                    realm.add(activeGroup, update: .modified)
+                if activeGroup.isMember {
+                    realm.add(groupForRealm, update: .modified)
                     addGroupButton.configuration?.image = UIImage(systemName: "checkmark")!
-                    saveToFirestore(addGroup)
-                    activeGroup.isMember = 1
+                    activeGroup.isMember.toggle()
                 } else {
-                    activeGroup.isMember = 0
+                    activeGroup.isMember.toggle()
                     addGroupButton.configuration?.image = UIImage(systemName: "plus")!
-                    deleteFromFirestore(addGroup)
-                    
                 }
             }
         } catch {
             print(error.localizedDescription)
         }
-    }
-    
-    //MARK: - Firestore
-    private func saveToFirestore(_ group: AddedGroup) {
-        let dataBase = Firestore.firestore()
-        dataBase.collection(String(Session.data.id)).document(group.name).setData(group.toAnyObject(), merge: true) { error in
-            if let error = error {
-                print(error.localizedDescription)
-            } else {
-                print("data saved")
-            }
-        }
-    }
-    private func deleteFromFirestore(_ group: AddedGroup) {
-        let dataBase = Firestore.firestore()
-        dataBase.collection(String(Session.data.id)).document(group.name).delete()
     }
     
     private func setConstraints() {

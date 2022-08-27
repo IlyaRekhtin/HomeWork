@@ -18,18 +18,15 @@ enum CellType: Int {
 
 class NewsfeedTableViewController: UIViewController {
     
-    private var news = [News]()
-    private var profiles = [Profile]()
-    private var groups = [Group]()
     private let service = NewsfeedAdapter()
     private let sectionFactory = SectionFactory()
-    
-    private var tableView: UITableView!
-    private var newsfeedStartDate: String!
-    private var newsfeedNextFrom: String = ""
+    private let factory = NewsfeedFactory()
     private var pushTransition = PushImageViewTransitionAnimation()
     private var popTransition = PopImageViewTransitionAnimation()
     
+    private var newsfeedItems = NewsfeedItems()
+    private var newsfeedStartDate: String = ""
+    private var tableView: UITableView!
     private var varibleSection = [CellType]()
     private var isLoading = false
     
@@ -51,11 +48,7 @@ class NewsfeedTableViewController: UIViewController {
     private func loadNewsfeed(){
         service.fetchNewsfeed { [weak self] newsfeed in
             guard let self = self else { return }
-            self.news = newsfeed.items
-            self.profiles = newsfeed.profiles
-            self.groups = newsfeed.groups
-            self.newsfeedNextFrom = newsfeed.nextFrom ?? ""
-            self.newsfeedStartDate = String(newsfeed.items.first?.date ?? 0)
+            self.newsfeedItems = self.factory.constructNewsItem(from: newsfeed)!
             self.tableView.reloadData()
         }
     }
@@ -96,13 +89,13 @@ class NewsfeedTableViewController: UIViewController {
     }
     
     @objc private func refreshNewsfeed() {
-        guard let date = self.newsfeedStartDate else {return}
-        service.fetchNewsfeed(from: date){ [weak self] newsfeed in
+        guard let date = self.newsfeedItems.newsItems.first?.date else {return}
+        service.fetchNewsfeed(from: String(date)){ [weak self] newsfeed in
             guard let self = self else { return }
-            var newItems = newsfeed.items
+            guard var newItems = self.factory.constructNewsItem(from: newsfeed)?.newsItems else {return}
             newItems.remove(at: 0)
             if newItems.count > 0 {
-                self.news.insert(contentsOf: newItems, at: 0)
+                self.newsfeedItems.newsItems.insert(contentsOf: newItems, at: 0)
                 let indexSet = IndexSet(integersIn: 0 ..< newItems.count)
                 self.tableView.insertSections(indexSet, with: .automatic)
                 self.newsfeedStartDate = String(newItems.first?.date ?? 0)
@@ -114,11 +107,11 @@ class NewsfeedTableViewController: UIViewController {
 //MARK: - tableview data source
 extension NewsfeedTableViewController:UITableViewDelegate, UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
-        return news.count
+        return newsfeedItems.newsItems.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        self.varibleSection = self.sectionFactory.sectionConstruct(for: news[section])
+        self.varibleSection = self.sectionFactory.sectionConstruct(for: newsfeedItems.newsItems[section])
         return self.varibleSection.count
     }
     
@@ -137,79 +130,50 @@ extension NewsfeedTableViewController:UITableViewDelegate, UITableViewDataSource
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         /// получаем актуальную новость и инициализируем ее содержимое
-        let currentNews = news[indexPath.section]
-        let attachments = currentNews.attachments
+        let currentNews = newsfeedItems.newsItems[indexPath.section]
         self.varibleSection = self.sectionFactory.sectionConstruct(for: currentNews)
         let cellType = varibleSection[indexPath.row]
         
         /// для разных типов ячеек в секции создаем свою
         switch cellType {
         case .header:
-            let factory = HeaderViewModelFactory()
             let headerCell = tableView.dequeueReusableCell(withIdentifier: HeaderNewsCell.reuseID, for: indexPath) as! HeaderNewsCell
-            if currentNews.sourceID < 0 {
-                if let group = groups.filter({-$0.id == currentNews.sourceID}).first {
-                    if let header = factory.constructViewModel(for: currentNews, for: group) {
-                        headerCell.configCellForFriend(header)
-                    }
-                }
-            } else {
-                if let profile = profiles.filter({$0.id == currentNews.sourceID}).first {
-                    if let header = factory.constructViewModel(for: currentNews, for: profile) {
-                        headerCell.configCellForFriend(header)
-                    }
-                }
+            if let header = currentNews.header {
+                headerCell.configCellForFriend(header)
             }
             return headerCell
         case .text:
             let textCell = tableView.dequeueReusableCell(withIdentifier: TextNewsCell.reuseID, for: indexPath) as! TextNewsCell
-            if let text = currentNews.text {
-                textCell.configCell(for: text)
-            }
+            textCell.configCell(for: currentNews.text)
             return textCell
         case .link:
             let linkCell = tableView.dequeueReusableCell(withIdentifier: LinkNewsCell.reuseID, for: indexPath) as! LinkNewsCell
             linkCell.delegate = self
-            let factory = LinkViewModelFactory()
-            if let linkViewModel = factory.constructViewModel(for: attachments) {
+            if let linkViewModel = currentNews.link {
                 linkCell.configCell(for: linkViewModel)
             }
             return linkCell
         case .photos:
             let photosCell = tableView.dequeueReusableCell(withIdentifier: PhotoNewsCell.reuseID, for: indexPath) as! PhotoNewsCell
             photosCell.delegate = self
-            let factory = PhotoViewModelFactory()
-            if currentNews.type == .post {
-                let photoViewModels = factory.constructViewModel(for: attachments)
+            if let photoViewModels = currentNews.photos {
                 photosCell.configCell(for: photoViewModels)
-            
-                let photos = factory.sortAttachmentForPhotos(attachments)
-                /// Нужно переделывать контроллер
-                /// отображения изображений,
-                /// все заточено под тип Photo
-                photosCell.photos = photos
-            } else {
-                if let photos = (currentNews.photos?.items) {
-                    let photoViewModels = factory.constructViewModel(for: Array(photos))
-                    photosCell.configCell(for: photoViewModels)
-                    photosCell.photos = Array(photos)
-                }
             }
             return photosCell
         case .video:
             let videoCell = tableView.dequeueReusableCell(withIdentifier: VideoTableViewCell.reuseID, for: indexPath) as! VideoTableViewCell
-            let factory = VideoViewModelFactory()
-            let videoViewModels = factory.constructViewModel(attachments?.filter{$0.type == .video})
-            videoCell.configCell(for: videoViewModels)
+            if let videoViewModels = currentNews.videos {
+                videoCell.configCell(for: videoViewModels)
+            }
             return videoCell
         case .audio:
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.reuseID, for: indexPath) as! Cell
             return cell
         case .docs:
             let docsCell = tableView.dequeueReusableCell(withIdentifier: DocTableViewCell.reuseID, for: indexPath) as! DocTableViewCell
-            let factory = DocViewModelFactory()
-            let docViewModels = factory.constructViewModel(attachments?.filter{$0.type == .doc})
-            docsCell.configCell(for: docViewModels)
+            if let docViewModels = currentNews.docs {
+                docsCell.configCell(for: docViewModels)
+            }
             return docsCell
         case .poll:
             let cell = tableView.dequeueReusableCell(withIdentifier: Cell.reuseID, for: indexPath) as! Cell
@@ -222,43 +186,16 @@ extension NewsfeedTableViewController:UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let currentNews = news[indexPath.section]
-        let attachments = currentNews.attachments
+        let currentNews = newsfeedItems.newsItems[indexPath.section]
         self.varibleSection = self.sectionFactory.sectionConstruct(for: currentNews)
         let cellType = varibleSection[indexPath.row]
         switch cellType {
-        case .header:
-            return UITableView.automaticDimension
-        case .text:
-            return UITableView.automaticDimension
-        case .link:
-            return UITableView.automaticDimension
         case .photos:
-            let factory = PhotoViewModelFactory()
-            let photosItemForPostType = factory.sortAttachmentForPhotos(attachments?.filter{$0.type == .photo})
-            switch photosItemForPostType.count {
-            case 1:
-                if let image = photosItemForPostType.last {
-                    let width = self.view.frame.width
-                    let ratio = Photo.ratio(for: image)
-                    let itemHight = width * ratio
-                    return itemHight
-                } else {
-                    return self.view.frame.width
-                }
-            default:
-                return self.view.frame.width
-            }
-        case .video:
-            return self.view.frame.width
-        case .audio:
-            return UITableView.automaticDimension
+            return self.tableView.frame.width
         case .docs:
-            guard let docsCount = attachments?.filter({$0.type == .doc}).count else { return 0 }
+            guard let docsCount = currentNews.docs?.count else { return 0 }
             return CGFloat(docsCount * 60)
-        case .poll:
-            return UITableView.automaticDimension
-        case .footer:
+        default:
             return UITableView.automaticDimension
         }
     }
@@ -302,7 +239,7 @@ extension NewsfeedTableViewController: NewsfeedItemTapped {
             vc.firstImageView.kf.setImage(with: url)
             
             vc.firstImageView.kf.indicatorType = .activity
-            vc.photoAlbum = cell.photos
+            vc.photoAlbum = cell.photoViewModels
             vc.transitioningDelegate = self
             vc.modalPresentationStyle = .fullScreen
             self.present(vc, animated: true)
@@ -321,15 +258,16 @@ extension NewsfeedTableViewController: UITableViewDataSourcePrefetching {
         guard let maxSection = indexPaths.map({ $0.section }).max() else {
             return
         }
-        if maxSection > news.count - 3,
+        if maxSection > newsfeedItems.newsItems.count - 3,
            !isLoading {
             isLoading.toggle()
-            service.fetchNewsfeed(with: self.newsfeedNextFrom) { [weak self] newsfeed in
+            service.fetchNewsfeed(with: self.newsfeedItems.nextForm) { [weak self] newsfeed in
                 guard let self = self else { return }
-                let indexSet = IndexSet(integersIn: self.news.count ..< self.news.count + newsfeed.items.count)
-                self.news.append(contentsOf: newsfeed.items)
+                guard let newItems = self.factory.constructNewsItem(from: newsfeed)?.newsItems else {return}
+                let indexSet = IndexSet(integersIn: self.newsfeedItems.newsItems.count ..< self.newsfeedItems.newsItems.count + newItems.count)
+                self.newsfeedItems.newsItems.append(contentsOf: newItems)
                 self.tableView.insertSections(indexSet, with: .automatic)
-                self.newsfeedNextFrom = newsfeed.nextFrom ?? ""
+                self.newsfeedItems.nextForm = newsfeed.nextFrom ?? ""
                 self.isLoading.toggle()
             }
         }

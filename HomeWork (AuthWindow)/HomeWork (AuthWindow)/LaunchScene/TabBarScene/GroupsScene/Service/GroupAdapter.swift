@@ -11,7 +11,7 @@ final class GroupAdapter {
     
     private let service = GroupsService()
     
-    func fetchAndWriteGroupsInRealm() {
+    func fetchAndWriteGroupsToRealm() {
         service.getURL()
             .then(on: .global(), service.fetchData(_:))
             .then(on: .global(), service.parsedData(_:)).done(on: .global()) {[weak self] groups in
@@ -20,5 +20,4 @@ final class GroupAdapter {
                 print(error.localizedDescription)
             }
     }
-   
 }

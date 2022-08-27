@@ -43,14 +43,10 @@ class FriendsTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
-    
-    
-    func configCell(for friend: Friend) {
-        city.text = friend.city?.title
-        fullName.text = "\(friend.firstName) \(friend.lastName)"
+
+    func configCell(for friend: FriendViewModel) {
+        city.text = friend.city
+        fullName.text = friend.name
     }
     
     func getimageSize() -> CGSize {

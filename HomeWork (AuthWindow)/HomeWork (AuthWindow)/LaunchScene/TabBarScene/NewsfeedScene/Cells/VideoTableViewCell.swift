@@ -13,7 +13,7 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
     
     static let reuseID = "videoTableViewCell"
     
-    var videos = [VideoViewModel]() {
+    var video = [VideoViewModel]() {
         didSet{
             reloadData()
         }
@@ -35,7 +35,7 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
     
     func configCell(for video: [VideoViewModel]) {
         setConstraints()
-        self.videos = video
+        self.video = video
     }
     
     
@@ -58,7 +58,7 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
     func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
             
-            switch self.videos.count {
+            switch self.video.count {
             case 1:
                 return self.layout.createLayoutForNewsImage()
             case 2:
@@ -82,7 +82,7 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
         dataSource = UICollectionViewDiffableDataSource<Int, VideoViewModel>(collectionView: self.videoCollectionView,
                                                                     cellProvider: { (collectionView, indexPuth, model) -> UICollectionViewCell? in
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VideoCollectionViewCell.reuseID, for: indexPuth) as! VideoCollectionViewCell
-            let currentVideo = self.videos[indexPuth.row]
+            let currentVideo = self.video[indexPuth.row]
             cell.config(for: currentVideo)
             return cell
         })
@@ -91,7 +91,7 @@ final class VideoTableViewCell: UITableViewCell, UICollectionViewDelegate {
     func reloadData(){
         var snapShot = NSDiffableDataSourceSnapshot<Int, VideoViewModel>()
         snapShot.appendSections([1])
-        snapShot.appendItems(videos)
+        snapShot.appendItems(video)
         dataSource.apply(snapShot)
     }
     

@@ -12,13 +12,14 @@ class PhotoAlbumVC: UIViewController {
     
     
     private let service = PhotoAlbumService()
+    private let factory = PhotoViewModelFactory()
     private var pushTransition = PushImageViewTransitionAnimation()
     private var popTransition = PopImageViewTransitionAnimation()
     private var collectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Int, Photo>!
+    private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoViewModel>!
     private var layoutChangeButton = LayoutChangeButton()
     
-    var photoAlbum = [Photo]() {
+    var photoAlbum = [PhotoViewModel]() {
         didSet {
             DispatchQueue.main.async {
                 self.reloadData()
@@ -27,8 +28,7 @@ class PhotoAlbumVC: UIViewController {
     }
     
     var userId: Int!
-    var firstName: String?
-    var lastName: String?
+    var name: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,9 +37,11 @@ class PhotoAlbumVC: UIViewController {
         createDataSource()
         collectionView.delegate = self
         
-        self.service.getPhotos(for: self.userId){photos in
+        self.service.getPhotos(for: self.userId){[weak self] photos in
+            guard let self = self else {return}
             DispatchQueue.global(qos:.userInteractive).async {
-                self.photoAlbum = Array(photos.items)
+                guard let photoAlbum = self.factory.constructViewModel(for: Array(photos.items)) else {return}
+                self.photoAlbum = photoAlbum
             }
         }
     }
@@ -85,7 +87,7 @@ private extension PhotoAlbumVC {
         self.navigationItem.setRightBarButton(layoutChangeButton, animated: true)
         // config custom barButton
         
-        self.navigationItem.title = "\(firstName ?? "")" + " " + "\(lastName ?? "")"
+        self.navigationItem.title = name ?? ""
         navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false
     }
@@ -121,9 +123,9 @@ extension PhotoAlbumVC: UICollectionViewDelegate {
     }
     
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, Photo>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+        dataSource = UICollectionViewDiffableDataSource<Int, PhotoViewModel>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCollectionCell.reuseID, for: indexPath) as? PhotoAlbumCollectionCell else {fatalError()}
-            let urlStr = Photo.preview(in: Array(self.photoAlbum[indexPath.row].sizes))
+            let urlStr = self.photoAlbum[indexPath.item].photo
             if let url = URL(string: urlStr) {
                 cell.configCell(for: url)
             }
@@ -132,7 +134,7 @@ extension PhotoAlbumVC: UICollectionViewDelegate {
     }
     
     private  func reloadData(){
-        var snapShot = NSDiffableDataSourceSnapshot<Int, Photo>()
+        var snapShot = NSDiffableDataSourceSnapshot<Int, PhotoViewModel>()
         snapShot.appendSections([1])
         snapShot.appendItems(self.photoAlbum)
         dataSource.apply(snapShot)
@@ -145,7 +147,7 @@ extension PhotoAlbumVC: UICollectionViewDelegate {
         
         vc.currentIndexPuthFoto = index.row
         
-        let urlStr = Photo.max(in: Array(self.photoAlbum[index.row].sizes))
+        let urlStr = self.photoAlbum[index.row].photo
         guard let url = URL(string: urlStr) else {return}
         vc.firstImageView.kf.setImage(with: url)
         

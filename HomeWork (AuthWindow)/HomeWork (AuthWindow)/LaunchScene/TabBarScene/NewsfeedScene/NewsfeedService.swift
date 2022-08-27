@@ -64,7 +64,6 @@ final class NewsfeedService {
         }
     }
     
-    
    func fetchData(_ url: URL) -> Promise<Data> {
         return Promise { resolver in
             URLSession.shared.dataTask(with: url) { data, _, _ in
@@ -90,91 +89,4 @@ final class NewsfeedService {
             }
         }
     }
-    
-
-    
-  
-    
-//    func getNewsfeed(complition:@escaping (Newsfeed) -> ()) {
-//        let params = ["filters": "post, photo, video",
-//                      "source_ids": "friends, groups",
-//                      "count": "100",
-//                      "access_token": Session.data.token,
-//                      "v": Api.shared.apiVersion
-//        ]
-//        guard let url = URL.configureURL(method: .newsfeedGet, baseURL: .api, params: params) else {return}
-//        let request = URLRequest(url: url)
-//
-//        URLSession.shared.dataTask(with: request) { data, _, error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//            }
-//            guard let data = data else {return}
-//            do {
-//
-//                let newsfeed = try JSONDecoder().decode(NewsfeedResponse.self, from: data).newsfeed
-//                DispatchQueue.main.async {
-//                    complition(newsfeed)
-//                }
-//            }catch{
-//                print(String(describing: error))
-//            }
-//        }.resume()
-//    }
-    
-//    func getNewsfeed(from date: String, complition:@escaping (Newsfeed) -> ()) {
-//        let params = ["filters": "post, photo, video",
-//                      "source_ids": "friends, groups",
-//                      "start_date": date,
-//                      "count": "100",
-//                      "access_token": Session.data.token,
-//                      "v": Api.shared.apiVersion
-//        ]
-//        guard let url = URL.configureURL(method: .newsfeedGet, baseURL: .api, params: params) else {return}
-//        let request = URLRequest(url: url)
-//
-//        URLSession.shared.dataTask(with: request) { data, _, error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//            }
-//            guard let data = data else {return}
-//            do {
-//
-//                let newsfeed = try JSONDecoder().decode(NewsfeedResponse.self, from: data).newsfeed
-//                DispatchQueue.main.async {
-//                    complition(newsfeed)
-//                }
-//            }catch{
-//                print(String(describing: error))
-//            }
-//        }.resume()
-//    }
-    
-//    func getNewsfeed(with startFrom: String, complition:@escaping (Newsfeed) -> ()) {
-//        let params = ["filters": "post, photo, video",
-//                      "source_ids": "friends, groups",
-//                      "start_from": startFrom,
-//                      "count": "100",
-//                      "access_token": Session.data.token,
-//                      "v": Api.shared.apiVersion
-//        ]
-//        guard let url = URL.configureURL(method: .newsfeedGet, baseURL: .api, params: params) else {return}
-//        let request = URLRequest(url: url)
-//        
-//        URLSession.shared.dataTask(with: request) { data, _, error in
-//            if let error = error {
-//                print(error.localizedDescription)
-//            }
-//            guard let data = data else {return}
-//            do {
-//                
-//                let newsfeed = try JSONDecoder().decode(NewsfeedResponse.self, from: data).newsfeed
-//                DispatchQueue.main.async {
-//                    complition(newsfeed)
-//                }
-//            }catch{
-//                print(String(describing: error))
-//            }
-//        }.resume()
-//    }
 }

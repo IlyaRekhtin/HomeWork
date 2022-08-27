@@ -7,7 +7,18 @@
 
 import UIKit
 
+enum LikebleType: String {
+    case post = "post"
+    case photo = "photo"
+}
+
 class LikeButton: UIButton {
+    
+    var type: LikebleType = .post
+    var likes: Int = 0
+    var isLiked: Bool = false
+    var sourceID = 0
+    var id = 0
     
     /// images enum
     private enum buttonStateImages: String {
@@ -25,20 +36,18 @@ class LikeButton: UIButton {
     }
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.configuration = .bordered()
         self.configuration?.imagePadding = 5
-        self.configuration?.buttonSize = .medium
-        self.addAction(UIAction(handler: { _ in
-            self.updateLikeButton()
-        }), for: .touchUpInside)
+        self.layer.cornerRadius = self.frame.height / 4
+        self.clipsToBounds = true
+        self.configuration?.buttonSize = .small
     }
     
     init<T: Likeble>(item: T) {
-        super.init(frame: .zero)
-        self.configuration?.imagePadding = 5
-        self.configuration?.buttonSize = .medium
-        self.addAction(UIAction(handler: { _ in
-            self.updateLikeButton()
-        }), for: .touchUpInside)
+        super.init(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
+        self.likes = item.likes
+        self.isLiked = item.isLiked
+        self.addTarget(self, action: #selector(self.updateLikeButton), for: .touchUpInside)
     }
     
     required init?(coder: NSCoder) {
@@ -46,26 +55,29 @@ class LikeButton: UIButton {
     }
     
     func setConfig<T: Likeble>(for item: T){
-        guard let likes = item.likes else {
-            self.configuration?.image = buttonStateImages.like.image
-            self.configuration?.baseForegroundColor = UIColor.gray
-            self.isEnabled = false
-            return
+        if item is NewsItem {
+            self.type = .post
+        } else {
+            self.type = .photo
         }
-        self.isEnabled = true
-        self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
-        self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
-        self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
+        self.sourceID = item.sourceID
+        self.id = item.id
+        self.likes = item.likes
+        self.isLiked = item.isLiked
+        self.addTarget(self, action: #selector(self.updateLikeButton), for: .touchUpInside)
+        self.configuration?.image = item.isLiked ? buttonStateImages.likeFill.image : buttonStateImages.like.image
+        self.configuration?.baseForegroundColor = item.isLiked ? UIColor.red : UIColor.gray
+        self.configuration?.title = item.likes == 0 ? "" : String(item.likes)
     }
     
-    @objc func updateLikeButton(){
+    @objc private func updateLikeButton(){
         animationImageChange()
-//        likes.count = likes.userLikes == 1 ? likes.count - 1 : likes.count + 1
-//        likes.userLikes = likes.userLikes == 1 ? 0 : 1
-//        self.configuration?.image = likes.userLikes == 1 ? buttonStateImages.likeFill.image : buttonStateImages.like.image
-//        self.configuration?.baseForegroundColor = likes.userLikes == 1 ? UIColor.red : UIColor.gray
-//        self.configuration?.title = likes.count == 0 ? "" : String(likes.count)
-//        likes.userLikes == 1 ? LikeButton.likesNetwork(item: item, method: .likeAdd) :  LikeButton.likesNetwork(item: item, method: .likeDelete)
+        self.likes = !self.isLiked ? self.likes + 1 : self.likes - 1
+        self.isLiked.toggle()
+        self.configuration?.image = self.isLiked ? buttonStateImages.likeFill.image : buttonStateImages.like.image
+        self.configuration?.baseForegroundColor = self.isLiked ? UIColor.red : UIColor.gray
+        self.configuration?.title = self.likes == 0 ? "" : String(self.likes)
+//        self.isLiked ? self.likesNetwork(self.type, method: .likeAdd) : self.likesNetwork(self.type, method: .likeDelete)
     }
     
     
@@ -89,29 +101,15 @@ extension LikeButton {
 
 //MARK: - network method
 extension LikeButton {
-    
-    static func likesNetwork<T: Likeble>(item: T, method: Api.BaseURL.ApiMethod) {
-        var type = ""
-        var ownerID = 0
-        var id = 0
-        if let photo = item as? Photo {
-            type = "photo"
-            ownerID = photo.ownerID
-            id = photo.id
-        } else if let news = item as? News {
-            type = "post"
-            ownerID = news.sourceID
-            id = news.postID
-            
-        }
-        let params = ["type": type,
-                      "owner_id":String(ownerID),
-                      "item_id": String(id),
+    private func likesNetwork(_ type: LikebleType, method: Api.BaseURL.ApiMethod) {
+        
+        let params = ["type": type.rawValue,
+                      "owner_id":String(self.sourceID),
+                      "item_id": String(self.id),
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion]
         guard let url = URL.configureURL(method: method, baseURL: .api, params: params) else {return}
         let request = URLRequest(url: url)
-        
         URLSession.shared.dataTask(with: request) { data, _, error in
             if let error = error {
                 print(error.localizedDescription)

@@ -8,5 +8,6 @@
 import Foundation
 
 protocol Reposteble {
-    var reposts: Reposts? {get set}
+    var reposts: Int {get set}
+    var isReposted: Bool {get set}
 }

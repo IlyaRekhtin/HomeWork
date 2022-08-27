@@ -8,13 +8,15 @@
 import UIKit
 import SnapKit
 import RealmSwift
-import FirebaseDatabase
+
 
 class SearchGroupViewController: UIViewController {
     
     private let service = SearchGroupsService()
+    private let factory = GroupViewModelFactory()
     private var tableView: UITableView!
     private var searchBar: UISearchBar!
+    private var groupViewModels = [GroupViewModel]()
     private var searchResultArray = [Group]()
     private var tapRecognizer: UITapGestureRecognizer!
     
@@ -138,7 +140,7 @@ extension SearchGroupViewController: UITableViewDataSource, UITableViewDelegate 
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
-        let group = searchResultArray[indexPath.row]
+        let group = groupViewModels[indexPath.row]
         cell.setCellSetup(for: group)
         cell.selectionStyle = .none
         return cell
@@ -148,9 +150,11 @@ extension SearchGroupViewController: UITableViewDataSource, UITableViewDelegate 
 extension SearchGroupViewController: UISearchBarDelegate, UISearchTextFieldDelegate {
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        service.getGroupsSearch(searchText: searchText) { groups in
+        service.getGroupsSearch(searchText: searchText) {[weak self] groups in
+            guard let self = self else {return}
             DispatchQueue.main.async {
                 self.searchResultArray = groups
+                self.groupViewModels = self.factory.constructViewModel(for: groups)
                 self.tableView.reloadData()
             }
         }

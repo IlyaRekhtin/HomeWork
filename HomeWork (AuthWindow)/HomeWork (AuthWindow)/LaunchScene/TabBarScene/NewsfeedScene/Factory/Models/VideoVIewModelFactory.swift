@@ -25,10 +25,10 @@ class VideoViewModelFactory {
         return items
     }
     
-    private func videoViewModel(for video: Video) -> VideoViewModel {
-        let image = video.image
+    private func videoViewModel(for video: Video) -> VideoViewModel? {
+        guard let image = video.image else {return nil}
         let urlStr = Photo.preview(in: image)
-        let videoDuration = video.duration
-        return VideoViewModel(image: urlStr, duration: videoDuration ?? 0)
+        guard let videoDuration = video.duration else {return nil}
+        return VideoViewModel(image: urlStr, duration: videoDuration)
     }
 }

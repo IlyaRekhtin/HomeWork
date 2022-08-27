@@ -14,19 +14,11 @@ final class FooterNewsCell: UITableViewCell {
 
     private var likeButton: LikeButton = {
         let likeButton = LikeButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-        likeButton.layer.cornerRadius = likeButton.frame.height / 4
-        likeButton.clipsToBounds = true
-        likeButton.configuration = .bordered()
-        likeButton.configuration?.buttonSize = .small
         return likeButton
     }()
     
     private var reposts: RepostsButton = {
         let reposts = RepostsButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-        reposts.layer.cornerRadius = reposts.frame.height / 4
-        reposts.clipsToBounds = true
-        reposts.configuration = .bordered()
-        reposts.configuration?.buttonSize = .small
         return reposts
     }()
     
@@ -38,36 +30,25 @@ final class FooterNewsCell: UITableViewCell {
         return views
     }()
     
-    private var item: News?
-    private var id = 0
-    private var owner = 0
-    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         makeConstraints()
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configCell(for news: News) {
-        self.item = news
-        self.owner = news.sourceID
-        self.id = news.postID
+    func configCell(for news: NewsItem) {
         self.likeButton.setConfig(for: news)
         self.reposts.setConfig(for: news)
-        guard let viewsCount = news.views?.count else {return}
+        let viewsCount = news.views
         self.views.text = "🙈" + String(viewsCount)
     }
-    
     
     @objc private func likeButtonTap() {
         
     }
-    
-    
 }
 //MARK: - make constrainst
 private extension FooterNewsCell {

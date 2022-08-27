@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct News: Codable, Likeble, Reposteble {
+struct News: Codable {
    
     let sourceID: Int
     let postID: Int
