@@ -19,6 +19,7 @@ class AuthViewController: UIViewController {
         webView.translatesAutoresizingMaskIntoConstraints = false
         return webView
     }()
+//    private let ref = Database.database().reference(withPath: "users")
     
     override func viewDidLoad() {
         super.viewDidLoad()

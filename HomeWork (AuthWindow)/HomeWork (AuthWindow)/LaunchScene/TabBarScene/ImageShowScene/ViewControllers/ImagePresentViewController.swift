@@ -15,6 +15,7 @@ class ImagePresentViewController: UIViewController {
     private var customNavView =  UIView()
     private var customNavBar = UINavigationBar()
     private var navItems = UINavigationItem(title: "")
+    
     /// State flag for GRecognizer
     private var navBarIsHide = false
     
@@ -75,14 +76,14 @@ class ImagePresentViewController: UIViewController {
     
     //Data
     var currentIndexPuthFoto: Int!
-    var photoAlbum = [Photo]() {
+    var photoAlbum = [PhotoViewModel]() {
         didSet {
             DispatchQueue.global().async {
-                self.currentSizePhotos = Photo.getURLForMaxPhotos(self.photoAlbum)
+                self.currentSizePhotos = self.photoAlbum.compactMap{ $0.photo }
             }
         }
     }
-    var currentSizePhotos = [URL]()
+    var currentSizePhotos = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -108,9 +109,9 @@ private extension ImagePresentViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(hideNavBarAndTabBar))
         let panGR = UIPanGestureRecognizer(target: self, action: #selector(panGestureAction(_:)))
         let swipeDownGR = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
-        self.view.addGestureRecognizer(swipeDownGR)
         self.view.addGestureRecognizer(tapGR)
         self.view.addGestureRecognizer(panGR)
+        self.view.addGestureRecognizer(swipeDownGR)
         swipeDownGR.direction = .down
         
     }
@@ -212,9 +213,11 @@ private extension ImagePresentViewController {
         
         switch diraction {
         case .right:
-            secondImageView.kf.setImage(with: currentSizePhotos[currentIndexPuthFoto - 1])
+            guard let imageUrl = URL(string:currentSizePhotos[currentIndexPuthFoto - 1]) else {return}
+            secondImageView.kf.setImage(with: imageUrl)
         case .left:
-            secondImageView.kf.setImage(with: currentSizePhotos[currentIndexPuthFoto + 1])
+            guard let imageUrl = URL(string:currentSizePhotos[currentIndexPuthFoto + 1]) else {return}
+            secondImageView.kf.setImage(with: imageUrl)
         }
         /// анимация вью на переднем плане
         propertyAnimator = UIViewPropertyAnimator(duration: 0.5,
@@ -233,7 +236,8 @@ private extension ImagePresentViewController {
                 case .left:
                     currentIndexPuthFoto += 1
                 }
-                firstImageView.kf.setImage(with: currentSizePhotos[currentIndexPuthFoto])
+                guard let imageUrl = URL(string: currentSizePhotos[currentIndexPuthFoto]) else {return}
+                firstImageView.kf.setImage(with: imageUrl)
                 firstImageView.transform = .identity
                 secondImageView.image = nil
             case .start:
@@ -326,13 +330,6 @@ private extension ImagePresentViewController {
     
     func configLikeButton(){
         likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
-        ///likeButton add Action
-        likeButton.addAction(UIAction(handler: { _ in
-//            let item = photoAlbum[currentIndexPuthFoto]
-//            guard let likes = item.likes else {return}
-//            likeButton.updateLikeButton(for: item)
-//            likes.userLikes == 1 ? LikeButton.likes(owner: item.ownerID, id: item.id, type: "photo", .likeDelete) : LikeButton.likes(owner: item.ownerID, id: item.id, type: "photo", .likeAdd)
-        }), for: .touchUpInside)
     }
     
     @objc func backButtonAction(){

@@ -12,25 +12,26 @@ import RealmSwift
 class FriendsViewController: UIViewController {
     
     private let service = FriendsService()
+    private let factory = FriendViewModelFactory()
     
-    private var photoSrvice: PhotoService!
+    private var photoCachesService: PhotoCachesService!
     
     private var tableView: UITableView!
     private var token: NotificationToken?
-    
-    private var friends: Results<Friend>?{
-        let objects = self.service.readFriendsFromDatabase()
-        return objects.sorted(byKeyPath: "firstName", ascending: true)
+    private var realmFriends: Results<Friend>? {
+        let objects = self.service.readFriendsFromDatabase().sorted(byKeyPath: "firstName", ascending: true)
+        self.friends = factory.constructViewModel(for: Array(objects))
+        return objects
     }
+    private var friends = [FriendViewModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configurationsForTableView()
         makeConstraints()
         addNotificationToken()
-        
         service.fetchFriendsFromNetworkAndSaveToDatabase()
-        self.photoSrvice = PhotoService(tableView: self.tableView)
+        self.photoCachesService = PhotoCachesService(tableView: self.tableView)
         tableView.delegate = self
         tableView.dataSource = self
     }
@@ -69,16 +70,14 @@ private extension FriendsViewController {
 extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     //MARK: - настройка ячейки
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friends?.count ?? 0
+        return friends.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FriendsTableViewCell.reuseID, for: indexPath) as! FriendsTableViewCell
-        guard let friends = self.friends else {return cell}
         let friend = friends[indexPath.row]
         cell.configCell(for: friend)
-        cell.avatar.userPhoto.image = photoSrvice.getPhoto(at: indexPath, by: friend.photo50)
-        
+        cell.avatar.userPhoto.image = photoCachesService.getPhoto(at: indexPath, by: friend.avatar)
         cell.selectionStyle = .none
         tableView.rowHeight = cell.getimageSize().height + 10
         return cell
@@ -86,11 +85,9 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let vc = storyboard?.instantiateViewController(identifier: "FriendFotoCollectionViewController") as? PhotoAlbumVC else {return}
-        guard let friends = self.friends else {return}
         let friend = friends[tableView.indexPathForSelectedRow!.row]
         vc.userId = friend.id
-        vc.firstName = friend.firstName
-        vc.lastName = friend.lastName
+        vc.name = friend.name
         self.navigationController?.pushViewController(vc, animated: true)
     }
 }
@@ -108,7 +105,7 @@ private extension FriendsViewController {
 //MARK: - Notification token
 private extension FriendsViewController {
     func  addNotificationToken() {
-        self.token = friends?.observe { [weak self] result in
+        self.token = realmFriends?.observe { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .initial(_):

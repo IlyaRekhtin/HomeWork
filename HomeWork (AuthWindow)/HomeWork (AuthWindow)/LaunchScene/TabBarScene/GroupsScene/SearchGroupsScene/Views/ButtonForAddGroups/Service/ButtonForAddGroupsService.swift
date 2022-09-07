@@ -9,27 +9,12 @@ import Foundation
 
 class ButtonForAddGroupsService {
     
-    func joinGroup(_ group: Group) {
-        let params = ["group_id": String(group.id),
+    func groupNetwork(_ groupId: Int,_ method: Api.BaseURL.ApiMethod ) {
+        let params = ["group_id": String(groupId),
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion
         ]
-        guard let url = URL.configureURL(method: .joinGroup, baseURL: .api, params: params) else {return}
-        let request = URLRequest(url: url)
-        
-        URLSession.shared.dataTask(with: request) { data, _, error in
-            if let error = error {
-                print(error.localizedDescription)
-            }
-        }.resume()
-    }
-    
-    func leaveGroup(_ group: Group) {
-        let params = ["group_id": String(group.id),
-                      "access_token": Session.data.token,
-                      "v": Api.shared.apiVersion
-        ]
-        guard let url = URL.configureURL(method: .leaveGroup, baseURL: .api, params: params) else {return}
+        guard let url = URL.configureURL(method: method, baseURL: .api, params: params) else {return}
         let request = URLRequest(url: url)
         
         URLSession.shared.dataTask(with: request) { data, _, error in

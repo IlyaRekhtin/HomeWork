@@ -11,12 +11,12 @@ class DocViewModelFactory {
     
     private let mbait = 0.0000009537
     
-    func constructViewModel(_ attachments: [Attachment]?) -> [DocViewModel] {
+    func constructViewModel(_ attachments: [Attachment]?) -> [DocViewModel]? {
         let docs = self.sortAttachmentForDocs(attachments)
         return docs.compactMap(self.docViewModel(for:))
     }
     
-    func sortAttachmentForDocs(_ attachments: [Attachment]?) -> [Doc] {
+  private func sortAttachmentForDocs(_ attachments: [Attachment]?) -> [Doc] {
         guard let attachments = attachments else {
             return []
         }
@@ -28,8 +28,8 @@ class DocViewModelFactory {
         return items
     }
     
-    private func docViewModel(for doc: Doc) -> DocViewModel {
-        let docNameLable = doc.title ?? ""
+    private func docViewModel(for doc: Doc) -> DocViewModel? {
+        guard let docNameLable = doc.title else {return nil}
         let size = doc.size
         let docSize = NSString(format: "%.1f", Double(size ?? 0) * mbait)
         let docDate = getCurrentTime(for: doc.date ?? 0)

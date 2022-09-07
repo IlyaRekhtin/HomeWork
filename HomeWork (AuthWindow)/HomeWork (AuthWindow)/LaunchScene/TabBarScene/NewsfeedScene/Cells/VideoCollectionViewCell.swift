@@ -46,7 +46,7 @@ class VideoCollectionViewCell: UICollectionViewCell {
     func config (for video: VideoViewModel) {
         guard let url = URL(string: video.image) else {return}
         imageView.kf.setImage(with: url)
-        videoDurationView.setTime(for: video.duration)
+        videoDurationView.setTime(video.duration)
     }
 }
 //MARK: - snap kit

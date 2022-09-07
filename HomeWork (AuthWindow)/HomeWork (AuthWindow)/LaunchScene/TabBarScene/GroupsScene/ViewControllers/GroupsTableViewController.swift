@@ -8,11 +8,16 @@
 import UIKit
 import RealmSwift
 
+
 class GroupsTableViewController: UIViewController {
     
     private let service = GroupAdapter()
+    private let factory = GroupViewModelFactory()
+    private var groupViewModels = [GroupViewModel]()
     private var groups: Results<Group>? {
-        DataManager.data.readFromDatabase(Group.self).filter("isMember == 1")
+        let objects = DataManager.data.readFromDatabase(Group.self).filter("isMember == 1")
+        self.groupViewModels = factory.constructViewModel(for: Array(objects))
+        return objects
     }
     
     private var token: NotificationToken?
@@ -27,7 +32,7 @@ class GroupsTableViewController: UIViewController {
         super.viewDidLoad()
         configNavigationController()
         configurationsForTableView()
-        service.fetchAndWriteGroupsInRealm()
+        service.fetchAndWriteGroupsToRealm()
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
@@ -96,15 +101,14 @@ extension GroupsTableViewController: UITableViewDelegate, UITableViewDataSource 
     
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return groups?.count ?? 0
+        return groupViewModels.count
     }
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: GroupsTableViewCell.reuseID, for: indexPath) as! GroupsTableViewCell
-        if let groups = self.groups {
-            cell.setCellSetup(for: groups[indexPath.row])
-        }
+        cell.setCellSetup(for: groupViewModels[indexPath.row])
+        cell.groupForRealm = groups![indexPath.row]
         cell.selectionStyle = .none
         return cell
     }
@@ -113,7 +117,7 @@ extension GroupsTableViewController: UITableViewDelegate, UITableViewDataSource 
         guard let group = groups?[indexPath.row] else {return}
         /// удалям группу на сервере
         let buttonService = ButtonForAddGroupsService()
-        buttonService.leaveGroup(group)
+        buttonService.groupNetwork(group.id, .leaveGroup)
         /// удаляем из базы данных realm
         do {
             let realm = try Realm()

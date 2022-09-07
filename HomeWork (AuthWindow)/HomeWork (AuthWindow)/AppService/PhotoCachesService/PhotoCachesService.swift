@@ -12,8 +12,7 @@ protocol DataReloadable {
     func reloadRow(at indexPath: IndexPath)
 }
 
-final class PhotoService {
-    
+final class PhotoCachesService {
     private let cachesTimeInterval: TimeInterval = 30 * 24 * 60 * 60
     ///имя папки для изображения
     private static let pathName: String = {
@@ -54,14 +53,14 @@ final class PhotoService {
 
 
 //MARK: - private methods
-private extension PhotoService {
+private extension PhotoCachesService {
     /// Получаем путь с именем файла
     /// - Parameter url: адрес файла в интернете
     /// - Returns: путь к файлу в дериктории
     func getFilePath(url: String) -> String? {
         guard let cachesDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else { return nil }
         let hashName = url.split(separator: "/").last ?? "default" /// получаем имя изображения из его адреса
-        return cachesDirectory.appendingPathComponent(PhotoService.pathName + "/" + hashName).path
+        return cachesDirectory.appendingPathComponent(PhotoCachesService.pathName + "/" + hashName).path
     }
     
     func saveImageToCaches(url: String, image: UIImage) {

@@ -8,5 +8,8 @@
 import UIKit
 
 protocol Likeble {
-    var likes: Likes? {get set}
+    var sourceID: Int {get set}
+    var id: Int {get set}
+    var likes: Int {get set}
+    var isLiked: Bool {get set}
 }

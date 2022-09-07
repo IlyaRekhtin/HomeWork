@@ -6,7 +6,6 @@ class RepostsButton: UIButton {
     private enum buttonStateImages: String {
         case reposts
         case repostsFill
-        
         var image: UIImage? {
             switch self {
             case .reposts:
@@ -17,23 +16,45 @@ class RepostsButton: UIButton {
         }
     }
     
-    func setConfig<T: Reposteble>(for item: T){
-        guard let reposts = item.reposts else {return}
-        self.configuration?.image = reposts.userReposted == 1 ? buttonStateImages.repostsFill.image : buttonStateImages.reposts.image
-        self.configuration?.baseForegroundColor = reposts.userReposted == 1 ? UIColor.darkGray : UIColor.gray
-        self.configuration?.title = reposts.count == 0 ? "" : String(reposts.count)
+    var reposts: Int = 0
+    var isReposted: Bool = false
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        self.configuration = .bordered()
         self.configuration?.imagePadding = 5
+        self.layer.cornerRadius = self.frame.height / 4
+        self.clipsToBounds = true
+        self.configuration?.buttonSize = .small
     }
     
-    func updateLikeButton<T: Reposteble>(for item: T){
+    init<T: Reposteble>(item: T) {
+        super.init(frame: .zero)
+        self.reposts = item.reposts
+        self.isReposted = item.isReposted
+        self.addTarget(self, action: #selector(updateLikeButton), for: .touchUpInside)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setConfig<T: Reposteble>(for item: T){
+        self.reposts = item.reposts
+        self.isReposted = item.isReposted
+        self.addTarget(self, action: #selector(updateLikeButton), for: .touchUpInside)
+        self.configuration?.image = item.isReposted ? buttonStateImages.repostsFill.image : buttonStateImages.reposts.image
+        self.configuration?.baseForegroundColor = item.isReposted ? UIColor.darkGray : UIColor.gray
+        self.configuration?.title = item.reposts == 0 ? "" : String(item.reposts)
+    }
+    
+    @objc private func updateLikeButton(){
         animationImageChange()
-        guard let reposts = item.reposts else {return}
-        reposts.count = reposts.userReposted == 1 ? reposts.count - 1 : reposts.count + 1
-        reposts.userReposted = reposts.userReposted == 1 ? 0 : 1
-        self.configuration?.image = reposts.userReposted == 1 ? buttonStateImages.repostsFill.image : buttonStateImages.reposts.image
-        self.configuration?.baseForegroundColor = reposts.userReposted == 1 ? UIColor.darkGray : UIColor.gray
-        self.configuration?.title = reposts.count == 0 ? "" : String(reposts.count)
-//        likes.userLikes == 1 ? self.repost(for: photo, .likeAdd) : self.repost(for: photo, .likeDelete)
+        self.reposts = !self.isReposted ? self.reposts + 1 : self.reposts - 1
+        self.isReposted.toggle()
+        self.configuration?.image = self.isReposted ? buttonStateImages.repostsFill.image : buttonStateImages.reposts.image
+        self.configuration?.baseForegroundColor = self.isReposted ? UIColor.darkGray : UIColor.gray
+        self.configuration?.title = self.reposts == 0 ? "" : String(self.reposts)
     }
 }
 //MARK: - Animation for button
