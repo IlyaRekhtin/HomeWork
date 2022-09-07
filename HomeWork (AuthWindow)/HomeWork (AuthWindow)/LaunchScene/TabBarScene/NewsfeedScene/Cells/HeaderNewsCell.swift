@@ -22,7 +22,7 @@ final class HeaderNewsCell: UITableViewCell {
         let name = UILabel()
         name.numberOfLines = 1
         name.textAlignment = .left
-        name.font = UIFont.mainTextFont
+        name.font = UIFont.headerTextFont
         return name
     }()
     private var newsDate: UILabel = {
@@ -54,7 +54,7 @@ final class HeaderNewsCell: UITableViewCell {
     }
     
     func configCellForFriend(_ header: HeaderViewModel) {
-        avatar.setImage(header.avatar)
+//        avatar.setImage(header.avatar)
         fullName.text = header.name
         self.newsTime.text = header.newsTime
         self.newsDate.text = header.newsDate

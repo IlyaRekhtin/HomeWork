@@ -13,14 +13,14 @@ struct NewsfeedItems {
     var nextForm = ""
 }
 
-struct NewsItem: Likeble, Reposteble {
+class NewsItem: NSObject, Likeble, Reposteble {
     var sourceID: Int
     var id: Int
     let header: HeaderViewModel?
     let date: Int
     let text: String
     var likes: Int
-    var isLiked: Bool
+    @objc dynamic var isLiked: Bool
     let views: Int
     var reposts: Int
     var isReposted: Bool
@@ -28,4 +28,21 @@ struct NewsItem: Likeble, Reposteble {
     let photos: [PhotoViewModel]?
     let videos: [VideoViewModel]?
     let docs: [DocViewModel]?
+    
+    init(sourceID: Int, id: Int, header: HeaderViewModel?, date: Int, text: String, likes: Int, isLiked: Bool, views: Int, reposts: Int, isReposted: Bool, link: LinkViewModel?, photos: [PhotoViewModel]?, videos: [VideoViewModel]?, docs: [DocViewModel]?) {
+        self.sourceID = sourceID
+        self.id = id
+        self.header = header
+        self.date = date
+        self.text = text
+        self.likes = likes
+        self.isLiked = isLiked
+        self.views = views
+        self.reposts = reposts
+        self.isReposted = isReposted
+        self.link = link
+        self.photos = photos
+        self.videos = videos
+        self.docs = docs
+    }
 }

@@ -9,7 +9,7 @@ import Foundation
 
 final class GroupAdapter {
     
-    private let service = GroupsService()
+    private let service = GroupServiceProxy(GroupsService())
     
     func fetchAndWriteGroupsToRealm() {
         service.getURL()

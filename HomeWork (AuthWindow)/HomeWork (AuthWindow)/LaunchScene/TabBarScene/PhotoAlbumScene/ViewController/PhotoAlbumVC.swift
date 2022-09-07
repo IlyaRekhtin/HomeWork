@@ -11,7 +11,7 @@ import Kingfisher
 class PhotoAlbumVC: UIViewController {
     
     
-    private let service = PhotoAlbumService()
+    private let service = PhotoServiceProxy(PhotoAlbumService())
     private let factory = PhotoViewModelFactory()
     private var pushTransition = PushImageViewTransitionAnimation()
     private var popTransition = PopImageViewTransitionAnimation()
@@ -27,8 +27,9 @@ class PhotoAlbumVC: UIViewController {
         }
     }
     
-    var userId: Int!
+    var userId: Int?
     var name: String?
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +38,7 @@ class PhotoAlbumVC: UIViewController {
         createDataSource()
         collectionView.delegate = self
         
-        self.service.getPhotos(for: self.userId){[weak self] photos in
+        self.service.getPhotos(for: self.userId ?? 0){[weak self] photos in
             guard let self = self else {return}
             DispatchQueue.global(qos:.userInteractive).async {
                 guard let photoAlbum = self.factory.constructViewModel(for: Array(photos.items)) else {return}
@@ -50,6 +51,8 @@ class PhotoAlbumVC: UIViewController {
         super.viewWillAppear(animated)
         navControllerConfiguration()
     }
+    
+    
     
     override func viewWillDisappear(_ animated: Bool) {
         UserDefaults.standard.setValue(layoutChangeButton.sizeInCollectionView.rawValue, forKey: "sizeForLayoutForFotoGallary")
@@ -87,7 +90,7 @@ private extension PhotoAlbumVC {
         self.navigationItem.setRightBarButton(layoutChangeButton, animated: true)
         // config custom barButton
         
-        self.navigationItem.title = name ?? ""
+        self.navigationItem.title = name
         navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false
     }
@@ -109,26 +112,28 @@ extension PhotoAlbumVC: UICollectionViewDelegate {
     }
     
     private func createCompositionLayout() -> UICollectionViewLayout {
-        let layout = UICollectionViewCompositionalLayout { (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
+        let layout = UICollectionViewCompositionalLayout {[weak self] (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
             
-            switch self.layoutChangeButton.sizeInCollectionView {
+            switch self?.layoutChangeButton.sizeInCollectionView {
             case .fullScreen:
-                return self.createSectionLayoutOneOnLine()
+                return self?.createSectionLayoutOneOnLine()
             case .treeOnLine:
-                return self.createSectionLayoutThreeOnLine()
-                
+                return self?.createSectionLayoutThreeOnLine()
+            case .none:
+                return self?.createSectionLayoutOneOnLine()
             }
         }
         return layout
     }
     
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, PhotoViewModel>(collectionView: collectionView, cellProvider: { collectionView, indexPath, itemIdentifier in
+        dataSource = UICollectionViewDiffableDataSource<Int, PhotoViewModel>(collectionView: collectionView, cellProvider: {collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCollectionCell.reuseID, for: indexPath) as? PhotoAlbumCollectionCell else {fatalError()}
-            let urlStr = self.photoAlbum[indexPath.item].photo
+                let urlStr = self.photoAlbum[indexPath.item].photo
             if let url = URL(string: urlStr) {
-                cell.configCell(for: url)
+                cell.imageView.kf.setImage(with: url)
             }
+            cell.configCell()
             return cell
         })
     }

@@ -15,7 +15,7 @@ enum AppError: String, Error {
 }
 
 
-final class GroupsService {
+final class GroupsService: GroupServiceProtocol {
     
     func getURL() -> Promise<URL> {
         let params = ["user_id":String(Session.data.id),

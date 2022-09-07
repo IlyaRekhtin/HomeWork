@@ -46,7 +46,7 @@ class NewsfeedTableViewController: UIViewController {
     
     
     private func loadNewsfeed(){
-        service.fetchNewsfeed { [weak self] newsfeed in
+        service.fetchData { [weak self] newsfeed in
             guard let self = self else { return }
             self.newsfeedItems = self.factory.constructNewsItem(from: newsfeed)!
             self.tableView.reloadData()
@@ -90,7 +90,7 @@ class NewsfeedTableViewController: UIViewController {
     
     @objc private func refreshNewsfeed() {
         guard let date = self.newsfeedItems.newsItems.first?.date else {return}
-        service.fetchNewsfeed(from: String(date)){ [weak self] newsfeed in
+        service.fetchData(from: String(date)){ [weak self] newsfeed in
             guard let self = self else { return }
             guard var newItems = self.factory.constructNewsItem(from: newsfeed)?.newsItems else {return}
             newItems.remove(at: 0)

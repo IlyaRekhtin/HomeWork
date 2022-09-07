@@ -6,7 +6,7 @@
 //
 
 import Foundation
-import CloudKit
+
 
 class PhotoViewModelFactory {
     func constructViewModel(for attachment: [Attachment]?) -> [PhotoViewModel]? {

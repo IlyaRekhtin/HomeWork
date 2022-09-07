@@ -7,7 +7,9 @@
 
 import Foundation
 import PromiseKit
-final class NewsfeedService {
+final class NewsfeedService: NetworkServiceProtocol {
+    
+    
 
     func getURL() -> Promise<URL> {
         let params = ["filters": "post, photo, video",
