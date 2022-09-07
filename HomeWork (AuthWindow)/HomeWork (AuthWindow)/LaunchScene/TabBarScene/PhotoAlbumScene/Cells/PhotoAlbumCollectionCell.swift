@@ -13,6 +13,8 @@ class PhotoAlbumCollectionCell: UICollectionViewCell {
     
     static var reuseID = "UserCollectionCell"
     
+    
+    
     var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.backgroundColor = UIColor.backgroundColorForPhoto
@@ -22,8 +24,7 @@ class PhotoAlbumCollectionCell: UICollectionViewCell {
         return imageView
     }()
     
-    func configCell (for photoUrl: URL) {
-        imageView.kf.setImage(with: photoUrl)
+    func configCell () {
         makeConstraints()
     }
     

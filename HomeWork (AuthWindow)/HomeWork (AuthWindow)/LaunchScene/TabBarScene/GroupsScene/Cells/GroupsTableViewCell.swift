@@ -66,7 +66,7 @@ class GroupsTableViewCell: UITableViewCell {
     
     func setCellSetup(for group: GroupViewModel) {
         self.activeGroup = group
-        groupImage.setImage(group.avatar)
+//        groupImage.setImage(group.avatar)
         groupName.text = group.name
         addGroupButton.configuration?.image = activeGroup.isMember ? UIImage(systemName: "checkmark")! : UIImage(systemName: "plus")!
         addGroupButton.isHidden = group.isMember ? true : false

@@ -30,6 +30,9 @@ final class FooterNewsCell: UITableViewCell {
         return views
     }()
     
+    @objc var currentNewsItem: NewsItem!
+    var nameObservetuion: NSKeyValueObservation?
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         makeConstraints()
@@ -40,6 +43,7 @@ final class FooterNewsCell: UITableViewCell {
     }
     
     func configCell(for news: NewsItem) {
+        self.currentNewsItem = news
         self.likeButton.setConfig(for: news)
         self.reposts.setConfig(for: news)
         let viewsCount = news.views

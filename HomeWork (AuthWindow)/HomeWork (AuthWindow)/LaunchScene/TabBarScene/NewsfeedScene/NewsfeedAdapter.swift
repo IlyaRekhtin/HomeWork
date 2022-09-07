@@ -11,22 +11,24 @@ final class NewsfeedAdapter {
     
     private let service = NewsfeedService()
     
-    func fetchNewsfeed(complition:@escaping (Newsfeed) -> ()){
+    func fetchData(complition:@escaping (Newsfeed) -> ()){
         service.getURL()
             .then(on: .global(), service.fetchData(_:))
             .then(on: .global(), service.parsedData(_:))
             .done(on: .main) { newsfeed in
+                log(.newsfeedGet)
                 complition(newsfeed)
             }.catch { error in
                 print(error.localizedDescription)
             }
     }
     
-    func fetchNewsfeed(from date: String, complition:@escaping (Newsfeed) -> ()){
+    func fetchData(from date: String, complition:@escaping (Newsfeed) -> ()){
         service.getURL(from: date)
             .then(on: .global(), service.fetchData(_:))
             .then(on: .global(), service.parsedData(_:))
             .done(on: .main) { newsfeed in
+                log(.newsfeedGet)
                 complition(newsfeed)
             }.catch { error in
                 print(error.localizedDescription)
@@ -38,6 +40,7 @@ final class NewsfeedAdapter {
             .then(on: .global(), service.fetchData(_:))
             .then(on: .global(), service.parsedData(_:))
             .done(on: .main) { newsfeed in
+                log(.newsfeedGet)
                 complition(newsfeed)
             }.catch { error in
                 print(error.localizedDescription)

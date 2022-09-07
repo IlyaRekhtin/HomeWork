@@ -77,7 +77,7 @@ class LikeButton: UIButton {
         self.configuration?.image = self.isLiked ? buttonStateImages.likeFill.image : buttonStateImages.like.image
         self.configuration?.baseForegroundColor = self.isLiked ? UIColor.red : UIColor.gray
         self.configuration?.title = self.likes == 0 ? "" : String(self.likes)
-//        self.isLiked ? self.likesNetwork(self.type, method: .likeAdd) : self.likesNetwork(self.type, method: .likeDelete)
+        self.isLiked ? self.likesNetwork(self.type, method: .likeAdd) : self.likesNetwork(self.type, method: .likeDelete)
     }
     
     

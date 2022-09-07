@@ -8,22 +8,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Launch View Controller-->
-        <scene sceneID="ocj-vW-WoS">
-            <objects>
-                <viewController storyboardIdentifier="LaunchViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="52z-YE-crE" customClass="LaunchViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Fuz-6a-3Nn">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="inb-2m-Wkw"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="xJo-6f-Nvn"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Q3p-81-wzh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-169" y="606"/>
-        </scene>
         <!--Auth View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
@@ -53,36 +37,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5sn-GC-6q5" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="529" y="3056"/>
-        </scene>
-        <!--Сообщества-->
-        <scene sceneID="8ph-H6-4Qo">
-            <objects>
-                <navigationController id="4jo-qV-e1P" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Сообщества" image="rectangle.3.group" catalog="system" selectedImage="rectangle.3.group.fill" id="8i9-SS-NUk">
-                        <color key="badgeColor" systemColor="systemGreenColor"/>
-                    </tabBarItem>
-                    <navigationItem key="navigationItem" id="Y7g-0O-Swg"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="4U9-OW-xj7">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="tintColor" systemColor="systemGreenColor"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" systemColor="systemGreenColor"/>
-                        </textAttributes>
-                        <textAttributes key="largeTitleTextAttributes">
-                            <color key="textColor" systemColor="systemGreenColor"/>
-                        </textAttributes>
-                        <navigationBarAppearance key="standardAppearance"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="yjC-2y-PoQ" kind="relationship" relationship="rootViewController" id="dF2-yz-fP2"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="rnQ-GS-thg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1700" y="1542"/>
+            <point key="canvasLocation" x="-213.04347826086959" y="2153.5714285714284"/>
         </scene>
         <!--Image Present View Controller-->
         <scene sceneID="jed-h3-6Mj">
@@ -97,7 +52,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="naq-db-tCk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2639" y="605"/>
+            <point key="canvasLocation" x="1768" y="605"/>
         </scene>
         <!--Web View Controller-->
         <scene sceneID="BfX-5C-ptz">
@@ -112,26 +67,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gkz-06-ucy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3457" y="605"/>
-        </scene>
-        <!--Новости-->
-        <scene sceneID="65z-lq-Ztj">
-            <objects>
-                <navigationController id="PzK-Zd-y48" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Новости" image="newspaper" catalog="system" selectedImage="newspaper.fill" id="h6z-01-d9n">
-                        <color key="badgeColor" systemColor="systemGreenColor"/>
-                    </tabBarItem>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="x06-4d-37f">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="TIz-k4-pyS" kind="relationship" relationship="rootViewController" id="3nQ-L7-6gx"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1vC-Ql-Y75" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-590" y="1542"/>
+            <point key="canvasLocation" x="2587" y="605"/>
         </scene>
         <!--Groups Table View Controller-->
         <scene sceneID="7bB-19-FIJ">
@@ -153,7 +89,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JXh-o5-80S" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1700" y="2297"/>
+            <point key="canvasLocation" x="959" y="1395"/>
         </scene>
         <!--Search Group View Controller-->
         <scene sceneID="Yff-Ae-gk8">
@@ -168,7 +104,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Pc7-Zh-spa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1700" y="3056"/>
+            <point key="canvasLocation" x="959" y="2154"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="JSr-aj-exO">
@@ -186,44 +122,10 @@
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </tabBarAppearance>
                     </tabBar>
-                    <connections>
-                        <segue destination="PzK-Zd-y48" kind="relationship" relationship="viewControllers" id="GVE-Md-ZEN"/>
-                        <segue destination="KMn-cJ-JBf" kind="relationship" relationship="viewControllers" id="kWg-co-0SO"/>
-                        <segue destination="4jo-qV-e1P" kind="relationship" relationship="viewControllers" id="Z86-rj-4ZT"/>
-                    </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U03-7S-XHQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="805" y="606"/>
-        </scene>
-        <!--Друзья-->
-        <scene sceneID="cIh-6Z-hjR">
-            <objects>
-                <navigationController id="KMn-cJ-JBf" customClass="CustomNavController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Друзья" image="person.3" catalog="system" selectedImage="person.3.fill" id="jhl-do-1vg">
-                        <color key="badgeColor" systemColor="systemGreenColor"/>
-                    </tabBarItem>
-                    <navigationItem key="navigationItem" id="QEB-V5-Fd4"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="8jk-JK-m5U">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <textAttributes key="titleTextAttributes">
-                            <color key="textColor" systemColor="systemGreenColor"/>
-                        </textAttributes>
-                        <textAttributes key="largeTitleTextAttributes">
-                            <color key="textColor" systemColor="systemGreenColor"/>
-                        </textAttributes>
-                        <navigationBarAppearance key="standardAppearance"/>
-                        <navigationBarAppearance key="scrollEdgeAppearance"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="Dhj-LJ-ile" kind="relationship" relationship="rootViewController" id="SMY-u2-hk8"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="oY2-jM-ftz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="529" y="1542"/>
+            <point key="canvasLocation" x="-186" y="605"/>
         </scene>
         <!--Newsfeed Table View Controller-->
         <scene sceneID="84x-EM-P85">
@@ -239,7 +141,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1c6-qJ-eBl" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-591" y="2297"/>
+            <point key="canvasLocation" x="-1332" y="1395"/>
         </scene>
         <!--Friends View Controller-->
         <scene sceneID="vXU-rK-6gJ">
@@ -256,16 +158,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CMv-6f-eDX" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="529" y="2297"/>
+            <point key="canvasLocation" x="-212" y="1395"/>
         </scene>
     </scenes>
     <resources>
-        <image name="newspaper" catalog="system" width="128" height="111"/>
-        <image name="newspaper.fill" catalog="system" width="128" height="111"/>
-        <image name="person.3" catalog="system" width="128" height="62"/>
-        <image name="person.3.fill" catalog="system" width="128" height="61"/>
-        <image name="rectangle.3.group" catalog="system" width="128" height="81"/>
-        <image name="rectangle.3.group.fill" catalog="system" width="128" height="81"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

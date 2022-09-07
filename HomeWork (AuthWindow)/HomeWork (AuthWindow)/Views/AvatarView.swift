@@ -28,21 +28,6 @@ class AvatarView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setImage(_ url: String) {
-        self.userPhoto.contentMode = .scaleAspectFill
-        self.userPhoto.kf.indicatorType = .activity
-        guard let url = URL(string: url) else {return}
-        self.userPhoto.kf.setImage(with: url) { result in
-            switch result {
-            case .success(_):
-                self.shadowOn()
-            case .failure(let error):
-                print(error.errorDescription ?? "")
-            }
-        }
-       
-    }
-    
     func shadowOff() {
         shadowLayer.isHidden = true
     }
@@ -74,18 +59,12 @@ private extension AvatarView {
     }
     
     func setShadow() {
-        
             self.shadowLayer.shadowColor = UIColor.gray.cgColor
             self.shadowLayer.shadowRadius = 3
             self.shadowLayer.shadowOpacity = 1
             self.shadowLayer.shadowPath = CGPath(ellipseIn: CGRect(x: self.userPhoto.layer.position.x , y: self.userPhoto.layer.position.y + 5, width: self.frame.width + 3, height: self.frame.height + 3), transform: nil)
-        
-        
             self.layer.addSublayer(self.shadowLayer)
-        
-        
         shadowOff()
-        
     }
     
 }

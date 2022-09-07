@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class PhotoAlbumService {
+final class PhotoAlbumService: PhotoServiceProtocol {
     
     func getPhotos(for userID: Int, complition:@escaping (Photos) -> ()){
         DispatchQueue.global(qos: .userInteractive).async {
