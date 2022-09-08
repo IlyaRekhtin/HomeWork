@@ -8,6 +8,6 @@
 import Foundation
 import RealmSwift
 
-protocol DataStoreProtocol: AnyObject {
+protocol FriendsDataStoreProtocol: AnyObject {
     func start() -> Results<Friend>? 
 }

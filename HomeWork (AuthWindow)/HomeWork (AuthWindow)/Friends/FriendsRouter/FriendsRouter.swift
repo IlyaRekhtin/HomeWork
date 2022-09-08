@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import UIKit
 
 final class FriendsRouter: FriendsRouterProtocol {
     
-    var entryPoint: EntryPoint?
+    weak var entryPoint: EntryPoint?
     
     static func start() -> FriendsRouterProtocol {
         let router =  FriendsRouter()
@@ -17,7 +18,7 @@ final class FriendsRouter: FriendsRouterProtocol {
         let view: FriendsViewProtocol = FriendsViewController()
         let presenter: FriendsPresenterProtocol = FriendsPresenter()
         let interactor: FriendsIteractorProtocol = FriendsIteractor()
-        let dataStore: DataStoreProtocol = DataStoreProxy(DataStore())
+        let dataStore: FriendsDataStoreProtocol = FriendsDataStoreProxy(FriendsDataStore())
         
         
         view.presenter = presenter
@@ -31,6 +32,12 @@ final class FriendsRouter: FriendsRouterProtocol {
         
         return router
     }
-    
+  
+    func goToPhotoalbumViewController(for userID: Int,_ name: String) {
+        guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PhotoalbumViewController") as? PhotoalbumViewController else {return}
+        viewController.assembly.configure(with: viewController, userID, name)
+        entryPoint?.navigationController?.pushViewController(viewController, animated: true)
+        
+    }
      
 }

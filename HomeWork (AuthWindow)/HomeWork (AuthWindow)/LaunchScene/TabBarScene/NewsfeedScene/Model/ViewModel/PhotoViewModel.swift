@@ -8,7 +8,6 @@
 import Foundation
 
 struct PhotoViewModel: Hashable, Likeble, Reposteble {
-    
     var likes: Int
     var isLiked: Bool
     var reposts: Int

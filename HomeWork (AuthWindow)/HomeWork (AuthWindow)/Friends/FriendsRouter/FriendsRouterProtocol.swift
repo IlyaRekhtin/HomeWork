@@ -5,13 +5,13 @@
 //  Created by Илья Рехтин on 06.09.2022.
 //
 
-import Foundation
 import UIKit
 
-typealias EntryPoint = FriendsViewProtocol & UIViewController
 
 protocol FriendsRouterProtocol: AnyObject {
+    typealias EntryPoint = FriendsViewProtocol & UIViewController
     var entryPoint:  EntryPoint? {get}
     
     static func start() -> FriendsRouterProtocol
+    func goToPhotoalbumViewController(for userID: Int,_ name: String)
 }

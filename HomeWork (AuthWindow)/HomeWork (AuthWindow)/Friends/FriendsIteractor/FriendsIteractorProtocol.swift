@@ -9,7 +9,7 @@ import Foundation
 
 protocol FriendsIteractorProtocol: AnyObject {
     var presenter: FriendsPresenterProtocol? {get set}
-    var dataStore: DataStoreProtocol? {get set}
+    var dataStore: FriendsDataStoreProtocol? {get set}
     
     func getFriends()
 }

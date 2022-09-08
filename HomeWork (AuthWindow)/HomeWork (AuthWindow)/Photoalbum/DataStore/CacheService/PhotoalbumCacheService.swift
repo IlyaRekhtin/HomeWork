@@ -1,21 +1,13 @@
 //
-//  PhotoService.swift
+//  PhotoalbumCacheService.swift
 //  HomeWork (AuthWindow)
 //
-//  Created by Илья Рехтин on 24.06.2022.
+//  Created by Илья Рехтин on 08.09.2022.
 //
 
 import UIKit
 
-protocol DataReloadable {
-    func reloadRow(at indexPath: IndexPath)
-}
-
-protocol PhotoCachesServiceProtocol: AnyObject {
-    func getPhoto(by url: String) -> UIImage?
-}
-
-final class PhotoCachesService: PhotoCachesServiceProtocol {
+final class PhotoalbumCacheService: PhotoalbumCacheServiceProtocol {
     
     private let cachesTimeInterval: TimeInterval = 30 * 24 * 60 * 60
     ///имя папки для изображения
@@ -48,14 +40,14 @@ final class PhotoCachesService: PhotoCachesServiceProtocol {
 
 
 //MARK: - private methods
-private extension PhotoCachesService {
+private extension PhotoalbumCacheService {
     /// Получаем путь с именем файла
     /// - Parameter url: адрес файла в интернете
     /// - Returns: путь к файлу в дериктории
     func getFilePath(url: String) -> String? {
         guard let cachesDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else { return nil }
         let hashName = url.split(separator: "/").last ?? "default" /// получаем имя изображения из его адреса
-        return cachesDirectory.appendingPathComponent(PhotoCachesService.pathName + "/" + hashName).path
+        return cachesDirectory.appendingPathComponent(PhotoalbumCacheService.pathName + "/" + hashName).path
     }
     
     func saveImageToCaches(url: String, image: UIImage) {
@@ -71,7 +63,7 @@ private extension PhotoCachesService {
             let info = try? FileManager.default.attributesOfItem(atPath: filePath),
             let modificationDate = info[FileAttributeKey.modificationDate] as? Date
         else {return nil}
-
+        
         let timeLife = Date().timeIntervalSince(modificationDate)
         guard timeLife <= cachesTimeInterval,
               let image = UIImage(contentsOfFile: filePath)
@@ -87,12 +79,12 @@ private extension PhotoCachesService {
         guard let imageURL = URL(string: url) else {return}
         let request = URLRequest(url: imageURL)
         URLSession.shared.dataTask(with: request) { data, _, _ in
-                guard let data = data,
-                      let image = UIImage(data: data) else {return}
-                DispatchQueue.main.async {
-                    self.images[url] = image /// сохраняем в массив
-                }
-                self.saveImageToCaches(url: url, image: image) /// заполняем кеш
+            guard let data = data,
+                  let image = UIImage(data: data) else {return}
+            DispatchQueue.main.async {
+                self.images[url] = image // сохраняем в массив
+            }
+            self.saveImageToCaches(url: url, image: image) // заполняем кеш
         }.resume()
     }
 }

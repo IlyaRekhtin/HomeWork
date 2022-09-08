@@ -1,6 +1,5 @@
 
 import Foundation
-import RealmSwift
 
 // MARK: - Photos
 struct PhotosResponse: Codable {
@@ -12,8 +11,8 @@ struct PhotosResponse: Codable {
 }
 
 // MARK: - Response
-class Photos:Object, Codable {
-    @Persisted var count: Int = 0
-    @Persisted var items = List<Photo>()
+class Photos: Codable {
+    var count: Int = 0
+    var items = [Photo]()
 }
 

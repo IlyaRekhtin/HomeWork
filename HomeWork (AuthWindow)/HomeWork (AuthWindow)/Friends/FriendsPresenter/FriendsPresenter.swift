@@ -9,6 +9,7 @@ import Foundation
 
 final class FriendsPresenter: FriendsPresenterProtocol {
     
+    
     var interactor: FriendsIteractorProtocol? {
         didSet {
             interactor?.getFriends()
@@ -27,5 +28,10 @@ final class FriendsPresenter: FriendsPresenterProtocol {
             self.view?.update(with: "К сожалению что - то пошло не так!")
         }
     }
+    
+    func cellDidSelect(for user: Int, with name: String) {
+        router?.goToPhotoalbumViewController(for: user, name)
+    }
+   
     
 }

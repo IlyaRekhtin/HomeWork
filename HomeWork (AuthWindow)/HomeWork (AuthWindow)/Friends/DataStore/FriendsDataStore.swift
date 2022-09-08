@@ -10,7 +10,7 @@ import RealmSwift
 import PromiseKit
 
 
-final class DataStore: DataStoreProtocol {
+final class FriendsDataStore: FriendsDataStoreProtocol {
     var networkService: FriendNetworkServiceProtocol = FriendNetworkService()
     var databaseService: FriendDatabaseProtocol = FriendDatabaseService()
     

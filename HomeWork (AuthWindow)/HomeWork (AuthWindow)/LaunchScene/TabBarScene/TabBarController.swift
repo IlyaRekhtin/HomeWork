@@ -66,8 +66,9 @@ final class TabBarController: UITabBarController {
             }
         }
     
-    private func wrappedInNavigationController(with: UIViewController, title: Any?) -> UINavigationController {
-            return UINavigationController(rootViewController: with)
+    private func wrappedInNavigationController(with vc: UIViewController, title: Any?) -> UINavigationController {
+        let nvc = CustomNavController(rootViewController: vc)
+        return nvc
         }
     
 }

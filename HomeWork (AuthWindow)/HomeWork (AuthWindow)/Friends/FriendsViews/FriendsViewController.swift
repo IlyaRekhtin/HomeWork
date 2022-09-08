@@ -40,6 +40,10 @@ final class FriendsViewController: UIViewController, FriendsViewProtocol {
         tableView.frame = view.bounds
     }
     
+    deinit {
+        print("deinit friendVC")
+    }
+    
     private func configNavigationController(){
         let navBarAppearance = UINavigationBarAppearance()
         // bacground
@@ -95,7 +99,9 @@ extension FriendsViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let userId = self.friendViewModels[indexPath.row].id
+        let name = self.friendViewModels[indexPath.row].name
+        presenter?.cellDidSelect(for: userId, with: name)
     }
 }
 

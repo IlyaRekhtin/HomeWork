@@ -8,13 +8,11 @@
 import Foundation
 import RealmSwift
 
-final class DataStoreProxy: DataStoreProtocol {
+final class FriendsDataStoreProxy: FriendsDataStoreProtocol {
     
+    private var service: FriendsDataStore
     
-    
-    private var service: DataStore
-    
-    init(_ service: DataStore) {
+    init(_ service: FriendsDataStore) {
         self.service = service
     }
     

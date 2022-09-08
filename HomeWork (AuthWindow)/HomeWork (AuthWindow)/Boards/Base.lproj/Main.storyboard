@@ -23,10 +23,10 @@
             </objects>
             <point key="canvasLocation" x="-1014" y="605"/>
         </scene>
-        <!--Photo AlbumVC-->
+        <!--Photoalbum View Controller-->
         <scene sceneID="0US-nH-GFD">
             <objects>
-                <viewController storyboardIdentifier="FriendFotoCollectionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PWV-GB-aFZ" customClass="PhotoAlbumVC" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoalbumViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="PWV-GB-aFZ" customClass="PhotoalbumViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Q88-YN-EJo">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -146,7 +146,7 @@
         <!--Friends View Controller-->
         <scene sceneID="vXU-rK-6gJ">
             <objects>
-                <viewController id="Dhj-LJ-ile" customClass="FriendsViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="FriendsViewController" id="Dhj-LJ-ile" customClass="FriendsViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="xrx-Jn-jms">
                         <barButtonItem key="rightBarButtonItem" title="Выйти" id="CQM-a0-xTd">
                             <color key="tintColor" systemColor="systemGreenColor"/>

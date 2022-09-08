@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 
-extension PhotoAlbumVC {
+extension PhotoalbumViewController {
     
     func createSectionLayoutOneOnLine() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1),

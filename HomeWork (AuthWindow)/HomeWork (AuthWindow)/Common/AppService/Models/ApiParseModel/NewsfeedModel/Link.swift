@@ -8,7 +8,11 @@
 import Foundation
 
 // MARK: - Link
-struct Link: Codable, Hashable {
+struct Link: Codable {
+    static func == (lhs: Link, rhs: Link) -> Bool {
+        lhs.url == rhs.url
+    }
+    
     let url: String
     let title: String?
     let caption: String?

@@ -11,7 +11,7 @@ import UIKit
 final class FriendViewModelFactory {
     
     let isNotAvatarImage = UIImage(systemName: "person.circle.fill")
-    var photoCachService: PhotoCachesServiceProtocol = PhotoCachesService()
+    var cachService: FriendAvatarCachesServiceProtocol = FriendAvatarCachesService()
     
     func constructViewModel(for photos: [Friend]) -> [FriendViewModel] {
         return photos.compactMap(self.friendViewModel(for:))
@@ -26,6 +26,6 @@ final class FriendViewModelFactory {
     }
     
     private func getAvatarImage(url: String) -> UIImage? {
-        return self.photoCachService.getPhoto(by: url)
+        return self.cachService.getPhoto(by: url)
     }
 }

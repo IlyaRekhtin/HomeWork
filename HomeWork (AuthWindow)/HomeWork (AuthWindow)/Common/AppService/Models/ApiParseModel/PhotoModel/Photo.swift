@@ -6,25 +6,21 @@
 //
 
 import UIKit
-import RealmSwift
 
-class Photo: Object, Codable{
+class Photo: Codable {
     
+    var albumID: Int
+    var date: Int
+    var id: Int
+    var ownerID: Int
+    var text: String
+    var hasTags: Bool
+    var likes: Likes?
+    var reposts: Reposts?
+    var sizes = [Size]()
+    var width: Int?
+    var height: Int?
     
-    
-    @Persisted var albumID: Int
-    @Persisted var date: Int
-    @Persisted var id: Int
-    @Persisted var ownerID: Int
-    @Persisted var text: String
-    @Persisted var hasTags: Bool
-    @Persisted var likes: Likes?
-    @Persisted var reposts: Reposts?
-    @Persisted var sizes = List<Size>()
-    
-    override class func primaryKey() -> String? {
-        return "id"
-    }
     
     enum CodingKeys: String, CodingKey {
         case albumID = "album_id"
@@ -32,7 +28,8 @@ class Photo: Object, Codable{
         case ownerID = "owner_id"
         case sizes, text
         case hasTags = "has_tags"
-        case likes, reposts
+        case likes, reposts, width, height
+        
     }
     
     static func getURLForMaxPhotos(_ photos: [Photo]) -> [URL]{

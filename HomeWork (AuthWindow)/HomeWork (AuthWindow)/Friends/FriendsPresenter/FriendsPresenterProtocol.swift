@@ -13,4 +13,5 @@ protocol FriendsPresenterProtocol: AnyObject {
     var view: FriendsViewProtocol? {get set}
     
     func interactorDidFetchFriends(with result:  Result<[FriendViewModel], Error>)
+    func cellDidSelect(for user: Int, with name: String)
 }

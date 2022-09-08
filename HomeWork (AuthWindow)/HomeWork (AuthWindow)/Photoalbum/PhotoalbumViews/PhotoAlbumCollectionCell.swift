@@ -24,8 +24,9 @@ class PhotoAlbumCollectionCell: UICollectionViewCell {
         return imageView
     }()
     
-    func configCell () {
+    func configCell (_ photoalbumViewModel: PhotoalbumViewModel) {
         makeConstraints()
+        self.imageView.image = photoalbumViewModel.photo
     }
     
     
