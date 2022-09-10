@@ -9,5 +9,5 @@ import Foundation
 import RealmSwift
 
 protocol FriendsDataStoreProtocol: AnyObject {
-    func start() -> Results<Friend>? 
+    func start() ->  Results<Friend>?
 }

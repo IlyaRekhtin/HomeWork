@@ -5,9 +5,11 @@
 //  Created by Илья Рехтин on 08.09.2022.
 //
 
-import Foundation
+import UIKit
 
 final class PhotoalbumPresenter: PhotoalbumPresenterProtocol {
+    
+    
     
     var interactor: PhotoalbumInteractorProtocol? {
         didSet {
@@ -18,11 +20,14 @@ final class PhotoalbumPresenter: PhotoalbumPresenterProtocol {
     var router: PhotoalbumRouterProtocol?
     weak var view: PhotoalbumViewProtocol?
     
+    
+    
     init(_ viewController: PhotoalbumViewProtocol) {
         self.view = viewController
+        
     }
     
-    func interactorDidFetchPhotos(with result: Result<[PhotoalbumViewModel], Error>) {
+    func interactorDidFetchPhotos(with result: Result<[String], Error>) {
         switch result {
         case .success(let items):
             self.view?.update(with: items)
@@ -35,4 +40,9 @@ final class PhotoalbumPresenter: PhotoalbumPresenterProtocol {
         view?.setNameForNavigationBar(name)
     }
     
+    func getPhoto(url: String, complition: @escaping (UIImage?)-> ()){
+        interactor?.getPhoto(url: url, complition: { fetchImage in
+            complition(fetchImage)
+        })
+    }
 }

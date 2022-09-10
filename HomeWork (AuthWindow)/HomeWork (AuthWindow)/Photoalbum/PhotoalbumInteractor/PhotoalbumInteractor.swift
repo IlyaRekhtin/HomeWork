@@ -5,13 +5,13 @@
 //  Created by Илья Рехтин on 08.09.2022.
 //
 
-import Foundation
+import UIKit
+import PromiseKit
 
 final class PhotoalbumInteractor: PhotoalbumInteractorProtocol {
     
     weak var presenter: PhotoalbumPresenterProtocol?
     var dataStore: PhotoalbumDataStoreProtocol?
-    private var factory = PhotoalbumViewModelFactory()
     
     init(_ presenter: PhotoalbumPresenterProtocol) {
         self.presenter = presenter
@@ -24,10 +24,7 @@ final class PhotoalbumInteractor: PhotoalbumInteractorProtocol {
             return
         }
         dataStore?.start(for: userID, complition: {[weak self] items in
-            guard let items = items,
-                  let photoalbumViewModels = self?.factory.constructViewModel(for: items)
-            else {return}
-            self?.presenter?.interactorDidFetchPhotos(with: .success(photoalbumViewModels))
+            self?.presenter?.interactorDidFetchPhotos(with: .success(items))
         })
     }
     
@@ -36,4 +33,12 @@ final class PhotoalbumInteractor: PhotoalbumInteractorProtocol {
         presenter?.interactorGotANewUsername(name)
     }
     
+    func getPhoto(url: String, complition: @escaping (UIImage?) -> ()){
+        dataStore?.cacheService.getPhoto(by: url).done({ image in
+            complition(image)
+        }).catch({ error in
+            print(error)
+        })
+        
+    }
 }

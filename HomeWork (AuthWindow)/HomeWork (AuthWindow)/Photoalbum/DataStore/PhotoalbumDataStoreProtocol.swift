@@ -5,10 +5,12 @@
 //  Created by Илья Рехтин on 08.09.2022.
 //
 
-import Foundation
+import UIKit
 
 protocol PhotoalbumDataStoreProtocol {
     var userID: Int {get set}
     var userName: String {get set}
-    func start(for user: Int, complition: @escaping ([Photo]?) -> ())
+    var networkService: PhotoalbumNetworkServiceProtocol {get}
+    var cacheService: PhotoalbumCacheService {get}
+    func start(for user: Int, complition: @escaping ([String]) -> ())
 }

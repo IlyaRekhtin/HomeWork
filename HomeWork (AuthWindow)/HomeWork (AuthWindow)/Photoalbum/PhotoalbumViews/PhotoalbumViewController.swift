@@ -9,24 +9,22 @@ import UIKit
 
 final class PhotoalbumViewController: UIViewController, PhotoalbumViewProtocol {
     
-    
     var presenter: PhotoalbumPresenterProtocol?
     let assembly: PhotoalbumAssemblyProtocol = PhotoalbumAssembly()
     
     private var pushTransition = PushImageViewTransitionAnimation()
     private var popTransition = PopImageViewTransitionAnimation()
-    private var collectionView: UICollectionView!
-    private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoalbumViewModel>!
-//    private var layoutChangeButton = LayoutChangeButton()
-    
-    var photoalbumViewModels = [PhotoalbumViewModel]()
+    var collectionView: UICollectionView = {
+        let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
+        return collection
+    }()
+    private var dataSource: UICollectionViewDiffableDataSource<Int, String>!
+    private var photoalbumViewModels = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        layoutChangeButtonConfigurations()
-        setupCollectionView()
+        collectionSetup()
         createDataSource()
-        collectionView.delegate = self
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -34,20 +32,15 @@ final class PhotoalbumViewController: UIViewController, PhotoalbumViewProtocol {
         navControllerConfiguration()
     }
     
-    
-    override func viewWillDisappear(_ animated: Bool) {
-//        UserDefaults.standard.setValue(layoutChangeButton.sizeInCollectionView.rawValue, forKey: "sizeForLayoutForFotoGallary")
-    }
-    
-    deinit {
-        print("deinit photoalbumVC")
+    override func viewDidLayoutSubviews() {
+        collectionView.frame = view.bounds
     }
     
     func setNameForNavigationBar(_ name: String) {
         self.navigationController?.title = name
     }
     
-    func update(with photos: [PhotoalbumViewModel]) {
+    func update(with photos: [String]) {
         self.photoalbumViewModels = photos
         reloadData()
     }
@@ -55,24 +48,16 @@ final class PhotoalbumViewController: UIViewController, PhotoalbumViewProtocol {
 
 //MARK: - Private
 private extension PhotoalbumViewController {
-    
-//    func layoutChangeButtonConfigurations(){
-//        let sizeInCollectionView = LayoutChangeButton.FotoSizeInCollectionView(rawValue: UserDefaults.standard.integer(forKey: "sizeForLayoutForFotoGallary"))
-//
-//        let actionForChangeButton = UIAction(handler: { [self] _ in
-//            switch layoutChangeButton.sizeInCollectionView {
-//            case .fullScreen:
-//                layoutChangeButton.image = UIImage(systemName: "rectangle")
-//                layoutChangeButton.sizeInCollectionView = .treeOnLine
-//            case .treeOnLine:
-//                layoutChangeButton.image = UIImage(systemName: "rectangle.grid.2x2")
-//                layoutChangeButton.sizeInCollectionView = .fullScreen
-//            }
-//            self.collectionView.reloadData()
-//        })
-//        layoutChangeButton = LayoutChangeButton(image: LayoutChangeButton.getButtonImage(forSize: sizeInCollectionView!), primaryAction: actionForChangeButton)
-//        layoutChangeButton.sizeInCollectionView = sizeInCollectionView!
-//    }
+    func collectionSetup() {
+        collectionView = UICollectionView(frame: .zero, collectionViewLayout: createCompositionLayout())
+        collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        collectionView.backgroundColor = .systemBackground
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.register(PhotoAlbumCollectionCell.self, forCellWithReuseIdentifier: PhotoAlbumCollectionCell.reuseID)
+        collectionView.delegate = self
+        view.addSubview(collectionView)
+    }
     
     func navControllerConfiguration(){
         // Navigation Controller Appearance
@@ -81,9 +66,6 @@ private extension PhotoalbumViewController {
         navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
         navigationController?.navigationBar.tintColor = .systemGreen
-//        self.navigationItem.setRightBarButton(layoutChangeButton, animated: true)
-        // config custom barButton
-        
         navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false
     }
@@ -93,44 +75,28 @@ private extension PhotoalbumViewController {
 //MARK: - CollectionView
 extension PhotoalbumViewController: UICollectionViewDelegate {
     
-    private func setupCollectionView() {
-        collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createCompositionLayout())
-        collectionView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        collectionView.backgroundColor = .systemBackground
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.showsVerticalScrollIndicator = false
-        view.addSubview(collectionView)
-        // Register cell
-        collectionView.register(PhotoAlbumCollectionCell.self, forCellWithReuseIdentifier: PhotoAlbumCollectionCell.reuseID)
-    }
-    
     private func createCompositionLayout() -> UICollectionViewLayout {
         let layout = UICollectionViewCompositionalLayout {[weak self] (sectionIndex, collectionEnvironment) -> NSCollectionLayoutSection? in
             return self?.createSectionLayoutThreeOnLine()
-//            switch self?.layoutChangeButton.sizeInCollectionView {
-//            case .fullScreen:
-//                return self?.createSectionLayoutOneOnLine()
-//            case .treeOnLine:
-//                return self?.createSectionLayoutThreeOnLine()
-//            case .none:
-//                return self?.createSectionLayoutOneOnLine()
-//            }
         }
         return layout
     }
     
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, PhotoalbumViewModel>(collectionView: collectionView, cellProvider: {[weak self] collectionView, indexPath, itemIdentifier in
+        dataSource = UICollectionViewDiffableDataSource<Int, String>(collectionView: collectionView) {[weak self] collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCollectionCell.reuseID, for: indexPath) as? PhotoAlbumCollectionCell else {fatalError()}
             if let item = self?.photoalbumViewModels[indexPath.item] {
-                cell.configCell(item)
+                self?.presenter?.getPhoto(url: item){ fetchImage in
+                    guard let image = fetchImage else {return}
+                        cell.configCell(image)
+                }
             }
             return cell
-        })
+        }
     }
     
     private  func reloadData(){
-        var snapShot = NSDiffableDataSourceSnapshot<Int, PhotoalbumViewModel>()
+        var snapShot = NSDiffableDataSourceSnapshot<Int, String>()
         snapShot.appendSections([1])
         snapShot.appendItems(self.photoalbumViewModels)
         dataSource.apply(snapShot)

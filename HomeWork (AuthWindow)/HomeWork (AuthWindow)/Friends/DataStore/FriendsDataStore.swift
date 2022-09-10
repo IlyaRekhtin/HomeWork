@@ -14,16 +14,16 @@ final class FriendsDataStore: FriendsDataStoreProtocol {
     var networkService: FriendNetworkServiceProtocol = FriendNetworkService()
     var databaseService: FriendDatabaseProtocol = FriendDatabaseService()
     
-    func start() -> Results<Friend>? {
-        networkService.getURL()
+    func start() ->  Results<Friend>?{
+        let friends = try? networkService.getURL()
             .then(on: .global(), networkService.fetchData(_:))
-            .then(on: .global(), networkService.parsedData(_:))
-            .done{[weak self] friends in
-                self?.databaseService.writeToDatabase(friends)
-            }.catch { error in
-                print(error.localizedDescription)
-            }
-        return databaseService.readFromDatabase()
+            .then(on: .global(), networkService.parsedData(_:)).wait()
+        self.databaseService.writeToDatabase(friends)
+        return self.databaseService.readFromDatabase()
+    }
+    
+    func getFriends() -> Results<Friend>? {
+        self.databaseService.readFromDatabase()
     }
     
     

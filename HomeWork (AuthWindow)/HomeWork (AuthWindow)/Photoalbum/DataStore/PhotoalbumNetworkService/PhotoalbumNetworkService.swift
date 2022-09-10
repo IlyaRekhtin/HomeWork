@@ -4,21 +4,22 @@
 //
 //  Created by Илья Рехтин on 08.09.2022.
 //
-
-import Foundation
 import PromiseKit
+import UIKit
 
 final class PhotoalbumNetworkService: PhotoalbumNetworkServiceProtocol {
     
+    
+    
     func getURL(for userID: Int) -> Promise<URL> {
         let params = ["owner_id": String(userID),
-                                   "extended": "1",
-                                   "photo_sizes": "0",
-                                   "count": "20",
-                                   "no_service_albums":"1",
-                                   "access_token": Session.data.token,
-                                   "v": Api.shared.apiVersion
-                           ]
+                      "extended": "1",
+                      "photo_sizes": "0",
+                      "count": "20",
+                      "no_service_albums":"1",
+                      "access_token": Session.data.token,
+                      "v": Api.shared.apiVersion
+        ]
         return Promise { resolver in
             guard let url = URL.configureURL(method: .photosGetAll, baseURL: .api, params: params) else {
                 resolver.reject(AppError.urlError)
@@ -28,7 +29,7 @@ final class PhotoalbumNetworkService: PhotoalbumNetworkServiceProtocol {
         }
     }
     
-   func fetchData(_ url: URL) -> Promise<Data> {
+    func fetchData(_ url: URL) -> Promise<Data> {
         return Promise { resolver in
             URLSession.shared.dataTask(with: url) { data, _, _ in
                 guard let data = data else {
@@ -51,4 +52,17 @@ final class PhotoalbumNetworkService: PhotoalbumNetworkServiceProtocol {
         }
     }
     
+    
+    func getCurrentUrl(_ photos: [Photo]) -> Promise<[String]> {
+        return Promise { resolver in
+            let imagesURL = photos.map { photo in
+                getPhotoUrl(photo.sizes)
+            }
+            resolver.fulfill(imagesURL)
+        }
+    }
+    
+    private func getPhotoUrl(_ sizes: [Size]) -> String {
+        sizes.filter({$0.type?.rawValue == "x"}).first?.url ?? ""
+    }
 }

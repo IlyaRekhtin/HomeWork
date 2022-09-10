@@ -5,7 +5,7 @@
 //  Created by Илья Рехтин on 08.09.2022.
 //
 
-import Foundation
+import UIKit
 
 protocol PhotoalbumInteractorProtocol: AnyObject {
     var presenter: PhotoalbumPresenterProtocol? {get set}
@@ -13,4 +13,7 @@ protocol PhotoalbumInteractorProtocol: AnyObject {
     
     func getPhotos()
     func setNavigationTittle()
+    func getPhoto(url: String, complition: @escaping (UIImage?) -> ())
+    
 }
+

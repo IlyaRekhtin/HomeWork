@@ -131,10 +131,7 @@
 		8C9596FF28C9496500D3AB1C /* PhotoalbumPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9596FE28C9496500D3AB1C /* PhotoalbumPresenter.swift */; };
 		8C95970228C94D3F00D3AB1C /* PhotoalbumCacheServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95970128C94D3E00D3AB1C /* PhotoalbumCacheServiceProtocol.swift */; };
 		8C95970428C94D4B00D3AB1C /* PhotoalbumCacheService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95970328C94D4B00D3AB1C /* PhotoalbumCacheService.swift */; };
-		8C95970728C94F6500D3AB1C /* PhotoalbumDataStoreProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95970628C94F6500D3AB1C /* PhotoalbumDataStoreProxy.swift */; };
 		8C95970928C951B400D3AB1C /* PhotoalbumViewProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95970828C951B400D3AB1C /* PhotoalbumViewProtocol.swift */; };
-		8C95970B28C95C1900D3AB1C /* PhotoalbumViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95970A28C95C1900D3AB1C /* PhotoalbumViewModel.swift */; };
-		8C95970E28C95D0500D3AB1C /* PhotoalbumViewModelFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95970D28C95D0500D3AB1C /* PhotoalbumViewModelFactory.swift */; };
 		8C95971128CA32E900D3AB1C /* PhotoalbumAssemblyProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95971028CA32E900D3AB1C /* PhotoalbumAssemblyProtocol.swift */; };
 		8C95971328CA32FF00D3AB1C /* PhotoalbumAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C95971228CA32FF00D3AB1C /* PhotoalbumAssembly.swift */; };
 		8C95971728CA489800D3AB1C /* SF-Pro.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8C95971628CA489800D3AB1C /* SF-Pro.ttf */; };
@@ -283,10 +280,7 @@
 		8C9596FE28C9496500D3AB1C /* PhotoalbumPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoalbumPresenter.swift; sourceTree = "<group>"; };
 		8C95970128C94D3E00D3AB1C /* PhotoalbumCacheServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoalbumCacheServiceProtocol.swift; sourceTree = "<group>"; };
 		8C95970328C94D4B00D3AB1C /* PhotoalbumCacheService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoalbumCacheService.swift; sourceTree = "<group>"; };
-		8C95970628C94F6500D3AB1C /* PhotoalbumDataStoreProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoalbumDataStoreProxy.swift; sourceTree = "<group>"; };
 		8C95970828C951B400D3AB1C /* PhotoalbumViewProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoalbumViewProtocol.swift; sourceTree = "<group>"; };
-		8C95970A28C95C1900D3AB1C /* PhotoalbumViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoalbumViewModel.swift; sourceTree = "<group>"; };
-		8C95970D28C95D0500D3AB1C /* PhotoalbumViewModelFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoalbumViewModelFactory.swift; sourceTree = "<group>"; };
 		8C95971028CA32E900D3AB1C /* PhotoalbumAssemblyProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoalbumAssemblyProtocol.swift; sourceTree = "<group>"; };
 		8C95971228CA32FF00D3AB1C /* PhotoalbumAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoalbumAssembly.swift; sourceTree = "<group>"; };
 		8C95971628CA489800D3AB1C /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
@@ -990,7 +984,6 @@
 		8C9596E828C9472700D3AB1C /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				8C95970A28C95C1900D3AB1C /* PhotoalbumViewModel.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1037,7 +1030,6 @@
 		8C95970528C94F4700D3AB1C /* Proxy */ = {
 			isa = PBXGroup;
 			children = (
-				8C95970628C94F6500D3AB1C /* PhotoalbumDataStoreProxy.swift */,
 			);
 			path = Proxy;
 			sourceTree = "<group>";
@@ -1045,7 +1037,6 @@
 		8C95970C28C95CE900D3AB1C /* Factory */ = {
 			isa = PBXGroup;
 			children = (
-				8C95970D28C95D0500D3AB1C /* PhotoalbumViewModelFactory.swift */,
 			);
 			path = Factory;
 			sourceTree = "<group>";
@@ -1321,7 +1312,6 @@
 				8CE2C84028134FB2001A7144 /* PopImageViewTransitionAnimate.swift in Sources */,
 				8C0849C728B7F8A600E31A5E /* LinkViewModelFactory.swift in Sources */,
 				8C0F55E728C4047200B4F2A9 /* GroupServiceProxy.swift in Sources */,
-				8C95970728C94F6500D3AB1C /* PhotoalbumDataStoreProxy.swift in Sources */,
 				8C167A31284AA4FB00214B83 /* PostSource.swift in Sources */,
 				8C167A48284AAAF700214B83 /* Group.swift in Sources */,
 				8CCD363C283C1ED000847F7A /* GroupsService.swift in Sources */,
@@ -1415,8 +1405,6 @@
 				8C0C9BE228C7F925006C5774 /* LogAction.swift in Sources */,
 				8C9596F728C9491200D3AB1C /* PhotoalbumRouter.swift in Sources */,
 				8C084A2F28B97E2E00E31A5E /* VideoCollectionViewCell.swift in Sources */,
-				8C95970B28C95C1900D3AB1C /* PhotoalbumViewModel.swift in Sources */,
-				8C95970E28C95D0500D3AB1C /* PhotoalbumViewModelFactory.swift in Sources */,
 				8C4378972843BDE5005ACB5F /* AddedGroup.swift in Sources */,
 				26F14F2F27E8B0270025DF57 /* MediaNewsLayout.swift in Sources */,
 				8C084A4128B9824300E31A5E /* NewsItem.swift in Sources */,

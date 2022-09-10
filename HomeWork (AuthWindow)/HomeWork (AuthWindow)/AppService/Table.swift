@@ -8,16 +8,16 @@
 import Foundation
 import UIKit
 
-final class Table: DataReloadable {
-   
-    let table: UITableView
-    
-    init(table: UITableView) {
-        self.table = table
-    }
-    
-    func reloadRow(at indexPath: IndexPath) {
-        self.table.reloadRows(at: [indexPath], with: .none)
-    }
-    
-}
+//final class Table: DataReloadable {
+//   
+//    let table: UITableView
+//    
+//    init(table: UITableView) {
+//        self.table = table
+//    }
+//    
+//    func reloadRow(at indexPath: IndexPath) {
+//        self.table.reloadRows(at: [indexPath], with: .none)
+//    }
+//    
+//}

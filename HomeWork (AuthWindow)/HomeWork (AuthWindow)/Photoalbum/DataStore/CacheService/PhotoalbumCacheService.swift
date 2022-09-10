@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import PromiseKit
 
 final class PhotoalbumCacheService: PhotoalbumCacheServiceProtocol {
     
@@ -24,17 +25,28 @@ final class PhotoalbumCacheService: PhotoalbumCacheServiceProtocol {
     }()
     private var images = [String: UIImage]()
     
-    func getPhoto(by url: String) -> UIImage? {
-        var image: UIImage?
-        
-        if let photo = images[url] {
-            image = photo
-        } else if let photo = getImageFromCache(url: url) {
-            image = photo
-        } else {
-            loadPhoto(by: url)
+    func getPhoto(by url: String) -> Promise<UIImage?> {
+        return Promise { resolver in
+            if let photo = images[url] {
+                resolver.fulfill(photo)
+            } else if let photo = getImageFromCache(url: url) {
+                resolver.fulfill(photo)
+            } else {
+                guard let imageURL = URL(string: url) else {
+                    return resolver.reject(Errors.noDataAvailable)
+                }
+                let request = URLRequest(url: imageURL)
+                URLSession.shared.dataTask(with: request) { data, _, _ in
+                    guard let data = data,
+                          let image = UIImage(data: data) else {return}
+                    DispatchQueue.main.async {
+                        self.images[url] = image /// сохраняем в массив
+                    }
+                    self.saveImageToCaches(url: url, image: image)
+                    resolver.fulfill(image)
+                }.resume()
+            }
         }
-        return image
     }
 }
 
@@ -73,18 +85,5 @@ private extension PhotoalbumCacheService {
             self.images[url] = image
         }
         return image
-    }
-    
-    func loadPhoto(by url: String) {
-        guard let imageURL = URL(string: url) else {return}
-        let request = URLRequest(url: imageURL)
-        URLSession.shared.dataTask(with: request) { data, _, _ in
-            guard let data = data,
-                  let image = UIImage(data: data) else {return}
-            DispatchQueue.main.async {
-                self.images[url] = image // сохраняем в массив
-            }
-            self.saveImageToCaches(url: url, image: image) // заполняем кеш
-        }.resume()
     }
 }

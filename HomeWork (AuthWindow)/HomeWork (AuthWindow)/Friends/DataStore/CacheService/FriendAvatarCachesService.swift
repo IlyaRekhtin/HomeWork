@@ -6,13 +6,12 @@
 //
 
 import UIKit
+import PromiseKit
 
-protocol DataReloadable {
-    func reloadRow(at indexPath: IndexPath)
-}
+
 
 protocol FriendAvatarCachesServiceProtocol: AnyObject {
-    func getPhoto(by url: String) -> UIImage?
+    func getPhoto(by url: String) -> Promise<UIImage?>
 }
 
 final class FriendAvatarCachesService: FriendAvatarCachesServiceProtocol {
@@ -32,17 +31,26 @@ final class FriendAvatarCachesService: FriendAvatarCachesServiceProtocol {
     }()
     private var images = [String: UIImage]()
     
-    func getPhoto(by url: String) -> UIImage? {
-        var image: UIImage?
-        
-        if let photo = images[url] {
-            image = photo
-        } else if let photo = getImageFromCache(url: url) {
-            image = photo
-        } else {
-            loadPhoto(by: url)
+    func getPhoto(by url: String) -> Promise<UIImage?> {
+        Promise { resolver in
+            if let photo = images[url] {
+                resolver.fulfill(photo)
+            } else if let photo = getImageFromCache(url: url) {
+                resolver.fulfill(photo)
+            } else {
+                guard let imageURL = URL(string: url) else {return}
+                let request = URLRequest(url: imageURL)
+                URLSession.shared.dataTask(with: request) { data, _, _ in
+                        guard let data = data,
+                              let image = UIImage(data: data) else {return}
+                        DispatchQueue.main.async {
+                            self.images[url] = image /// сохраняем в массив
+                        }
+                        self.saveImageToCaches(url: url, image: image) /// заполняем кеш
+                        resolver.fulfill(image)
+                }.resume()
+            }
         }
-        return image
     }
 }
 
@@ -81,18 +89,5 @@ private extension FriendAvatarCachesService {
             self.images[url] = image
         }
         return image
-    }
-    
-    func loadPhoto(by url: String) {
-        guard let imageURL = URL(string: url) else {return}
-        let request = URLRequest(url: imageURL)
-        URLSession.shared.dataTask(with: request) { data, _, _ in
-                guard let data = data,
-                      let image = UIImage(data: data) else {return}
-                DispatchQueue.main.async {
-                    self.images[url] = image /// сохраняем в массив
-                }
-                self.saveImageToCaches(url: url, image: image) /// заполняем кеш
-        }.resume()
     }
 }

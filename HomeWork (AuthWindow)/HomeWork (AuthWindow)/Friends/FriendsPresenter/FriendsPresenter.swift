@@ -13,6 +13,7 @@ final class FriendsPresenter: FriendsPresenterProtocol {
     var interactor: FriendsIteractorProtocol? {
         didSet {
             interactor?.getFriends()
+            
         }
     }
     

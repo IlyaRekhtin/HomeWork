@@ -17,7 +17,11 @@ final class FriendsDataStoreProxy: FriendsDataStoreProtocol {
     }
     
     func start() -> Results<Friend>? {
+        service.start()
+    }
+    
+    func getFriends() -> Results<Friend>? {
         log(.friendsGet)
-        return service.start()
+        return service.getFriends()
     }
 }

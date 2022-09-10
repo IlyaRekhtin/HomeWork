@@ -12,9 +12,7 @@ import Kingfisher
 class PhotoAlbumCollectionCell: UICollectionViewCell {
     
     static var reuseID = "UserCollectionCell"
-    
-    
-    
+
     var imageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.backgroundColor = UIColor.backgroundColorForPhoto
@@ -24,12 +22,12 @@ class PhotoAlbumCollectionCell: UICollectionViewCell {
         return imageView
     }()
     
-    func configCell (_ photoalbumViewModel: PhotoalbumViewModel) {
+    func configCell (_ photo: UIImage) {
         makeConstraints()
-        self.imageView.image = photoalbumViewModel.photo
+        imageView.image = photo
+        
     }
-    
-    
+
     private func makeConstraints() {
         addSubview(imageView)
         imageView.snp.makeConstraints { make in

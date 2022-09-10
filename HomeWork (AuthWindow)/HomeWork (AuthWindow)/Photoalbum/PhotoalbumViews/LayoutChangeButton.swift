@@ -6,21 +6,20 @@
 //
 
 import UIKit
-import SnapKit
+
 
 class LayoutChangeButton: UIBarButtonItem {
     
-    enum FotoSizeInCollectionView: Int {
+    enum PhotoSizeInCollectionView: Int {
         case fullScreen
         case treeOnLine
     }
     
-    var sizeInCollectionView: FotoSizeInCollectionView = .fullScreen
- 
+    var layoutFlag: PhotoSizeInCollectionView = .fullScreen
     
-    static func getButtonImage(forSize size: FotoSizeInCollectionView) -> UIImage {
+    static func getButtonImage(for variant: PhotoSizeInCollectionView) -> UIImage {
         var image = UIImage()
-        switch size{
+        switch variant{
         case .fullScreen:
             image = UIImage(systemName: "rectangle.grid.2x2")!
         case .treeOnLine:

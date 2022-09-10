@@ -8,15 +8,15 @@
 import Foundation
 import UIKit
 
-final class Collection: DataReloadable {
-    
-    let collection: UICollectionView
-    
-    init(collection: UICollectionView) {
-        self.collection = collection
-    }
-    
-    func reloadRow(at indexPath: IndexPath) {
-        self.collection.reloadItems(at: [indexPath])
-    }
-}
+//final class Collection: DataReloadable {
+//    
+//    let collection: UICollectionView
+//    
+//    init(collection: UICollectionView) {
+//        self.collection = collection
+//    }
+//    
+//    func reloadRow(at indexPath: IndexPath) {
+//        self.collection.reloadItems(at: [indexPath])
+//    }
+//}
