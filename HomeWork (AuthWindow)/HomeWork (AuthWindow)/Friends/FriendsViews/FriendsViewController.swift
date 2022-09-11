@@ -45,28 +45,10 @@ final class FriendsViewController: UIViewController, FriendsViewProtocol {
     }
     
     private func configNavigationController(){
-        let navBarAppearance = UINavigationBarAppearance()
-        // bacground
-        navBarAppearance.configureWithOpaqueBackground()
-        navBarAppearance.backgroundColor = .systemBackground
-        //title
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.systemGreen]
-        navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.systemGreen]
-        // all button
-        let barButtonItemAppearance = UIBarButtonItemAppearance(style: .plain)
-        barButtonItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor.systemGreen]
-        barButtonItemAppearance.disabled.titleTextAttributes = [.foregroundColor: UIColor.lightText]
-        barButtonItemAppearance.highlighted.titleTextAttributes = [.foregroundColor: UIColor.label]
-        barButtonItemAppearance.focused.titleTextAttributes = [.foregroundColor: UIColor.systemGreen]
-        
-        navBarAppearance.buttonAppearance = barButtonItemAppearance
-        navBarAppearance.backButtonAppearance = barButtonItemAppearance
-        navBarAppearance.doneButtonAppearance = barButtonItemAppearance
-        
-        navigationController?.navigationBar.scrollEdgeAppearance = navBarAppearance
-        navigationController?.navigationBar.compactAppearance = navBarAppearance
-        navigationController?.navigationBar.standardAppearance = navBarAppearance
-        navigationController?.navigationBar.compactScrollEdgeAppearance = navBarAppearance
+        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.mainNavigationControllerAppearance()
+        navigationController?.navigationBar.compactAppearance = Appearance.data.mainNavigationControllerAppearance()
+        navigationController?.navigationBar.standardAppearance = Appearance.data.mainNavigationControllerAppearance()
+        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.mainNavigationControllerAppearance()
         navigationController?.navigationBar.tintColor = .systemGreen
         navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false

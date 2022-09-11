@@ -54,10 +54,10 @@ class NewsfeedTableViewController: UIViewController {
     }
     
     private func configNavigationController(){
-        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.mainNavigationControllerAppearance()
+        navigationController?.navigationBar.compactAppearance = Appearance.data.mainNavigationControllerAppearance()
+        navigationController?.navigationBar.standardAppearance = Appearance.data.mainNavigationControllerAppearance()
+        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.mainNavigationControllerAppearance()
         navigationController?.navigationBar.tintColor = .systemGreen
         navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false
@@ -229,27 +229,27 @@ extension NewsfeedTableViewController: UIViewControllerTransitioningDelegate {
 extension NewsfeedTableViewController: NewsfeedItemTapped {
     
     func newsfeedItemTapped(cell: UITableViewCell) {
-        if let cell = cell as? PhotoNewsCell {
-            guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImagePresentViewController,
-                  let index = cell.photoNewsfeedCollectionView.indexPathsForSelectedItems?.first
-            else {return}
-            vc.currentIndexPuthFoto = index.row
-            let urlStr = cell.photoViewModels[index.row].photo
-            guard let url = URL(string: urlStr) else {return}
-            vc.firstImageView.kf.setImage(with: url)
-            
-            vc.firstImageView.kf.indicatorType = .activity
-            vc.photoAlbum = cell.photoViewModels
-            vc.transitioningDelegate = self
-            vc.modalPresentationStyle = .fullScreen
-            self.present(vc, animated: true)
-        } else if let cell = cell as? LinkNewsCell {
-            guard let vc = self.storyboard?.instantiateViewController(identifier: "WebViewController") as? WebViewController else {return}
-            vc.urlString = cell.linkURL
-            vc.transitioningDelegate = self
-            vc.modalPresentationStyle = .fullScreen
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+//        if let cell = cell as? PhotoNewsCell {
+//            guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImagePresentViewController,
+//                  let index = cell.photoNewsfeedCollectionView.indexPathsForSelectedItems?.first
+//            else {return}
+//            vc.currentIndexPuthFoto = index.row
+//            let urlStr = cell.photoViewModels[index.row].photo
+//            guard let url = URL(string: urlStr) else {return}
+//            vc.firstImageView.kf.setImage(with: url)
+//
+//            vc.firstImageView.kf.indicatorType = .activity
+//            vc.photoAlbum = cell.photoViewModels
+//            vc.transitioningDelegate = self
+//            vc.modalPresentationStyle = .fullScreen
+//            self.present(vc, animated: true)
+//        } else if let cell = cell as? LinkNewsCell {
+//            guard let vc = self.storyboard?.instantiateViewController(identifier: "WebViewController") as? WebViewController else {return}
+//            vc.urlString = cell.linkURL
+//            vc.transitioningDelegate = self
+//            vc.modalPresentationStyle = .fullScreen
+//            self.navigationController?.pushViewController(vc, animated: true)
+//        }
     }
 }
 //MARK: - UITableViewDataSourcePrefetching

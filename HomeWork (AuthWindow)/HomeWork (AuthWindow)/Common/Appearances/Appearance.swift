@@ -11,7 +11,7 @@ struct Appearance {
     
     static let data = Appearance()
     
-    func appearanceForNavBarFriendsTBVC () -> UINavigationBarAppearance {
+    func mainNavigationControllerAppearance () -> UINavigationBarAppearance {
         let navBarAppearance = UINavigationBarAppearance()
         
         // bacground
@@ -38,7 +38,7 @@ struct Appearance {
         return navBarAppearance
     }
     
-    func appearanceForNavBarImageShowVC() -> UINavigationBarAppearance {
+    func imageViewingScreenNavigationControllerAppearance() -> UINavigationBarAppearance {
         let navBarAppearance = UINavigationBarAppearance()
         
         // bacground
@@ -63,7 +63,4 @@ struct Appearance {
         
         return navBarAppearance
     }
-    
-    
-    
 }

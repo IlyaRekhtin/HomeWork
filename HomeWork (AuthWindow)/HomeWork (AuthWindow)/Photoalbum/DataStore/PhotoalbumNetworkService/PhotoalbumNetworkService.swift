@@ -8,8 +8,11 @@ import PromiseKit
 import UIKit
 
 final class PhotoalbumNetworkService: PhotoalbumNetworkServiceProtocol {
-    
-    
+    enum AppError: String, Error {
+        case urlError = "url not found"
+        case decodeError = "don't decode"
+        case fetchError = "don't fetch"
+    }
     
     func getURL(for userID: Int) -> Promise<URL> {
         let params = ["owner_id": String(userID),

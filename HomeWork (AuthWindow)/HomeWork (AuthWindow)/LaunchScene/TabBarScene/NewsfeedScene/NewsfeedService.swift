@@ -7,9 +7,13 @@
 
 import Foundation
 import PromiseKit
+
 final class NewsfeedService: NetworkServiceProtocol {
-    
-    
+    enum AppError: String, Error {
+        case urlError = "url not found"
+        case decodeError = "don't decode"
+        case fetchError = "don't fetch"
+    }
 
     func getURL() -> Promise<URL> {
         let params = ["filters": "post, photo, video",

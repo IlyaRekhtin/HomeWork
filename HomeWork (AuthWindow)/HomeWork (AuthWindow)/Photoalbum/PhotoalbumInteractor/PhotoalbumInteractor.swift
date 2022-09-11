@@ -39,6 +39,5 @@ final class PhotoalbumInteractor: PhotoalbumInteractorProtocol {
         }).catch({ error in
             print(error)
         })
-        
     }
 }

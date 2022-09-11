@@ -9,7 +9,6 @@ import Foundation
 
 struct GroupViewModel {
     let id: Int
-    var isMember: Bool
     let avatar: String
     let name: String
     let description: String

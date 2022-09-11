@@ -59,8 +59,7 @@ private extension FriendsTableViewCell {
         addSubview(city)
         
         avatar.snp.makeConstraints { make in
-            make.width.equalTo(avatar.frame.width)
-            make.height.equalTo(avatar.frame.width)
+            make.size.equalTo(avatar.frame.width)
             make.left.top.bottom.equalToSuperview().inset(5)
         }
         

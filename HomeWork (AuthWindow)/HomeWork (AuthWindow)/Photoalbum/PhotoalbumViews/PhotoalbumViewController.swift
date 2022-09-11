@@ -61,10 +61,10 @@ private extension PhotoalbumViewController {
     
     func navControllerConfiguration(){
         // Navigation Controller Appearance
-        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.compactAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.standardAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
-        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarFriendsTBVC()
+        navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.mainNavigationControllerAppearance()
+        navigationController?.navigationBar.compactAppearance = Appearance.data.mainNavigationControllerAppearance()
+        navigationController?.navigationBar.standardAppearance = Appearance.data.mainNavigationControllerAppearance()
+        navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.mainNavigationControllerAppearance()
         navigationController?.navigationBar.tintColor = .systemGreen
         navigationItem.backButtonTitle = ""
         tabBarController?.tabBar.isHidden = false
@@ -104,19 +104,13 @@ extension PhotoalbumViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-//        guard let vc = self.storyboard?.instantiateViewController(identifier: "imageShowController") as? ImagePresentViewController else {return}
-//        guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
-//        
-//        vc.currentIndexPuthFoto = index.row
-//        
-//        let photo = self.photoalbumViewModels[index.row].photo
-//        vc.firstImageView.image = photo
-//        
-////        vc.photoAlbum = self.photoalbumViewModels
-//        vc.transitioningDelegate = self
-//        vc.modalPresentationStyle = .fullScreen
-//        self.present(vc, animated: true)
-//        
+        guard let vc = self.storyboard?.instantiateViewController(identifier: "PhotoViewerViewController") as? PhotoViewerViewController else {return}
+        guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
+        vc.assembly.configure(with: vc, self.photoalbumViewModels, index.row)
+        vc.transitioningDelegate = self
+        vc.modalPresentationStyle = .fullScreen
+        self.navigationController?.pushViewController(vc, animated: true)
+        
     }
 }
 

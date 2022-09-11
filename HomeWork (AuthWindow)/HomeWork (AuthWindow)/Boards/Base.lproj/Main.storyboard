@@ -39,10 +39,10 @@
             </objects>
             <point key="canvasLocation" x="-213.04347826086959" y="2153.5714285714284"/>
         </scene>
-        <!--Image Present View Controller-->
+        <!--Photo Viewer View Controller-->
         <scene sceneID="jed-h3-6Mj">
             <objects>
-                <viewController storyboardIdentifier="imageShowController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="U9X-tr-Aek" customClass="ImagePresentViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PhotoViewerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="U9X-tr-Aek" customClass="PhotoViewerViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Au0-VW-Dr4">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -69,10 +69,10 @@
             </objects>
             <point key="canvasLocation" x="2587" y="605"/>
         </scene>
-        <!--Groups Table View Controller-->
+        <!--Groups View Controller-->
         <scene sceneID="7bB-19-FIJ">
             <objects>
-                <viewController id="yjC-2y-PoQ" customClass="GroupsTableViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="yjC-2y-PoQ" customClass="GroupsViewController" customModule="HomeWork__AuthWindow_" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="U03-fq-CKc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-import Kingfisher
 
 class AvatarView: UIView {
     
@@ -27,23 +26,10 @@ class AvatarView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    func shadowOff() {
-        shadowLayer.isHidden = true
-    }
-    
-    func shadowOn() {
-        shadowLayer.isHidden = false
-    }
-    
-    func imageHigth() -> CGFloat {
-        return userPhoto.frame.height
-    }
-    
 }
 //MARK: - private
 private extension AvatarView {
-    
+
     func setConfig() {
         userPhoto.layer.cornerRadius = self.frame.width / 2
         setShadow()
@@ -59,12 +45,11 @@ private extension AvatarView {
     }
     
     func setShadow() {
-            self.shadowLayer.shadowColor = UIColor.gray.cgColor
-            self.shadowLayer.shadowRadius = 3
-            self.shadowLayer.shadowOpacity = 1
-            self.shadowLayer.shadowPath = CGPath(ellipseIn: CGRect(x: self.userPhoto.layer.position.x , y: self.userPhoto.layer.position.y + 5, width: self.frame.width + 3, height: self.frame.height + 3), transform: nil)
+            shadowLayer.shadowColor = UIColor.gray.cgColor
+            shadowLayer.shadowRadius = 3
+            shadowLayer.shadowOpacity = 1
+            shadowLayer.shadowPath = CGPath(ellipseIn: CGRect(x: self.userPhoto.layer.position.x , y: self.userPhoto.layer.position.y + 5, width: self.frame.width + 3, height: self.frame.height + 3), transform: nil)
             self.layer.addSublayer(self.shadowLayer)
-        shadowOff()
     }
     
 }

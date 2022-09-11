@@ -55,7 +55,8 @@ final class TabBarController: UITabBarController {
                     guard let friendViewController = router.entryPoint else {return UIViewController()}
                     return self.wrappedInNavigationController(with: friendViewController, title: $0.title)
                 case .groups:
-                    let groupsViewController = GroupsTableViewController()
+                    let router = GroupsRouter.start()
+                    guard let groupsViewController = router.entryPoint else {return UIViewController()}
                     return self.wrappedInNavigationController(with: groupsViewController, title: $0.title)
                 }
             }

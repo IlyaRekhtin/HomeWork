@@ -1,21 +1,19 @@
 //
-//  SearchFriendsService.swift
+//  GroupsNetworkService.swift
 //  HomeWork (AuthWindow)
 //
-//  Created by Илья Рехтин on 23.05.2022.
+//  Created by Илья Рехтин on 10.09.2022.
 //
 
-import UIKit
+import Foundation
 import PromiseKit
 
-enum AppError: String, Error {
-    case urlError = "url not found"
-    case decodeError = "don't decode"
-    case fetchError = "don't fetch"
-}
-
-
-final class GroupsService: GroupServiceProtocol {
+final class GroupsNetworkService: GroupsNetworkServiceProtocol {
+    enum AppError: String, Error {
+        case urlError = "url not found"
+        case decodeError = "don't decode"
+        case fetchError = "don't fetch"
+    }
     
     func getURL() -> Promise<URL> {
         let params = ["user_id":String(Session.data.id),
@@ -24,7 +22,6 @@ final class GroupsService: GroupServiceProtocol {
                       "access_token": Session.data.token,
                       "v": Api.shared.apiVersion
               ]
-        
         return Promise { resolver in
             guard let url = URL.configureURL(method: .groupsGet, baseURL: .api, params: params) else {
                 resolver.reject(AppError.urlError)
@@ -57,7 +54,5 @@ final class GroupsService: GroupServiceProtocol {
         }
     }
     
-    func writeGroupsToDatabase(_ groups: [Group]) {
-        DataManager.data.saveObjectToDatabase(groups)
-    }
+    
 }

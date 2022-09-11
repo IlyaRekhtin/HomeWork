@@ -9,15 +9,13 @@ import UIKit
 import SnapKit
 import Kingfisher
 
-class ImagePresentViewController: UIViewController {
-    
-    //NavigationView
-    private var customNavView =  UIView()
-    private var customNavBar = UINavigationBar()
-    private var navItems = UINavigationItem(title: "")
-    
+final class PhotoViewerViewController: UIViewController, PhotoViewerProtocol {
+
+    var presenter: PhotoViewerPresenterProtocol?
+    var assembly: PhotoViewerAssemblyProtocol = PhotoViewerAssambly()
+  
     /// State flag for GRecognizer
-    private var navBarIsHide = false
+    private var navigationBarIsHide = false
     
     //CustomTabBar
     private var customTabBar: UIView = {
@@ -59,9 +57,8 @@ class ImagePresentViewController: UIViewController {
             firstImageView.isUserInteractionEnabled = true
         }
     }
-    
     /// ImageView for present next image on ViewController
-    private var secondImageView: UIImageView! = {
+    private var secondImageView: UIImageView = {
         let imageView = UIImageView(frame: .zero)
         imageView.contentMode = .scaleAspectFit
         return imageView
@@ -75,15 +72,8 @@ class ImagePresentViewController: UIViewController {
     private var animationDirection: AnimationDirection = .left
     
     //Data
-    var currentIndexPuthFoto: Int!
-    var photoAlbum = [PhotoViewModel]() {
-        didSet {
-            DispatchQueue.global().async {
-                self.currentSizePhotos = self.photoAlbum.compactMap{ $0.photo }
-            }
-        }
-    }
-    var currentSizePhotos = [String]()
+    var currentIndexPuthPhoto: Int = 0
+    var photoAlbum = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -92,7 +82,7 @@ class ImagePresentViewController: UIViewController {
 }
 
 //MARK: - Configuration view private methods
-private extension ImagePresentViewController {
+private extension PhotoViewerViewController {
     func setConfigForMainView() {
         self.view.backgroundColor = .black
         navigationBarApperians()
@@ -103,7 +93,7 @@ private extension ImagePresentViewController {
 }
 
 //MARK: - GestureRecognaze Metods
-private extension ImagePresentViewController {
+private extension PhotoViewerViewController {
     
     func addGestureRecognizer() {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(hideNavBarAndTabBar))
@@ -121,20 +111,20 @@ private extension ImagePresentViewController {
     }
     
     @objc func hideNavBarAndTabBar(){
-        switch navBarIsHide {
-        case false:
-            self.navBarIsHide.toggle()
-            UIView.animate(withDuration: 0.5) {
-                self.customNavView.alpha = 0
-                self.customTabBar.alpha = 0
-            }
-        case true:
-            self.navBarIsHide.toggle()
-            UIView.animate(withDuration: 0.5) {
-                self.customNavView.alpha = 1
-                self.customTabBar.alpha = 1
-            }
-        }
+//        switch navBarIsHide {
+//        case false:
+//            self.navBarIsHide.toggle()
+//            UIView.animate(withDuration: 0.5) {
+//                self.customNavView.alpha = 0
+//                self.customTabBar.alpha = 0
+//            }
+//        case true:
+//            self.navBarIsHide.toggle()
+//            UIView.animate(withDuration: 0.5) {
+//                self.customNavView.alpha = 1
+//                self.customTabBar.alpha = 1
+//            }
+//        }
     }
     
     @objc func panGestureAction(_ sender: UIPanGestureRecognizer) {
@@ -182,9 +172,9 @@ private extension ImagePresentViewController {
     /// - Parameter diraction: направление жеста
     private func panAnimation(for diraction: AnimationDirection) {
         if diraction == .left {
-            guard photoAlbum.count - 1 >= currentIndexPuthFoto + 1 else {return}
+            guard photoAlbum.count - 1 >= currentIndexPuthPhoto + 1 else {return}
         } else {
-            guard currentIndexPuthFoto >= 1 else {return}
+            guard currentIndexPuthPhoto >= 1 else {return}
         }
         self.animationDirection = diraction
         
@@ -213,10 +203,10 @@ private extension ImagePresentViewController {
         
         switch diraction {
         case .right:
-            guard let imageUrl = URL(string:currentSizePhotos[currentIndexPuthFoto - 1]) else {return}
+            guard let imageUrl = URL(string:photoAlbum[currentIndexPuthPhoto - 1]) else {return}
             secondImageView.kf.setImage(with: imageUrl)
         case .left:
-            guard let imageUrl = URL(string:currentSizePhotos[currentIndexPuthFoto + 1]) else {return}
+            guard let imageUrl = URL(string:photoAlbum[currentIndexPuthPhoto + 1]) else {return}
             secondImageView.kf.setImage(with: imageUrl)
         }
         /// анимация вью на переднем плане
@@ -232,11 +222,11 @@ private extension ImagePresentViewController {
             case .end:
                 switch diraction {
                 case .right:
-                    currentIndexPuthFoto -= 1
+                    currentIndexPuthPhoto -= 1
                 case .left:
-                    currentIndexPuthFoto += 1
+                    currentIndexPuthPhoto += 1
                 }
-                guard let imageUrl = URL(string: currentSizePhotos[currentIndexPuthFoto]) else {return}
+                guard let imageUrl = URL(string: photoAlbum[currentIndexPuthPhoto]) else {return}
                 firstImageView.kf.setImage(with: imageUrl)
                 firstImageView.transform = .identity
                 secondImageView.image = nil
@@ -247,14 +237,15 @@ private extension ImagePresentViewController {
             @unknown default:
                 break
             }
-            likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
-            navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
+            
+//            likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
+//            navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
         }
     }
 }
 
 //MARK: - Make constraints
-private extension ImagePresentViewController {
+private extension PhotoViewerViewController {
     
     func makeConstraints() {
         self.view.addSubview(firstImageView)
@@ -267,18 +258,18 @@ private extension ImagePresentViewController {
             make.top.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
         
-        self.view.addSubview(customNavView)
-        customNavView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.left.right.equalToSuperview()
-            make.height.equalTo(100)
-            
-        }
-        self.customNavView.addSubview(customNavBar)
-        customNavBar.snp.makeConstraints { make in
-            make.leading.trailing.bottom.equalToSuperview()
-            make.height.equalTo(50)
-        }
+//        self.view.addSubview(customNavView)
+//        customNavView.snp.makeConstraints { make in
+//            make.top.equalToSuperview()
+//            make.left.right.equalToSuperview()
+//            make.height.equalTo(100)
+//
+//        }
+//        self.customNavView.addSubview(customNavBar)
+//        customNavBar.snp.makeConstraints { make in
+//            make.leading.trailing.bottom.equalToSuperview()
+//            make.height.equalTo(50)
+//        }
         self.view.addSubview(customTabBar)
         customTabBar.snp.makeConstraints { make in
             make.bottom.equalToSuperview()
@@ -293,27 +284,27 @@ private extension ImagePresentViewController {
 }
 
 // MARK: - Navigation and Tab Bar
-private extension ImagePresentViewController {
+private extension PhotoViewerViewController {
     func navigationBarApperians() {
-        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(backButtonAction))
-        backButton.tintColor = .white
-        let shareButton = UIBarButtonItem(systemItem: .action)
-        shareButton.tintColor = .white
-        
-        navItems.leftBarButtonItem = backButton
-        navItems.rightBarButtonItem = shareButton
-        navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
-        
-        customNavView = UIView(frame: CGRect.zero)
-        customNavView.backgroundColor = .black
-        customNavBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
-        customNavBar.setItems([navItems], animated: false)
-        
-        customNavBar.scrollEdgeAppearance = Appearance.data.appearanceForNavBarImageShowVC()
-        customNavBar.compactAppearance = Appearance.data.appearanceForNavBarImageShowVC()
-        customNavBar.standardAppearance = Appearance.data.appearanceForNavBarImageShowVC()
-        customNavBar.compactScrollEdgeAppearance = Appearance.data.appearanceForNavBarImageShowVC()
-        customNavBar.tintColor = .white
+//        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(backButtonAction))
+//        backButton.tintColor = .white
+//        let shareButton = UIBarButtonItem(systemItem: .action)
+//        shareButton.tintColor = .white
+//
+//        navItems.leftBarButtonItem = backButton
+//        navItems.rightBarButtonItem = shareButton
+//        navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
+//
+//        customNavView = UIView(frame: CGRect.zero)
+//        customNavView.backgroundColor = .black
+//        customNavBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
+//        customNavBar.setItems([navItems], animated: false)
+//
+//        customNavBar.scrollEdgeAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
+//        customNavBar.compactAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
+//        customNavBar.standardAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
+//        customNavBar.compactScrollEdgeAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
+//        customNavBar.tintColor = .white
     }
     
     func customTabBarAppereans(){
@@ -329,7 +320,7 @@ private extension ImagePresentViewController {
     }
     
     func configLikeButton(){
-        likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
+//        likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
     }
     
     @objc func backButtonAction(){

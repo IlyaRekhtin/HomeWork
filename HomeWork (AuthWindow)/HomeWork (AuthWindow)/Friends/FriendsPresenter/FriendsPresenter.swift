@@ -9,16 +9,12 @@ import Foundation
 
 final class FriendsPresenter: FriendsPresenterProtocol {
     
-    
     var interactor: FriendsIteractorProtocol? {
         didSet {
             interactor?.getFriends()
-            
         }
     }
-    
     var router: FriendsRouterProtocol?
-    
     weak var view: FriendsViewProtocol?
     
     func interactorDidFetchFriends(with result: Result<[FriendViewModel], Error>) {
@@ -33,6 +29,4 @@ final class FriendsPresenter: FriendsPresenterProtocol {
     func cellDidSelect(for user: Int, with name: String) {
         router?.goToPhotoalbumViewController(for: user, name)
     }
-   
-    
 }
