@@ -1,20 +1,14 @@
 //
-//  like.swift
+//  PhotoViewerLikeButton.swift
 //  HomeWork (AuthWindow)
 //
-//  Created by Илья Рехтин on 28.02.2022.
+//  Created by Илья Рехтин on 13.09.2022.
 //
 
 import UIKit
 
-enum LikebleType: String {
-    case post = "post"
-    case photo = "photo"
-}
-
-class LikeButton: UIButton {
+final class PhotoViewerLikeButton: UIButton {
     
-    var type: LikebleType = .post
     weak var item: Likeble?
     
     /// images enum
@@ -34,11 +28,11 @@ class LikeButton: UIButton {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.configuration = .bordered()
+        self.configuration = .plain()
         self.configuration?.imagePadding = 5
         self.layer.cornerRadius = self.frame.height / 4
         self.clipsToBounds = true
-        self.configuration?.buttonSize = .small
+        self.configuration?.buttonSize = .large
         self.addTarget(self, action: #selector(self.updateLikeButton), for: .touchUpInside)
     }
     
@@ -47,14 +41,9 @@ class LikeButton: UIButton {
     }
     
     func setConfig(for item: Likeble & Reposteble){
-        if item is NewsItem {
-            self.type = .post
-        } else {
-            self.type = .photo
-        }
         self.item = item
         self.configuration?.image = item.isLiked ? buttonStateImages.likeFill.image : buttonStateImages.like.image
-        self.configuration?.baseForegroundColor = item.isLiked ? UIColor.red : UIColor.gray
+        self.configuration?.baseForegroundColor = item.isLiked ? UIColor.red : UIColor.white
         self.configuration?.title = item.likes == 0 ? "" : String(item.likes)
     }
     
@@ -68,15 +57,11 @@ class LikeButton: UIButton {
         self.configuration?.image = item.isLiked ? buttonStateImages.likeFill.image : buttonStateImages.like.image
         self.configuration?.baseForegroundColor = item.isLiked ? UIColor.red : UIColor.gray
         self.configuration?.title = item.likes == 0 ? "" : String(item.likes)
-        item.isLiked ? self.likesNetwork(self.type, method: .likeAdd) : self.likesNetwork(self.type, method: .likeDelete)
+        item.isLiked ? self.likesNetwork(.likeAdd) : self.likesNetwork(.likeDelete)
     }
-    
-    
-    
-    
 }
 //MARK: - Animation for button
-extension LikeButton {
+extension PhotoViewerLikeButton {
     private func animationImageChange() {
         if self.isEnabled == true {
             let animation = CASpringAnimation(keyPath: "position.y")
@@ -91,10 +76,10 @@ extension LikeButton {
 }
 
 //MARK: - network method
-extension LikeButton {
-    private func likesNetwork(_ type: LikebleType, method: Api.BaseURL.ApiMethod) {
+extension PhotoViewerLikeButton {
+    private func likesNetwork(_ method: Api.BaseURL.ApiMethod) {
         guard let item = self.item else {return}
-        let params = ["type": type.rawValue,
+        let params = ["type": "photo",
                       "owner_id":String(item.sourceID),
                       "item_id": String(item.id),
                       "access_token": Session.data.token,
@@ -108,5 +93,3 @@ extension LikeButton {
         }.resume()
     }
 }
-
-

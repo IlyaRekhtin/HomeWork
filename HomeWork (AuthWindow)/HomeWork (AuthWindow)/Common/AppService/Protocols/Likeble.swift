@@ -7,9 +7,10 @@
 
 import UIKit
 
-protocol Likeble {
+protocol Likeble: AnyObject {
     var sourceID: Int {get set}
     var id: Int {get set}
     var likes: Int {get set}
     var isLiked: Bool {get set}
+    var photo: String {get set}
 }

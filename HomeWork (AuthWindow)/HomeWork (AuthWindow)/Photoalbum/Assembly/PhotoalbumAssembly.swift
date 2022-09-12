@@ -12,7 +12,7 @@ final class PhotoalbumAssembly: PhotoalbumAssemblyProtocol {
     func configure(with viewController: PhotoalbumViewController, _ userID: Int, _ userName: String) {
         let presenter = PhotoalbumPresenter(viewController)
         let interactor = PhotoalbumInteractor(presenter)
-        let router = PhotoalbumRouter()
+        let router = PhotoalbumRouter(viewController)
         var dataStore: PhotoalbumDataStoreProtocol = PhotoalbumDataStore()
         
         dataStore.userID = userID

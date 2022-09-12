@@ -1,13 +1,13 @@
 //
-//  PhotoViewModel.swift
+//  PhotoalbumViewModel.swift
 //  HomeWork (AuthWindow)
 //
-//  Created by Илья Рехтин on 25.08.2022.
+//  Created by Илья Рехтин on 11.09.2022.
 //
 
 import Foundation
 
-final class PhotoViewModel: Hashable, Likeble, Reposteble {
+class PhotoalbumViewModel: Hashable, Likeble, Reposteble {
     
     var likes: Int
     var isLiked: Bool
@@ -17,7 +17,13 @@ final class PhotoViewModel: Hashable, Likeble, Reposteble {
     var id: Int
     var photo: String
     
-    init( likes: Int, isLiked: Bool, reposts: Int, isReposted: Bool, sourceID: Int, id: Int, photo: String) {
+    init (_ likes: Int,
+          _ isLiked: Bool,
+          _ reposts: Int,
+          _ isReposted: Bool,
+          _ sourceID: Int,
+          _ id: Int,
+          _ photo: String) {
         self.likes = likes
         self.isLiked = isLiked
         self.reposts = reposts
@@ -27,7 +33,7 @@ final class PhotoViewModel: Hashable, Likeble, Reposteble {
         self.photo = photo
     }
     
-    static func == (lhs: PhotoViewModel, rhs: PhotoViewModel) -> Bool {
+    static func == (lhs: PhotoalbumViewModel, rhs: PhotoalbumViewModel) -> Bool {
         lhs.id == rhs.id
     }
     

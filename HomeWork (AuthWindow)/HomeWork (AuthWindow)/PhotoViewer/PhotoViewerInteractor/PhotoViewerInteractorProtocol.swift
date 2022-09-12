@@ -5,8 +5,9 @@
 //  Created by Илья Рехтин on 11.09.2022.
 //
 
-import Foundation
+import UIKit
 
 protocol PhotoViewerInteractorProtocol: AnyObject {
     var presenter: PhotoViewerPresenterProtocol? {get set}
+    func getPhoto(url: String) -> UIImage?
 }

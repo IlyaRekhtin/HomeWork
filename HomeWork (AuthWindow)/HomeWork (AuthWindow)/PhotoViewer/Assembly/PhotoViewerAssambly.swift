@@ -9,7 +9,7 @@ import UIKit
 
 final class PhotoViewerAssambly: PhotoViewerAssemblyProtocol {
     
-    func configure(with viewController: PhotoViewerProtocol, _ photoAlbum: [String], _ index: Int) {
+    func configure(with viewController: PhotoViewerProtocol, _ photoAlbum: [Likeble & Reposteble], _ index: Int) {
         
         viewController.photoAlbum = photoAlbum
         viewController.currentIndexPuthPhoto = index
@@ -17,9 +17,11 @@ final class PhotoViewerAssambly: PhotoViewerAssemblyProtocol {
         let presenter = PhotoViewerPresenter(viewController)
         let interactor = PhotoViewerInteractor(presenter)
         let router = PhotoViewerRouter()
+        let dataStore = PhotoViewerDataStore()
         
         viewController.presenter = presenter
         interactor.presenter = presenter
+        interactor.dataStore = dataStore
         presenter.interactor = interactor
         presenter.router = router
        

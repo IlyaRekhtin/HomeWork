@@ -47,7 +47,7 @@ struct Appearance {
         
                 
         //title
-        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+        navBarAppearance.titleTextAttributes = [.foregroundColor: UIColor.white, .font: UIFont.mainTextFont!]
         navBarAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         
         // all button

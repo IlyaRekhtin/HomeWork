@@ -12,6 +12,6 @@ protocol PhotoViewerProtocol: AnyObject {
     var assembly: PhotoViewerAssemblyProtocol {get set}
     var firstImageView: UIImageView {get set}
     var currentIndexPuthPhoto: Int {get set}
-    var photoAlbum: [String] {get set}
+    var photoAlbum: [Likeble & Reposteble] {get set}
     
 }

@@ -10,41 +10,12 @@ import SnapKit
 import Kingfisher
 
 final class PhotoViewerViewController: UIViewController, PhotoViewerProtocol {
-
+    
     var presenter: PhotoViewerPresenterProtocol?
     var assembly: PhotoViewerAssemblyProtocol = PhotoViewerAssambly()
-  
+    
     /// State flag for GRecognizer
     private var navigationBarIsHide = false
-    
-    //CustomTabBar
-    private var customTabBar: UIView = {
-        let view = UIView(frame: .zero)
-        view.backgroundColor = .black
-        return view
-    }()
-    private var stackView: UIStackView = {
-        let stackView = UIStackView(frame:.zero)
-        stackView.alignment = .top
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        return stackView
-    }()
-    private var likeButton: LikeButton = {
-        let button = LikeButton(frame: CGRect(x: 0, y: 0, width: 100, height: 50))
-        button.configuration = .plain()
-        return button
-    }() 
-    private let spacer: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        return view
-        //TODO кнопка коментариев
-    }()
-    private let spacer2: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
-        return view
-        //TODO просмотры
-    }()
     
     //ImageViews
     /// ImageView for present target image on ViewController
@@ -64,6 +35,8 @@ final class PhotoViewerViewController: UIViewController, PhotoViewerProtocol {
         return imageView
     }()
     
+    var customTabBar: PhotoViewerTabBar?
+    
     // Animation
     private var propertyAnimator = UIViewPropertyAnimator()
     private enum AnimationDirection {
@@ -73,18 +46,21 @@ final class PhotoViewerViewController: UIViewController, PhotoViewerProtocol {
     
     //Data
     var currentIndexPuthPhoto: Int = 0
-    var photoAlbum = [String]()
+    var photoAlbum = [Likeble & Reposteble]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setConfigForMainView()
     }
+    
 }
 
 //MARK: - Configuration view private methods
 private extension PhotoViewerViewController {
     func setConfigForMainView() {
         self.view.backgroundColor = .black
+        firstImageView.image = presenter?.getPhoto(url: photoAlbum[currentIndexPuthPhoto].photo)
         navigationBarApperians()
         customTabBarAppereans()
         addGestureRecognizer()
@@ -99,32 +75,46 @@ private extension PhotoViewerViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(hideNavBarAndTabBar))
         let panGR = UIPanGestureRecognizer(target: self, action: #selector(panGestureAction(_:)))
         let swipeDownGR = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
+        swipeDownGR.direction = .down
+        let swipeRigthGR = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
+        swipeRigthGR.direction = .right
+        let swipeLeftGR = UISwipeGestureRecognizer(target: self, action: #selector(swipeDownAction))
+        swipeLeftGR.direction = .left
         self.view.addGestureRecognizer(tapGR)
         self.view.addGestureRecognizer(panGR)
         self.view.addGestureRecognizer(swipeDownGR)
-        swipeDownGR.direction = .down
-        
+        self.view.addGestureRecognizer(swipeRigthGR)
+        self.view.addGestureRecognizer(swipeLeftGR)
     }
     
-    @objc func swipeDownAction(){
-        self.dismiss(animated: true)
+    @objc func swipeDownAction(sender: UISwipeGestureRecognizer){
+        switch sender.direction {
+        case .down:
+            self.navigationController?.popViewController(animated: true)
+        case .left:
+            panAnimation(for: .left)
+        case .right:
+            panAnimation(for: .right)
+        default:
+            break
+        }
     }
     
     @objc func hideNavBarAndTabBar(){
-//        switch navBarIsHide {
-//        case false:
-//            self.navBarIsHide.toggle()
-//            UIView.animate(withDuration: 0.5) {
-//                self.customNavView.alpha = 0
-//                self.customTabBar.alpha = 0
-//            }
-//        case true:
-//            self.navBarIsHide.toggle()
-//            UIView.animate(withDuration: 0.5) {
-//                self.customNavView.alpha = 1
-//                self.customTabBar.alpha = 1
-//            }
-//        }
+        switch navigationBarIsHide {
+        case false:
+            self.navigationBarIsHide.toggle()
+            UIView.animate(withDuration: 0.5) {
+                self.navigationController?.navigationBar.isHidden = true
+                self.customTabBar?.isHidden = true
+            }
+        case true:
+            self.navigationBarIsHide.toggle()
+            UIView.animate(withDuration: 0.5) {
+                self.navigationController?.navigationBar.isHidden = false
+                self.customTabBar?.isHidden = false
+            }
+        }
     }
     
     @objc func panGestureAction(_ sender: UIPanGestureRecognizer) {
@@ -203,11 +193,11 @@ private extension PhotoViewerViewController {
         
         switch diraction {
         case .right:
-            guard let imageUrl = URL(string:photoAlbum[currentIndexPuthPhoto - 1]) else {return}
-            secondImageView.kf.setImage(with: imageUrl)
+            let imageUrl = photoAlbum[currentIndexPuthPhoto - 1].photo
+            secondImageView.image = presenter?.getPhoto(url: imageUrl)
         case .left:
-            guard let imageUrl = URL(string:photoAlbum[currentIndexPuthPhoto + 1]) else {return}
-            secondImageView.kf.setImage(with: imageUrl)
+            let imageUrl = photoAlbum[currentIndexPuthPhoto + 1].photo
+            secondImageView.image = presenter?.getPhoto(url: imageUrl)
         }
         /// анимация вью на переднем плане
         propertyAnimator = UIViewPropertyAnimator(duration: 0.5,
@@ -217,34 +207,35 @@ private extension PhotoViewerViewController {
             self.secondImageView.transform = .identity
         })
         
-        propertyAnimator.addCompletion { [self] position in
+        propertyAnimator.addCompletion { [weak self] position in
+            guard let self = self else {return}
             switch position {
             case .end:
                 switch diraction {
                 case .right:
-                    currentIndexPuthPhoto -= 1
+                    self.currentIndexPuthPhoto -= 1
                 case .left:
-                    currentIndexPuthPhoto += 1
+                    self.currentIndexPuthPhoto += 1
                 }
-                guard let imageUrl = URL(string: photoAlbum[currentIndexPuthPhoto]) else {return}
-                firstImageView.kf.setImage(with: imageUrl)
-                firstImageView.transform = .identity
-                secondImageView.image = nil
+                let imageUrl = self.photoAlbum[self.currentIndexPuthPhoto].photo
+                self.firstImageView.image = self.presenter?.getPhoto(url: imageUrl)
+                self.firstImageView.transform = .identity
+                self.secondImageView.image = nil
             case .start:
-                secondImageView.transform = CGAffineTransform(translationX: secondViewPositionFactor * secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
+                self.secondImageView.transform = CGAffineTransform(translationX: secondViewPositionFactor * self.secondImageView.bounds.width, y: 0).concatenating(CGAffineTransform(scaleX: 0.6, y: 0.6))
             case .current:
                 break
             @unknown default:
                 break
             }
             
-//            likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
-//            navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
+            self.customTabBar?.likeButton.setConfig(for: self.photoAlbum[self.currentIndexPuthPhoto])
+            self.navigationItem.title = "\(self.currentIndexPuthPhoto + 1) из \(self.photoAlbum.count)"
         }
     }
 }
 
-//MARK: - Make constraints
+//MARK: - snap kit
 private extension PhotoViewerViewController {
     
     func makeConstraints() {
@@ -257,73 +248,27 @@ private extension PhotoViewerViewController {
         secondImageView.snp.makeConstraints { make in
             make.top.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
         }
-        
-//        self.view.addSubview(customNavView)
-//        customNavView.snp.makeConstraints { make in
-//            make.top.equalToSuperview()
-//            make.left.right.equalToSuperview()
-//            make.height.equalTo(100)
-//
-//        }
-//        self.customNavView.addSubview(customNavBar)
-//        customNavBar.snp.makeConstraints { make in
-//            make.leading.trailing.bottom.equalToSuperview()
-//            make.height.equalTo(50)
-//        }
-        self.view.addSubview(customTabBar)
-        customTabBar.snp.makeConstraints { make in
-            make.bottom.equalToSuperview()
+        self.view.addSubview(customTabBar!)
+        customTabBar?.snp.makeConstraints{ make in
+            make.left.right.bottom.equalToSuperview()
             make.height.equalTo(100)
-            make.left.right.equalToSuperview()
-        }
-        self.customTabBar.addSubview(stackView)
-        stackView.snp.makeConstraints { make in
-            make.top.left.right.bottom.equalToSuperview()
         }
     }
 }
 
 // MARK: - Navigation and Tab Bar
-private extension PhotoViewerViewController {
+extension PhotoViewerViewController {
     func navigationBarApperians() {
-//        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(backButtonAction))
-//        backButton.tintColor = .white
-//        let shareButton = UIBarButtonItem(systemItem: .action)
-//        shareButton.tintColor = .white
-//
-//        navItems.leftBarButtonItem = backButton
-//        navItems.rightBarButtonItem = shareButton
-//        navItems.title = "\(currentIndexPuthFoto + 1) из \(photoAlbum.count)"
-//
-//        customNavView = UIView(frame: CGRect.zero)
-//        customNavView.backgroundColor = .black
-//        customNavBar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 100))
-//        customNavBar.setItems([navItems], animated: false)
-//
-//        customNavBar.scrollEdgeAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
-//        customNavBar.compactAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
-//        customNavBar.standardAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
-//        customNavBar.compactScrollEdgeAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
-//        customNavBar.tintColor = .white
+        self.navigationController?.navigationBar.scrollEdgeAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
+        self.navigationController?.navigationBar.compactAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
+        self.navigationController?.navigationBar.standardAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
+        self.navigationController?.navigationBar.compactScrollEdgeAppearance = Appearance.data.imageViewingScreenNavigationControllerAppearance()
+        self.navigationController?.navigationBar.tintColor = .white
+        self.navigationItem.title = "\(self.currentIndexPuthPhoto + 1) из \(self.photoAlbum.count)"
     }
     
     func customTabBarAppereans(){
         tabBarController?.tabBar.isHidden = true // скрываем штатный таббар
-        configTabBarStackView()
-    }
-    
-    func configTabBarStackView(){
-        stackView.addArrangedSubview(likeButton)
-        configLikeButton()
-        stackView.addArrangedSubview(spacer)
-        stackView.addArrangedSubview(spacer2)
-    }
-    
-    func configLikeButton(){
-//        likeButton.setConfig(for: photoAlbum[currentIndexPuthFoto])
-    }
-    
-    @objc func backButtonAction(){
-        self.dismiss(animated: true)
+        self.customTabBar = PhotoViewerTabBar(self.photoAlbum[currentIndexPuthPhoto])
     }
 }

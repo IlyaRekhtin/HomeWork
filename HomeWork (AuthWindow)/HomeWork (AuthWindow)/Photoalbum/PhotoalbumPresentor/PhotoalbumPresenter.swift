@@ -27,7 +27,7 @@ final class PhotoalbumPresenter: PhotoalbumPresenterProtocol {
         
     }
     
-    func interactorDidFetchPhotos(with result: Result<[String], Error>) {
+    func interactorDidFetchPhotos(with result: Result<[PhotoalbumViewModel], Error>) {
         switch result {
         case .success(let items):
             self.view?.update(with: items)
@@ -44,5 +44,9 @@ final class PhotoalbumPresenter: PhotoalbumPresenterProtocol {
         interactor?.getPhoto(url: url, complition: { fetchImage in
             complition(fetchImage)
         })
+    }
+    
+    func presentPhotoViewer(_ photoalbum: [Likeble & Reposteble], _ index: Int) {
+        router?.presentPhotoViewer(photoalbum, index)
     }
 }

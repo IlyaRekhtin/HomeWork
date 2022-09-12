@@ -18,8 +18,8 @@ final class PhotoalbumViewController: UIViewController, PhotoalbumViewProtocol {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewLayout())
         return collection
     }()
-    private var dataSource: UICollectionViewDiffableDataSource<Int, String>!
-    private var photoalbumViewModels = [String]()
+    private var dataSource: UICollectionViewDiffableDataSource<Int, PhotoalbumViewModel>!
+    private var photoalbumViewModels = [PhotoalbumViewModel]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +40,7 @@ final class PhotoalbumViewController: UIViewController, PhotoalbumViewProtocol {
         self.navigationController?.title = name
     }
     
-    func update(with photos: [String]) {
+    func update(with photos: [PhotoalbumViewModel]) {
         self.photoalbumViewModels = photos
         reloadData()
     }
@@ -83,10 +83,10 @@ extension PhotoalbumViewController: UICollectionViewDelegate {
     }
     
     private func createDataSource() {
-        dataSource = UICollectionViewDiffableDataSource<Int, String>(collectionView: collectionView) {[weak self] collectionView, indexPath, itemIdentifier in
+        dataSource = UICollectionViewDiffableDataSource<Int, PhotoalbumViewModel>(collectionView: collectionView) {[weak self] collectionView, indexPath, itemIdentifier in
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: PhotoAlbumCollectionCell.reuseID, for: indexPath) as? PhotoAlbumCollectionCell else {fatalError()}
             if let item = self?.photoalbumViewModels[indexPath.item] {
-                self?.presenter?.getPhoto(url: item){ fetchImage in
+                self?.presenter?.getPhoto(url: item.photo){ fetchImage in
                     guard let image = fetchImage else {return}
                         cell.configCell(image)
                 }
@@ -96,7 +96,7 @@ extension PhotoalbumViewController: UICollectionViewDelegate {
     }
     
     private  func reloadData(){
-        var snapShot = NSDiffableDataSourceSnapshot<Int, String>()
+        var snapShot = NSDiffableDataSourceSnapshot<Int, PhotoalbumViewModel>()
         snapShot.appendSections([1])
         snapShot.appendItems(self.photoalbumViewModels)
         dataSource.apply(snapShot)
@@ -104,13 +104,7 @@ extension PhotoalbumViewController: UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        guard let vc = self.storyboard?.instantiateViewController(identifier: "PhotoViewerViewController") as? PhotoViewerViewController else {return}
-        guard let index = collectionView.indexPathsForSelectedItems?.first else {return}
-        vc.assembly.configure(with: vc, self.photoalbumViewModels, index.row)
-        vc.transitioningDelegate = self
-        vc.modalPresentationStyle = .fullScreen
-        self.navigationController?.pushViewController(vc, animated: true)
-        
+        self.presenter?.presentPhotoViewer(self.photoalbumViewModels, indexPath.row)
     }
 }
 

@@ -25,7 +25,7 @@ final class PhotoalbumCacheService: PhotoalbumCacheServiceProtocol {
     }()
     private var images = [String: UIImage]()
     
-    func getPhoto(by url: String) -> Promise<UIImage?> {
+    func getPhoto(by url: String) -> Promise<UIImage> {
         return Promise { resolver in
             if let photo = images[url] {
                 resolver.fulfill(photo)

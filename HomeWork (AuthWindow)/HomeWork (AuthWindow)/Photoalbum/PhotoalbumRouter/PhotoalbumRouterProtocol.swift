@@ -8,6 +8,9 @@
 import UIKit
 
 protocol PhotoalbumRouterProtocol: AnyObject {
+    typealias EntryPoint = PhotoalbumViewProtocol & UIViewController
+    var entryPoint:  EntryPoint? {get}
     
+    func presentPhotoViewer( _ photoalbum: [Likeble & Reposteble], _ index: Int)
 }
 

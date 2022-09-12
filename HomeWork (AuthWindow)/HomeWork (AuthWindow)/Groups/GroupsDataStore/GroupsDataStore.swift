@@ -22,7 +22,7 @@ final class GroupsDataStore: GroupsDataStoreProtocol {
         return self.databaseService.readFromDatabase()
     }
     
-    func getFriends() -> Results<Group>? {
+    func getGriups() -> Results<Group>? {
         self.databaseService.readFromDatabase()
     }
 }

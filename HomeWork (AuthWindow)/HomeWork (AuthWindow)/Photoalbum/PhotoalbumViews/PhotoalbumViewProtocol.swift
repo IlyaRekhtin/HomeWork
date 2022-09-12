@@ -11,6 +11,6 @@ protocol PhotoalbumViewProtocol: AnyObject {
     var presenter: PhotoalbumPresenterProtocol? {get set}
     var collectionView: UICollectionView {get}
     
-    func update(with photos: [String])
+    func update(with photos: [PhotoalbumViewModel])
     func setNameForNavigationBar(_ name: String)
 }

@@ -12,5 +12,5 @@ protocol PhotoalbumDataStoreProtocol {
     var userName: String {get set}
     var networkService: PhotoalbumNetworkServiceProtocol {get}
     var cacheService: PhotoalbumCacheService {get}
-    func start(for user: Int, complition: @escaping ([String]) -> ())
+    func start(for user: Int, complition: @escaping ([Photo]) -> ())
 }

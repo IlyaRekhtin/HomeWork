@@ -10,5 +10,5 @@ import PromiseKit
 
 
 protocol PhotoalbumCacheServiceProtocol: AnyObject {
-    func getPhoto(by url: String) -> Promise<UIImage?>
+    func getPhoto(by url: String) -> Promise<UIImage>
 }

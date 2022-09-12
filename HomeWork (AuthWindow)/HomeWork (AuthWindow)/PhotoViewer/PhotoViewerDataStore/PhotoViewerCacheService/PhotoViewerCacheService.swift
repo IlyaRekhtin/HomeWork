@@ -1,21 +1,14 @@
 //
-//  PhotoService.swift
+//  PhotoViewerCacheService.swift
 //  HomeWork (AuthWindow)
 //
-//  Created by Илья Рехтин on 24.06.2022.
+//  Created by Илья Рехтин on 11.09.2022.
 //
 
 import UIKit
 import PromiseKit
 
-
-
-protocol FriendAvatarCachesServiceProtocol: AnyObject {
-    func getPhoto(by url: String) -> Promise<UIImage>
-}
-
-final class FriendAvatarCachesService: FriendAvatarCachesServiceProtocol {
-    
+final class PhotoViewerCacheService: PhotoViewerCacheServiceProtocol {
     private let cachesTimeInterval: TimeInterval = 30 * 24 * 60 * 60
     ///имя папки для изображения
     private static let pathName: String = {
@@ -32,22 +25,24 @@ final class FriendAvatarCachesService: FriendAvatarCachesServiceProtocol {
     private var images = [String: UIImage]()
     
     func getPhoto(by url: String) -> Promise<UIImage> {
-        Promise { resolver in
+        return Promise { resolver in
             if let photo = images[url] {
                 resolver.fulfill(photo)
             } else if let photo = getImageFromCache(url: url) {
                 resolver.fulfill(photo)
             } else {
-                guard let imageURL = URL(string: url) else {return}
+                guard let imageURL = URL(string: url) else {
+                    return resolver.reject(Errors.noDataAvailable)
+                }
                 let request = URLRequest(url: imageURL)
                 URLSession.shared.dataTask(with: request) { data, _, _ in
-                        guard let data = data,
-                              let image = UIImage(data: data) else {return}
-                        DispatchQueue.main.async {
-                            self.images[url] = image /// сохраняем в массив
-                        }
-                        self.saveImageToCaches(url: url, image: image) /// заполняем кеш
-                        resolver.fulfill(image)
+                    guard let data = data,
+                          let image = UIImage(data: data) else {return}
+                    DispatchQueue.main.async {
+                        self.images[url] = image /// сохраняем в массив
+                    }
+                    self.saveImageToCaches(url: url, image: image)
+                    resolver.fulfill(image)
                 }.resume()
             }
         }
@@ -56,14 +51,14 @@ final class FriendAvatarCachesService: FriendAvatarCachesServiceProtocol {
 
 
 //MARK: - private methods
-private extension FriendAvatarCachesService {
+private extension PhotoViewerCacheService {
     /// Получаем путь с именем файла
     /// - Parameter url: адрес файла в интернете
     /// - Returns: путь к файлу в дериктории
     func getFilePath(url: String) -> String? {
         guard let cachesDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else { return nil }
         let hashName = url.split(separator: "/").last ?? "default" /// получаем имя изображения из его адреса
-        return cachesDirectory.appendingPathComponent(FriendAvatarCachesService.pathName + "/" + hashName).path
+        return cachesDirectory.appendingPathComponent(PhotoViewerCacheService.pathName + "/" + hashName).path
     }
     
     func saveImageToCaches(url: String, image: UIImage) {
@@ -79,7 +74,7 @@ private extension FriendAvatarCachesService {
             let info = try? FileManager.default.attributesOfItem(atPath: filePath),
             let modificationDate = info[FileAttributeKey.modificationDate] as? Date
         else {return nil}
-
+        
         let timeLife = Date().timeIntervalSince(modificationDate)
         guard timeLife <= cachesTimeInterval,
               let image = UIImage(contentsOfFile: filePath)

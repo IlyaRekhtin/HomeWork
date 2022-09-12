@@ -13,7 +13,7 @@ struct NewsfeedItems {
     var nextForm = ""
 }
 
-class NewsItem: NSObject, Likeble, Reposteble {
+class NewsItem: NSObject {
     var sourceID: Int
     var id: Int
     let header: HeaderViewModel?

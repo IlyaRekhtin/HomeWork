@@ -44,8 +44,8 @@ final class FooterNewsCell: UITableViewCell {
     
     func configCell(for news: NewsItem) {
         self.currentNewsItem = news
-        self.likeButton.setConfig(for: news)
-        self.reposts.setConfig(for: news)
+//        self.likeButton.setConfig(for: news)
+//        self.reposts.setConfig(for: news)
         let viewsCount = news.views
         self.views.text = "🙈" + String(viewsCount)
     }

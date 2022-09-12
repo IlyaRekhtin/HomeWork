@@ -16,17 +16,15 @@ final class PhotoalbumDataStore: PhotoalbumDataStoreProtocol {
     var userID: Int = 0
     var userName: String = ""
     
-    func start(for user: Int, complition: @escaping ([String]) -> ()) {
+    func start(for user: Int, complition: @escaping ([Photo]) -> ()) {
         firstly {
             networkService.getURL(for: user)
         }.then(on: .global()) { url in
             self.networkService.fetchData(url)
         }.then(on: .global()) { data in
             self.networkService.parsedData(data)
-        }.then(on: .global()) { photos in
-            self.networkService.getCurrentUrl(photos)
-        }.done { urlsString in
-           complition(urlsString)
+        }.done { photo in
+           complition(photo)
         }.catch { error in
             print(error.localizedDescription)
         }

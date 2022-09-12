@@ -8,5 +8,5 @@
 import Foundation
 
 protocol PhotoViewerAssemblyProtocol: AnyObject {
-    func configure(with viewController: PhotoViewerProtocol, _ photoAlbum: [String], _ index: Int)
+    func configure(with viewController: PhotoViewerProtocol, _ photoAlbum: [Likeble & Reposteble], _ index: Int)
 }
